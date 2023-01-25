@@ -12,6 +12,3 @@ the tile by entering the number
 methods.  Will make it easier to change the way things
 work in the future.
 
-## What I've added in this commit
-- Added welcome screen
-- Added a couple more classes to demonstrate class layout
