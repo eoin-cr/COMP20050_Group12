@@ -13,5 +13,5 @@ methods.  Will make it easier to change the way things
 work in the future.
 
 ## What I've added in this commit
-- Made a start on the drawing method
-- Created a tile class with a habitats enum
+- Added welcome screen
+- Added a couple more classes to demonstrate class layout
