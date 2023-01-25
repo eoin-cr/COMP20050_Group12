@@ -1,6 +1,6 @@
 public class DrawTiles {
-    Tile tile;
-    public DrawTiles(Tile tile) {
+    HabitatTile tile;
+    public DrawTiles(HabitatTile tile) {
         this.tile = tile;
         PrintFullTile();
     }
