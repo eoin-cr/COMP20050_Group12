@@ -1,20 +1,20 @@
+import java.util.ArrayList;
 
 public class Player {
-	private String playerName;
+	private final String playerName;
 	private int natureTokens;
 	private int score;
-	
+	private ArrayList<HabitatTile> tiles = new ArrayList<>();
+//	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
+
 	public Player(String playerName) { //constructor
-		this.setPlayerName(playerName);
-		this.setNatureTokens(0);
-		this.setScore(0);
+		this.playerName = playerName;
+		this.natureTokens = 0;
+		this.score = 0;
 	}
 	
 	public String getPlayerName() { //getters and setters
 		return playerName;
-	}
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
 	}
 	public int getNatureTokens() {
 		return natureTokens;
@@ -28,6 +28,22 @@ public class Player {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
-	
+
+	public ArrayList<HabitatTile> getTiles() {
+		return tiles;
+	}
+
+	public void setTiles(ArrayList<HabitatTile> tiles) {
+		this.tiles = tiles;
+	}
+
+//	public HabitatTile[][] getTileBoardPosition() {
+//		return tileBoardPosition;
+//	}
+//	public void addTileAtCoordinate(HabitatTile tile, int x, int y) throws IllegalArgumentException {
+//		if (tileBoardPosition[x][y] != null) {
+//			throw new IllegalArgumentException("There is already a tile at that position!");
+//		}
+//		tileBoardPosition[x][y] = tile;
+//	}
 }

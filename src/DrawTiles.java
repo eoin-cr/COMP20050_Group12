@@ -1,9 +1,9 @@
 public class DrawTiles {
-    HabitatTile tile;
-    public DrawTiles(HabitatTile tile) {
-        this.tile = tile;
-        PrintFullTile();
-    }
+//    HabitatTile tile;
+//    public DrawTiles(HabitatTile tile) {
+//        this.tile = tile;
+//        PrintFullTile();
+//    }
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -18,9 +18,10 @@ public class DrawTiles {
             "\u001B[33m"
     };
 
-    private void PrintFullTile () {
-        System.out.println(tile.habitat.ordinal());
-        System.out.println(HabitatColours[tile.habitat.ordinal()] +
+    public static void PrintFullTile (HabitatTile tile) {
+        // NOTE: only draws the first habitat colour for now
+//        System.out.println(tile.habitat1.ordinal());
+        System.out.println(HabitatColours[tile.habitat1.ordinal()] +
                 "|||| |||| |||| ||||\n" +
                 "||||           ||||\n" +
                 "||||           ||||\n" +

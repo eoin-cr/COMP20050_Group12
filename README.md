@@ -1,6 +1,6 @@
 # COMP20050_Group12
 ## Some ideas:
-- We use ascii codes to colour terminal blocks.
+- We use ansi codes to colour terminal blocks.
 - Note that we can represent hexagons as rectangles
 without losing data about which sides are touching
 - Use a 2d array of tiles to store their locations?
