@@ -1,8 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Random;
+import java.util.*;
 
 public class Input {
 	
@@ -39,12 +35,21 @@ public class Input {
             players.add(in.nextLine());
         }
 
+        while (playerListIsInvalid(players)) {
+            System.out.println("Invalid input!  You cannot have duplicate names, nor " +
+                    "empty strings. All names have been wiped, please try again.");
+            players.clear();
+            for (int i = 0; i < num; i++) {
+                players.add(in.nextLine());
+            }
+        }
+
         // Returns randomised String array version of the player names
         return randomisePlayers(players);
     }
 
     //method 2: randomisePlayers iterates through arraylist of players and returns a string array of players' names
-    //(note: might want to actually randomise arraylist itself so we can iterate through players in correct order)
+    //(note: might want to actually randomise arraylist itself, so we can iterate through players in correct order)
     private static String[] randomisePlayers(ArrayList<String> players) {
     	
         ArrayList<Integer> randomIndexes = new ArrayList<>();
@@ -67,5 +72,24 @@ public class Input {
         }
 
         return randomisedPlayers;
+    }
+
+
+    // checks whether any of the items in the list are empty strings, or if
+    // any are duplicates.
+    private static boolean playerListIsInvalid(ArrayList<String> players) {
+        for (int i = 0; i < players.size(); i++) {
+            players.set(i, players.get(i).trim());
+            if (Objects.equals(players.get(i), "")) {
+                return true;
+            }
+        }
+
+        // A set cannot have duplicate values, so any duplicates stored in the
+        // player array list will be automatically removed when we transfer it
+        // to the set.  We can use this, as if the set is smaller, an element
+        // must have been removed, i.e. there is a duplicate
+        Set<String> playerSet = new LinkedHashSet<>(players);
+        return playerSet.size() < players.size();
     }
 }
