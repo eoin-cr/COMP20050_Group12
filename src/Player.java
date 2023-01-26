@@ -2,39 +2,40 @@ import java.util.ArrayList;
 
 public class Player {
 	private final String playerName;
-	private int natureTokens;
-	private int score;
-	private ArrayList<HabitatTile> tiles = new ArrayList<>();
+	private int playerNatureTokens;
+	private int playerScore;
+	private ArrayList<HabitatTile> playerTiles = new ArrayList<>();
 //	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
 
 	public Player(String playerName) { //constructor
+		//need to add error handling here for empty names or null or pre-existing names
 		this.playerName = playerName;
-		this.natureTokens = 0;
-		this.score = 0;
+		this.playerNatureTokens = 0;
+		this.playerScore = 0;
 	}
 	
 	public String getPlayerName() { //getters and setters
 		return playerName;
 	}
-	public int getNatureTokens() {
-		return natureTokens;
+	public int getPlayerNatureTokens() {
+		return playerNatureTokens;
 	}
-	public void setNatureTokens(int natureTokens) {
-		this.natureTokens = natureTokens;
+	public void setPlayerNatureTokens(int natureTokens) {
+		this.playerNatureTokens = natureTokens;
 	}
-	public int getScore() {
-		return score;
+	public int getPlayerScore() {
+		return playerScore;
 	}
-	public void setScore(int score) {
-		this.score = score;
-	}
-
-	public ArrayList<HabitatTile> getTiles() {
-		return tiles;
+	public void setPlayerScore(int score) {
+		this.playerScore = score;
 	}
 
-	public void setTiles(ArrayList<HabitatTile> tiles) {
-		this.tiles = tiles;
+	public ArrayList<HabitatTile> getPlayerTiles() {
+		return playerTiles;
+	}
+
+	public void setPlayerTiles(ArrayList<HabitatTile> tiles) {
+		this.playerTiles = tiles;
 	}
 
 //	public HabitatTile[][] getTileBoardPosition() {
