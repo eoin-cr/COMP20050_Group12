@@ -51,6 +51,7 @@ public class Output {
 
         System.out.println("Welcome to Cascadia!");
 
+        // another sleep call
         try {
             Thread.sleep(300);
         } catch (InterruptedException ignored) {}
@@ -61,7 +62,7 @@ public class Output {
         System.out.flush();
     }
     
-    public static void printPlayers(String[] playerNames) { //used in Game class
+    public static void printPlayers(String[] playerNames) { // used in Game class
     	System.out.println();
         System.out.println("The player list is:");
     
@@ -69,6 +70,5 @@ public class Output {
      	   System.out.println((i+1)+ ": " + playerNames[i]);
         }
         System.out.println();
-        
     }
 }
