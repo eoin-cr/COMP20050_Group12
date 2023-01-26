@@ -60,4 +60,15 @@ public class Output {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+    
+    public static void printPlayers(String[] playerNames) { //used in Game class
+    	System.out.println();
+        System.out.println("The player list is:");
+    
+        for (int i = 0; i < playerNames.length; i++) {
+     	   System.out.println((i+1)+ ": " + playerNames[i]);
+        }
+        System.out.println();
+        
+    }
 }

@@ -21,7 +21,7 @@ public class DrawTiles {
     public static void PrintFullTile (HabitatTile tile) {
         // NOTE: only draws the first habitat colour for now
 //        System.out.println(tile.habitat1.ordinal());
-        System.out.println(HabitatColours[tile.habitat1.ordinal()] +
+        System.out.println(HabitatColours[tile.getHabitat1().ordinal()] +
                 "|||| |||| |||| ||||\n" +
                 "||||           ||||\n" +
                 "||||           ||||\n" +

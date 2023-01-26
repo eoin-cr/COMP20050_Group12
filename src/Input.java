@@ -5,6 +5,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 
 public class Input {
+	
+	//method 1: getPlayers scans in players' names and puts them in an arraylist
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
@@ -41,7 +43,10 @@ public class Input {
         return randomisePlayers(players);
     }
 
+    //method 2: randomisePlayers iterates through arraylist of players and returns a string array of players' names
+    //(note: might want to actually randomise arraylist itself so we can iterate through players in correct order)
     private static String[] randomisePlayers(ArrayList<String> players) {
+    	
         ArrayList<Integer> randomIndexes = new ArrayList<>();
         String[] randomisedPlayers = new String[players.size()];
         Arrays.fill(randomisedPlayers, "");
