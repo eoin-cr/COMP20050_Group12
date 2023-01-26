@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -17,6 +19,9 @@ public class Game {
     // Continue until num of tokens has run out.
 
     public static void main(String[] args) {
+        ArrayList<Player> players = new ArrayList<>();
+        HashMap<HabitatTile.HABITATS, Integer> remainingTiles = new HashMap<>();
+
         Output.Welcome();
 
         try {
@@ -28,22 +33,31 @@ public class Game {
         Output.clearScreen();
 
         playerNames = Input.getPlayers();
-//        System.out.println(Arrays.toString(playerNames));
-//        System.out.println();
-        AtomicInteger index = new AtomicInteger();
         System.out.println("The player list is:");
         // fancy stream stuff
+        AtomicInteger index = new AtomicInteger();
         System.out.println(
                 Arrays.stream(playerNames)
                         .map(name -> index.getAndIncrement() + " " + name)
                         .collect(Collectors.joining("\n"))
         );
 
-//        Tile tile = new Tile();
-//        new DrawTiles(tile);
-    }
 
-    public Game() {
+        // Generates player objects and adds them to an array
+        ArrayList<HabitatTile> tmp = new ArrayList<>();
+        for (String name : playerNames) {
+            Integer[] startingPositions = {9, 10, 10, 9, 10, 10};
+            for (int i = 0; i < 3; i++) {
+                HabitatTile tmpTile = HabitatTile.generateHabitatTile(remainingTiles);
+                tmpTile.setPosition(startingPositions[i*2], startingPositions[i*2+1]);
+                tmp.add(tmpTile);
 
+                // display habitat
+                DrawTiles.PrintFullTile(tmpTile);
+            }
+            Player player = new Player(name);
+            player.setTiles(tmp);
+            players.add(player);
+        }
     }
 }
