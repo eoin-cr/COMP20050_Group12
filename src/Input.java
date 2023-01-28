@@ -91,7 +91,6 @@ public class Input {
         // must have been removed, i.e. there is a duplicate
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
-    }
-    
+    }   
     
 }

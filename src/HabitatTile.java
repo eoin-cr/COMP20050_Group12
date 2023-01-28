@@ -35,7 +35,13 @@ public class HabitatTile {
 		position[0] = x;
 		position[1] = y;
 	}
+	
+	@Override
+	public String toString() {
+		return habitat1.name() + " + " + habitat2.name();
+	}
 
+	//method to randomly generate a habitat tile with implementation for two habitat types/mixed type
 	public static HabitatTile generateHabitatTile (HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining) {
 		int tilesLeft = 0;
 

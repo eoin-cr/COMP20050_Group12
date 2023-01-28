@@ -24,6 +24,11 @@ public class WildlifeToken {
 		this.inUse = true;
 	}
 	
+	@Override
+	public String toString() {
+		return animalType.name();
+	}
+	
 	//method to randomly generate a wildlife token
 	public static WildlifeToken generateWildlifeToken (HashMap<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
 		int tokensLeft = 0;
