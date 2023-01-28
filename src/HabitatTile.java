@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HabitatTile {
@@ -36,11 +37,34 @@ public class HabitatTile {
 	}
 
 	public static HabitatTile generateHabitatTile (HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining) {
-		// TODO: do habitat random generation logic.  Make sure to use the hashmap
-		// so there won't be a bunch of the same type of tile on the board.
+		int tilesLeft = 0;
 
-		// just going to return a random full tile for now
-		int index = new Random().nextInt(5);
-		return new HabitatTile(HABITATS.values()[index], HABITATS.values()[index]);
+		// get the total amount of tiles left
+		for (Integer value : habitatsRemaining.values()) {
+			tilesLeft += value;
+		}
+
+		int num1 = new Random().nextInt(tilesLeft);
+		int num2 = new Random().nextInt(tilesLeft);
+		HABITATS first = null;
+		HABITATS second = null;
+
+		// if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest, River...
+		// then this function gets the num1th and num2th value, and then 'removes' it from
+		// the list.
+		for (Map.Entry<HabitatTile.HABITATS, Integer> entry : habitatsRemaining.entrySet()) {
+			num1 -= entry.getValue();
+			num2 -= entry.getValue();
+			if (num1 <= 0 && first == null) {
+				first = entry.getKey();
+				habitatsRemaining.put(entry.getKey(), entry.getValue() - 1);
+			}
+			if (num2 <= 0 && second == null) {
+				second = entry.getKey();
+				habitatsRemaining.put(entry.getKey(), entry.getValue() - 1);
+			}
+
+		}
+		return new HabitatTile(first, second);
 	}
 }
