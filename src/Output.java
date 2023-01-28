@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Output {
     public static void Welcome () {
         // ASCII art from https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA
@@ -71,4 +73,15 @@ public class Output {
         }
         System.out.println();
     }
+
+	public static void displayTileTokenPairs(HashMap<HabitatTile, WildlifeToken> tileTokenPairs) {
+		//not sure how to do display of tiles and tokens here ??
+    	//depends on drawtile class i guess - eoin have a look whenever
+    	System.out.println();
+    	System.out.println("The current Habitat Tile and Wildlife Token pairs up for selection are: ");
+    	for (HabitatTile i : tileTokenPairs.keySet()) {
+    		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
+    	}
+    	System.out.println();
+	}
 }

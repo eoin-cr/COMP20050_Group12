@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class WildlifeToken {
@@ -23,12 +24,29 @@ public class WildlifeToken {
 		this.inUse = true;
 	}
 	
+	//method to randomly generate a wildlife token
 	public static WildlifeToken generateWildlifeToken (HashMap<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
-		// TODO: do token random generation logic.  Make sure to use the hashmap
-		// so there won't be a bunch of the same type of tile on the board.
+		int tokensLeft = 0;
 
-		int index = new Random().nextInt(5);
-		return new WildlifeToken(ANIMAL.values()[index]);
+		// get the total amount of tokens left of all animal types
+		for (Integer value : wildlifeTokensRemaining.values()) {
+			tokensLeft += value;
+		}
+
+		int index = new Random().nextInt(tokensLeft);
+		ANIMAL animalType = null;
+
+		
+		for (Map.Entry<WildlifeToken.ANIMAL, Integer> entry : wildlifeTokensRemaining.entrySet()) {
+			index -= entry.getValue();
+			if (index <= 0 && animalType == null) {
+				animalType = entry.getKey();
+				wildlifeTokensRemaining.put(entry.getKey(), entry.getValue() - 1);
+			}
+
+		}
+		
+		return new WildlifeToken(animalType);
 	}
 	
 	

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+
 public class Game {
     private String[] playerNames;
     // Note that in final ArrayLists you can modify the stored values, you
@@ -21,21 +22,33 @@ public class Game {
     // Store placed token
     // Continue until num of tokens has run out.
 
-    // method 1: general start method for a game, drives action
-    public void start() {
-        playerNames = Input.getPlayers(); // from Input class
-        Output.printPlayers(playerNames); // from Output class
-        makePlayers();
-        setStartTileSelection();
+    // method 1: start method for a game for general setup
+    // sets up tiles and tokens, populates player list, and draws 4 starter tile/token pairs
+    public void startGameSetup() {
+    	 remainingTiles.put(HabitatTile.HABITATS.Forest, 20);
+         remainingTiles.put(HabitatTile.HABITATS.River, 20);
+         remainingTiles.put(HabitatTile.HABITATS.Wetland, 20);
+         remainingTiles.put(HabitatTile.HABITATS.Prairie, 20);
+         remainingTiles.put(HabitatTile.HABITATS.Mountain, 20);
+         
+         remainingTokens.put(WildlifeToken.ANIMAL.Bear, 20);
+         remainingTokens.put(WildlifeToken.ANIMAL.Elk, 20);
+         remainingTokens.put(WildlifeToken.ANIMAL.Salmon, 20);
+         remainingTokens.put(WildlifeToken.ANIMAL.Hawk, 20);
+         remainingTokens.put(WildlifeToken.ANIMAL.Fox, 20);
+         
+         playerNames = Input.getPlayers(); // from Input class
+         Output.printPlayers(playerNames); // from Output class
+         populatePlayers();
+         setStartTileTokenSelection();
+    }
+    
+    public void startPlayerTurns() {
+    	
     }
    
     // method 2: generates player objects and adds them to an array
-    private void makePlayers() {
-        remainingTiles.put(HabitatTile.HABITATS.Forest, 20);
-        remainingTiles.put(HabitatTile.HABITATS.River, 20);
-        remainingTiles.put(HabitatTile.HABITATS.Wetland, 20);
-        remainingTiles.put(HabitatTile.HABITATS.Prairie, 20);
-        remainingTiles.put(HabitatTile.HABITATS.Mountain, 20);
+    private void populatePlayers() {
 
         ArrayList<HabitatTile> tmp = new ArrayList<>(); // used to store tiles for player's starter tile map
        
@@ -63,9 +76,9 @@ public class Game {
 
     // still in progress
     // displays 4 sets of randomly paired habitat tiles and wildlife tokens for players to choose from
-    private void setStartTileSelection() {
+    private void setStartTileTokenSelection() {
     	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
-     
+    	Output.displayTileTokenPairs(tileTokenPairs); //eoin check this method in output class
     }
 
     private HashMap<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
@@ -73,25 +86,44 @@ public class Game {
     	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = new HashMap<>();
     	ArrayList<HabitatTile> habitats = new ArrayList<>();
     	ArrayList<WildlifeToken> tokens = new ArrayList<>();
-    	WildlifeToken.ANIMAL[] checkTokens = new WildlifeToken.ANIMAL[num]; //redo this nonsense with arraylists first actually
+    	WildlifeToken.ANIMAL[] checkTokens = new WildlifeToken.ANIMAL[num];
     	
     	
     	for (int i = 0; i < num; i++) {
+    		//generate random tiles and put them in habitat tiles arraylist
         	HabitatTile tmpTile = HabitatTile.generateHabitatTile(remainingTiles);
         	habitats.add(tmpTile);
+        	//generate random tokens and put them in tokens arraylist, and their animal type in checkTokens
         	WildlifeToken tmpWildlifeToken = WildlifeToken.generateWildlifeToken(remainingTokens);
         	tokens.add(tmpWildlifeToken);
         	checkTokens[i] = tmpWildlifeToken.getAnimalType();
     	}
     	
-    	//error handling to wipe tokens if all 4 are the same animal type
-    	if (checkTokens[0] == checkTokens[1] && checkTokens[0] == checkTokens[2] && checkTokens[0] == checkTokens[3]) {
+    	//error handling to wipe tokens if all 4 are the same animal type and replace with 4 other ones
+    	while (checkTokens[0] == checkTokens[1] && checkTokens[0] == checkTokens[2] && checkTokens[0] == checkTokens[3]) {
+    		
     		for (int i = 0; i < num; i++) {
+    			//i think i have to add the previous wiped set of tokens back to the main hashmap of tokens here??
+    			//remainingTokens.put(tokens.get(i).getAnimalType(), 1);
     			tokens.remove(i);
     		}
+    		
+    		for (int i = 0; i < num; i++) {
+    			WildlifeToken tmpWildlifeToken = WildlifeToken.generateWildlifeToken(remainingTokens);
+            	tokens.add(tmpWildlifeToken);
+            	checkTokens[i] = tmpWildlifeToken.getAnimalType();
+    		}
     	}
+    	//still have to add cull clause if you draw 3 of same token type and current player decides to wipe them
+    	
+    	//put error-checked tile token pairs into the hashmap
+    	for (int i = 0; i < num; i++) {
+			tileTokenPairs.put(habitats.get(i), tokens.get(i));
+		}
     	
     	
     	return tileTokenPairs;
     }
+    
+    
 }
