@@ -6,6 +6,7 @@ public class Game {
     // just can't change the address the list is pointing to.
     private final ArrayList<Player> players = new ArrayList<>();
     HashMap<HabitatTile.HABITATS, Integer> remainingTiles = new HashMap<>();
+    HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
 
     public Game() {} //default constructor
 
@@ -63,12 +64,34 @@ public class Game {
     // still in progress
     // displays 4 sets of randomly paired habitat tiles and wildlife tokens for players to choose from
     private void setStartTileSelection() {
-        for (int i = 0; i < 3; i++) {
-            generateTokenTilePair();
-        }
+    	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
+     
     }
 
-    private void generateTokenTilePair() {
-
+    private HashMap<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
+    	//need to put error handling here for putting correct animal type with correct habitat type i think?
+    	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = new HashMap<>();
+    	ArrayList<HabitatTile> habitats = new ArrayList<>();
+    	ArrayList<WildlifeToken> tokens = new ArrayList<>();
+    	WildlifeToken.ANIMAL[] checkTokens = new WildlifeToken.ANIMAL[num]; //redo this nonsense with arraylists first actually
+    	
+    	
+    	for (int i = 0; i < num; i++) {
+        	HabitatTile tmpTile = HabitatTile.generateHabitatTile(remainingTiles);
+        	habitats.add(tmpTile);
+        	WildlifeToken tmpWildlifeToken = WildlifeToken.generateWildlifeToken(remainingTokens);
+        	tokens.add(tmpWildlifeToken);
+        	checkTokens[i] = tmpWildlifeToken.getAnimalType();
+    	}
+    	
+    	//error handling to wipe tokens if all 4 are the same animal type
+    	if (checkTokens[0] == checkTokens[1] && checkTokens[0] == checkTokens[2] && checkTokens[0] == checkTokens[3]) {
+    		for (int i = 0; i < num; i++) {
+    			tokens.remove(i);
+    		}
+    	}
+    	
+    	
+    	return tileTokenPairs;
     }
 }
