@@ -7,9 +7,10 @@ public class Main {
         // is printed, just to make the output nicer.  Feel free to remove/modify
         // the period of time it waits for.
         // (Also note that the time is a bit long because on a terminal the welcome
-        // message is wiped after the time)
+        // message is wiped after the time) - actually nvm this probably won't be
+        // played on a terminal, the lecturers will prob run it on eclipse.
          try {
-            Thread.sleep(700);
+            Thread.sleep(300);
         } catch (InterruptedException ignored) {}
 
         // NOTE: the clear screen command does NOT work in the IDE terminal,

@@ -7,7 +7,7 @@ public class Game {
     private final ArrayList<Player> players = new ArrayList<>();
     HashMap<HabitatTile.HABITATS, Integer> remainingTiles = new HashMap<>();
     HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
-    
+
     public Game() {} //default constructor
 
     // Get player names
@@ -31,7 +31,12 @@ public class Game {
    
     // method 2: generates player objects and adds them to an array
     private void makePlayers() {
-	   
+        remainingTiles.put(HabitatTile.HABITATS.Forest, 20);
+        remainingTiles.put(HabitatTile.HABITATS.River, 20);
+        remainingTiles.put(HabitatTile.HABITATS.Wetland, 20);
+        remainingTiles.put(HabitatTile.HABITATS.Prairie, 20);
+        remainingTiles.put(HabitatTile.HABITATS.Mountain, 20);
+
         ArrayList<HabitatTile> tmp = new ArrayList<>(); // used to store tiles for player's starter tile map
        
         for (String name : playerNames) {
@@ -47,7 +52,7 @@ public class Game {
                 tmp.add(tmpTile);
 
                 // display habitat
-                DrawTiles.PrintFullTile(tmpTile);
+                DrawTiles.printHalfTile(tmpTile);
             }
 
             Player player = new Player(name);
