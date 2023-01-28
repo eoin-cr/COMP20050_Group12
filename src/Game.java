@@ -39,20 +39,36 @@ public class Game {
          
          playerNames = Input.getPlayers(); // from Input class
          Output.printPlayers(playerNames); // from Output class
+         
          populatePlayers();
          setStartTileTokenSelection();
     }
     
     public void startPlayerTurns() {
+    	for (Player player : players) {
+    		System.out.println("Current player is: " +player.getPlayerName());
+    		Output.displayTileMap(player);
+    		//choose from tile token pairs
+    		//place tile
+    		//now can choose to place token, move to next player, quit etc.
+    		Command command = new Command();
+    		do {
+    			command.setCommand(player);
+    		} while (command.getCommand() != Command.CommandType.NEXT || command.getCommand() != Command.CommandType.QUIT);
+    	
+    		//if user chooses to quit program
+    		if (command.getCommand() == Command.CommandType.QUIT) {
+    			//ben's method here
+    		}
+    		//automatically moves to next player if command type is next
+    	}
     	
     }
    
     // method 2: generates player objects and adds them to an array
     private void populatePlayers() {
-
-        ArrayList<HabitatTile> tmp = new ArrayList<>(); // used to store tiles for player's starter tile map
-       
         for (String name : playerNames) {
+        	ArrayList<HabitatTile> tmp = new ArrayList<>(); // used to store tiles for player's starter tile map
             Integer[] startingPositions = {9, 10, 10, 9, 10, 10};
 
             // TODO: Check with lecturer how many tiles each player has on the board at beginning
@@ -63,14 +79,13 @@ public class Game {
                 // loop, so we don't have to manually set them 3 times.
                 tmpTile.setPosition(startingPositions[i*2], startingPositions[i*2+1]);
                 tmp.add(tmpTile);
-
-                // display habitat
-                DrawTiles.printHalfTile(tmpTile);
             }
 
             Player player = new Player(name);
             player.setPlayerTiles(tmp);
             players.add(player); //adds to game's arraylist of players
+            
+            Output.displayTileMap(player);; //displays player's current map of tiles
         }
     }
 

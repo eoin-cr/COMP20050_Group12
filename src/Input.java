@@ -2,6 +2,16 @@ import java.util.*;
 
 public class Input {
 	
+	//general method for user input
+	public static String getUserInput() {
+		String string = null;
+		Scanner in = new Scanner(System.in);
+		string = in.nextLine();
+		System.out.println(string);
+		in.close();
+		return string.toUpperCase().trim();
+	}
+	
 	//method 1: getPlayers scans in players' names and puts them in an arraylist
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
@@ -32,7 +42,7 @@ public class Input {
         System.out.printf("Enter the names of the %d players.  Hit enter after each name.\n", num);
         in.nextLine(); // clears buffer
         for (int i = 0; i < num; i++) {
-            players.add(in.nextLine());
+            players.add(in.nextLine().toUpperCase());
         }
 
         while (playerListIsInvalid(players)) {
@@ -43,7 +53,7 @@ public class Input {
                 players.add(in.nextLine());
             }
         }
-
+        in.close();
         // Returns randomised String array version of the player names
         return randomisePlayers(players);
     }
