@@ -7,9 +7,9 @@ public class Input {
 	public static String getUserInput() {
 		String string;
 		Scanner in = new Scanner(System.in);
-		string = in.nextLine();
+		string = in.nextLine().toUpperCase();
 		System.out.println(string);
-		return string.toUpperCase().trim();
+		return string.trim();
 	}
 	
 	// method 1: getPlayers scans in players' names and puts them in an arraylist
@@ -50,7 +50,7 @@ public class Input {
                     "empty strings. All names have been wiped, please try again.");
             players.clear();
             for (int i = 0; i < num; i++) {
-                players.add(in.nextLine());
+                players.add(in.nextLine().toUpperCase());
             }
         }
         // Returns randomised String array version of the player names
