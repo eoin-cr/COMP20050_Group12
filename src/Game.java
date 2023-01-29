@@ -39,6 +39,7 @@ public class Game {
          
          playerNames = Input.getPlayers(); // from Input class
          Output.printPlayers(playerNames); // from Output class
+         Output.sleep(500);
          
          populatePlayers();
          setStartTileTokenSelection();
@@ -47,7 +48,9 @@ public class Game {
     public void startPlayerTurns() {
     	for (Player player : players) {
     		System.out.println("Current player is: " +player.getPlayerName());
-    		Output.displayTileMap(player);
+//    		Output.displayTileMap(player);
+            Output.displayStarterHabitat(player);
+            Output.sleep(500);
     		//choose from tile token pairs
     		//place tile
     		//now can choose to place token, move to next player, quit etc.
@@ -85,7 +88,11 @@ public class Game {
             player.setPlayerTiles(tmp);
             players.add(player); //adds to game's arraylist of players
             
-            Output.displayTileMap(player);; //displays player's current map of tiles
+//            Output.displayTileMap(player);; //displays player's current map of tiles
+            Output.displayStarterHabitat(player); //displays player's current starter habitat
+
+            // sleep so you can see the outputs, they don't just come all at once
+            Output.sleep(500);
         }
     }
 
@@ -94,6 +101,7 @@ public class Game {
     private void setStartTileTokenSelection() {
     	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
     	Output.displayTileTokenPairs(tileTokenPairs); //eoin check this method in output class
+        Output.sleep(500);
     }
 
     private HashMap<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {

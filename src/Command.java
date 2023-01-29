@@ -13,7 +13,8 @@ public class Command { // helps model player state
 
 		//display tiles on player map
 		MAP {public void enumSetCommand(Player player){
-				Output.displayTileMap(player);
+//				Output.displayTileMap(player);
+				Output.displayStarterHabitat(player);
 			}},
 
 		//display player tiles in inventory
