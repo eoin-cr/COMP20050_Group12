@@ -1,18 +1,18 @@
 import java.util.*;
 
 public class Input {
+    // Note: Do *NOT* close System.in scanners.
 	
-	//general method for user input
+	// general method for user input
 	public static String getUserInput() {
-		String string = null;
+		String string;
 		Scanner in = new Scanner(System.in);
 		string = in.nextLine();
 		System.out.println(string);
-		in.close();
 		return string.toUpperCase().trim();
 	}
 	
-	//method 1: getPlayers scans in players' names and puts them in an arraylist
+	// method 1: getPlayers scans in players' names and puts them in an arraylist
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
@@ -53,7 +53,6 @@ public class Input {
                 players.add(in.nextLine());
             }
         }
-        in.close();
         // Returns randomised String array version of the player names
         return randomisePlayers(players);
     }

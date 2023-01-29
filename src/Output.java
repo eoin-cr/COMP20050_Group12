@@ -94,9 +94,14 @@ public class Output {
 	}
 	
 	public static void displayCommands() {
-		System.out.println("Enter NEXT to move on to the next player, \nEnter MAP for your current map of Tiles, \n" +
-				"Enter TILES to see the Tiles you have in inventory, \nEnter TOKENS to see Wildlife Tokens you have in inventory, \n" +
-				"Enter PLACETOKEN to place a Wildlife Token on a Tile,\nEnter QUIT to quit the program." );
-		System.out.println();
+		System.out.println("""
+				Enter NEXT to move on to the next player,\s
+				Enter MAP for your current map of Tiles,\s
+				Enter TILES to see the Tiles you have in inventory,\s
+				Enter TOKENS to see Wildlife Tokens you have in inventory,\s
+				Enter PLACETOKEN to place a Wildlife Token on a Tile,
+				Enter QUIT to quit the program.
+				""");
+//		System.out.println();
 	}
 }
