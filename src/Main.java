@@ -19,7 +19,7 @@ public class Main {
 
         //game starts here
         Game g = new Game();
-        g.start();
-
+        g.startGameSetup();
+        g.startPlayerTurns();
     }
 }

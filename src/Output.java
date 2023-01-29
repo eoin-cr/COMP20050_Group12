@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Output {
     public static void Welcome () {
         // ASCII art from https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA
@@ -71,4 +73,35 @@ public class Output {
         }
         System.out.println();
     }
+
+	public static void displayTileTokenPairs(HashMap<HabitatTile, WildlifeToken> tileTokenPairs) {
+		//not sure how to do display of tiles and tokens here ??
+    	//depends on drawtile class i guess - eoin have a look whenever
+    	System.out.println();
+    	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
+    	for (HabitatTile i : tileTokenPairs.keySet()) {
+    		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
+    		DrawTiles.printHalfTile(i);
+    	}
+    	System.out.println();
+	}
+
+	public static void displayTileMap(Player player) {
+		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: \n");
+		for (HabitatTile tile : player.getPlayerTiles()) {
+			DrawTiles.printHalfTile(tile);
+		}
+	}
+	
+	public static void displayCommands() {
+		System.out.println("""
+				Enter NEXT to move on to the next player,\s
+				Enter MAP for your current map of Tiles,\s
+				Enter TILES to see the Tiles you have in inventory,\s
+				Enter TOKENS to see Wildlife Tokens you have in inventory,\s
+				Enter PLACETOKEN to place a Wildlife Token on a Tile,
+				Enter QUIT to quit the program.
+				""");
+//		System.out.println();
+	}
 }
