@@ -3,7 +3,32 @@ import java.util.Map;
 import java.util.Random;
 
 public class WildlifeToken {
-	public enum ANIMAL {Bear, Elk, Salmon, Hawk, Fox}
+	public enum ANIMAL {
+		Bear('B', "\033[38;2;153;102;51m", "\033[48;2;153;102;51m"),
+		Elk('E', "\033[30m", "\033[40m"),
+		Salmon('S', "\033[38;2;255;51;255m", "\033[48;2;255;51;255m"),
+		Hawk('H', "\033[34m", "\033[44m"),
+		Fox('F', "\033[38;5;202m", "\033[48;5;202m");
+
+		private final char character;
+		private final String colour;
+		private final String backgroundColour;
+		ANIMAL(char character, String colour, String backgroundColour) {
+			this.character = character;
+			this.colour = colour;
+			this.backgroundColour = backgroundColour;
+		}
+		public char toChar() {
+			return character;
+		}
+
+		public String getColour() {
+			return colour;
+		}
+		public String getBackgroundColour() {
+			return backgroundColour;
+		}
+	}
 	private ANIMAL animalType;
 	private boolean inUse; //if it's been placed on a player map or stashed in bag
 	

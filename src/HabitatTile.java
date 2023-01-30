@@ -3,18 +3,18 @@ import java.util.Map;
 import java.util.Random;
 
 public class HabitatTile {
-	public static final String ANSI_RESET = "\u001B[0m";
-	//    public static final String ANSI_BLACK = "\u001B[30m";
+	public static final String ANSI_RESET = "\033[0m";
+	//    public static final String ANSI_BLACK = "\033[30m";
 
 	// storing the ANSI habitat colours in the enum is better practice than using ordinals
     enum HABITATS {
-		Forest("\u001B[38;2;84;130;53m", "\u001B[48;2;84;130;53m"),
-//		Forest("\u001B[32m", "\u001B[42m"),
-		Wetland("\u001B[48;2;198;224;180m", "\u001B[48;2;198;224;180m"),
-//		Wetland("\u001B[36m", "\u001B[46m"),
-		River("\u001B[34m", "\u001B[44m"),
-		Mountain("\u001B[37m", "\u001B[47m"),
-		Prairie("\u001B[93m", "\u001B[103m");
+		Forest("\033[38;2;84;130;53m", "\033[48;2;84;130;53m"),
+//		Forest("\033[32m", "\033[42m"),
+		Wetland("\033[48;2;198;224;180m", "\033[48;2;198;224;180m"),
+//		Wetland("\033[36m", "\033[46m"),
+		River("\033[34m", "\033[44m"),
+		Mountain("\033[37m", "\033[47m"),
+		Prairie("\033[93m", "\033[103m");
 		private final String colour;
 		private final String backgroundColour;
 		HABITATS(String colour, String backgroundColour) {
