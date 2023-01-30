@@ -8,11 +8,13 @@ public class HabitatTile {
 
 	// storing the ANSI habitat colours in the enum is better practice than using ordinals
     enum HABITATS {
-		Forest("\u001B[32m", "\u001B[42m"),
-		Wetland("\u001B[36m", "\u001B[46m"),
+		Forest("\u001B[38;2;84;130;53m", "\u001B[48;2;84;130;53m"),
+//		Forest("\u001B[32m", "\u001B[42m"),
+		Wetland("\u001B[48;2;198;224;180m", "\u001B[48;2;198;224;180m"),
+//		Wetland("\u001B[36m", "\u001B[46m"),
 		River("\u001B[34m", "\u001B[44m"),
 		Mountain("\u001B[37m", "\u001B[47m"),
-		Prairie("\u001B[33m", "\u001B[43m");
+		Prairie("\u001B[93m", "\u001B[103m");
 		private final String colour;
 		private final String backgroundColour;
 		HABITATS(String colour, String backgroundColour) {
