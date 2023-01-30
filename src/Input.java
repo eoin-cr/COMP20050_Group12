@@ -8,7 +8,6 @@ public class Input {
 		String string;
 		Scanner in = new Scanner(System.in);
 		string = in.nextLine().toUpperCase();
-		System.out.println(string);
 		return string.trim();
 	}
 	
