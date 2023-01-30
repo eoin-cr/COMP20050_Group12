@@ -101,9 +101,14 @@ public class Output {
 //		for (HabitatTile tile : player.getPlayerTiles()) {
 //			printHalfTile(tile, ' ', ' ', ' ',' ');
 //		}
-		System.out.println(indentTile(player.getPlayerTiles().get(0).toFormattedString('A', 'B', 'C', 'D')));
-		System.out.println(combineTiles(player.getPlayerTiles().get(1).toFormattedString('A','B', 'C', 'D'),
-							player.getPlayerTiles().get(2).toFormattedString('A','B','C', 'D')) + "\n"
+		System.out.println(
+				indentTile(
+						player.getPlayerTiles().get(0).toFormattedString('A', 'B', 'C', 'D')
+				));
+		System.out.println(
+				combineTiles(player.getPlayerTiles().get(1).toFormattedString('A','B', 'C', 'D'),
+							player.getPlayerTiles().get(2).toFormattedString('A','B','C', 'D'))
+						+ "\n"
 		);
 	}
 
@@ -142,30 +147,12 @@ public class Output {
 	public static final String ANSI_RESET = "\u001B[0m";
 //    public static final String ANSI_BLACK = "\u001B[30m";
 
-	// ANSI colours to colour console text.  Indexes match with the
-	// Tile.habitats enum.
-	static String[] HabitatColours = {
-			"\u001B[32m",
-			"\u001B[36m",
-			"\u001B[34m",
-			"\u001B[37m",
-			"\u001B[33m"
-	};
-
-	static String[] backgroundHabitatColours = {
-			"\u001B[42m",
-			"\u001B[46m",
-			"\u001B[44m",
-			"\u001B[47m",
-			"\u001B[43m"
-	};
-
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
 	public static void printHalfTile (HabitatTile tile, char char1, char char2,
 									  char char3, char char4) {
-		String first = backgroundHabitatColours[tile.getHabitat1().ordinal()];
-		String second = backgroundHabitatColours[tile.getHabitat2().ordinal()];
+		String first = tile.getHabitat1().getBackgroundColour();
+		String second = tile.getHabitat2().getBackgroundColour();
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		System.out.println(
 				first + full +
