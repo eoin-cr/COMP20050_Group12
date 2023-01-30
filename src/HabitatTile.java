@@ -11,7 +11,7 @@ public class HabitatTile {
 		Forest("\u001B[32m", "\u001B[42m"),
 		Wetland("\u001B[36m", "\u001B[46m"),
 		River("\u001B[34m", "\u001B[44m"),
-		Mountain("\u001B[37m", "\u001B[37m"),
+		Mountain("\u001B[37m", "\u001B[47m"),
 		Prairie("\u001B[33m", "\u001B[43m");
 		private final String colour;
 		private final String backgroundColour;
