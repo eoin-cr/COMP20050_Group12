@@ -30,7 +30,6 @@ public class HabitatTile {
     private int tileID; //identifying number for a tile, used in Edge class
     private final HABITATS habitat1;
     private final HABITATS habitat2;
-	private final Integer[] position = new Integer[2]; //cartesian plane coordinates for display purposes
 	private Edge[] edges; //stores what the 6 edges of the tile are connected to, if anything
 
 
@@ -49,15 +48,6 @@ public class HabitatTile {
 
 	public HABITATS getHabitat2() {
 		return habitat2;
-	}
-
-	public Integer[] getPosition() {
-		return position;
-	}
-
-	public void setPosition(int x, int y) {
-		position[0] = x;
-		position[1] = y;
 	}
 
 	@Override
