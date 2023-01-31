@@ -164,14 +164,12 @@ public class Output {
 	
 	public static void displayCommands() {
 		System.out.println("""
-				Enter NEXT to move on to the next player,\s
+				Enter PLACE to pick and place your Habitat Tile and Wildlife Token,\s 
 				Enter MAP for your current map of Tiles,\s
-				Enter TILES to see the Tiles you have in inventory,\s
-				Enter TOKENS to see Wildlife Tokens you have in inventory,\s
-				Enter PLACETOKEN to place a Wildlife Token on a Tile,
+				Enter NATURE to see and spend your Nature Tokens,\s
+				Enter NEXT to move on to the next player,\s
 				Enter QUIT to quit the program.
 				""");
-//		System.out.println();
 	}
 
 
@@ -208,4 +206,8 @@ public class Output {
 			Thread.sleep(millis);
 		} catch (InterruptedException ignored) {}
 	}
+	public static void endScreen() {				clearScreen();
+		System.out.println("Now leaving Cascadia. Thank you for playing.");
+	}
+
 }

@@ -5,7 +5,7 @@ public class Game {
     private String[] playerNames;
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
-    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> playerArrayList = new ArrayList<>();
     HashMap<HabitatTile.HABITATS, Integer> remainingTiles = new HashMap<>();
     HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
 
@@ -46,7 +46,7 @@ public class Game {
     }
     
     public void startPlayerTurns() {
-    	for (Player player : players) {
+    	for (Player player : playerArrayList) {
     		System.out.println("Current player is: " +player.getPlayerName());
             Output.displayTileMap(player);
             Output.sleep(500);
@@ -56,12 +56,7 @@ public class Game {
     		Command command = new Command();
     		do {
     			command.setCommand(player);
-    		} while (command.getCommand() != Command.CommandType.NEXT || command.getCommand() != Command.CommandType.QUIT);
-    	
-    		//if user chooses to quit program
-    		if (command.getCommand() == Command.CommandType.QUIT) {
-    			//ben's method here
-    		}
+    		} while (command.getCommand() != Command.CommandType.NEXT);
     		//automatically moves to next player if command type is next
     	}
     	
@@ -89,7 +84,7 @@ public class Game {
             }
 
             player.setPlayerTiles(tmp);
-            players.add(player); //adds to game's arraylist of players
+            playerArrayList.add(player); //adds to game's arraylist of players
             
             Output.displayTileMap(player); //displays player's current map of tiles
 

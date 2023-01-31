@@ -9,24 +9,28 @@ public class Command { // helps model player state
 	// Note: make sure that you're calling this function on an enum that exists, if it
 	// doesn't exist it will throw an error.
 	enum CommandType {
-		NEXT {public void enumSetCommand(Player player){}},
+
+		//Lets player choose and place wildlife + habitat
+		PLACE {public void enumSetCommand(Player player){}},
 
 		//display tiles on player map
 		MAP {public void enumSetCommand(Player player){
 				Output.displayTileMap(player);
 			}},
 
-		//display player tiles in inventory
-		TILES {public void enumSetCommand(Player player){}},
+		//display nature token shop
+		NATURE {public void enumSetCommand(Player player){}},
+		
+		//Moves to next players turn
+		NEXT {public void enumSetCommand(Player player){}},
 
-		//display player tokens in inventory
-		TOKENS {public void enumSetCommand(Player player){}},
 
-		//places token on map and displays new map
-		PLACETOKEN {public void enumSetCommand(Player player){}},
+		//Quits the game
+		QUIT {public void enumSetCommand(Player player){
+			Output.endScreen();
+			System.exit(0);
+		}};
 
-		//ben's method here (or in main game)
-		QUIT {public void enumSetCommand(Player player){}};
 		public abstract void enumSetCommand(Player player); // ignore this
 	}
 	private CommandType command;
@@ -44,7 +48,7 @@ public class Command { // helps model player state
 			command = CommandType.valueOf(input);
 			command.enumSetCommand(player); // calls the function represented in the enum
 		} catch (IllegalArgumentException ex) { // catches if the input is not an enum element
-			System.out.println("Invalid input for options of commands. Please try again.");
+			System.out.println("Invalid input for options of commands. Please try again. \n");
 		}
 	}
 	
