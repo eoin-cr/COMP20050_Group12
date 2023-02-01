@@ -1,17 +1,28 @@
 import java.util.*;
 
+/**
+ * Contains methods involved with taking input from the users.
+ */
 public class Input {
     // Note: Do *NOT* close System.in scanners.
-	
-	// general method for user input
+
+    /**
+     * Scans in user input and returns it converted to upper case and trimmed.
+     *
+     * @return a trimmed and uppercase string containing user input.
+     */
 	public static String getUserInput() {
 		String string;
 		Scanner in = new Scanner(System.in);
 		string = in.nextLine().toUpperCase();
 		return string.trim();
 	}
-	
-	// method 1: getPlayers scans in players' names and puts them in an arraylist
+
+    /**
+     * Scans in players' names, randomises them, and puts them in a String array.
+     *
+     * @return a randomised String array of player names
+     */
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
@@ -39,7 +50,7 @@ public class Input {
         }
 
         System.out.printf("Enter the names of the %d players.  Hit enter after each name.\n", num);
-        in.nextLine(); // clears buffer
+        in.nextLine();  // clears buffer
         for (int i = 0; i < num; i++) {
             players.add(in.nextLine().toUpperCase());
         }
@@ -56,7 +67,12 @@ public class Input {
         return randomisePlayers(players);
     }
 
-    //method 2: randomisePlayers iterates through arraylist of players and returns a string array of players' names
+    /**
+     * Iterates through arraylist of players and returns a string array of players' names.
+     *
+     * @param players an <i>ArrayList</i> of player names to be randomised
+     * @return a <i>String array</i> of randomised player names
+     */
     //(note: might want to actually randomise arraylist itself, so we can iterate through players in correct order)
     private static String[] randomisePlayers(ArrayList<String> players) {
     	
@@ -71,9 +87,11 @@ public class Input {
             }
         }
 
-        // Random indexes now contains a list of all ints 0...num players
-        // in a random order.  We can use that to put the player names in a
-        // random order.
+        /*
+         * Random indexes now contains a list of all ints 0...num players
+         * in a random order.  We can use that to put the player names in a
+         * random order.
+         */
         int i = 0;
         for (Integer element : randomIndexes) {
             randomisedPlayers[element] = players.get(i++);
@@ -83,8 +101,13 @@ public class Input {
     }
 
 
-    // checks whether any of the items in the list are empty strings, or if
-    // any are duplicates.
+    /**
+     * Checks whether any of the items in the list are empty strings, or if
+     * any are duplicates.
+     *
+     * @param players the player name ArrayList to be checked for invalid names.
+     * @return true if the list is invalid
+     */
     private static boolean playerListIsInvalid(ArrayList<String> players) {
         for (int i = 0; i < players.size(); i++) {
             players.set(i, players.get(i).trim());
@@ -93,10 +116,12 @@ public class Input {
             }
         }
 
-        // A set cannot have duplicate values, so any duplicates stored in the
-        // player array list will be automatically removed when we transfer it
-        // to the set.  We can use this, as if the set is smaller, an element
-        // must have been removed, i.e. there is a duplicate
+        /*
+         * A set cannot have duplicate values, so any duplicates stored in the
+         * player array list will be automatically removed when we transfer it
+         * to the set.  We can use this, as if the set is smaller, an element
+         * must have been removed, i.e. there is a duplicate
+         */
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
     }   
