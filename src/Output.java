@@ -1,9 +1,19 @@
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Deals with outputting to the console.
+ */
 public class Output {
+
+	/**
+	 * Prints a large ASCII art title screen, and then welcomes the user.
+	 * Sleep calls are used to improve readability.
+	 * The ASCII art is from
+	 * <a href="https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA">this website.</a>
+	 */
     public static void Welcome () {
-        // ASCII art from https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA
+        //
         System.out.println(
 				"""
 						________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\________/\\\\\\\\\\\\\\\\\\\\\\__________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\____
@@ -26,12 +36,23 @@ public class Output {
 		sleep(300);
     }
 
+	/**
+	 * Clears the terminal screen.
+	 * Note: This only works on an actual terminal, not terminal emulators
+	 * inside IDEs.
+	 */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-    
-    public static void printPlayers(String[] playerNames) { // used in Game class
+
+	/**
+	 * Prints the player names, as well as the number showing the order they
+	 * will be playing in.
+	 *
+	 * @param playerNames a String array of player names
+	 */
+	public static void printPlayers(String[] playerNames) { // used in Game class
     	System.out.println();
         System.out.println("The player list is:");
     
@@ -41,9 +62,15 @@ public class Output {
         System.out.println();
     }
 
+	/**
+	 * Displays tile token pairs.
+	 * The habitat of the tile and the token will be printed, as well as the
+	 * 'image' of the tile.
+	 *
+	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
+	 *                       printed
+	 */
 	public static void displayTileTokenPairs(HashMap<HabitatTile, WildlifeToken> tileTokenPairs) {
-		//not sure how to do display of tiles and tokens here ??
-    	//depends on drawtile class i guess - eoin have a look whenever
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
@@ -53,7 +80,14 @@ public class Output {
     	System.out.println();
 	}
 
-	// displays the FULL tile map.
+	/**
+	 * Displays the <i>full</i> tile map.
+	 * Detects the smallest rectangular area which contains every non-null
+	 * tile, and prints every tile in this area.
+	 * Null tiles are represented with empty space.
+	 *
+	 * @param player the player whose tile map is to be displayed
+	 */
 	// TODO: Add actual token characters rather than the placeholders
 	public static void displayTileMap(Player player) {
 		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
@@ -61,11 +95,13 @@ public class Output {
 
 		int[] boundaries = tileBoundaries(player);
 
-		// prints all the tiles within the boundary (the area where tiles exist)
-		// Adds to string from top to bottom, right to left. We go right to left because
-		// the indent functions add the indents to the left of the string.
-		// If a value in board is null, print a full tile indent.  Every second line add
-		// a half indent to the front.
+		/*
+		 * prints all the tiles within the boundary (the area where tiles exist)
+		 * Adds to string from top to bottom, right to left. We go right to left because
+		 * the indent functions add the indents to the left of the string.
+		 * If a value in board is null, print a full tile indent.  Every second line add
+		 * a half indent to the front.
+		 */
 		for (int i = boundaries[0]; i < boundaries[1]+1; i++) {
 			String line = " \n \n \n \n";
 			// for some reason if there isn't some empty border (gotten by
