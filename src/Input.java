@@ -116,7 +116,8 @@ public class Input {
             }
         }
 
-        /* A set cannot have duplicate values, so any duplicates stored in the
+        /*
+         * A set cannot have duplicate values, so any duplicates stored in the
          * player array list will be automatically removed when we transfer it
          * to the set.  We can use this, as if the set is smaller, an element
          * must have been removed, i.e. there is a duplicate

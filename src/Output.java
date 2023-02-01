@@ -13,7 +13,6 @@ public class Output {
 	 * <a href="https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA">this website.</a>
 	 */
     public static void Welcome () {
-        //
         System.out.println(
 				"""
 						________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\________/\\\\\\\\\\\\\\\\\\\\\\__________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\____
@@ -241,10 +240,6 @@ public class Output {
 	}
 
 	public static final String ANSI_RESET = "\u001B[0m";
-//    public static final String ANSI_BLACK = "\u001B[30m";
-
-	// new display method which is closer to what he wants
-	// TODO: Change the background colour based on whether a token is selected
 
 	/**
 	 * Prints a tile to the terminal.
@@ -262,6 +257,9 @@ public class Output {
 	 * @param char4 the animal token character to be printed at the bottom
 	 *              right of the tile
 	 */
+	// new display method which is closer to what he wants
+	// TODO: Change the background colour based on whether a token is selected
+	// TODO: Allow different tile orientations
 	public static void printHalfTile (HabitatTile tile, char char1, char char2,
 									  char char3, char char4) {
 		String first = tile.getHabitat1().getBackgroundColour();

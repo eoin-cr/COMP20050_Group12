@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -38,12 +39,14 @@ public class HabitatTile {
 			return backgroundColour;
 		}
 	}
-    public static int counter;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
+
+	enum TILETYPES {KEYSTONE, NONKEYSTONE}
+
+    public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final HABITATS habitat1;
     private final HABITATS habitat2;
 	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
-
 
 	public HabitatTile(HabitatTile.HABITATS habitat1, HabitatTile.HABITATS habitat2) {  // constructor
 		this.tileID = counter;
@@ -66,47 +69,26 @@ public class HabitatTile {
 		return habitat1.name() + " + " + habitat2.name();
 	}
 
-
 	/**
-	 * Randomly generates a habitat tile with implementation for two habitat types/mixed type.
+	 * Overrides equals method.
+	 * Returns true if two tiles have the same tile ID.
 	 *
-	 * @param habitatsRemaining the amount of tiles remaining each type of habitat has
-	 * @return a habitat tile with 2 randomised habitat types
+	 * @param o the reference object to which to compare
+	 * @return true if both tiles have the same tile ID.
 	 */
-	// TODO: Alter implementation so the starter habitat tiles always have one keystone tile.
-	public static HabitatTile generateHabitatTile (HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining) {
-		int tilesLeft = 0;
-
-		// get the total amount of tiles left
-		for (Integer value : habitatsRemaining.values()) {
-			tilesLeft += value;
-		}
-
-		int num1 = new Random().nextInt(tilesLeft);
-		int num2 = new Random().nextInt(tilesLeft);
-		HABITATS first = null;
-		HABITATS second = null;
-
-		/*
-		 * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest, River...]
-		 * then this function gets the num1 th and num2 th value, and then 'removes' it from
-		 * the list.
-		 */
-		for (Map.Entry<HabitatTile.HABITATS, Integer> entry : habitatsRemaining.entrySet()) {
-			num1 -= entry.getValue();
-			num2 -= entry.getValue();
-			if (num1 <= 0 && first == null) {
-				first = entry.getKey();
-				habitatsRemaining.put(entry.getKey(), entry.getValue() - 1);
-			}
-			if (num2 <= 0 && second == null) {
-				second = entry.getKey();
-				habitatsRemaining.put(entry.getKey(), entry.getValue() - 1);
-			}
-
-		}
-		return new HabitatTile(first, second);
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		HabitatTile tile = (HabitatTile) o;
+		return tileID == tile.tileID;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(tileID);
+	}
+
 
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
