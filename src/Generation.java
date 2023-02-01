@@ -3,13 +3,19 @@ import java.util.Map;
 import java.util.Random;
 
 public class Generation {
+    /**
+     * Generates a starter habitat.
+     * A starter habitat is 3 tiles, one of which being a keystone tile.
+     * A starter habitat will contain one of every habitat.
+     *
+     * @return a starter habitat (habitat tile array).
+     */
     public static HabitatTile[] generateStarterHabitat () {
-        HabitatTile[] tokens = new HabitatTile[3];
-        tokens[0] = generateKeystoneHabitatTile();
-        tokens[1] = generateNonKeystoneHabitatTile();
-        tokens[2] = generateNonKeystoneHabitatTile();
+        int index = new Random().nextInt(CurrentDeck.starterTiles.size());
+        HabitatTile[] tiles = CurrentDeck.starterTiles.get(index);
+        CurrentDeck.starterTiles.remove(index);
 
-        return tokens;
+        return tiles;
     }
 
     /**

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -7,6 +8,9 @@ public class CurrentDeck {
     public static final HashMap<HabitatTile.HABITATS, Integer> remainingHabitats = new HashMap<>();
     public static final HashMap<HabitatTile.TILETYPES, Integer> remainingTypes = new HashMap<>();
     public static final HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
+    public static final ArrayList<HabitatTile[]> starterTiles = new ArrayList<>();
+//    public static final HabitatTile[][] starterTiles = new HabitatTile[5][3];
+
 
     /**
      * Sets up the tiles and tokens in the deck, so they can be generated.
@@ -28,5 +32,32 @@ public class CurrentDeck {
         remainingTokens.put(WildlifeToken.ANIMAL.Hawk, 20);
         remainingTokens.put(WildlifeToken.ANIMAL.Fox, 20);
 
+        // Hard coding this is simpler than running a large amount of
+        // generations and checks in the starter habitat method.
+        starterTiles.add(new HabitatTile[]{
+                new HabitatTile(HabitatTile.HABITATS.Wetland, HabitatTile.HABITATS.Wetland),
+                new HabitatTile(HabitatTile.HABITATS.River, HabitatTile.HABITATS.Forest),
+                new HabitatTile(HabitatTile.HABITATS.Prairie, HabitatTile.HABITATS.Mountain)
+        });
+        starterTiles.add(new HabitatTile[]{
+                new HabitatTile(HabitatTile.HABITATS.Mountain, HabitatTile.HABITATS.Mountain),
+                new HabitatTile(HabitatTile.HABITATS.Forest, HabitatTile.HABITATS.Wetland),
+                new HabitatTile(HabitatTile.HABITATS.River, HabitatTile.HABITATS.Prairie)
+        });
+        starterTiles.add(new HabitatTile[]{
+                new HabitatTile(HabitatTile.HABITATS.Forest, HabitatTile.HABITATS.Forest),
+                new HabitatTile(HabitatTile.HABITATS.Mountain, HabitatTile.HABITATS.River),
+                new HabitatTile(HabitatTile.HABITATS.Wetland, HabitatTile.HABITATS.Prairie)
+        });
+        starterTiles.add(new HabitatTile[]{
+                new HabitatTile(HabitatTile.HABITATS.River, HabitatTile.HABITATS.River),
+                new HabitatTile(HabitatTile.HABITATS.Prairie, HabitatTile.HABITATS.Forest),
+                new HabitatTile(HabitatTile.HABITATS.Mountain, HabitatTile.HABITATS.Wetland)
+        });
+        starterTiles.add(new HabitatTile[]{
+                new HabitatTile(HabitatTile.HABITATS.Prairie, HabitatTile.HABITATS.Prairie),
+                new HabitatTile(HabitatTile.HABITATS.Wetland, HabitatTile.HABITATS.River),
+                new HabitatTile(HabitatTile.HABITATS.Forest, HabitatTile.HABITATS.Mountain)
+        });
     }
 }
