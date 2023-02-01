@@ -123,6 +123,13 @@ public class Output {
 
 	}
 
+	/**
+	 * Finds the smallest boundary rectangle which contains every tile placed.
+	 *
+	 * @param player the player whose map boundary is to be found
+	 * @return an int array containing the index of the [top, bottom, left, right]
+	 * co-ords of the boundary
+	 */
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(Player player) {
 		HabitatTile[][] board = player.getTileBoardPosition();
@@ -172,8 +179,15 @@ public class Output {
 
 	}
 
-	// Note: Do not use this function twice to indent a full tile, use the indent full
-	// tile method.
+	/**
+	 * Indents a string by half a tile.
+	 * Do <i>not</i> use two of these to generate a full tile indent, use the
+	 * indent full tile method.
+	 *
+	 * @param tile the tile string to be indented
+	 * @return a string containing an indented tile
+	 * @see Output#indentFullTile(String)
+	 */
 	private static String indentHalfTile(String tile) {
 		String[] lines = tile.split("\n");
 		// using an old for loop because I don't think changes in the new ones affect
@@ -184,11 +198,26 @@ public class Output {
 		return String.join("\n", lines);
 	}
 
+	/**
+	 * Indents a string by a full tile.
+	 * Used to provide a gap for the null tiles.
+	 *
+	 * @param tile the tile string to be indented
+	 * @return a string containing a tile indented by a full tile
+	 */
 	private static String indentFullTile(String tile) {
 		String output = indentHalfTile(indentHalfTile(" " + tile.replaceAll("\n", "\n ")));
 		return output.substring(0, output.length()-2); // removes the trailing \n
 	}
 
+	/**
+	 * Combines two tile strings into one string (with both tiles on the same
+	 * line)
+	 *
+	 * @param first the tile that will be on the left in the combined string
+	 * @param second the tile that will be on the right in the combined string
+	 * @return a string with both tiles directly next to each other
+	 */
 	private static String combineTiles(String first, String second) {
 		String[] firstLines = first.split("\n");
 		String[] secondLines = second.split("\n");
@@ -197,10 +226,13 @@ public class Output {
 		}
 		return String.join("\n", firstLines);
 	}
-	
+
+	/**
+	 * Displays the interactive commands the player can select from
+	 */
 	public static void displayCommands() {
 		System.out.println("""
-				Enter PLACE to pick and place your Habitat Tile and Wildlife Token,\s 
+				Enter PLACE to pick and place your Habitat Tile and Wildlife Token,\s
 				Enter MAP for your current map of Tiles,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
 				Enter NEXT to move on to the next player,\s
@@ -208,12 +240,28 @@ public class Output {
 				""");
 	}
 
-
 	public static final String ANSI_RESET = "\u001B[0m";
 //    public static final String ANSI_BLACK = "\u001B[30m";
 
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
+
+	/**
+	 * Prints a tile to the terminal.
+	 * The top half and bottom half both have a habitat colour (can be the
+	 * same).
+	 * At the moment there is no way to change the orientation of the tile,
+	 * i.e. the habitat colours cannot split the tile vertically.
+	 * @param tile the tile to be printed
+	 * @param char1 the animal token character to be printed at the top left of
+	 *              the tile
+	 * @param char2 the animal token character to be printed at the top right of
+	 *              the tile
+	 * @param char3 the animal token character to be printed at the bottom left
+	 *              of the tile
+	 * @param char4 the animal token character to be printed at the bottom
+	 *              right of the tile
+	 */
 	public static void printHalfTile (HabitatTile tile, char char1, char char2,
 									  char char3, char char4) {
 		String first = tile.getHabitat1().getBackgroundColour();
@@ -230,19 +278,36 @@ public class Output {
 
 	}
 
-	// repeats character 'a' number times, just nicer than using a for loop
+	/**
+	 * Returns a string containing a character repeated a certain amount of
+	 * times.
+	 *
+	 * @param a the character to be repeated
+	 * @param number the amount of times the character is to be repeated
+	 * @return a string containing the repeated character
+	 */
 	private static String repeater (char a, int number) {
 		char[] repeat = new char[number];
 		Arrays.fill(repeat, a);
 		return new String(repeat);
 	}
 
+	/**
+	 * Pauses the program for a certain amount of time.
+	 *
+	 * @param millis the amount of milliseconds to pause the program for
+	 */
 	public static void sleep (int millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException ignored) {}
 	}
-	public static void endScreen() {				clearScreen();
+
+	/**
+	 * Displays the end screen that will be printed once the game has finished.
+	 */
+	public static void endScreen() {
+		clearScreen();
 		System.out.println("Now leaving Cascadia. Thank you for playing.");
 	}
 

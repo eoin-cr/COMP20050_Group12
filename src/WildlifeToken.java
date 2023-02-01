@@ -3,6 +3,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class WildlifeToken {
+	/**
+	 * The animals that a wildlife token can be.
+	 * Also stores the colour associated with the animal.
+	 */
 	public enum ANIMAL {
 		Bear('B', "\033[38;2;153;102;51m", "\033[48;2;153;102;51m"),
 		Elk('E', "\033[30m", "\033[40m"),
@@ -18,6 +22,10 @@ public class WildlifeToken {
 			this.colour = colour;
 			this.backgroundColour = backgroundColour;
 		}
+
+		/**
+		 * @return the first character of the animal name
+		 */
 		public char toChar() {
 			return character;
 		}
@@ -30,7 +38,7 @@ public class WildlifeToken {
 		}
 	}
 	private ANIMAL animalType;
-	private boolean inUse; //if it's been placed on a player map or stashed in bag
+	private boolean inUse; // if it's been placed on a player map or stashed in bag
 	
 	public WildlifeToken(WildlifeToken.ANIMAL animalType) {
 		this.animalType = animalType;
@@ -53,8 +61,15 @@ public class WildlifeToken {
 	public String toString() {
 		return animalType.name();
 	}
-	
-	//method to randomly generate a wildlife token
+
+	/**
+	 * Randomly generates a wildlife token.
+	 * Uses a hashmap to decrease the probability of getting a certain animal
+	 * as more tokens with that animal are placed.
+	 *
+	 * @param wildlifeTokensRemaining a hashmap with the amount of each type of
+	 *                                token remaining
+	 */
 	public static WildlifeToken generateWildlifeToken (HashMap<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
 		int tokensLeft = 0;
 
@@ -78,7 +93,5 @@ public class WildlifeToken {
 		
 		return new WildlifeToken(animalType);
 	}
-	
-	
 
 }
