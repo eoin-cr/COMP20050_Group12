@@ -5,7 +5,7 @@ public class Player {
 	private int playerNatureTokens;
 	private int playerScore;
 	private ArrayList<HabitatTile> playerTiles = new ArrayList<>();
-//	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
+	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
 
 	public Player(String playerName) { //constructor
 		//need to add error handling here for empty names or null or pre-existing names
@@ -38,13 +38,13 @@ public class Player {
 		this.playerTiles = tiles;
 	}
 
-//	public HabitatTile[][] getTileBoardPosition() {
-//		return tileBoardPosition;
-//	}
-//	public void addTileAtCoordinate(HabitatTile tile, int x, int y) throws IllegalArgumentException {
-//		if (tileBoardPosition[x][y] != null) {
-//			throw new IllegalArgumentException("There is already a tile at that position!");
-//		}
-//		tileBoardPosition[x][y] = tile;
-//	}
+	public HabitatTile[][] getTileBoardPosition() {
+		return tileBoardPosition;
+	}
+	public void addTileAtCoordinate(HabitatTile tile, int x, int y) throws IllegalArgumentException {
+		if (tileBoardPosition[x][y] != null) {
+			throw new IllegalArgumentException("There is already a tile at that position!");
+		}
+		tileBoardPosition[x][y] = tile;
+	}
 }

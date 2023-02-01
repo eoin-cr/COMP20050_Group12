@@ -5,7 +5,7 @@ public class Game {
     private String[] playerNames;
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
-    private final ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> playerArrayList = new ArrayList<>();
     HashMap<HabitatTile.HABITATS, Integer> remainingTiles = new HashMap<>();
     HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
 
@@ -39,27 +39,24 @@ public class Game {
          
          playerNames = Input.getPlayers(); // from Input class
          Output.printPlayers(playerNames); // from Output class
+         Output.sleep(500);
          
          populatePlayers();
          setStartTileTokenSelection();
     }
     
     public void startPlayerTurns() {
-    	for (Player player : players) {
+    	for (Player player : playerArrayList) {
     		System.out.println("Current player is: " +player.getPlayerName());
-    		Output.displayTileMap(player);
+            Output.displayTileMap(player);
+            Output.sleep(500);
     		//choose from tile token pairs
     		//place tile
     		//now can choose to place token, move to next player, quit etc.
     		Command command = new Command();
     		do {
     			command.setCommand(player);
-    		} while (command.getCommand() != Command.CommandType.NEXT || command.getCommand() != Command.CommandType.QUIT);
-    	
-    		//if user chooses to quit program
-    		if (command.getCommand() == Command.CommandType.QUIT) {
-    			//ben's method here
-    		}
+    		} while (command.getCommand() != Command.CommandType.NEXT);
     		//automatically moves to next player if command type is next
     	}
     	
@@ -69,23 +66,30 @@ public class Game {
     private void populatePlayers() {
         for (String name : playerNames) {
         	ArrayList<HabitatTile> tmp = new ArrayList<>(); // used to store tiles for player's starter tile map
-            Integer[] startingPositions = {9, 10, 10, 9, 10, 10};
+            // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
+            Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
+//            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
+            Player player = new Player(name);
 
             // TODO: Check with lecturer how many tiles each player has on the board at beginning
             for (int i = 0; i < 3; i++) {
                 HabitatTile tmpTile = HabitatTile.generateHabitatTile(remainingTiles);
 
-                // just a way of setting the positions to (9,10), (10,9), (10,10) in the
+                // just a way of setting the positions to (10, 8), (9,9), (10,9) in the
                 // loop, so we don't have to manually set them 3 times.
-                tmpTile.setPosition(startingPositions[i*2], startingPositions[i*2+1]);
                 tmp.add(tmpTile);
+                try {
+                    player.addTileAtCoordinate(tmpTile, startingPositions[i * 2], startingPositions[i * 2 + 1]);
+                } catch (IllegalArgumentException ignored) {}
             }
 
-            Player player = new Player(name);
             player.setPlayerTiles(tmp);
-            players.add(player); //adds to game's arraylist of players
+            playerArrayList.add(player); //adds to game's arraylist of players
             
-            Output.displayTileMap(player);; //displays player's current map of tiles
+            Output.displayTileMap(player); //displays player's current map of tiles
+
+            // sleep so you can see the outputs, they don't just come all at once
+            Output.sleep(500);
         }
     }
 
@@ -94,6 +98,7 @@ public class Game {
     private void setStartTileTokenSelection() {
     	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
     	Output.displayTileTokenPairs(tileTokenPairs); //eoin check this method in output class
+        Output.sleep(500);
     }
 
     private HashMap<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
