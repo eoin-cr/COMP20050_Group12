@@ -4,7 +4,7 @@ import java.util.Map;
 /**
  * Deals with outputting to the console.
  */
-public class Output {
+public class Display {
 
 	/**
 	 * Prints a large ASCII art title screen, and then welcomes the user.
@@ -185,7 +185,7 @@ public class Output {
 	 *
 	 * @param tile the tile string to be indented
 	 * @return a string containing an indented tile
-	 * @see Output#indentFullTile(String)
+	 * @see Display#indentFullTile(String)
 	 */
 	private static String indentHalfTile(String tile) {
 		String[] lines = tile.split("\n");
@@ -248,28 +248,28 @@ public class Output {
 	 * At the moment there is no way to change the orientation of the tile,
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
-	 * @param char1 the animal token character to be printed at the top left of
+	 * @param topLeft the animal token character to be printed at the top left of
 	 *              the tile
-	 * @param char2 the animal token character to be printed at the top right of
+	 * @param topRight the animal token character to be printed at the top right of
 	 *              the tile
-	 * @param char3 the animal token character to be printed at the bottom left
+	 * @param bottomLeft the animal token character to be printed at the bottom left
 	 *              of the tile
-	 * @param char4 the animal token character to be printed at the bottom
+	 * @param bottomRight the animal token character to be printed at the bottom
 	 *              right of the tile
 	 */
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
-	public static void printHalfTile (HabitatTile tile, char char1, char char2,
-									  char char3, char char4) {
+	public static void printHalfTile (HabitatTile tile, char topLeft, char topRight,
+									  char bottomLeft, char bottomRight) {
 		String first = tile.getHabitat1().getBackgroundColour();
 		String second = tile.getHabitat2().getBackgroundColour();
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		System.out.println(
 				first + full +
-				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
+				first + "    |" + ANSI_RESET + "  " + topLeft + "   " + topRight + "  " +
 				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
+				second + "    |" + ANSI_RESET + "  " + bottomLeft  + "   " + bottomRight + "  " +
 				second  + "|    " + ANSI_RESET + "\n" +
 				second + full
 		);

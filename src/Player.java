@@ -4,6 +4,8 @@ import java.util.List;
 /**
  * Stores information about the player.
  */
+
+// TODO: Change to a board class
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
