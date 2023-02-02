@@ -90,7 +90,7 @@ public class Output {
 	// TODO: Add actual token characters rather than the placeholders
 	public static void displayTileMap(Player player) {
 		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
-		HabitatTile[][] board = player.getTileBoardPosition();
+		HabitatTile[][] board = player.getMap().getTileBoardPosition();
 
 		int[] boundaries = tileBoundaries(player);
 
@@ -131,7 +131,7 @@ public class Output {
 	 */
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(Player player) {
-		HabitatTile[][] board = player.getTileBoardPosition();
+		HabitatTile[][] board = player.getMap().getTileBoardPosition();
 		int[] boundaries = new int[4];
 
 		// get uppermost tile

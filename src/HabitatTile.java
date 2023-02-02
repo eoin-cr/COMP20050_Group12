@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -46,14 +47,15 @@ public class HabitatTile {
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final HABITATS habitat1;
     private final HABITATS habitat2;
-	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	public HabitatTile(HabitatTile.HABITATS habitat1, HabitatTile.HABITATS habitat2) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		this.edges = new Edge[6];
+		
 	}
 
 	public HABITATS getHabitat1() {  // getters and setters
@@ -90,6 +92,7 @@ public class HabitatTile {
 	}
 
 
+	//TODO: put in Output class or DrawTile class
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
 	 * be altered easily before printing.

@@ -27,8 +27,7 @@ public class Main {
 
         // game starts here
         Game g = new Game();
-        g.startGameSetup();
-        g.startPlayerTurns();
+        g.startGame();
         Output.endScreen();
     }
 }

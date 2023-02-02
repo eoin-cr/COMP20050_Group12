@@ -8,9 +8,8 @@ public class Game {
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
     private final ArrayList<Player> playerArrayList = new ArrayList<>();
-
-    public Game() {} // default constructor
-
+    private Bag bag;
+    
     /* Get player names
      * Generate starter tiles
      * Generate 4 tiles shown to player
@@ -29,16 +28,20 @@ public class Game {
      * A sleep call is made after printing the player names to improve
      * readability.
      */
+    public Game() { //constructor
+    	  playerNames = Input.getPlayers();  // from Input class
+          Output.printPlayers(playerNames);  // from Output class
+          Output.sleep(500);
+          populatePlayers();
+          
+          bag = new Bag();
+          bag.makeBag(playerArrayList.size()); //makes a bag of tiles based on how many players there are
+          
+    }
 
-    public void startGameSetup() {
-        CurrentDeck deck = new CurrentDeck();
-        deck.startDeck();
-        playerNames = Input.getPlayers();  // from Input class
-        Output.printPlayers(playerNames);  // from Output class
-        Output.sleep(500);
-
-        populatePlayers();
-        setStartTileTokenSelection();
+    public void startGame() {
+    	setStartTileTokenSelection();
+    	//startPlayerTurns();
     }
 
     /**
@@ -82,11 +85,11 @@ public class Game {
 
             for (int i = 0; i < 3; i++) {
                 try {
-                    player.addTileAtCoordinate(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
+                	 player.getMap().addTileToMap(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
                 } catch (IllegalArgumentException ignored) {}
             }
 
-            player.setPlayerTiles(generatedTilesList);
+            player.getMap().setPlayerTiles(generatedTilesList);
             playerArrayList.add(player); // adds to game's arraylist of players
             
             Output.displayTileMap(player); // displays player's current map of tiles
@@ -128,7 +131,7 @@ public class Game {
         	HabitatTile tmpTile = Generation.generateHabitatTile();
         	habitats.add(tmpTile);
         	// generate random tokens and put them in tokens arraylist, and their animal type in checkTokens
-        	WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(CurrentDeck.remainingTokens);
+        	WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
         	tokens.add(tmpWildlifeToken);
         	checkTokens[i] = tmpWildlifeToken.getAnimalType();
     	}
@@ -144,7 +147,7 @@ public class Game {
             tokens.clear();
     		
     		for (int i = 0; i < num; i++) {
-    			WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(CurrentDeck.remainingTokens);
+    			WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
             	tokens.add(tmpWildlifeToken);
             	checkTokens[i] = tmpWildlifeToken.getAnimalType();
     		}

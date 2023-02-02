@@ -3,6 +3,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Generation {
+	
     public static HabitatTile[] generateStarterHabitat () {
         HabitatTile[] tokens = new HabitatTile[3];
         tokens[0] = generateKeystoneHabitatTile();
@@ -53,7 +54,7 @@ public class Generation {
         int tilesLeft = 0;
 
         // get the total amount of tiles left
-        for (Integer value : CurrentDeck.remainingTypes.values()) {
+        for (Integer value : Bag.remainingTypes.values()) {
             tilesLeft += value;
         }
 
@@ -65,16 +66,16 @@ public class Generation {
          * generate functions, as the starter habitat tiles are not counted
          * as habitat tiles.
          */
-        if (randomNum <= CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE)) {
-            CurrentDeck.remainingTypes.put(
+        if (randomNum <= Bag.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE)) {
+            Bag.remainingTypes.put(
                     HabitatTile.TILETYPES.KEYSTONE,
-                    CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE) - 1
+                    Bag.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE) - 1
             );
             return generateKeystoneHabitatTile();
         }
-        CurrentDeck.remainingTypes.put(
+        Bag.remainingTypes.put(
                 HabitatTile.TILETYPES.NONKEYSTONE,
-                CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.NONKEYSTONE) - 1
+                Bag.remainingTypes.get(HabitatTile.TILETYPES.NONKEYSTONE) - 1
         );
         return generateNonKeystoneHabitatTile();
     }
@@ -89,7 +90,7 @@ public class Generation {
      */
     // TODO: Alter implementation so the starter habitat tiles always have one keystone tile.
     private static HabitatTile generateNonKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = Bag.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left
@@ -113,7 +114,7 @@ public class Generation {
              * then this function gets the num1 th and num2 th value, and then 'removes' it from
              * the list.
              */
-            for (Map.Entry<HabitatTile.HABITATS, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
+            for (Map.Entry<HabitatTile.HABITATS, Integer> entry : Bag.remainingHabitats.entrySet()) {
                 num1 -= entry.getValue();
                 num2 -= entry.getValue();
                 if (num1 <= 0 && first == null) {
@@ -125,7 +126,7 @@ public class Generation {
                 if (num2 <= 0 && second == null) {
                     entry2 = entry;
                     second = entry.getKey();
-                    CurrentDeck.remainingHabitats.put(entry.getKey(), entry.getValue() - 1);
+                    Bag.remainingHabitats.put(entry.getKey(), entry.getValue() - 1);
                 }
 
             }
@@ -133,8 +134,8 @@ public class Generation {
 
         assert entry1 != null;
         assert entry2 != null;
-        CurrentDeck.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
-        CurrentDeck.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);
+        Bag.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
+        Bag.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);
 
         return new HabitatTile(first, second);
     }
@@ -145,7 +146,7 @@ public class Generation {
      * the same).
      */
     private static HabitatTile generateKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = Bag.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left
@@ -161,11 +162,11 @@ public class Generation {
          * then this function gets the randomNum th value, and then 'removes' it from
          * the list.
          */
-        for (Map.Entry<HabitatTile.HABITATS, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
+        for (Map.Entry<HabitatTile.HABITATS, Integer> entry : Bag.remainingHabitats.entrySet()) {
             randomNum -= entry.getValue();
             if (randomNum <= 0) {
                 habitat = entry.getKey();
-                CurrentDeck.remainingHabitats.put(entry.getKey(), entry.getValue() - 2);
+                Bag.remainingHabitats.put(entry.getKey(), entry.getValue() - 2);
                 break;
             }
         }
