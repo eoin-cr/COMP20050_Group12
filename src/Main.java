@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
     	
-        Output.Welcome();  // prints giant cascadia welcome message
+        Output.welcome();  // prints giant cascadia welcome message
 
         /*
          * sleep so there's a bit of time after the welcome to cascadia message

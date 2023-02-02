@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,7 +25,7 @@ public class Generation {
      * @param wildlifeTokensRemaining a hashmap with the amount of each type of
      *                                token remaining
      */
-    public static WildlifeToken generateWildlifeToken (HashMap<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
+    public static WildlifeToken generateWildlifeToken (Map<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
         int tokensLeft = 0;
 
         // get the total amount of tokens left of all animal types
@@ -95,7 +94,7 @@ public class Generation {
      */
     // TODO: Alter implementation so the starter habitat tiles always have one keystone tile.
     private static HabitatTile generateNonKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        Map<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left
@@ -151,7 +150,7 @@ public class Generation {
      * the same).
      */
     private static HabitatTile generateKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        Map<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left

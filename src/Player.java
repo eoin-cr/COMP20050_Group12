@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores information about the player.
@@ -7,7 +8,7 @@ public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
 	private int playerScore;
-	private ArrayList<HabitatTile> playerTiles = new ArrayList<>();
+	private List<HabitatTile> playerTiles = new ArrayList<>();
 	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
 
 	public Player(String playerName) { // constructor
@@ -32,11 +33,11 @@ public class Player {
 		this.playerScore = score;
 	}
 
-	public ArrayList<HabitatTile> getPlayerTiles() {
+	public List<HabitatTile> getPlayerTiles() {
 		return playerTiles;
 	}
 
-	public void setPlayerTiles(ArrayList<HabitatTile> tiles) {
+	public void setPlayerTiles(List<HabitatTile> tiles) {
 		this.playerTiles = tiles;
 	}
 

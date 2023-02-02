@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Deals with the running of the game */
 public class Game {
     private String[] playerNames;
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
-    private final ArrayList<Player> playerArrayList = new ArrayList<>();
+    private final List<Player> playerList = new ArrayList<>();
 
     public Game() {} // default constructor
 
@@ -49,7 +50,7 @@ public class Game {
     public void startPlayerTurns() {
         // TODO: This loop exits after the player list has been iterated though.
         // Instead, we want it to finish when all the tokens have ran out.
-    	for (Player player : playerArrayList) {
+    	for (Player player : playerList) {
     		System.out.println("Current player is: " +player.getPlayerName());
             Output.displayTileMap(player);
             Output.sleep(500);
@@ -74,7 +75,7 @@ public class Game {
         for (String name : playerNames) {
             // TODO: Check if generateHabitatTile changes the remaining tiles hashmap (it should)
             HabitatTile[] generatedTiles = Generation.generateStarterHabitat();
-        	ArrayList<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
+        	List<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
             // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
             Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
 //            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
@@ -87,7 +88,7 @@ public class Game {
             }
 
             player.setPlayerTiles(generatedTilesList);
-            playerArrayList.add(player); // adds to game's arraylist of players
+            playerList.add(player); // adds to game's arraylist of players
             
             Output.displayTileMap(player); // displays player's current map of tiles
 
@@ -102,7 +103,7 @@ public class Game {
      * A sleep call is made after displaying tile token pairs.
       */
     private void setStartTileTokenSelection() {
-    	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
+    	Map<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
     	Output.displayTileTokenPairs(tileTokenPairs); //eoin check this method in output class
         Output.sleep(500);
     }
@@ -114,12 +115,12 @@ public class Game {
      * @return a hashmap containing tile token pairs
      */
     // TODO: check if the num param can be removed
-    private HashMap<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
+    private Map<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
     	// need to put error handling here for putting correct animal type with correct habitat type i think?
         // I think the tile–animal matching is completely random - Eoin.
-    	HashMap<HabitatTile, WildlifeToken> tileTokenPairs = new HashMap<>();
-    	ArrayList<HabitatTile> habitats = new ArrayList<>();
-    	ArrayList<WildlifeToken> tokens = new ArrayList<>();
+    	Map<HabitatTile, WildlifeToken> tileTokenPairs = new HashMap<>();
+    	List<HabitatTile> habitats = new ArrayList<>();
+    	List<WildlifeToken> tokens = new ArrayList<>();
     	WildlifeToken.ANIMAL[] checkTokens = new WildlifeToken.ANIMAL[num];
     	
     	
@@ -135,12 +136,6 @@ public class Game {
     	
     	// error handling to wipe tokens if all 4 are the same animal type and replace with 4 other ones
     	while (checkTokens[0] == checkTokens[1] && checkTokens[0] == checkTokens[2] && checkTokens[0] == checkTokens[3]) {
-    		
-//    		for (int i = 0; i < num; i++) {
-//    			// i think i have to add the previous wiped set of tokens back to the main hashmap of tokens here??
-//    			// remainingTokens.put(tokens.get(i).getAnimalType(), 1);
-//    			tokens.remove(i);
-//    		}
             tokens.clear();
     		
     		for (int i = 0; i < num; i++) {

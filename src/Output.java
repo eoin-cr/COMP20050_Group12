@@ -1,5 +1,5 @@
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Deals with outputting to the console.
@@ -12,7 +12,7 @@ public class Output {
 	 * The ASCII art is from
 	 * <a href="https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA">this website.</a>
 	 */
-    public static void Welcome () {
+    public static void welcome() {
         System.out.println(
 				"""
 						________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\________/\\\\\\\\\\\\\\\\\\\\\\__________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\____
@@ -69,7 +69,7 @@ public class Output {
 	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
 	 *                       printed
 	 */
-	public static void displayTileTokenPairs(HashMap<HabitatTile, WildlifeToken> tileTokenPairs) {
+	public static void displayTileTokenPairs(Map<HabitatTile, WildlifeToken> tileTokenPairs) {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
@@ -285,6 +285,9 @@ public class Output {
 	 * @return a string containing the repeated character
 	 */
 	private static String repeater (char a, int number) {
+		if (a < 0) {
+			throw new IllegalArgumentException("a cannot be negative");
+		}
 		char[] repeat = new char[number];
 		Arrays.fill(repeat, a);
 		return new String(repeat);

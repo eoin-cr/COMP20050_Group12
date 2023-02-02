@@ -1,14 +1,16 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Manages the deck items
  */
 public class CurrentDeck {
-    public static final HashMap<HabitatTile.HABITATS, Integer> remainingHabitats = new HashMap<>();
-    public static final HashMap<HabitatTile.TILETYPES, Integer> remainingTypes = new HashMap<>();
-    public static final HashMap<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
-    public static final ArrayList<HabitatTile[]> starterTiles = new ArrayList<>();
+    public static final Map<HabitatTile.HABITATS, Integer> remainingHabitats = new HashMap<>();
+    public static final Map<HabitatTile.TILETYPES, Integer> remainingTypes = new HashMap<>();
+    public static final Map<WildlifeToken.ANIMAL, Integer> remainingTokens = new HashMap<>();
+    public static final List<HabitatTile[]> starterTiles = new ArrayList<>();
 //    public static final HabitatTile[][] starterTiles = new HabitatTile[5][3];
 
 
