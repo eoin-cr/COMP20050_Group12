@@ -259,7 +259,8 @@ public class Display {
 	 */
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
-	// TODO: Allow different tile orientations
+	// 		Allow different tile orientations
+	//		Maybe change the chars to enums?
 	public static void printHalfTile (HabitatTile tile, char topLeft, char topRight,
 									  char bottomLeft, char bottomRight) {
 		String first = tile.getHabitat1().getBackgroundColour();

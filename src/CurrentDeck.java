@@ -7,6 +7,8 @@ import java.util.Map;
  * Manages the deck items
  */
 public class CurrentDeck {
+    public static final int NUMBER_OF_NON_KEYSTONE_TILES = 60;
+    public static final int NUMBER_OF_KEYSTONE_TILES = 25;
     public static final Map<HabitatTile.Habitat, Integer> remainingHabitats = new HashMap<>();
     public static final Map<HabitatTile.TileType, Integer> remainingTypes = new HashMap<>();
     public static final Map<WildlifeToken, Integer> remainingTokens = new HashMap<>();
@@ -25,8 +27,8 @@ public class CurrentDeck {
         remainingHabitats.put(HabitatTile.Habitat.Prairie, 20);
         remainingHabitats.put(HabitatTile.Habitat.Mountain, 20);
 
-        remainingTypes.put(HabitatTile.TileType.NON_KEYSTONE, 60);
-        remainingTypes.put(HabitatTile.TileType.KEYSTONE, 25);
+        remainingTypes.put(HabitatTile.TileType.NON_KEYSTONE, NUMBER_OF_NON_KEYSTONE_TILES);
+        remainingTypes.put(HabitatTile.TileType.KEYSTONE, NUMBER_OF_KEYSTONE_TILES);
 
         remainingTokens.put(WildlifeToken.Bear, 20);
         remainingTokens.put(WildlifeToken.Elk, 20);

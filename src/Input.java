@@ -31,10 +31,12 @@ public class Input {
         int num = 0;
         boolean firstRun = true;
         boolean intInputted = true;
+        final int MIN_PLAYERS = 2;
+        final int MAX_PLAYERS = 4;
 
-        System.out.println("Enter number of players (must be 2-4)");
+        System.out.println("Enter number of players (must be " + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
 
-        while (num > 4 || num < 2) {
+        while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
             if (!firstRun && intInputted) {
                 System.out.println("Invalid number.  Please enter the number of players (must be between 2-4)");
             }
@@ -74,8 +76,8 @@ public class Input {
      * @return a <i>String array</i> of randomised player names
      */
     //(note: might want to actually randomise arraylist itself, so we can iterate through players in correct order)
+    // TODO: what
     private static String[] randomisePlayers(List<String> players) {
-    	
         List<Integer> randomIndexes = new ArrayList<>();
         String[] randomisedPlayers = new String[players.size()];
         Arrays.fill(randomisedPlayers, "");
@@ -96,10 +98,8 @@ public class Input {
         for (Integer element : randomIndexes) {
             randomisedPlayers[element] = players.get(i++);
         }
-
         return randomisedPlayers;
     }
-
 
     /**
      * Checks whether any of the items in the list are empty strings, or if
@@ -125,5 +125,4 @@ public class Input {
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
     }   
-    
 }

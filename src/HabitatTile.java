@@ -9,7 +9,6 @@ import java.util.Objects;
  */
 public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
-	// public static final String ANSI_BLACK = "\033[30m";
 
 	// storing the ANSI habitat colours in the enum is better practice than using ordinals
 
@@ -44,13 +43,14 @@ public class HabitatTile {
     private final Habitat habitat1;
     private final Habitat habitat2;
 	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private static final int NUMBER_OF_EDGES = 6;
 
 	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		this.edges = new Edge[6];
+		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
 	public Habitat getHabitat1() {  // getters and setters

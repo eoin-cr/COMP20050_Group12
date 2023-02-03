@@ -12,7 +12,8 @@ public class Game {
 
     public Game() {} // default constructor
 
-    /* Get player names
+    /*
+     * Get player names
      * Generate starter tiles
      * Generate 4 tiles shown to player
      * Generate 4 animal tokens

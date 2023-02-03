@@ -1,9 +1,4 @@
 public class Main {
-    /*
-     * Style guides in use throughout this code:
-     * https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html
-     * https://www.oracle.com/java/technologies/javase/codeconventions-comments.html
-     */
 
     public static void main(String[] args) {
     	
