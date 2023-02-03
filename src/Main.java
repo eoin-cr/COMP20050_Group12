@@ -1,7 +1,5 @@
 public class Main {
-
     public static void main(String[] args) {
-    	
         Display.welcome();  // prints giant cascadia welcome message
 
         /*
@@ -12,9 +10,7 @@ public class Main {
          * message is wiped after the time) - actually nvm this probably won't be
          * played on a terminal, the lecturers will prob run it on eclipse.
          */
-         try {
-            Thread.sleep(300);
-        } catch (InterruptedException ignored) {}
+        Display.sleep(300);
 
         // NOTE: the clear screen command does NOT work in the IDE terminal,
         // just in an actual command prompt.

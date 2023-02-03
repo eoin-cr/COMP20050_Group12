@@ -27,7 +27,7 @@ public class Command {
 			}},
 
 		/** Displays the nature token shop */
-		SHOP {public void enumSetCommand(Player player){}},
+		NATURE {public void enumSetCommand(Player player){}},
 		
 		/** Moves to next players turn. Note that the game is exited after the last
 		 * player selects this option.*/

@@ -41,9 +41,7 @@ public class Generation {
                 animalType = entry.getKey();
                 wildlifeTokensRemaining.put(entry.getKey(), entry.getValue() - 1);
             }
-
         }
-
         return animalType;
     }
 
@@ -59,7 +57,6 @@ public class Generation {
         for (Integer value : Bag.remainingTypes.values()) {
             tilesLeft += value;
         }
-
 
         int randomNum = new Random().nextInt(1, tilesLeft);
 
@@ -82,7 +79,6 @@ public class Generation {
         return generateNonKeystoneHabitatTile();
     }
 
-
     /**
      * Randomly generates a habitat tile with two different habitat types.
      *
@@ -90,7 +86,6 @@ public class Generation {
      * @see Generation#generateHabitatTile()
      * @see Generation#generateNonKeystoneHabitatTile()
      */
-    // TODO: Alter implementation so the starter habitat tiles always have one keystone tile.
     private static HabitatTile generateNonKeystoneHabitatTile() {
         Map<HabitatTile.Habitat, Integer> habitatsRemaining = Bag.remainingHabitats;
         int tilesLeft = 0;
@@ -120,17 +115,14 @@ public class Generation {
                 num1 -= entry.getValue();
                 num2 -= entry.getValue();
                 if (num1 <= 0 && first == null) {
-//                    first = entry;
                     entry1 = entry;
                     first = entry.getKey();
-//                    CurrentDeck.remainingHabitats.put(entry.getKey(), entry.getValue() - 1);
                 }
                 if (num2 <= 0 && second == null) {
                     entry2 = entry;
                     second = entry.getKey();
                     Bag.remainingHabitats.put(entry.getKey(), entry.getValue() - 1);
                 }
-
             }
         } while (first == second);
 
@@ -174,7 +166,6 @@ public class Generation {
                 break;
             }
         }
-
         return new HabitatTile(habitat, habitat, 0);
     }
 }
