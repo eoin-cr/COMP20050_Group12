@@ -1,8 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * Deals with habitat tiles.
@@ -13,7 +10,6 @@ import java.util.Random;
  */
 public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
-	// public static final String ANSI_BLACK = "\033[30m";
 
 	// storing the ANSI habitat colours in the enum is better practice than using ordinals
 
@@ -21,7 +17,7 @@ public class HabitatTile {
 	 * The habitats that a tile can have.
 	 * Stores also the ANSI codes for text and background colours.
 	 */
-    enum HABITATS {
+    enum Habitat {
 		Forest("\033[38;2;84;130;53m", "\033[48;2;84;130;53m"),
 		Wetland("\033[48;2;198;224;180m", "\033[48;2;198;224;180m"),
 		River("\033[34m", "\033[44m"),
@@ -29,7 +25,7 @@ public class HabitatTile {
 		Prairie("\033[93m", "\033[103m");
 		private final String colour;
 		private final String backgroundColour;
-		HABITATS(String colour, String backgroundColour) {
+		Habitat(String colour, String backgroundColour) {
 			this.colour = colour;
 			this.backgroundColour = backgroundColour;
 		}
@@ -41,28 +37,30 @@ public class HabitatTile {
 		}
 	}
 
-	enum TILETYPES {KEYSTONE, NONKEYSTONE}
+	enum TileType {KEYSTONE, NON_KEYSTONE}
 
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
-    private final HABITATS habitat1;
-    private final HABITATS habitat2;
+    private final Habitat habitat1;
+    private final Habitat habitat2;
+//	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
-	public HabitatTile(HabitatTile.HABITATS habitat1, HabitatTile.HABITATS habitat2) {  // constructor
+	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		
+//		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
-	public HABITATS getHabitat1() {  // getters and setters
+	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
 	}
 
-	public HABITATS getHabitat2() {
+	public Habitat getHabitat2() {
 		return habitat2;
 	}
 
@@ -92,26 +90,25 @@ public class HabitatTile {
 	}
 
 
-	//TODO: put in Output class or DrawTile class
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
 	 * be altered easily before printing.
 	 * At the moment only the habitat is coloured, the tokens are not.
 	 *
-	 * @param char1 the top left char
-	 * @param char2 the top right char
-	 * @param char3 the bottom left char
-	 * @param char4 the bottom right char
+	 * @param topLeft the top left char
+	 * @param topRight the top right char
+	 * @param bottomLeft the bottom left char
+	 * @param bottomRight the bottom right char
 	 * @return a string with ANSI colours.
 	 */
-	public String toFormattedString(char char1, char char2, char char3, char char4) {
+	public String toFormattedString(char topLeft, char topRight, char bottomLeft, char bottomRight) {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		return first + full +
-				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
+				first + "    |" + ANSI_RESET + "  " + topLeft + "   " + topRight + "  " +
 				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
+				second + "    |" + ANSI_RESET + "  " + bottomLeft  + "   " + bottomRight + "  " +
 				second  + "|    " + ANSI_RESET + "\n" +
 				second + full;
 	}

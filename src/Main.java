@@ -1,13 +1,8 @@
 public class Main {
-    /*
-     * Style guides in use throughout this code:
-     * https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html
-     * https://www.oracle.com/java/technologies/javase/codeconventions-comments.html
-     */
 
     public static void main(String[] args) {
     	
-        Output.Welcome();  // prints giant cascadia welcome message
+        Display.welcome();  // prints giant cascadia welcome message
 
         /*
          * sleep so there's a bit of time after the welcome to cascadia message
@@ -23,11 +18,11 @@ public class Main {
 
         // NOTE: the clear screen command does NOT work in the IDE terminal,
         // just in an actual command prompt.
-        Output.clearScreen();
+        Display.clearScreen();
 
         // game starts here
         Game g = new Game();
         g.startGame();
-        Output.endScreen();
+        Display.endScreen();
     }
 }

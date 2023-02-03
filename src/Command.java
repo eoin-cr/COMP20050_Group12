@@ -2,6 +2,7 @@
  * Helps model player state.
  * Deals with interacting with the user on their turn.
  */
+// TODO: make this entire class an enum, move the input stuff to the input class
 public class Command {
 	/*
 	 * each enum type has its own function, so we don't need to use a switch statement
@@ -22,7 +23,7 @@ public class Command {
 
 		/** Display the player's map of tiles */
 		MAP {public void enumSetCommand(Player player){
-				Output.displayTileMap(player);
+				Display.displayTileMap(player);
 			}},
 
 		/** Displays the nature token shop */
@@ -34,7 +35,7 @@ public class Command {
 
 		/** Quits the game */
 		QUIT {public void enumSetCommand(Player player){
-			Output.endScreen();
+			Display.endScreen();
 			System.exit(0);
 		}};
 
@@ -54,7 +55,7 @@ public class Command {
 	 * @param player the player who is going to enter the command
 	 */
 	public void setCommand(Player player) {
-		Output.displayCommands();
+		Display.displayCommands();
 		String input = Input.getUserInput();  // this is automatically uppercase
 
 		// automatically converts input to enum

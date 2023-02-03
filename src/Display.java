@@ -1,10 +1,10 @@
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
+
 /**
  * Deals with outputting to the console.
  */
-public class Output {
+public class Display {
 
 	/**
 	 * Prints a large ASCII art title screen, and then welcomes the user.
@@ -12,7 +12,7 @@ public class Output {
 	 * The ASCII art is from
 	 * <a href="https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA">this website.</a>
 	 */
-    public static void Welcome () {
+    public static void welcome() {
         System.out.println(
 				"""
 						________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\________/\\\\\\\\\\\\\\\\\\\\\\__________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\____
@@ -69,7 +69,7 @@ public class Output {
 	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
 	 *                       printed
 	 */
-	public static void displayTileTokenPairs(HashMap<HabitatTile, WildlifeToken> tileTokenPairs) {
+	public static void displayTileTokenPairs(Map<HabitatTile, WildlifeToken> tileTokenPairs) {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
@@ -186,7 +186,7 @@ public class Output {
 	 *
 	 * @param tile the tile string to be indented
 	 * @return a string containing an indented tile
-	 * @see Output#indentFullTile(String)
+	 * @see Display#indentFullTile(String)
 	 */
 	private static String indentHalfTile(String tile) {
 		String[] lines = tile.split("\n");
@@ -253,10 +253,10 @@ public class Output {
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
-	
+
 	/*
 	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
-	 
+
 									  char char3, char char4) {
 		String first = tile.getHabitat1().getBackgroundColour();
 		String second = tile.getHabitat2().getBackgroundColour();
@@ -271,13 +271,13 @@ public class Output {
 		);
 
 	}
-		*/	
-	
+		*/
+
 	 public static void printHalfTile (HabitatTile tile) {
 		 String first = tile.getHabitat1().getBackgroundColour();
 		 String second = tile.getHabitat2().getBackgroundColour();
 		 char[] animalTypes = makeTokensOptionsOnTile();
-		 
+
 		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		 System.out.println(
 				 first + full +
@@ -289,15 +289,15 @@ public class Output {
 				 );
 
 	 }
-	
+
 	public static char[] makeTokensOptionsOnTile() {
 		char[] animalTypes = {' ', ' ', ' ', ' '};
 		int numTokens = 1 + new Random().nextInt(3);
-		
+
 		for (int i = 0; i < numTokens; i++) {
 			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).getAnimalType().toChar();
 		}
-		
+
 		return animalTypes;
 	}
 
@@ -310,6 +310,9 @@ public class Output {
 	 * @return a string containing the repeated character
 	 */
 	private static String repeater (char a, int number) {
+		if (a < 0) {
+			throw new IllegalArgumentException("a cannot be negative");
+		}
 		char[] repeat = new char[number];
 		Arrays.fill(repeat, a);
 		return new String(repeat);

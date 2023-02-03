@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Stores information about the player.
  */
@@ -11,7 +14,7 @@ public class Player {
 		this.playerName = playerName;
 		this.playerNatureTokens = 0;
 		this.playerScore = 0;
-		map = new PlayerMap(); 
+		map = new PlayerMap();
 		//a player's map holds all tiles+tokens currently placed by player
 		//any tokens not used are returned to the bag
 	}
