@@ -141,7 +141,7 @@ public class Generation {
         Bag.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
         Bag.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);
 
-        return new HabitatTile(first, second);
+        return new HabitatTile(first, second, 0);
     }
 
 
@@ -175,6 +175,6 @@ public class Generation {
             }
         }
 
-        return new HabitatTile(habitat, habitat);
+        return new HabitatTile(habitat, habitat, 0);
     }
 }
