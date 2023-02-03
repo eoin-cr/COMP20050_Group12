@@ -241,8 +241,6 @@ public class Display {
 				""");
 	}
 
-	public static final String ANSI_RESET = "\u001B[0m";
-
 	/**
 	 * Prints a tile to the terminal.
 	 * The top half and bottom half both have a habitat colour (can be the
@@ -256,28 +254,29 @@ public class Display {
 	// TODO: Allow different tile orientations
 
 	 public static void printHalfTile (HabitatTile tile) {
-		 String first = tile.getHabitat1().getBackgroundColour();
-		 String second = tile.getHabitat2().getBackgroundColour();
-		 char[] animalTypes = tile.getAnimalOptions();
-
-		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		 System.out.println(
-				 first + full +
-				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
-				 first  + "|    " + ANSI_RESET + "\n" +
-				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
-				 second  + "|    " + ANSI_RESET + "\n" +
-				 second + full
-				 );
-
+		 System.out.println(tile.toFormattedString());
+//		 String first = tile.getHabitat1().getBackgroundColour();
+//		 String second = tile.getHabitat2().getBackgroundColour();
+//		 WildlifeToken[] animalTypes = tile.getAnimalOptions();
+//
+//		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
+//		 System.out.println(
+//				 first + full +
+//				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
+//				 first  + "|    " + ANSI_RESET + "\n" +
+//				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
+//				 second  + "|    " + ANSI_RESET + "\n" +
+//				 second + full
+//				 );
+//
 	 }
 
-	public static char[] makeTokensOptionsOnTile() {
-		char[] animalTypes = {' ', ' ', ' ', ' '};
+	public static WildlifeToken[] makeTokensOptionsOnTile() {
+		WildlifeToken[] animalTypes = new WildlifeToken[3];
 		int numTokens = 1 + new Random().nextInt(3);
 
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).toChar();
+			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens);
 		}
 
 		return animalTypes;

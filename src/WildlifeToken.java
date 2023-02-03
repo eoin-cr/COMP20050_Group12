@@ -24,13 +24,13 @@ public enum WildlifeToken {
 	 * @return the first character of the animal name
 	 */
 	public char toChar() {
-					   return character;
-										}
+		return character;
+	}
 
 	public String getColour() {
-							return colour;
-										  }
+		return colour;
+	}
 	public String getBackgroundColour() {
-									  return backgroundColour;
-		}
+		return backgroundColour;
+	}
 }

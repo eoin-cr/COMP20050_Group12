@@ -39,14 +39,20 @@ public class HabitatTile {
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
 
-	private final char[] animalOptions = Display.makeTokensOptionsOnTile();
+	private final WildlifeToken[] animalOptions = Display.makeTokensOptionsOnTile();
 
+	private boolean isAnimalPlaced = false;
+
+	private WildlifeToken placedAnimal = null;
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
 //	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+//	final static String WHITE = "\033[0;37m";
+	final static String WHITE = "\033[38;5;231m";
+	final static String WHITE_BG = "\033[48;5;231m";
 //	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
@@ -66,8 +72,14 @@ public class HabitatTile {
 		return habitat2;
 	}
 
-	public char[] getAnimalOptions() {
+	public WildlifeToken[] getAnimalOptions() {
 		return animalOptions;
+	}
+	public void setAnimalPlaced(boolean animalPlaced) {
+		this.isAnimalPlaced = animalPlaced;
+	}
+	public void setPlacedAnimal(WildlifeToken placedAnimal) {
+		this.placedAnimal = placedAnimal;
 	}
 	@Override
 	public String toString() {
@@ -105,12 +117,37 @@ public class HabitatTile {
 	public String toFormattedString() {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
+		char[] animal = new char[3];
+		String[] colour = new String[4];
+
+		if (!isAnimalPlaced) {
+			for (int i = 0; i < animalOptions.length; i++) {
+				if (animalOptions[i] != null) {
+					animal[i] = animalOptions[i].toChar();
+					colour[i] = animalOptions[i].getColour() + WHITE_BG;
+				}
+				else {
+					animal[i] = ' ';
+					colour[i] = "" + WHITE_BG;
+				}
+			}
+			colour[3] = WHITE_BG;
+
+		} else {
+			animal = new char[]{placedAnimal.toChar(), ' ', ' ', ' '};
+			colour = new String[]{placedAnimal.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
+		}
+
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		return first + full +
-						first + "    |" + ANSI_RESET + "  " + animalOptions[0] + "   " + animalOptions[1] + "  " +
-						first  + "|    " + ANSI_RESET + "\n" +
-						second + "    |" + ANSI_RESET + "  " + animalOptions[2]  + "      " +
-						second  + "|    " + ANSI_RESET + "\n" +
-						second + full;
+					first + "    |" + ANSI_RESET +
+					colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
+					colour[1] + " " + animal[1] + "  " + ANSI_RESET +
+					first  + "|    " + ANSI_RESET + "\n" +
+					second + "    |" + ANSI_RESET +
+					colour[2] + "  " + animal[2] + ANSI_RESET +
+					colour[3] +	"      " + ANSI_RESET +
+					second  + "|    " + ANSI_RESET + "\n" +
+					second + full;
 	}
 }
