@@ -27,9 +27,13 @@ public class Edge {
 	private static void errorCheck(int firstTile, int firstEdge, int secondTile, int secondEdge) {
 		if (firstTile < 0 || secondTile < 0) {
 			throw new IllegalArgumentException("One of your tiles is numbered less than 0.");
-		}
-		else if (firstEdge < 1 || firstEdge > 6 || secondEdge < 1 || secondEdge > 6) {
-			throw new IllegalArgumentException("One of your edges is outside the numbered range of 0-5.");
+		} else if (firstEdge < 1 || firstEdge > 6 ) {
+			// TODO: Exception message does not match check, should be fixed.
+			throw new IllegalArgumentException("Your first edge (" + firstEdge + ") is " +
+					"outside the numbered range of 0-5.");
+		} else if (secondEdge < 1 || secondEdge > 6) {
+			throw new IllegalArgumentException("Your second edge (" + secondEdge + ") is " +
+					"outside the numbered range of 0-5");
 		}
 	}
 

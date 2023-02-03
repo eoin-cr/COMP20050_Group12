@@ -1,14 +1,19 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores information about the player.
  */
+
+// TODO: Change to a board class
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
 	private int playerScore;
-	private ArrayList<HabitatTile> playerTiles = new ArrayList<>();
-	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20];
+	private static final int BOARD_HEIGHT = 20;
+	private static final int BOARD_WIDTH = 20;
+	private List<HabitatTile> playerTiles = new ArrayList<>();
+	private final HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH];
 
 	public Player(String playerName) { // constructor
 		this.playerName = playerName;
@@ -31,12 +36,10 @@ public class Player {
 	public void setPlayerScore(int score) {
 		this.playerScore = score;
 	}
-
-	public ArrayList<HabitatTile> getPlayerTiles() {
+	public List<HabitatTile> getPlayerTiles() {
 		return playerTiles;
 	}
-
-	public void setPlayerTiles(ArrayList<HabitatTile> tiles) {
+	public void setPlayerTiles(List<HabitatTile> tiles) {
 		this.playerTiles = tiles;
 	}
 

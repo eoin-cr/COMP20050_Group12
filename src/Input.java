@@ -26,15 +26,17 @@ public class Input {
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
-        ArrayList<String> players = new ArrayList<>();
+        List<String> players = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         int num = 0;
         boolean firstRun = true;
         boolean intInputted = true;
+        final int MIN_PLAYERS = 2;
+        final int MAX_PLAYERS = 4;
 
-        System.out.println("Enter number of players (must be 2-4)");
+        System.out.println("Enter number of players (must be " + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
 
-        while (num > 4 || num < 2) {
+        while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
             if (!firstRun && intInputted) {
                 System.out.println("Invalid number.  Please enter the number of players (must be between 2-4)");
             }
@@ -70,13 +72,13 @@ public class Input {
     /**
      * Iterates through arraylist of players and returns a string array of players' names.
      *
-     * @param players an <i>ArrayList</i> of player names to be randomised
+     * @param players a <i>List</i> of player names to be randomised
      * @return a <i>String array</i> of randomised player names
      */
     //(note: might want to actually randomise arraylist itself, so we can iterate through players in correct order)
-    private static String[] randomisePlayers(ArrayList<String> players) {
-    	
-        ArrayList<Integer> randomIndexes = new ArrayList<>();
+    // TODO: what
+    private static String[] randomisePlayers(List<String> players) {
+        List<Integer> randomIndexes = new ArrayList<>();
         String[] randomisedPlayers = new String[players.size()];
         Arrays.fill(randomisedPlayers, "");
 
@@ -96,10 +98,8 @@ public class Input {
         for (Integer element : randomIndexes) {
             randomisedPlayers[element] = players.get(i++);
         }
-
         return randomisedPlayers;
     }
-
 
     /**
      * Checks whether any of the items in the list are empty strings, or if
@@ -108,7 +108,7 @@ public class Input {
      * @param players the player name ArrayList to be checked for invalid names.
      * @return true if the list is invalid
      */
-    private static boolean playerListIsInvalid(ArrayList<String> players) {
+    private static boolean playerListIsInvalid(List<String> players) {
         for (int i = 0; i < players.size(); i++) {
             players.set(i, players.get(i).trim());
             if (Objects.equals(players.get(i), "")) {
@@ -125,5 +125,4 @@ public class Input {
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
     }   
-    
 }

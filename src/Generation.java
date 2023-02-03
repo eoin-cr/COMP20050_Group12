@@ -1,15 +1,20 @@
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 public class Generation {
+    /**
+     * Generates a starter habitat.
+     * A starter habitat is 3 tiles, one of which being a keystone tile.
+     * A starter habitat will contain one of every habitat.
+     *
+     * @return a starter habitat (habitat tile array).
+     */
     public static HabitatTile[] generateStarterHabitat () {
-        HabitatTile[] tokens = new HabitatTile[3];
-        tokens[0] = generateKeystoneHabitatTile();
-        tokens[1] = generateNonKeystoneHabitatTile();
-        tokens[2] = generateNonKeystoneHabitatTile();
+        int index = new Random().nextInt(CurrentDeck.starterTiles.size());
+        HabitatTile[] tiles = CurrentDeck.starterTiles.get(index);
+        CurrentDeck.starterTiles.remove(index);
 
-        return tokens;
+        return tiles;
     }
 
     /**
@@ -20,7 +25,7 @@ public class Generation {
      * @param wildlifeTokensRemaining a hashmap with the amount of each type of
      *                                token remaining
      */
-    public static WildlifeToken generateWildlifeToken (HashMap<WildlifeToken.ANIMAL, Integer> wildlifeTokensRemaining) {
+    public static WildlifeToken generateWildlifeToken (Map<WildlifeToken, Integer> wildlifeTokensRemaining) {
         int tokensLeft = 0;
 
         // get the total amount of tokens left of all animal types
@@ -29,10 +34,9 @@ public class Generation {
         }
 
         int index = new Random().nextInt(tokensLeft);
-        WildlifeToken.ANIMAL animalType = null;
+        WildlifeToken animalType = null;
 
-
-        for (Map.Entry<WildlifeToken.ANIMAL, Integer> entry : wildlifeTokensRemaining.entrySet()) {
+        for (Map.Entry<WildlifeToken, Integer> entry : wildlifeTokensRemaining.entrySet()) {
             index -= entry.getValue();
             if (index <= 0 && animalType == null) {
                 animalType = entry.getKey();
@@ -41,7 +45,7 @@ public class Generation {
 
         }
 
-        return new WildlifeToken(animalType);
+        return animalType;
     }
 
     /**
@@ -65,16 +69,16 @@ public class Generation {
          * generate functions, as the starter habitat tiles are not counted
          * as habitat tiles.
          */
-        if (randomNum <= CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE)) {
+        if (randomNum <= CurrentDeck.remainingTypes.get(HabitatTile.TileType.KEYSTONE)) {
             CurrentDeck.remainingTypes.put(
-                    HabitatTile.TILETYPES.KEYSTONE,
-                    CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.KEYSTONE) - 1
+                    HabitatTile.TileType.KEYSTONE,
+                    CurrentDeck.remainingTypes.get(HabitatTile.TileType.KEYSTONE) - 1
             );
             return generateKeystoneHabitatTile();
         }
         CurrentDeck.remainingTypes.put(
-                HabitatTile.TILETYPES.NONKEYSTONE,
-                CurrentDeck.remainingTypes.get(HabitatTile.TILETYPES.NONKEYSTONE) - 1
+                HabitatTile.TileType.NON_KEYSTONE,
+                CurrentDeck.remainingTypes.get(HabitatTile.TileType.NON_KEYSTONE) - 1
         );
         return generateNonKeystoneHabitatTile();
     }
@@ -89,7 +93,7 @@ public class Generation {
      */
     // TODO: Alter implementation so the starter habitat tiles always have one keystone tile.
     private static HabitatTile generateNonKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        Map<HabitatTile.Habitat, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left
@@ -97,10 +101,10 @@ public class Generation {
             tilesLeft += value;
         }
 
-        HabitatTile.HABITATS first;
-        HabitatTile.HABITATS second;
-        Map.Entry<HabitatTile.HABITATS, Integer> entry1 = null;
-        Map.Entry<HabitatTile.HABITATS, Integer> entry2 = null;
+        HabitatTile.Habitat first;
+        HabitatTile.Habitat second;
+        Map.Entry<HabitatTile.Habitat, Integer> entry1 = null;
+        Map.Entry<HabitatTile.Habitat, Integer> entry2 = null;
 
         do {
             first = null;
@@ -113,7 +117,7 @@ public class Generation {
              * then this function gets the num1 th and num2 th value, and then 'removes' it from
              * the list.
              */
-            for (Map.Entry<HabitatTile.HABITATS, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
+            for (Map.Entry<HabitatTile.Habitat, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
                 num1 -= entry.getValue();
                 num2 -= entry.getValue();
                 if (num1 <= 0 && first == null) {
@@ -145,7 +149,7 @@ public class Generation {
      * the same).
      */
     private static HabitatTile generateKeystoneHabitatTile() {
-        HashMap<HabitatTile.HABITATS, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
+        Map<HabitatTile.Habitat, Integer> habitatsRemaining = CurrentDeck.remainingHabitats;
         int tilesLeft = 0;
 
         // get the total amount of tiles left
@@ -154,14 +158,14 @@ public class Generation {
         }
 
         int randomNum = new Random().nextInt(1, tilesLeft);
-        HabitatTile.HABITATS habitat = null;
+        HabitatTile.Habitat habitat = null;
 
         /*
          * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest, River...]
          * then this function gets the randomNum th value, and then 'removes' it from
          * the list.
          */
-        for (Map.Entry<HabitatTile.HABITATS, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
+        for (Map.Entry<HabitatTile.Habitat, Integer> entry : CurrentDeck.remainingHabitats.entrySet()) {
             randomNum -= entry.getValue();
             if (randomNum <= 0) {
                 habitat = entry.getKey();
