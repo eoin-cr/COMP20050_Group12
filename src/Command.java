@@ -18,7 +18,7 @@ public class Command {
 	/** The commands available to the player on their turn */
 	enum CommandType {
 
-		/** Lets player choose and place wildlife + habitat */
+		/** Lets player choose and place wildlife token + habitat tile */
 		PLACE {public void enumSetCommand(Player player){}},
 
 		/** Display the player's map of tiles */
@@ -27,7 +27,7 @@ public class Command {
 			}},
 
 		/** Displays the nature token shop */
-		NATURE {public void enumSetCommand(Player player){}},
+		SHOP {public void enumSetCommand(Player player){}},
 		
 		/** Moves to next players turn. Note that the game is exited after the last
 		 * player selects this option.*/

@@ -75,8 +75,6 @@ public class Input {
      * @param players a <i>List</i> of player names to be randomised
      * @return a <i>String array</i> of randomised player names
      */
-    //(note: might want to actually randomise arraylist itself, so we can iterate through players in correct order)
-    // TODO: what
     private static String[] randomisePlayers(List<String> players) {
         List<Integer> randomIndexes = new ArrayList<>();
         String[] randomisedPlayers = new String[players.size()];

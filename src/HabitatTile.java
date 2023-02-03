@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -42,15 +43,17 @@ public class HabitatTile {
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
-	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
+//	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private static final int NUMBER_OF_EDGES = 6;
+	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		this.edges = new Edge[NUMBER_OF_EDGES];
+//		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
 	public Habitat getHabitat1() {  // getters and setters

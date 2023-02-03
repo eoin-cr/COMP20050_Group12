@@ -9,8 +9,7 @@ public class Game {
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
     private final List<Player> playerList = new ArrayList<>();
-
-    public Game() {} // default constructor
+    private Bag bag;
 
     /*
      * Get player names
@@ -32,15 +31,20 @@ public class Game {
      * readability.
      */
 
-    public void startGameSetup() {
-        CurrentDeck deck = new CurrentDeck();
-        deck.startDeck();
-        playerNames = Input.getPlayers();  // from Input class
-        Display.printPlayers(playerNames);  // from Output class
-        Display.sleep(500);
+    public Game() { //constructor
+    	  playerNames = Input.getPlayers();  // from Input class
+          Display.printPlayers(playerNames);  // from Display class
+          Display.sleep(500);
 
-        populatePlayers();
-        setStartTileTokenSelection();
+          bag = new Bag();
+          bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+          populatePlayers();
+
+    }
+
+    public void startGame() {
+    	setStartTileTokenSelection();
+    	startPlayerTurns();
     }
 
     /**
@@ -74,23 +78,22 @@ public class Game {
      */
     private void populatePlayers() {
         for (String name : playerNames) {
-            // TODO: Check if generateHabitatTile changes the remaining tiles hashmap (it should)
-            HabitatTile[] generatedTiles = Generation.generateStarterHabitat();
-        	List<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
-            // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
-            Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
-//            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
+//            HabitatTile[] generatedTiles = Generation.generateStarterHabitat();
+//        	List<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
+//            // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
+//            Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
+////            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
             Player player = new Player(name);
+//
+//            for (int i = 0; i < 3; i++) {
+//                try {
+//                	 player.getMap().addTileToMap(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
+//                } catch (IllegalArgumentException ignored) {}
+//            }
 
-            for (int i = 0; i < 3; i++) {
-                try {
-                    player.addTileAtCoordinate(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
-                } catch (IllegalArgumentException ignored) {}
-            }
-
-            player.setPlayerTiles(generatedTilesList);
+//            player.getMap().setPlayerTiles(generatedTilesList);
             playerList.add(player); // adds to game's arraylist of players
-            
+
             Display.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
@@ -129,7 +132,7 @@ public class Game {
         	HabitatTile tmpTile = Generation.generateHabitatTile();
         	habitats.add(tmpTile);
         	// generate random tokens and put them in tokens arraylist, and their animal type in checkTokens
-        	WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(CurrentDeck.remainingTokens);
+        	WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
         	tokens.add(tmpWildlifeToken);
         	checkTokens[i] = tmpWildlifeToken;
     	}
@@ -139,7 +142,7 @@ public class Game {
             tokens.clear();
     		
     		for (int i = 0; i < num; i++) {
-    			WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(CurrentDeck.remainingTokens);
+    			WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
             	tokens.add(tmpWildlifeToken);
             	checkTokens[i] = tmpWildlifeToken;
     		}

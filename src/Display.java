@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Deals with outputting to the console.
@@ -74,7 +75,8 @@ public class Display {
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
     		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
-    		printHalfTile(i, ' ', ' ', ' ',' ');
+    		//printHalfTile(i, ' ', ' ', ' ',' ');
+    		printHalfTile(i);
     	}
     	System.out.println();
 	}
@@ -90,7 +92,7 @@ public class Display {
 	// TODO: Add actual token characters rather than the placeholders
 	public static void displayTileMap(Player player) {
 		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
-		HabitatTile[][] board = player.getTileBoardPosition();
+		HabitatTile[][] board = player.getMap().getTileBoardPosition();
 
 		int[] boundaries = tileBoundaries(player);
 
@@ -131,7 +133,7 @@ public class Display {
 	 */
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(Player player) {
-		HabitatTile[][] board = player.getTileBoardPosition();
+		HabitatTile[][] board = player.getMap().getTileBoardPosition();
 		int[] boundaries = new int[4];
 
 		// get uppermost tile
@@ -248,33 +250,56 @@ public class Display {
 	 * At the moment there is no way to change the orientation of the tile,
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
-	 * @param topLeft the animal token character to be printed at the top left of
-	 *              the tile
-	 * @param topRight the animal token character to be printed at the top right of
-	 *              the tile
-	 * @param bottomLeft the animal token character to be printed at the bottom left
-	 *              of the tile
-	 * @param bottomRight the animal token character to be printed at the bottom
-	 *              right of the tile
 	 */
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
-	// 		Allow different tile orientations
-	//		Maybe change the chars to enums?
-	public static void printHalfTile (HabitatTile tile, char topLeft, char topRight,
-									  char bottomLeft, char bottomRight) {
+	// TODO: Allow different tile orientations
+
+	/*
+	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
+
+									  char char3, char char4) {
 		String first = tile.getHabitat1().getBackgroundColour();
 		String second = tile.getHabitat2().getBackgroundColour();
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		System.out.println(
 				first + full +
-				first + "    |" + ANSI_RESET + "  " + topLeft + "   " + topRight + "  " +
+				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
 				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + bottomLeft  + "   " + bottomRight + "  " +
+				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
 				second  + "|    " + ANSI_RESET + "\n" +
 				second + full
 		);
 
+	}
+		*/
+
+	 public static void printHalfTile (HabitatTile tile) {
+		 String first = tile.getHabitat1().getBackgroundColour();
+		 String second = tile.getHabitat2().getBackgroundColour();
+		 char[] animalTypes = makeTokensOptionsOnTile();
+
+		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
+		 System.out.println(
+				 first + full +
+				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
+				 first  + "|    " + ANSI_RESET + "\n" +
+				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
+				 second  + "|    " + ANSI_RESET + "\n" +
+				 second + full
+				 );
+
+	 }
+
+	public static char[] makeTokensOptionsOnTile() {
+		char[] animalTypes = {' ', ' ', ' ', ' '};
+		int numTokens = 1 + new Random().nextInt(3);
+
+		for (int i = 0; i < numTokens; i++) {
+			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).toChar();
+		}
+
+		return animalTypes;
 	}
 
 	/**
