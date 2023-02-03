@@ -1,4 +1,3 @@
-import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -250,14 +249,6 @@ public class Output {
 	 * At the moment there is no way to change the orientation of the tile,
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
-	 * @param char1 the animal token character to be printed at the top left of
-	 *              the tile
-	 * @param char2 the animal token character to be printed at the top right of
-	 *              the tile
-	 * @param char3 the animal token character to be printed at the bottom left
-	 *              of the tile
-	 * @param char4 the animal token character to be printed at the bottom
-	 *              right of the tile
 	 */
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
@@ -292,7 +283,7 @@ public class Output {
 				 first + full +
 				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
 				 first  + "|    " + ANSI_RESET + "\n" +
-				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "   " + animalTypes[3] + "  " +
+				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
 				 second  + "|    " + ANSI_RESET + "\n" +
 				 second + full
 				 );
@@ -300,7 +291,7 @@ public class Output {
 	 }
 	
 	public static char[] makeTokensOptionsOnTile() {
-		char[] animalTypes = new char[3];
+		char[] animalTypes = {' ', ' ', ' ', ' '};
 		int numTokens = 1 + new Random().nextInt(3);
 		
 		for (int i = 0; i < numTokens; i++) {

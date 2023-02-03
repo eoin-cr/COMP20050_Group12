@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /** Deals with the running of the game */
 public class Game {
@@ -41,7 +40,7 @@ public class Game {
 
     public void startGame() {
     	setStartTileTokenSelection();
-    	//startPlayerTurns();
+    	startPlayerTurns();
     }
 
     /**
@@ -75,23 +74,22 @@ public class Game {
      */
     private void populatePlayers() {
         for (String name : playerNames) {
-            // TODO: Check if generateHabitatTile changes the remaining tiles hashmap (it should)
-            HabitatTile[] generatedTiles = Generation.generateStarterHabitat();
-        	ArrayList<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
-            // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
-            Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
-//            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
+//            HabitatTile[] generatedTiles = Generation.generateStarterHabitat();
+//        	ArrayList<HabitatTile> generatedTilesList = new ArrayList<>(List.of(generatedTiles)); // used to store tiles for player's starter tile map
+//            // remember that a 2d array essentially uses coords (y,x) [not (x,y)]
+//            Integer[] startingPositions = {8, 10, 9, 9, 9, 10};
+////            Integer[] startingPositions = {9, 11, 12, 10, 11, 11};
             Player player = new Player(name);
+//
+//            for (int i = 0; i < 3; i++) {
+//                try {
+//                	 player.getMap().addTileToMap(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
+//                } catch (IllegalArgumentException ignored) {}
+//            }
 
-            for (int i = 0; i < 3; i++) {
-                try {
-                	 player.getMap().addTileToMap(generatedTiles[i], startingPositions[i * 2], startingPositions[i * 2 + 1]);
-                } catch (IllegalArgumentException ignored) {}
-            }
-
-            player.getMap().setPlayerTiles(generatedTilesList);
+//            player.getMap().setPlayerTiles(generatedTilesList);
             playerArrayList.add(player); // adds to game's arraylist of players
-            
+
             Output.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once

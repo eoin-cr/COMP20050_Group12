@@ -134,6 +134,8 @@ public class Generation {
 
         assert entry1 != null;
         assert entry2 != null;
+        assert first != null;
+        assert second != null;
         Bag.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
         Bag.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);
 
