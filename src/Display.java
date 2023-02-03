@@ -1,5 +1,6 @@
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Deals with outputting to the console.
@@ -295,7 +296,7 @@ public class Display {
 		int numTokens = 1 + new Random().nextInt(3);
 
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).getAnimalType().toChar();
+			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).toChar();
 		}
 
 		return animalTypes;
