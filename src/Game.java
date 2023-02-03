@@ -32,10 +32,10 @@ public class Game {
     	  playerNames = Input.getPlayers();  // from Input class
           Output.printPlayers(playerNames);  // from Output class
           Output.sleep(500);
-          populatePlayers();
           
           bag = new Bag();
-          bag.makeBag(playerArrayList.size()); //makes a bag of tiles based on how many players there are
+          bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+          populatePlayers();
           
     }
 

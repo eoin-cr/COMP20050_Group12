@@ -1,6 +1,7 @@
+import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 import java.util.HashMap;
-
+import java.util.Random;
 /**
  * Deals with outputting to the console.
  */
@@ -74,7 +75,8 @@ public class Output {
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
     		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
-    		printHalfTile(i, ' ', ' ', ' ',' ');
+    		//printHalfTile(i, ' ', ' ', ' ',' ');
+    		printHalfTile(i);
     	}
     	System.out.println();
 	}
@@ -260,7 +262,10 @@ public class Output {
 	// new display method which is closer to what he wants
 	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
-	public static void printHalfTile (HabitatTile tile, char char1, char char2,
+	
+	/*
+	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
+	 
 									  char char3, char char4) {
 		String first = tile.getHabitat1().getBackgroundColour();
 		String second = tile.getHabitat2().getBackgroundColour();
@@ -274,6 +279,35 @@ public class Output {
 				second + full
 		);
 
+	}
+		*/	
+	
+	 public static void printHalfTile (HabitatTile tile) {
+		 String first = tile.getHabitat1().getBackgroundColour();
+		 String second = tile.getHabitat2().getBackgroundColour();
+		 char[] animalTypes = makeTokensOptionsOnTile();
+		 
+		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
+		 System.out.println(
+				 first + full +
+				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
+				 first  + "|    " + ANSI_RESET + "\n" +
+				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "   " + animalTypes[3] + "  " +
+				 second  + "|    " + ANSI_RESET + "\n" +
+				 second + full
+				 );
+
+	 }
+	
+	public static char[] makeTokensOptionsOnTile() {
+		char[] animalTypes = new char[3];
+		int numTokens = 1 + new Random().nextInt(3);
+		
+		for (int i = 0; i < numTokens; i++) {
+			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).getAnimalType().toChar();
+		}
+		
+		return animalTypes;
 	}
 
 	/**

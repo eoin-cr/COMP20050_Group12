@@ -34,8 +34,7 @@ public class WildlifeToken {
 		}
 	}
 	private final ANIMAL animalType;
-//	private boolean inUse; // if it's been placed on a player map or stashed in bag
-	
+
 	public WildlifeToken(WildlifeToken.ANIMAL animalType) {
 		this.animalType = animalType;
 //		this.inUse = false;
@@ -44,14 +43,6 @@ public class WildlifeToken {
 	public ANIMAL getAnimalType() {
 		return animalType;
 	}
-
-//	public boolean isInUse() {
-//		return inUse;
-//	}
-//
-//	public void setInUse() { //sets to true, don't forget to use this if placing token on a map!
-//		this.inUse = true;
-//	}
 	
 	@Override
 	public String toString() {
