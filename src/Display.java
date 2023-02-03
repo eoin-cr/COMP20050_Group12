@@ -255,30 +255,26 @@ public class Display {
 
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
-//		 String first = tile.getHabitat1().getBackgroundColour();
-//		 String second = tile.getHabitat2().getBackgroundColour();
-//		 WildlifeToken[] animalTypes = tile.getAnimalOptions();
-//
-//		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
-//		 System.out.println(
-//				 first + full +
-//				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
-//				 first  + "|    " + ANSI_RESET + "\n" +
-//				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
-//				 second  + "|    " + ANSI_RESET + "\n" +
-//				 second + full
-//				 );
-//
 	 }
 
-	public static WildlifeToken[] makeTokensOptionsOnTile() {
+	/**
+	 * Generates the options for tokens that can be placed on a tile.
+	 *
+	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
+	 *                  to set a specified amount
+	 * @return wildlife tokens
+	 */
+	public static WildlifeToken[] makeTokensOptionsOnTile(int numTokens) {
+		if (numTokens < 0 || numTokens > 3) {
+			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
+		}
 		WildlifeToken[] animalTypes = new WildlifeToken[3];
-		int numTokens = 1 + new Random().nextInt(3);
-
+		 if (numTokens == 0) {
+			 numTokens = 1 + new Random().nextInt(3);
+		 }
 		for (int i = 0; i < numTokens; i++) {
 			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens);
 		}
-
 		return animalTypes;
 	}
 

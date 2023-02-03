@@ -39,8 +39,7 @@ public class HabitatTile {
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
 
-	private final WildlifeToken[] animalOptions = Display.makeTokensOptionsOnTile();
-
+	private final WildlifeToken[] animalOptions;
 	private boolean isAnimalPlaced = false;
 
 	private WildlifeToken placedAnimal = null;
@@ -50,17 +49,20 @@ public class HabitatTile {
     private final Habitat habitat2;
 //	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
-//	final static String WHITE = "\033[0;37m";
 	final static String WHITE = "\033[38;5;231m";
 	final static String WHITE_BG = "\033[48;5;231m";
 //	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
-	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
+	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTiles) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
+		if (habitat1 == habitat2) {
+			numTiles = 1;
+		}
+		animalOptions = Display.makeTokensOptionsOnTile(numTiles);
 //		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
@@ -110,7 +112,6 @@ public class HabitatTile {
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
 	 * be altered easily before printing.
-	 * At the moment only the habitat is coloured, the tokens are not.
 	 *
 	 * @return a string with ANSI colours.
 	 */
