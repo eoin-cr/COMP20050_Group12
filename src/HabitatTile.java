@@ -39,13 +39,15 @@ public class HabitatTile {
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
 
+	private final char[] animalOptions = Display.makeTokensOptionsOnTile();
+
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
 //	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
-	private static final int NUMBER_OF_EDGES = 6;
+//	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
@@ -64,6 +66,9 @@ public class HabitatTile {
 		return habitat2;
 	}
 
+	public char[] getAnimalOptions() {
+		return animalOptions;
+	}
 	@Override
 	public String toString() {
 		return habitat1.name() + " + " + habitat2.name();
@@ -95,21 +100,17 @@ public class HabitatTile {
 	 * be altered easily before printing.
 	 * At the moment only the habitat is coloured, the tokens are not.
 	 *
-	 * @param topLeft the top left char
-	 * @param topRight the top right char
-	 * @param bottomLeft the bottom left char
-	 * @param bottomRight the bottom right char
 	 * @return a string with ANSI colours.
 	 */
-	public String toFormattedString(char topLeft, char topRight, char bottomLeft, char bottomRight) {
+	public String toFormattedString() {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		return first + full +
-				first + "    |" + ANSI_RESET + "  " + topLeft + "   " + topRight + "  " +
-				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + bottomLeft  + "   " + bottomRight + "  " +
-				second  + "|    " + ANSI_RESET + "\n" +
-				second + full;
+						first + "    |" + ANSI_RESET + "  " + animalOptions[0] + "   " + animalOptions[1] + "  " +
+						first  + "|    " + ANSI_RESET + "\n" +
+						second + "    |" + ANSI_RESET + "  " + animalOptions[2]  + "      " +
+						second  + "|    " + ANSI_RESET + "\n" +
+						second + full;
 	}
 }

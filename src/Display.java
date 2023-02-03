@@ -111,7 +111,7 @@ public class Display {
 				if (board[i][j] == null) {
 					line = indentFullTile(line);
 				} else {
-					line = combineTiles(board[i][j].toFormattedString('A', 'B', 'C', 'D'), line);
+					line = combineTiles(board[i][j].toFormattedString(), line);
 				}
 			}
 			if (i % 2 == 0) {
@@ -255,29 +255,10 @@ public class Display {
 	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
 
-	/*
-	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
-
-									  char char3, char char4) {
-		String first = tile.getHabitat1().getBackgroundColour();
-		String second = tile.getHabitat2().getBackgroundColour();
-		String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		System.out.println(
-				first + full +
-				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
-				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
-				second  + "|    " + ANSI_RESET + "\n" +
-				second + full
-		);
-
-	}
-		*/
-
 	 public static void printHalfTile (HabitatTile tile) {
 		 String first = tile.getHabitat1().getBackgroundColour();
 		 String second = tile.getHabitat2().getBackgroundColour();
-		 char[] animalTypes = makeTokensOptionsOnTile();
+		 char[] animalTypes = tile.getAnimalOptions();
 
 		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		 System.out.println(
