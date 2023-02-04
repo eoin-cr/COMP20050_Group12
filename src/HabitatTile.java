@@ -36,6 +36,7 @@ public class HabitatTile {
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
+
 	private final WildlifeToken[] animalOptions;
 	private boolean isAnimalPlaced = false;
 	private WildlifeToken placedAnimal = null;
@@ -47,6 +48,9 @@ public class HabitatTile {
 	final static String WHITE = "\033[38;5;231m";
 	final static String WHITE_BG = "\033[48;5;231m";
 
+//	private static final int NUMBER_OF_EDGES = 6;
+	//TODO: change the edge class with just two instance variables for what the habitat types are
+
 	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTiles) {  // constructor
 		this.tileID = counter;
 		counter++;
@@ -56,6 +60,7 @@ public class HabitatTile {
 			numTiles = 1;
 		}
 		animalOptions = Display.makeTokensOptionsOnTile(numTiles);
+//		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
 	public Habitat getHabitat1() {  // getters and setters
@@ -64,6 +69,7 @@ public class HabitatTile {
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
+
 	public WildlifeToken[] getAnimalOptions() {
 		return animalOptions;
 	}

@@ -166,6 +166,7 @@ public class Generation {
                 break;
             }
         }
+
         return new HabitatTile(habitat, habitat, 0);
     }
 }
