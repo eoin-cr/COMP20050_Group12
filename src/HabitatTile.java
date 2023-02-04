@@ -11,6 +11,8 @@ import java.util.Objects;
 public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
 
+	// storing the ANSI habitat colours in the enum is better practice than using ordinals
+
 	/**
 	 * The habitats that a tile can have.
 	 * Stores also the ANSI codes for text and background colours.
@@ -39,15 +41,16 @@ public class HabitatTile {
 
 	private final WildlifeToken[] animalOptions;
 	private boolean isAnimalPlaced = false;
+
 	private WildlifeToken placedAnimal = null;
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
+//	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 	final static String WHITE = "\033[38;5;231m";
 	final static String WHITE_BG = "\033[48;5;231m";
-
 //	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
@@ -66,6 +69,7 @@ public class HabitatTile {
 	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
 	}
+
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
@@ -103,6 +107,7 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
+
 
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can

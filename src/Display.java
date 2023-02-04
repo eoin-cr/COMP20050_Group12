@@ -75,6 +75,7 @@ public class Display {
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (HabitatTile i : tileTokenPairs.keySet()) {
     		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
+    		//printHalfTile(i, ' ', ' ', ' ',' ');
     		printHalfTile(i);
     	}
     	System.out.println();
@@ -174,7 +175,9 @@ public class Display {
 				}
 			}
 		}
+
 		return boundaries;
+
 	}
 
 	/**
@@ -246,6 +249,8 @@ public class Display {
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
 	 */
+	// new display method which is closer to what he wants
+	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
 
 	 public static void printHalfTile (HabitatTile tile) {
