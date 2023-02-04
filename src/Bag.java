@@ -35,29 +35,29 @@ public class Bag {
         // Hard coding this is simpler than running a large amount of
         // generations and checks in the starter habitat method.
         starterTiles.add(new HabitatTile[]{
-                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.Wetland),
-                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.Forest),
-                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Mountain)
+                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.Wetland, 1),
+                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.Forest, 2),
+                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Mountain, 3)
         });
         starterTiles.add(new HabitatTile[]{
-                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Mountain),
-                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Wetland),
-                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.Prairie)
+                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Mountain, 1),
+                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Wetland, 2),
+                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.Prairie, 3)
         });
         starterTiles.add(new HabitatTile[]{
-                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Forest),
-                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.River),
-                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.Prairie)
+                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Forest, 1),
+                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.River, 2),
+                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.Prairie, 3)
         });
         starterTiles.add(new HabitatTile[]{
-                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.River),
-                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Forest),
-                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Wetland)
+                new HabitatTile(HabitatTile.Habitat.River, HabitatTile.Habitat.River, 1),
+                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Forest, 2),
+                new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Wetland, 3)
         });
         starterTiles.add(new HabitatTile[]{
-                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie),
-                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.River),
-                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain)
+                new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
+                new HabitatTile(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.River, 2),
+                new HabitatTile(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain, 3)
         });
     }
 
