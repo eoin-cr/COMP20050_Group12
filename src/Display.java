@@ -70,7 +70,7 @@ public class Display {
 	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
 	 *                       printed
 	 */
-	public static void displayTileTokenPairs() {
+	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
     	for (int i = 0; i < 4; i++) {
@@ -96,6 +96,7 @@ public class Display {
 		}
 		} while (choice < 1 || choice > 4);
 		
+		choice--;
 		System.out.println("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
 				+CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
 		
@@ -127,10 +128,37 @@ public class Display {
 			}
 		}while(col < 1 || col > 20);
 		
-		rowcol[0] = row-1;
-		rowcol[1] = col-1;
+		rowcol[0] = row;
+		rowcol[1] = col;
 		
 		return rowcol;
+	}
+	
+	public static int chooseCullThree() {
+		int choice;
+		System.out.println();
+		System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+		
+		do {
+			System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+			try {
+				choice = Integer.parseInt(Input.getUserInput());
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				choice = Integer.parseInt(Input.getUserInput());
+			}
+		}while(choice != 1 || choice != 2);
+		
+		if (choice == 2) {
+			System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+		}
+		
+		return choice;
+	}
+	
+	public static void cullOccurence() {
+		System.out.println("A Wildlife Token cull has occurred.");
+		displayDeck();
 	}
 
 	/**

@@ -23,6 +23,10 @@ public class Command {
 			CurrentDeck.choosePair(player);
 		}},
 		
+		DECK {public void enumSetCommand(Player player){
+			Display.displayDeck();
+		}},
+		
 		/** Displays the nature token shop */
 		NATURE {public void enumSetCommand(Player player){}},
 		

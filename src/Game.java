@@ -53,18 +53,20 @@ public class Game {
     public void startPlayerTurns() {
         // TODO: This loop exits after the player list has been iterated though.
         // Instead, we want it to finish when all the tokens have ran out.
-    	for (Player player : playerList) {
-    		System.out.println("Current player is: " +player.getPlayerName());
-            Display.displayTileMap(player);
-            Display.sleep(500);
-    		// choose from tile token pairs
-    		// place tile
-    		// now can choose to place token, move to next player, quit etc.
-    		Command command = new Command();
-    		do {
-    			command.setCommand(player);
-    		} while (command.getCommand() != Command.CommandType.NEXT);
-    		// automatically moves to next player if command type is next
+    	while (HabitatTile.getTileCounter() < Bag.getMaxTiles()) {
+    		for (Player player : playerList) {
+        		System.out.println("Current player is: " +player.getPlayerName());
+                Display.displayTileMap(player);
+                Display.sleep(500);
+        		// choose from tile token pairs
+        		// place tile
+        		// now can choose to place token, move to next player, quit etc.
+        		Command command = new Command();
+        		do {
+        			command.setCommand(player);
+        		} while (command.getCommand() != Command.CommandType.NEXT);
+        		// automatically moves to next player if command type is next
+        	}
     	}
     }
 

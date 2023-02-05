@@ -44,7 +44,7 @@ public class HabitatTile {
 	private boolean isTokenPlaced = false;
 	private WildlifeToken placedToken = null;
 	
-    public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
+    private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
@@ -53,8 +53,8 @@ public class HabitatTile {
 
 	//constructor
 	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {  
-		this.tileID = counter;
-		counter++;
+		this.tileID = tileCounter;
+		tileCounter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
 		if (habitat1 == habitat2) {
@@ -68,7 +68,10 @@ public class HabitatTile {
 		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 //		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
-
+	
+	public static int getTileCounter() {
+		return tileCounter;
+	}
 	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
 	}
