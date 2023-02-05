@@ -35,14 +35,13 @@ public class Game {
           Display.printPlayers(playerNames);  // from Display class
           Display.sleep(500);
 
-        Bag bag = new Bag();
-          bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+          Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
           populatePlayers();
 
     }
 
     public void startGame() {
-    	setStartTileTokenSelection();
+    	CurrentDeck.setStartTileTokenSelection();
     	startPlayerTurns();
     }
 
@@ -85,53 +84,5 @@ public class Game {
         }
     }
 
-    /**
-     * Still in progress.
-     * Displays 4 sets of randomly paired habitat tiles and wildlife tokens for players to choose from.
-     * A sleep call is made after displaying tile token pairs.
-      */
-    private void setStartTileTokenSelection() {
-    	Map<HabitatTile, WildlifeToken> tileTokenPairs = generateTileTokenPairs(4);
-    	Display.displayTileTokenPairs(tileTokenPairs);
-        Display.sleep(500);
-    }
 
-    /**
-     * Generates the 'community' tile token pairs that users pick from.
-     *
-     * @param num the number of tile token pairs to generate
-     * @return a hashmap containing tile token pairs
-     */
-    private Map<HabitatTile, WildlifeToken> generateTileTokenPairs(int num) {
-    	Map<HabitatTile, WildlifeToken> tileTokenPairs = new HashMap<>();
-    	List<HabitatTile> habitats = new ArrayList<>();
-    	List<WildlifeToken> tokens = new ArrayList<>();
-    	WildlifeToken[] checkTokens = new WildlifeToken[num];
-    	
-    	for (int i = 0; i < num; i++) {
-    		// generate random tiles and put them in habitat tiles arraylist
-        	HabitatTile tmpTile = Generation.generateHabitatTile();
-        	habitats.add(tmpTile);
-        	// generate random tokens and put them in tokens arraylist, and their animal type in checkTokens
-        	WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
-        	tokens.add(tmpWildlifeToken);
-        	checkTokens[i] = tmpWildlifeToken;
-    	}
-    	
-    	// error handling to wipe tokens if all 4 are the same animal type and replace with 4 other ones
-    	while (checkTokens[0] == checkTokens[1] && checkTokens[0] == checkTokens[2] && checkTokens[0] == checkTokens[3]) {
-            tokens.clear();
-    		
-    		for (int i = 0; i < num; i++) {
-    			WildlifeToken tmpWildlifeToken = Generation.generateWildlifeToken(Bag.remainingTokens);
-            	tokens.add(tmpWildlifeToken);
-            	checkTokens[i] = tmpWildlifeToken;
-    		}
-    	}
-    	// put error-checked tile token pairs into the hashmap
-    	for (int i = 0; i < num; i++) {
-			tileTokenPairs.put(habitats.get(i), tokens.get(i));
-		}
-    	return tileTokenPairs;
-    }
 }

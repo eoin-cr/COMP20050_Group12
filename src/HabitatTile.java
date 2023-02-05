@@ -10,13 +10,13 @@ import java.util.Objects;
  */
 public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
+	public static final String WHITE = "\033[38;5;231m";
+	public static final String WHITE_BG = "\033[48;5;231m";
+	//private static final int NUMBER_OF_EDGES = 6;
+	//TODO: change the edge class with just two instance variables for what the habitat types are
 
-	// storing the ANSI habitat colours in the enum is better practice than using ordinals
-
-	/**
-	 * The habitats that a tile can have.
-	 * Stores also the ANSI codes for text and background colours.
-	 */
+	 //The habitats that a tile can have.
+	 //Stores also the ANSI codes for text and background colours.
     enum Habitat {
 		Forest("\033[38;2;84;130;53m", "\033[48;2;84;130;53m"),
 		Wetland("\033[48;2;198;224;180m", "\033[48;2;198;224;180m"),
@@ -38,31 +38,34 @@ public class HabitatTile {
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
-
-	private final WildlifeToken[] animalOptions;
-	private boolean isAnimalPlaced = false;
-
-	private WildlifeToken placedAnimal = null;
+	private TileType keystoneType;
+	
+	private final WildlifeToken[] tokenOptions;
+	private boolean isTokenPlaced = false;
+	private WildlifeToken placedToken = null;
+	
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
-//	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
+    //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
-	final static String WHITE = "\033[38;5;231m";
-	final static String WHITE_BG = "\033[48;5;231m";
-//	private static final int NUMBER_OF_EDGES = 6;
-	//TODO: change the edge class with just two instance variables for what the habitat types are
 
-	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTiles) {  // constructor
+	//constructor
+	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {  
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
 		if (habitat1 == habitat2) {
-			numTiles = 1;
+			keystoneType = TileType.KEYSTONE;
+			numTokens = 1;
 		}
-		animalOptions = Display.makeTokensOptionsOnTile(numTiles);
+		else {
+			keystoneType = TileType.NON_KEYSTONE;
+			//numTokens = 0; ??
+		}
+		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 //		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
@@ -74,14 +77,14 @@ public class HabitatTile {
 		return habitat2;
 	}
 
-	public WildlifeToken[] getAnimalOptions() {
-		return animalOptions;
+	public WildlifeToken[] getTokenOptions() {
+		return tokenOptions;
 	}
-	public void setAnimalPlaced(boolean animalPlaced) {
-		this.isAnimalPlaced = animalPlaced;
+	public void setTokenPlaced(boolean animalPlaced) {
+		this.isTokenPlaced = animalPlaced;
 	}
-	public void setPlacedAnimal(WildlifeToken placedAnimal) {
-		this.placedAnimal = placedAnimal;
+	public void setPlacedToken(WildlifeToken placedAnimal) {
+		this.placedToken = placedAnimal;
 	}
 	@Override
 	public String toString() {
@@ -121,11 +124,11 @@ public class HabitatTile {
 		char[] animal = new char[3];
 		String[] colour = new String[4];
 
-		if (!isAnimalPlaced) {
-			for (int i = 0; i < animalOptions.length; i++) {
-				if (animalOptions[i] != null) {
-					animal[i] = animalOptions[i].toChar();
-					colour[i] = animalOptions[i].getColour() + WHITE_BG;
+		if (!isTokenPlaced) {
+			for (int i = 0; i < tokenOptions.length; i++) {
+				if (tokenOptions[i] != null) {
+					animal[i] = tokenOptions[i].toChar();
+					colour[i] = tokenOptions[i].getColour() + WHITE_BG;
 				}
 				else {
 					animal[i] = ' ';
@@ -135,8 +138,8 @@ public class HabitatTile {
 			colour[3] = WHITE_BG;
 
 		} else {
-			animal = new char[]{placedAnimal.toChar(), ' ', ' ', ' '};
-			colour = new String[]{placedAnimal.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
+			animal = new char[]{placedToken.toChar(), ' ', ' ', ' '};
+			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
 		}
 
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";

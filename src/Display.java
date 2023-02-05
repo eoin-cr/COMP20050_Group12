@@ -70,15 +70,67 @@ public class Display {
 	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
 	 *                       printed
 	 */
-	public static void displayTileTokenPairs(Map<HabitatTile, WildlifeToken> tileTokenPairs) {
+	public static void displayTileTokenPairs() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
-    	for (HabitatTile i : tileTokenPairs.keySet()) {
-    		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
-    		//printHalfTile(i, ' ', ' ', ' ',' ');
-    		printHalfTile(i);
+    	for (int i = 0; i < 4; i++) {
+    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
+    				", Token: " +CurrentDeck.getToken(i).toString());
+    		printHalfTile(CurrentDeck.getTile(i));
     	}
     	System.out.println();
+	}
+	
+	public static int chooseFromDeck() {
+		int choice;
+		System.out.println();
+		
+		do {
+		System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+		System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+		try {
+			choice = Integer.parseInt(Input.getUserInput());
+		} catch (NumberFormatException e) {
+			System.out.println("You did not input a number. Please try again.");
+			choice = Integer.parseInt(Input.getUserInput());
+		}
+		} while (choice < 1 || choice > 4);
+		
+		System.out.println("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
+				+CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
+		
+		return choice;
+	}
+	
+	public static int[] chooseTileRowColumn() {
+		int[] rowcol = new int[2];
+		int row;
+		int col;
+		
+		do {
+			System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
+			try {
+				row = Integer.parseInt(Input.getUserInput());
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				row = Integer.parseInt(Input.getUserInput());
+			}
+		}while(row < 1 || row > 20);
+		
+		do {
+			System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
+			try {
+				col = Integer.parseInt(Input.getUserInput());
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				col = Integer.parseInt(Input.getUserInput());
+			}
+		}while(col < 1 || col > 20);
+		
+		rowcol[0] = row-1;
+		rowcol[1] = col-1;
+		
+		return rowcol;
 	}
 
 	/**
@@ -233,7 +285,7 @@ public class Display {
 	 */
 	public static void displayCommands() {
 		System.out.println("""
-				Enter PLACE to pick and place your Habitat Tile and Wildlife Token,\s
+				Enter CHOOSEPAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
 				Enter MAP for your current map of Tiles,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
 				Enter NEXT to move on to the next player,\s
@@ -256,27 +308,6 @@ public class Display {
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
-
-	/**
-	 * Generates the options for tokens that can be placed on a tile.
-	 *
-	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
-	 *                  to set a specified amount
-	 * @return wildlife tokens
-	 */
-	public static WildlifeToken[] makeTokensOptionsOnTile(int numTokens) {
-		if (numTokens < 0 || numTokens > 3) {
-			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
-		}
-		WildlifeToken[] animalTypes = new WildlifeToken[3];
-		 if (numTokens == 0) {
-			 numTokens = 1 + new Random().nextInt(3);
-		 }
-		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens);
-		}
-		return animalTypes;
-	}
 
 	/**
 	 * Returns a string containing a character repeated a certain amount of

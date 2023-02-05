@@ -16,7 +16,7 @@ public class Bag {
      * Sets up the tiles and tokens in the bag, so they can be generated.
      */
     // TODO: Change these values to the ones that correspond to the amount of players
-    public void makeBag (int numplayers) {
+    public static void makeBag (int numplayers) {
         remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
         remainingHabitats.put(HabitatTile.Habitat.River, 20);
         remainingHabitats.put(HabitatTile.Habitat.Wetland, 20);

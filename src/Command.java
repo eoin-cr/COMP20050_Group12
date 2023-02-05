@@ -18,16 +18,18 @@ public class Command {
 	/** The commands available to the player on their turn */
 	enum CommandType {
 
-		/** Lets player choose and place wildlife token + habitat tile */
-		PLACE {public void enumSetCommand(Player player){}},
-
+		/** Lets player choose tile+token pair and place tile down on map*/
+		CHOOSEPAIR {public void enumSetCommand(Player player){
+			CurrentDeck.choosePair(player);
+		}},
+		
+		/** Displays the nature token shop */
+		NATURE {public void enumSetCommand(Player player){}},
+		
 		/** Display the player's map of tiles */
 		MAP {public void enumSetCommand(Player player){
 				Display.displayTileMap(player);
 			}},
-
-		/** Displays the nature token shop */
-		NATURE {public void enumSetCommand(Player player){}},
 		
 		/** Moves to next players turn. Note that the game is exited after the last
 		 * player selects this option.*/
