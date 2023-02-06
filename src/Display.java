@@ -268,7 +268,11 @@ public class Display {
 			 numTokens = 1 + new Random().nextInt(3);
 		 }
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens);
+			WildlifeToken tmp;
+			do {
+				tmp = Generation.generateWildlifeToken(Bag.remainingTokens);
+			} while (!Arrays.asList(animalTypes).contains(tmp));
+			animalTypes[i] = tmp;
 		}
 		return animalTypes;
 	}
