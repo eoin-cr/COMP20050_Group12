@@ -271,7 +271,10 @@ public class Display {
 			WildlifeToken tmp;
 			do {
 				tmp = Generation.generateWildlifeToken(Bag.remainingTokens);
-			} while (!Arrays.asList(animalTypes).contains(tmp));
+				if (Arrays.asList(animalTypes).contains(tmp)) {
+					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
+				}
+			} while (Arrays.asList(animalTypes).contains(tmp));
 			animalTypes[i] = tmp;
 		}
 		return animalTypes;
