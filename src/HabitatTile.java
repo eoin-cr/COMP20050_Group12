@@ -66,7 +66,7 @@ public class HabitatTile {
 			//numTokens = 0; ??
 		}
 		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
-//		this.edges = new Edge[NUMBER_OF_EDGES];
+		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 	}
 	
 	public static int getTileCounter() {

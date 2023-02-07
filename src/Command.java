@@ -37,7 +37,9 @@ public class Command {
 		
 		/** Moves to next players turn. Note that the game is exited after the last
 		 * player selects this option.*/
-		NEXT {public void enumSetCommand(Player player){}},
+		NEXT {public void enumSetCommand(Player player){
+			Display.displayDeck();
+		}},
 
 		/** Quits the game */
 		QUIT {public void enumSetCommand(Player player){

@@ -21,7 +21,7 @@ public class CurrentDeck {
 
 	public static void setStartTileTokenSelection() {
 	    	generateTileTokenPairs(4);
-	    	Display.displayDeck();
+	    	//Display.displayDeck();
 	        Display.sleep(500);
 	}
 	
@@ -55,6 +55,7 @@ public class CurrentDeck {
     		deckTiles.add(Generation.generateHabitatTile());
     		deckTokens.add(Generation.generateWildlifeToken());
     	}
+    	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();
     }
@@ -68,8 +69,8 @@ public class CurrentDeck {
     			deckTokens.remove(i);
     			deckTokens.add(Generation.generateWildlifeToken());
     		}
+    		Display.cullOccurence();
     	}
-    	Display.cullOccurence();
     }
     
     public static void cullCheckThreeTokens() {
