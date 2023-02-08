@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class CurrentDeck {
-	private static ArrayList<HabitatTile> deckTiles = new ArrayList<>();
-	private static ArrayList<WildlifeToken> deckTokens = new ArrayList<>();
+	public static ArrayList<HabitatTile> deckTiles = new ArrayList<>();
+	public static ArrayList<WildlifeToken> deckTokens = new ArrayList<>();
 	
 	public CurrentDeck() {}
 	
@@ -15,6 +15,9 @@ public class CurrentDeck {
 	public static ArrayList<WildlifeToken> getDeckTokens() {
 		return deckTokens;
 	}
+	public static void setDeckTokens(ArrayList<WildlifeToken> tokens) {
+		deckTokens = tokens;
+	}
 	public static WildlifeToken getToken (int index) {
 		return deckTokens.get(index);
 	}
@@ -26,6 +29,8 @@ public class CurrentDeck {
 	}
 	
 	public static void choosePair(Player player) {
+			//deal with tile here, place on map after choosing which row/column to place on
+			//TODO: change to map numberings later instead of coords
 	    	int choice = Display.chooseFromDeck();
 	    	int[] rowcol = Display.chooseTileRowColumn();
 	    	
@@ -33,10 +38,18 @@ public class CurrentDeck {
 	    	Display.displayTileMap(player);
 	    	deckTiles.remove(choice);
 	    	
-	    	//TODO: choose what to do with token here before it is removed from the current deck
-	    	//not sure how to add it to a tile, or how to choose a tile to place it on? maybe by tileID?
-	    	//put these token placement methods in the map class, and the choice method in the display class
+	    	//deal with token here, either place on a map tile or chuck it back in bag
+	    	//places on correct tile based on tileID
+	    	int[] result = Display.chooseTokenPlaceOrReturn(deckTokens.get(choice));
+	    	if (result[0] == 1) { //put token back in bag choice
+	    		Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
+	    		System.out.println("You have put the token back in the bag");
+	    	}
+	    	else if (result[0] == 2) {//add to map choice
+	    		player.getMap().addTokenToTile(deckTokens.get(choice), result[1], player);
+	    	}
 	    	deckTokens.remove(choice);
+	    	
 	    	generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	

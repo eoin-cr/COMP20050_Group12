@@ -38,7 +38,7 @@ public class HabitatTile {
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
-	private TileType keystoneType;
+	private final TileType keystoneType;
 	
 	private final WildlifeToken[] tokenOptions;
 	private boolean isTokenPlaced = false;
@@ -63,7 +63,6 @@ public class HabitatTile {
 		}
 		else {
 			keystoneType = TileType.NON_KEYSTONE;
-			//numTokens = 0; ??
 		}
 		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
@@ -79,16 +78,34 @@ public class HabitatTile {
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
-
+	public int getTileID() {
+		return tileID;
+	}
+	public TileType getKeystoneType() {
+		return keystoneType;
+	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
 	}
-	public void setTokenPlaced(boolean animalPlaced) {
-		this.isTokenPlaced = animalPlaced;
-	}
+	
 	public void setPlacedToken(WildlifeToken placedAnimal) {
 		this.placedToken = placedAnimal;
+		this.isTokenPlaced = true;
 	}
+	
+	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
+		if (this.isTokenPlaced == false) {
+			System.out.println("There is no token on this tile to remove. Please try a different tile.");
+			return null;
+		}
+		else {
+			WildlifeToken freed = this.placedToken;
+			this.placedToken = null;
+			this.isTokenPlaced = false;
+			return freed;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return habitat1.name() + " + " + habitat2.name();

@@ -134,6 +134,46 @@ public class Display {
 		return rowcol;
 	}
 	
+	public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
+		int[] result = new int[2];
+		int choice;
+		int tileID = -1;
+		
+		System.out.println();
+		System.out.println("Choose what to do with the " +token.name()+ " token you have drawn.");
+		
+		do {
+			System.out.println("Type 1 to put the token back in the bag, or 2 to place the token on one of your tiles: ");
+			try {
+				choice = Integer.parseInt(Input.getUserInput());
+				//System.out.println(choice);
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				choice = Integer.parseInt(Input.getUserInput());
+			}
+		} while(choice < 1 || choice > 2);
+		
+		if (choice == 2) {
+			
+			do {
+				System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+				try {
+					tileID = Integer.parseInt(Input.getUserInput());
+					//System.out.println(choice);
+				} catch (NumberFormatException e) {
+					System.out.println("You did not input a number. Please try again.");
+					tileID = Integer.parseInt(Input.getUserInput());
+				}
+			} while(tileID < 0 || tileID > Bag.getMaxTiles());
+			
+		}
+		
+		result[0] = choice;
+		result[1] = tileID;
+		
+		return result;
+	}
+	
 	public static int chooseCullThree() {
 		int choice;
 		System.out.println();
@@ -143,11 +183,12 @@ public class Display {
 			System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
 			try {
 				choice = Integer.parseInt(Input.getUserInput());
+				//System.out.println(choice);
 			} catch (NumberFormatException e) {
 				System.out.println("You did not input a number. Please try again.");
 				choice = Integer.parseInt(Input.getUserInput());
 			}
-		}while(choice != 1 || choice != 2);
+		}while(choice < 1 || choice > 2);
 		
 		if (choice == 2) {
 			System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
@@ -313,7 +354,7 @@ public class Display {
 	 */
 	public static void displayCommands() {
 		System.out.println("""
-				Enter CHOOSEPAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
+				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
 				Enter MAP for your current map of Tiles,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
 				Enter NEXT to move on to the next player,\s

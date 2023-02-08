@@ -19,7 +19,7 @@ public class Command {
 	enum CommandType {
 
 		/** Lets player choose tile+token pair and place tile down on map*/
-		CHOOSEPAIR {public void enumSetCommand(Player player){
+		PAIR {public void enumSetCommand(Player player){
 			CurrentDeck.choosePair(player);
 		}},
 		
