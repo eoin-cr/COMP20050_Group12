@@ -25,8 +25,17 @@ public class Player {
 	public int getPlayerNatureTokens() {
 		return playerNatureTokens;
 	}
-	public void setPlayerNatureTokens(int natureTokens) {
-		this.playerNatureTokens = natureTokens;
+	public void addPlayerNatureToken() {
+		this.playerNatureTokens++;
+	}
+	public void subPlayerNatureToken() {
+		if (playerNatureTokens > 0) {
+			this.playerNatureTokens--;
+		}
+		else {
+			this.playerNatureTokens = 0;
+			throw new IllegalArgumentException("Out of nature tokens, cannot subtract further");
+		}
 	}
 	public int getPlayerScore() {
 		return playerScore;

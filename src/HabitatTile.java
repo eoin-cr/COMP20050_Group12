@@ -39,30 +39,20 @@ public class HabitatTile {
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
 
-	private final WildlifeToken[] animalOptions;
-	private boolean isAnimalPlaced = false;
-
-	private WildlifeToken placedAnimal = null;
     public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
 //	private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
-	final static String WHITE = "\033[38;5;231m";
-	final static String WHITE_BG = "\033[48;5;231m";
-//	private static final int NUMBER_OF_EDGES = 6;
+	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
-	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTiles) {  // constructor
+	public HabitatTile(Habitat habitat1, Habitat habitat2) {  // constructor
 		this.tileID = counter;
 		counter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		if (habitat1 == habitat2) {
-			numTiles = 1;
-		}
-		animalOptions = Display.makeTokensOptionsOnTile(numTiles);
 //		this.edges = new Edge[NUMBER_OF_EDGES];
 	}
 
@@ -74,15 +64,6 @@ public class HabitatTile {
 		return habitat2;
 	}
 
-	public WildlifeToken[] getAnimalOptions() {
-		return animalOptions;
-	}
-	public void setAnimalPlaced(boolean animalPlaced) {
-		this.isAnimalPlaced = animalPlaced;
-	}
-	public void setPlacedAnimal(WildlifeToken placedAnimal) {
-		this.placedAnimal = placedAnimal;
-	}
 	@Override
 	public String toString() {
 		return habitat1.name() + " + " + habitat2.name();
@@ -112,43 +93,23 @@ public class HabitatTile {
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
 	 * be altered easily before printing.
+	 * At the moment only the habitat is coloured, the tokens are not.
 	 *
+	 * @param topLeft the top left char
+	 * @param topRight the top right char
+	 * @param bottomLeft the bottom left char
+	 * @param bottomRight the bottom right char
 	 * @return a string with ANSI colours.
 	 */
-	public String toFormattedString() {
+	public String toFormattedString(char topLeft, char topRight, char bottomLeft, char bottomRight) {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
-		char[] animal = new char[3];
-		String[] colour = new String[4];
-
-		if (!isAnimalPlaced) {
-			for (int i = 0; i < animalOptions.length; i++) {
-				if (animalOptions[i] != null) {
-					animal[i] = animalOptions[i].toChar();
-					colour[i] = animalOptions[i].getColour() + WHITE_BG;
-				}
-				else {
-					animal[i] = ' ';
-					colour[i] = "" + WHITE_BG;
-				}
-			}
-			colour[3] = WHITE_BG;
-
-		} else {
-			animal = new char[]{placedAnimal.toChar(), ' ', ' ', ' '};
-			colour = new String[]{placedAnimal.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
-		}
-
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
 		return first + full +
-					first + "    |" + ANSI_RESET +
-					colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
-					colour[1] + " " + animal[1] + "  " + ANSI_RESET +
-					first  + "|    " + ANSI_RESET + "\n" +
-					second + "    |" + ANSI_RESET +
-					colour[2] + "  " + animal[2] + ANSI_RESET +
-					colour[3] +	"      " + ANSI_RESET +
-					second  + "|    " + ANSI_RESET + "\n" +
-					second + full;
+				first + "    |" + ANSI_RESET + "  " + topLeft + "   " + topRight + "  " +
+				first  + "|    " + ANSI_RESET + "\n" +
+				second + "    |" + ANSI_RESET + "  " + bottomLeft  + "   " + bottomRight + "  " +
+				second  + "|    " + ANSI_RESET + "\n" +
+				second + full;
 	}
 }

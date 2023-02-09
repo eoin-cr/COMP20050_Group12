@@ -1,24 +1,16 @@
-/*
- * TODO: make a method that checks if a position in the map is full or empty
- */
+import java.util.ArrayList;
+
 public class PlayerMap {
-//	private ArrayList<HabitatTile> playerTiles = new ArrayList<>(); //stores player's placed tiles
-	private final HabitatTile[][] tileBoardPosition = new HabitatTile[20][20]; //position of tiles on map
+	private static final int BOARD_HEIGHT = 20;
+	private static final int BOARD_WIDTH = 20;
+	private static ArrayList<HabitatTile> tilesInMap;
+	private final HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
+		tilesInMap = new ArrayList<>();
 		makeStarterTiles();
 	}
 	
-//	public ArrayList<HabitatTile> getPlayerTiles() {
-//		return playerTiles;
-//	}
-	
-	//not sure if this method needs to exist, just currently used in game class 
-//	public void setPlayerTiles(ArrayList<HabitatTile> generatedTilesList) {
-//		this.playerTiles = generatedTilesList;
-//
-//	}
-
 	public void makeStarterTiles() {
 		HabitatTile[] starter = Generation.generateStarterHabitat();
 		addTileToMap(starter[0], 8, 10); //places tiles in the middle of the map
@@ -48,12 +40,53 @@ public class PlayerMap {
 	 * position
 	 */
 	public void addTileToMap(HabitatTile tile, int row, int col) throws IllegalArgumentException {
-//		playerTiles.add(tile);
 		if (tileBoardPosition[row][col] != null) {
 			throw new IllegalArgumentException("There is already a tile at that position!");
 		} //TODO: handle this in the method itself by asking them to place again somewhere else
 		tileBoardPosition[row][col] = tile;
+		tilesInMap.add(tile);
 	}
 	
+	//replaces token options with placed token, inverts colours, turns boolean to true
+	public void addTokenToTile(WildlifeToken token, int tileID, Player p) {
+		//place it on the correct tile
+		boolean placed = false;
+		for (HabitatTile tile : tilesInMap) {
+			if (tile.getTileID() == tileID)	{
+				//check if the token type matches options
+				placed = checkTokenOptionsMatch(token, tile);
+				if (placed == true) {
+					tile.setPlacedToken(token);
+					System.out.println("You have successfully placed your token.");
+					Display.displayTileMap(p);
+					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token
+					break;
+				}
+			}
+		}
+
+		if (placed == false) {
+			System.out.println("You are trying to add a token to an invalid tile.");
+			System.out.println("Please try again.");
+			Display.chooseTokenPlaceOrReturn(token);
+		}	
+	}
+	
+	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
+		for (WildlifeToken w : tile.getTokenOptions()) {
+			if (token == w) {
+				return true;
+			}
+		}
+		System.out.println("The tile's options for valid tokens do not match.");
+		return false;
+	}
+	
+	//check if player gets a nature token once token is placed
+	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
+		if (tile.getKeystoneType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
+			p.addPlayerNatureToken(); //increments player's nature tokens
+		}
+	}
 
 }

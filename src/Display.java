@@ -111,7 +111,7 @@ public class Display {
 				if (board[i][j] == null) {
 					line = indentFullTile(line);
 				} else {
-					line = combineTiles(board[i][j].toFormattedString(), line);
+					line = combineTiles(board[i][j].toFormattedString('A', 'B', 'C', 'D'), line);
 				}
 			}
 			if (i % 2 == 0) {
@@ -241,6 +241,8 @@ public class Display {
 				""");
 	}
 
+	public static final String ANSI_RESET = "\u001B[0m";
+
 	/**
 	 * Prints a tile to the terminal.
 	 * The top half and bottom half both have a habitat colour (can be the
@@ -253,28 +255,50 @@ public class Display {
 	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
 
+	/*
+	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
+
+									  char char3, char char4) {
+		String first = tile.getHabitat1().getBackgroundColour();
+		String second = tile.getHabitat2().getBackgroundColour();
+		String full =  "    |    |    |    " + ANSI_RESET + "\n";
+		System.out.println(
+				first + full +
+				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
+				first  + "|    " + ANSI_RESET + "\n" +
+				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
+				second  + "|    " + ANSI_RESET + "\n" +
+				second + full
+		);
+
+	}
+		*/
+
 	 public static void printHalfTile (HabitatTile tile) {
-		 System.out.println(tile.toFormattedString());
+		 String first = tile.getHabitat1().getBackgroundColour();
+		 String second = tile.getHabitat2().getBackgroundColour();
+		 char[] animalTypes = makeTokensOptionsOnTile();
+
+		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
+		 System.out.println(
+				 first + full +
+				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
+				 first  + "|    " + ANSI_RESET + "\n" +
+				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
+				 second  + "|    " + ANSI_RESET + "\n" +
+				 second + full
+				 );
+
 	 }
 
-	/**
-	 * Generates the options for tokens that can be placed on a tile.
-	 *
-	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
-	 *                  to set a specified amount
-	 * @return wildlife tokens
-	 */
-	public static WildlifeToken[] makeTokensOptionsOnTile(int numTokens) {
-		if (numTokens < 0 || numTokens > 3) {
-			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
-		}
-		WildlifeToken[] animalTypes = new WildlifeToken[3];
-		 if (numTokens == 0) {
-			 numTokens = 1 + new Random().nextInt(3);
-		 }
+	public static char[] makeTokensOptionsOnTile() {
+		char[] animalTypes = {' ', ' ', ' ', ' '};
+		int numTokens = 1 + new Random().nextInt(3);
+
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens);
+			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).toChar();
 		}
+
 		return animalTypes;
 	}
 
