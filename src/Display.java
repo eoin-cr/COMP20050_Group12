@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
 
 /**
  * Deals with outputting to the console.
@@ -66,9 +64,6 @@ public class Display {
 	 * Displays tile token pairs.
 	 * The habitat of the tile and the token will be printed, as well as the
 	 * 'image' of the tile.
-	 *
-	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
-	 *                       printed
 	 */
 	public static void displayDeck() {
     	System.out.println();

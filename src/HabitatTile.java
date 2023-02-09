@@ -92,9 +92,10 @@ public class HabitatTile {
 		this.placedToken = placedAnimal;
 		this.isTokenPlaced = true;
 	}
-	
+
+	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
 	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
-		if (this.isTokenPlaced == false) {
+		if (!this.isTokenPlaced) {
 			System.out.println("There is no token on this tile to remove. Please try a different tile.");
 			return null;
 		}
@@ -170,7 +171,8 @@ public class HabitatTile {
 					first  + "|    " + ANSI_RESET + "\n" +
 					second + "    |" + ANSI_RESET +
 					colour[2] + "  " + animal[2] + ANSI_RESET +
-					colour[3] +	"      " + ANSI_RESET +
+				// inserts tile number and adds padding
+					colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
 					second  + "|    " + ANSI_RESET + "\n" +
 					second + full;
 	}

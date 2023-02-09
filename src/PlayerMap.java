@@ -48,14 +48,19 @@ public class PlayerMap {
 	}
 	
 	//replaces token options with placed token, inverts colours, turns boolean to true
-	public void addTokenToTile(WildlifeToken token, int tileID, Player p) {
+	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
 		//place it on the correct tile
 		boolean placed = false;
 		for (HabitatTile tile : tilesInMap) {
+			System.out.println("---");
+			System.out.println(tileID);
+			System.out.println(tile.getTileID());
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
 				placed = checkTokenOptionsMatch(token, tile);
-				if (placed == true) {
+				System.out.println(placed);
+				if (placed) {
+					System.out.println("Inner loop reached");
 					tile.setPlacedToken(token);
 					System.out.println("You have successfully placed your token.");
 					Display.displayTileMap(p);
@@ -65,11 +70,13 @@ public class PlayerMap {
 			}
 		}
 
-		if (placed == false) {
+		if (!placed) {
 			System.out.println("You are trying to add a token to an invalid tile.");
 			System.out.println("Please try again.");
-			Display.chooseTokenPlaceOrReturn(token);
-		}	
+		}
+
+		// returns -1 if unsuccessful in placing, otherwise returns 0
+		return placed;
 	}
 	
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
