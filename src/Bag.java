@@ -17,13 +17,13 @@ public class Bag {
      */
     // TODO: Change these values to the ones that correspond to the amount of players
     public void makeBag (int numplayers) {
-        remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
-        remainingHabitats.put(HabitatTile.Habitat.River, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Wetland, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Prairie, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Mountain, 20);
+        remainingHabitats.put(HabitatTile.Habitat.Forest, 12);
+        remainingHabitats.put(HabitatTile.Habitat.River, 12);
+        remainingHabitats.put(HabitatTile.Habitat.Wetland, 12);
+        remainingHabitats.put(HabitatTile.Habitat.Prairie, 12);
+        remainingHabitats.put(HabitatTile.Habitat.Mountain, 12);
 
-        remainingTypes.put(HabitatTile.TileType.NON_KEYSTONE, 100);
+        remainingTypes.put(HabitatTile.TileType.NON_KEYSTONE, 60);
         remainingTypes.put(HabitatTile.TileType.KEYSTONE, 25);
 
         remainingTokens.put(WildlifeToken.Bear, 20);

@@ -31,7 +31,7 @@ public class PlayerMap {
 	 * map of tiles.
 	 *
 	 * @return a 2d array of habitat tiles (if a tile has not been placed the
-	 * el(String)(String)ement will be null)
+	 * (String)element will be null)
 	 */
 	public HabitatTile[][] getTileBoardPosition() {
 		return tileBoardPosition;
