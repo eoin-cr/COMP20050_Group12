@@ -3,12 +3,16 @@ import java.util.ArrayList;
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
-	private static ArrayList<HabitatTile> tilesInMap;
+	private ArrayList<HabitatTile> tilesInMap;
 	private final HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
 		tilesInMap = new ArrayList<>();
 		makeStarterTiles();
+	}
+	
+	public ArrayList<HabitatTile> getTilesInMap() {
+		return tilesInMap;
 	}
 	
 	public void makeStarterTiles() {
@@ -51,10 +55,16 @@ public class PlayerMap {
 	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
 		//place it on the correct tile
 		boolean placed = false;
+		
 		for (HabitatTile tile : tilesInMap) {
+
+			System.out.println(tile.getTileID());
+			System.out.println(tileID);
+
 			System.out.println("---");
 			System.out.println(tileID);
 			System.out.println(tile.getTileID());
+
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
 				placed = checkTokenOptionsMatch(token, tile);

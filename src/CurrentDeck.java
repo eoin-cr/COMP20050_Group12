@@ -29,6 +29,7 @@ public class CurrentDeck {
 	}
 	
 	public static void choosePair(Player player) {
+
 		//deal with tile here, place on map after choosing which row/column to place on
 		//TODO: change to map numberings later instead of coords
 		int choice = Display.chooseFromDeck();
@@ -52,7 +53,7 @@ public class CurrentDeck {
 			}
 		}
 		deckTokens.remove(choice);
-
+		
 		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	
