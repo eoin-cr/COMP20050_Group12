@@ -89,13 +89,20 @@ public class PlayerMap {
 	}
 	
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
-		for (WildlifeToken w : tile.getTokenOptions()) {
-			if (token == w) {
-				return true;
-			}
+		if (tile.getIsTokenPlaced() == true) {
+			System.out.println("There is already a token on this tile.");
+			return false;
 		}
-		System.out.println("The tile's options for valid tokens do not match.");
-		return false;
+		
+		else {
+			for (WildlifeToken w : tile.getTokenOptions()) {
+				if (token == w) {
+					return true;
+				}
+			}
+			System.out.println("The tile's options for valid tokens do not match.");
+			return false;
+		}
 	}
 	
 	//check if player gets a nature token once token is placed

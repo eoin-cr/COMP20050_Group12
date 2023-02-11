@@ -186,8 +186,11 @@ public class Display {
 				choice = Integer.parseInt(Input.getUserInput());
 			}
 		}while(choice < 1 || choice > 2);
+		if (choice == 1) {
+			System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+		}
 		
-		if (choice == 2) {
+		else if (choice == 2) {
 			System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
 		}
 		

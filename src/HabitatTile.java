@@ -88,6 +88,9 @@ public class HabitatTile {
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
 	}
+	public boolean getIsTokenPlaced() {
+		return isTokenPlaced;
+	}
 	
 	public void setPlacedToken(WildlifeToken placedAnimal) {
 		this.placedToken = placedAnimal;
