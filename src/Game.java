@@ -33,7 +33,6 @@ public class Game {
           Display.printPlayers(playerNames);  // from Display class
           Display.sleep(500);
 
-
           ScoreCard.generateScorecards();
           Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
 
@@ -86,5 +85,4 @@ public class Game {
             Display.sleep(500);
         }
     }
-
 }
