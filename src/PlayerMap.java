@@ -1,10 +1,18 @@
+import java.util.ArrayList;
+
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
+	private ArrayList<HabitatTile> tilesInMap;
 	private final HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
+		tilesInMap = new ArrayList<>();
 		makeStarterTiles();
+	}
+	
+	public ArrayList<HabitatTile> getTilesInMap() {
+		return tilesInMap;
 	}
 	
 	public void makeStarterTiles() {
@@ -40,7 +48,68 @@ public class PlayerMap {
 			throw new IllegalArgumentException("There is already a tile at that position!");
 		} //TODO: handle this in the method itself by asking them to place again somewhere else
 		tileBoardPosition[row][col] = tile;
+		tilesInMap.add(tile);
 	}
 	
+	//replaces token options with placed token, inverts colours, turns boolean to true
+	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
+		//place it on the correct tile
+		boolean placed = false;
+		
+		for (HabitatTile tile : tilesInMap) {
+
+//			System.out.println(tile.getTileID()); //error checking tileID stuff
+//			System.out.println(tileID);
+//
+//			System.out.println("---");
+//			System.out.println(tileID);
+//			System.out.println(tile.getTileID());
+
+			if (tile.getTileID() == tileID)	{
+				//check if the token type matches options
+				placed = checkTokenOptionsMatch(token, tile);
+				if (placed) {
+					tile.setPlacedToken(token);
+					System.out.println("You have successfully placed your token.");
+					Display.displayTileMap(p);
+					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token
+					break;
+				}
+			}
+		}
+
+		if (!placed) {
+			System.out.println("You are trying to add a token to an invalid tile.");
+			System.out.println("Please try again.");
+		}
+
+		// returns -1 if unsuccessful in placing, otherwise returns 0
+		return placed;
+	}
+	
+	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
+		if (tile.getIsTokenPlaced() == true) {
+			System.out.println("There is already a token on this tile.");
+			return false;
+		}
+		
+		else {
+			for (WildlifeToken w : tile.getTokenOptions()) {
+				if (token == w) {
+					return true;
+				}
+			}
+			System.out.println("The tile's options for valid tokens do not match.");
+			return false;
+		}
+	}
+	
+	//check if player gets a nature token once token is placed
+	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
+		if (tile.getKeystoneType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
+			p.addPlayerNatureToken(); //increments player's nature tokens
+			System.out.println("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
+		}
+	}
 
 }

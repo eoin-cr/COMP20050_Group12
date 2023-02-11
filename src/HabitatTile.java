@@ -10,6 +10,10 @@ import java.util.Objects;
  */
 public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
+	public static final String WHITE = "\033[38;5;231m";
+	public static final String WHITE_BG = "\033[48;5;231m";
+	//private static final int NUMBER_OF_EDGES = 6;
+	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	/**
 	 * The habitats that a tile can have.
@@ -36,43 +40,77 @@ public class HabitatTile {
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
-	private final WildlifeToken[] animalOptions;
-	private boolean isAnimalPlaced = false;
-	private WildlifeToken placedAnimal = null;
-    public static int counter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
+	private final TileType keystoneType;
+	
+	private final WildlifeToken[] tokenOptions;
+	private boolean isTokenPlaced = false;
+	private WildlifeToken placedToken = null;
+	
+    private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
+    //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
-	final static String WHITE = "\033[38;5;231m";
-	final static String WHITE_BG = "\033[48;5;231m";
 
-	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTiles) {  // constructor
-		this.tileID = counter;
-		counter++;
+	//constructor
+	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {  
+		this.tileID = tileCounter;
+		tileCounter++;
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
 		if (habitat1 == habitat2) {
-			numTiles = 1;
+			keystoneType = TileType.KEYSTONE;
+			numTokens = 1;
 		}
-		animalOptions = Display.makeTokensOptionsOnTile(numTiles);
+		else {
+			keystoneType = TileType.NON_KEYSTONE;
+		}
+		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
+		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 	}
-
+	
+	public static int getTileCounter() {
+		return tileCounter;
+	}
 	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
 	}
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
-	public WildlifeToken[] getAnimalOptions() {
-		return animalOptions;
+	public int getTileID() {
+		return tileID;
 	}
-	public void setAnimalPlaced(boolean animalPlaced) {
-		this.isAnimalPlaced = animalPlaced;
+	public TileType getKeystoneType() {
+		return keystoneType;
 	}
-	public void setPlacedAnimal(WildlifeToken placedAnimal) {
-		this.placedAnimal = placedAnimal;
+	public WildlifeToken[] getTokenOptions() {
+		return tokenOptions;
 	}
+	public boolean getIsTokenPlaced() {
+		return isTokenPlaced;
+	}
+	
+	public void setPlacedToken(WildlifeToken placedAnimal) {
+		this.placedToken = placedAnimal;
+		this.isTokenPlaced = true;
+	}
+
+	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
+	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
+		if (!this.isTokenPlaced) {
+			System.out.println("There is no token on this tile to remove. Please try a different tile.");
+			return null;
+		}
+		else {
+			WildlifeToken freed = this.placedToken;
+			this.placedToken = null;
+			this.isTokenPlaced = false;
+			return freed;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return habitat1.name() + " + " + habitat2.name();
@@ -103,18 +141,18 @@ public class HabitatTile {
 	 * be altered easily before printing.
 	 *
 	 * @return a string with ANSI colours.
-	 */
+	 */	
 	public String toFormattedString() {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
 		char[] animal = new char[3];
 		String[] colour = new String[4];
 
-		if (!isAnimalPlaced) {
-			for (int i = 0; i < animalOptions.length; i++) {
-				if (animalOptions[i] != null) {
-					animal[i] = animalOptions[i].toChar();
-					colour[i] = animalOptions[i].getColour() + WHITE_BG;
+		if (!isTokenPlaced) {
+			for (int i = 0; i < tokenOptions.length; i++) {
+				if (tokenOptions[i] != null) {
+					animal[i] = tokenOptions[i].toChar();
+					colour[i] = tokenOptions[i].getColour() + WHITE_BG;
 				}
 				else {
 					animal[i] = ' ';
@@ -124,8 +162,8 @@ public class HabitatTile {
 			colour[3] = WHITE_BG;
 
 		} else {
-			animal = new char[]{placedAnimal.toChar(), ' ', ' ', ' '};
-			colour = new String[]{placedAnimal.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
+			animal = new char[]{placedToken.toChar(), ' ', ' ', ' '};
+			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
 		}
 
 		String full =  "    |    |    |    " + ANSI_RESET + "\n";
@@ -136,7 +174,8 @@ public class HabitatTile {
 					first  + "|    " + ANSI_RESET + "\n" +
 					second + "    |" + ANSI_RESET +
 					colour[2] + "  " + animal[2] + ANSI_RESET +
-					colour[3] +	"      " + ANSI_RESET +
+				// inserts tile number and adds padding
+					colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
 					second  + "|    " + ANSI_RESET + "\n" +
 					second + full;
 	}
