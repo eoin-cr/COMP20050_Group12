@@ -77,14 +77,24 @@ public class CurrentDeck {
     }
     	
     public static void cullCheckFourTokens() {
-    	while (deckTokens.get(0) == deckTokens.get(1) && deckTokens.get(0) == deckTokens.get(2)
+//    	System.out.println(deckTokens.get(0).name()+","+deckTokens.get(1).name()+deckTokens.get(2).name()+","+
+//    			deckTokens.get(3).name());
+//    	System.out.println("---");
+    	while (deckTokens.get(0) == deckTokens
+    			.get(1) && deckTokens.get(0) == deckTokens.get(2)
     			&& deckTokens.get(0) == deckTokens.get(3)) {
     		for (int i = 0; i < deckTokens.size(); i++) {
     			//adds removed tokens back to remainingTokens
     			Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
-    			deckTokens.add(Generation.generateWildlifeToken());
+    			deckTokens.remove(i);
+    			System.out.println("cull4 removing "+deckTokens.get(i).name()+ " token at "+i);
     		}
-			deckTokens.clear();
+    		for (int i = 0; i < deckTiles.size(); i++) {
+    			//creates a new matching token for each tile
+    			deckTokens.add(Generation.generateWildlifeToken());
+    			System.out.println("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
+    		}
+    		
     		Display.cullOccurence();
     	}
     }
@@ -111,15 +121,22 @@ public class CurrentDeck {
     	if (threeMatch) {
     		int choice = Display.chooseCullThree();
     		if (choice == 1) {//cull choice
+    			int removeCounter = 0;
     			for (int i = 0; i < deckTokens.size(); i++) {
     				if (getToken(i) == type) {
     					//adds removed tokens back to remainingTokens
+    					System.out.println("cull3 removing "+deckTokens.get(i).name()+ " token at "+i);
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
-    	    			deckTokens.add(Generation.generateWildlifeToken());
-    				}
+    					deckTokens.remove(i);
+    					removeCounter++;
+    				}	
     			}
-				deckTokens.clear();
+    			for (int i = 0; i < removeCounter; i++) {
+    				deckTokens.add(Generation.generateWildlifeToken());
+    				System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
+    			}
     			Display.cullOccurence();
+    			cullCheckFourTokens();
     		}
     		//if choice is 2, deck remains unchanged - message display handled in display
     	}	

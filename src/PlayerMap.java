@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class PlayerMap {
@@ -58,19 +59,17 @@ public class PlayerMap {
 		
 		for (HabitatTile tile : tilesInMap) {
 
-			System.out.println(tile.getTileID());
-			System.out.println(tileID);
-
-			System.out.println("---");
-			System.out.println(tileID);
-			System.out.println(tile.getTileID());
+//			System.out.println(tile.getTileID()); //error checking tileID stuff
+//			System.out.println(tileID);
+//
+//			System.out.println("---");
+//			System.out.println(tileID);
+//			System.out.println(tile.getTileID());
 
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
 				placed = checkTokenOptionsMatch(token, tile);
-				System.out.println(placed);
 				if (placed) {
-					System.out.println("Inner loop reached");
 					tile.setPlacedToken(token);
 					System.out.println("You have successfully placed your token.");
 					Display.displayTileMap(p);
@@ -103,6 +102,7 @@ public class PlayerMap {
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
 		if (tile.getKeystoneType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
 			p.addPlayerNatureToken(); //increments player's nature tokens
+			System.out.println("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
 		}
 	}
 

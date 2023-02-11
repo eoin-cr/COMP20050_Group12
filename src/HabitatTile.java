@@ -17,6 +17,7 @@ public class HabitatTile {
 
 	 //The habitats that a tile can have.
 	 //Stores also the ANSI codes for text and background colours.
+
     enum Habitat {
 		Forest("\033[38;2;84;130;53m", "\033[48;2;84;130;53m"),
 		Wetland("\033[48;2;198;224;180m", "\033[48;2;198;224;180m"),
@@ -74,10 +75,10 @@ public class HabitatTile {
 	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
 	}
-
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
+
 	public int getTileID() {
 		return tileID;
 	}
@@ -139,6 +140,7 @@ public class HabitatTile {
 	 *
 	 * @return a string with ANSI colours.
 	 */
+	
 	public String toFormattedString() {
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();

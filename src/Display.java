@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Deals with outputting to the console.
@@ -68,6 +69,7 @@ public class Display {
 	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
+
     	for (int i = 0; i < 4; i++) {
     		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
     				", Token: " +CurrentDeck.getToken(i).toString());
@@ -291,9 +293,7 @@ public class Display {
 				}
 			}
 		}
-
 		return boundaries;
-
 	}
 
 	/**
@@ -365,13 +365,39 @@ public class Display {
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
 	 */
-	// new display method which is closer to what he wants
-	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
 
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
+
+	/**
+	 * Generates the options for tokens that can be placed on a tile.
+	 *
+	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
+	 *                  to set a specified amount
+	 * @return wildlife tokens
+	 */
+	public static WildlifeToken[] makeTokensOptionsOnTile(int numTokens) {
+		if (numTokens < 0 || numTokens > 3) {
+			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
+		}
+		WildlifeToken[] animalTypes = new WildlifeToken[3];
+		 if (numTokens == 0) {
+			 numTokens = 1 + new Random().nextInt(3);
+		 }
+		for (int i = 0; i < numTokens; i++) {
+			WildlifeToken tmp;
+			do {
+				tmp = Generation.generateWildlifeToken();
+				if (Arrays.asList(animalTypes).contains(tmp)) {
+					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
+				}
+			} while (Arrays.asList(animalTypes).contains(tmp));
+			animalTypes[i] = tmp;
+		}
+		return animalTypes;
+	}
 
 	/**
 	 * Returns a string containing a character repeated a certain amount of

@@ -29,7 +29,7 @@ public class Bag {
     public static void makeBag (int numplayers) {
     	//make tokens
     	remainingTokens.put(WildlifeToken.Bear, 20);
-        remainingTokens.put(WildlifeToken.Elk, 20);
+    	remainingTokens.put(WildlifeToken.Elk, 20);
         remainingTokens.put(WildlifeToken.Salmon, 20);
         remainingTokens.put(WildlifeToken.Hawk, 20);
         remainingTokens.put(WildlifeToken.Fox, 20);
