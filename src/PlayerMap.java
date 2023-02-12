@@ -1,23 +1,20 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
-	private ArrayList<HabitatTile> tilesInMap;
-	private final HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
+	private final ArrayList<HabitatTile> tilesInMap;
+	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
 		tilesInMap = new ArrayList<>();
 		makeStarterTiles();
 	}
-	
-	public ArrayList<HabitatTile> getTilesInMap() {
-		return tilesInMap;
-	}
-	
+
 	public void makeStarterTiles() {
 		HabitatTile[] starter = Generation.generateStarterHabitat();
-		addTileToMap(starter[0], 8, 10); //places tiles in the middle of the map
+		addTileToMap(starter[0], 8, 9); //places tiles in the middle of the map
 		addTileToMap(starter[1], 9, 9);
 		addTileToMap(starter[2], 9, 10);
 	}
@@ -31,6 +28,19 @@ public class PlayerMap {
 	 */
 	public HabitatTile[][] getTileBoardPosition() {
 		return tileBoardPosition;
+	}
+
+	/**
+	 * Used to set a full tile board.
+	 * Do not use this method unless you are copying a full tile board into
+	 * a new player.
+	 * Just use the add tile to map method for adding tiles.
+	 *
+	 * @param board the board to set the map as
+	 * @see PlayerMap#addTileToMap(HabitatTile, int, int)
+	 */
+	public void setTileBoard(HabitatTile[][] board) {
+		tileBoardPosition = board;
 	}
 
 	/**
@@ -88,7 +98,7 @@ public class PlayerMap {
 	}
 	
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
-		if (tile.getIsTokenPlaced() == true) {
+		if (tile.getIsTokenPlaced()) {
 			System.out.println("There is already a token on this tile.");
 			return false;
 		}
@@ -110,6 +120,41 @@ public class PlayerMap {
 			p.addPlayerNatureToken(); //increments player's nature tokens
 			System.out.println("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
 		}
+	}
+
+	/**
+	 * Adds all the possible tiles that can be placed according to the rules of
+	 * the game to the map
+	 */
+	public void addPossibleTiles () {
+		HabitatTile[][] tmpBoard = deepCopy(tileBoardPosition); //position of tiles on map
+		for (int i = 1; i < BOARD_HEIGHT-1; i++) {
+			for (int j = 1; j < BOARD_WIDTH-1; j++) {
+				int indent;
+				if (i % 2 == 0) {
+					indent = 1;
+				} else {
+					indent = 0;
+				}
+				if (tmpBoard[i][j] == null & (
+						tmpBoard[i][j-1] != null
+						|| tmpBoard[i][j+1] != null
+						|| tmpBoard[i-1][j] != null
+						|| tmpBoard[i+1][j] != null)) {
+					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
+					tile.setFakeTile(true);
+					addTileToMap(tile, i, j);
+				}
+			}
+		}
+	}
+	
+	private static HabitatTile[][] deepCopy(HabitatTile[][] original) {
+		final HabitatTile[][] result = new HabitatTile[original.length][];
+		for (int i = 0; i < original.length; i++) {
+			result[i] = Arrays.copyOf(original[i], original[i].length);
+		}
+		return result;
 	}
 
 }

@@ -20,11 +20,8 @@ public class Generation {
      * Randomly generates a wildlife token.
      * Uses a hashmap to decrease the probability of getting a certain animal
      * as more tokens with that animal are placed.
-     *
-     * @param wildlifeTokensRemaining a hashmap with the amount of each type of
-     *                                token remaining
      */
-    public static WildlifeToken generateWildlifeToken () {
+    public static WildlifeToken generateWildlifeToken (boolean removeFromRemaining) {
         int tokensLeft = 0;
 
         // get the total amount of tokens left of all animal types
@@ -39,7 +36,9 @@ public class Generation {
             index -= entry.getValue();
             if (index <= 0 && animalType == null) {
                 animalType = entry.getKey();
-                Bag.remainingTokens.put(entry.getKey(), entry.getValue() - 1);
+                if (removeFromRemaining) {
+                    Bag.remainingTokens.put(entry.getKey(), entry.getValue() - 1);
+                }
             }
         }
         return animalType;
@@ -61,7 +60,7 @@ public class Generation {
 			 numTokens = 1 + new Random().nextInt(3);
 		 }
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken();
+			animalTypes[i] = Generation.generateWildlifeToken(false);
 		}
 		return animalTypes;
 	}

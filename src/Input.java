@@ -122,5 +122,122 @@ public class Input {
          */
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
-    }   
+    }
+
+    public static int chooseFromDeck() {
+        int choice;
+        System.out.println();
+
+        do {
+        System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+        System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+        try {
+            choice = Integer.parseInt(getUserInput());
+        } catch (NumberFormatException e) {
+            System.out.println("You did not input a number. Please try again.");
+            choice = Integer.parseInt(getUserInput());
+        }
+        } while (choice < 1 || choice > 4);
+
+        choice--;
+        System.out.println("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
+                +CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
+
+        return choice;
+    }
+
+    public static int[] chooseTileRowColumn() {
+        int[] rowcol = new int[2];
+        int row;
+        int col;
+
+        do {
+            System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
+            try {
+                row = Integer.parseInt(getUserInput());
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                row = Integer.parseInt(getUserInput());
+            }
+        }while(row < 1 || row > 20);
+
+        do {
+            System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
+            try {
+                col = Integer.parseInt(getUserInput());
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                col = Integer.parseInt(getUserInput());
+            }
+        }while(col < 1 || col > 20);
+
+        rowcol[0] = row;
+        rowcol[1] = col;
+
+        return rowcol;
+    }
+
+    public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
+        int[] result = new int[2];
+        int choice;
+        int tileID = -1;
+
+        System.out.println();
+        System.out.println("Choose what to do with the " +token.name()+ " token you have drawn.");
+
+        do {
+            System.out.println("Type 1 to place the token on one of your tiles, or 2 to put the token back in the bag: ");
+            try {
+                choice = Integer.parseInt(getUserInput());
+                //System.out.println(choice);
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                choice = Integer.parseInt(getUserInput());
+            }
+        } while(choice < 1 || choice > 2);
+
+        if (choice == 2) {
+
+            do {
+                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+                try {
+                    tileID = Integer.parseInt(getUserInput());
+                    //System.out.println(choice);
+                } catch (NumberFormatException e) {
+                    System.out.println("You did not input a number. Please try again.");
+                    tileID = Integer.parseInt(getUserInput());
+                }
+            } while(tileID < 0 || tileID > Bag.getMaxTiles());
+
+        }
+
+        result[0] = choice;
+        result[1] = tileID;
+
+        return result;
+    }
+
+    public static int chooseCullThree() {
+        int choice;
+        System.out.println();
+        System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+
+        do {
+            System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+            try {
+                choice = Integer.parseInt(getUserInput());
+                //System.out.println(choice);
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                choice = Integer.parseInt(getUserInput());
+            }
+        }while(choice < 1 || choice > 2);
+        if (choice == 1) {
+            System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+        } else {
+            System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+        }
+
+        return choice;
+    }
 }

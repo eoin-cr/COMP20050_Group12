@@ -52,7 +52,7 @@ public class Game {
      */
     public void startPlayerTurns() {
         // TODO: This loop exits after the player list has been iterated though.
-        // Instead, we want it to finish when all the tokens have ran out.
+        //       Instead, we want it to finish when all the tokens have run out.
     	while (HabitatTile.getTileCounter() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
