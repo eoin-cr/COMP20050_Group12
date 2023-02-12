@@ -24,27 +24,48 @@ public class Generation {
      * @param wildlifeTokensRemaining a hashmap with the amount of each type of
      *                                token remaining
      */
-    public static WildlifeToken generateWildlifeToken (Map<WildlifeToken, Integer> wildlifeTokensRemaining) {
+    public static WildlifeToken generateWildlifeToken () {
         int tokensLeft = 0;
 
         // get the total amount of tokens left of all animal types
-        for (Integer value : wildlifeTokensRemaining.values()) {
+        for (Integer value : Bag.remainingTokens.values()) {
             tokensLeft += value;
         }
 
         int index = new Random().nextInt(tokensLeft);
         WildlifeToken animalType = null;
 
-        for (Map.Entry<WildlifeToken, Integer> entry : wildlifeTokensRemaining.entrySet()) {
+        for (Map.Entry<WildlifeToken, Integer> entry : Bag.remainingTokens.entrySet()) {
             index -= entry.getValue();
             if (index <= 0 && animalType == null) {
                 animalType = entry.getKey();
-                wildlifeTokensRemaining.put(entry.getKey(), entry.getValue() - 1);
+                Bag.remainingTokens.put(entry.getKey(), entry.getValue() - 1);
             }
         }
         return animalType;
     }
 
+    /**
+	 * Generates the options for tokens that can be placed on a tile.
+	 *
+	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
+	 *                  to set a specified amount
+	 * @return wildlife tokens
+	 */
+	public static WildlifeToken[] generateTokenOptionsOnTiles(int numTokens) {
+		if (numTokens < 0 || numTokens > 3) {
+			throw new IllegalArgumentException("numTokens must be between 1-3. You entered " + numTokens);
+		}
+		WildlifeToken[] animalTypes = new WildlifeToken[3];
+		 if (numTokens == 0) {
+			 numTokens = 1 + new Random().nextInt(3);
+		 }
+		for (int i = 0; i < numTokens; i++) {
+			animalTypes[i] = Generation.generateWildlifeToken();
+		}
+		return animalTypes;
+	}
+	
     /**
      * Generates a new habitat tile.
      * The chance of it returning a keystone type is dependent on the amount of
