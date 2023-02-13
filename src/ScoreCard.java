@@ -1,15 +1,15 @@
 import java.util.Random;
 
 public class ScoreCard {
-	private static String[] scorecards = new String[5];	;
-//	stores the 5 score card options selected, 
+	private static String[] scorecards = new String[5];
+//	stores the 5 scorecard options selected,
 //	each randomly generated from a choice of 4 possible options of cards
 //	indexing:
-//	index 0 stores Bear score card option as a string		(B1,B2,B3,B4)
-//	index 1 stores Elk score card option as a string		(E1,E2,E3,E4)
-//	index 2 stores Salmon score card option as a string		(S1,S2,S3,S4)
-//	index 3 stores Hawk score card option as a string		(H1,H2,H3,H4)
-//	index 4 stores Fox score card option as a string		(F1,F2,F3,F4)
+//	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
+//	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
+//	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
+//	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
+//	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
 	
 	public ScoreCard() {}
 
@@ -99,7 +99,7 @@ public class ScoreCard {
 				System.out.println("  4     ||     27  ");
 				System.out.println();
 				break;
-				
+
 			case "B2":
 				System.out.println("BEAR SCORECARD 2: \n"
 						+ "Score 10 points for each group of exactly three bears \n"
@@ -109,7 +109,7 @@ public class ScoreCard {
 				System.out.println("  1     ||     10  ");
 				System.out.println();
 				break;
-				
+
 			case "B3":
 				System.out.println("BEAR SCORECARD 3: \n"
 						+ "Score as below for each group of bears 1-3 in size, \n"
@@ -122,7 +122,7 @@ public class ScoreCard {
 				System.out.println("  ALL   ||    +3   ");
 				System.out.println();
 				break;
-				
+
 			case "B4":
 				System.out.println("BEAR SCORECARD 4: \n"
 						+ "Score as below for each group of bears 2-4 in size.\n");
@@ -133,7 +133,7 @@ public class ScoreCard {
 				System.out.println("  4     ||     13  ");
 				System.out.println();
 				break;
-				
+
 			case "E1":
 				System.out.println("ELK SCORECARD 1: \n"
 						+ "Score as below for lines of elk in any orientation, \n"
@@ -146,7 +146,7 @@ public class ScoreCard {
 				System.out.println("  4     ||     13  ");
 				System.out.println();
 				break;
-				
+
 			case "E2":
 				System.out.println("ELK SCORECARD 2: \n"
 						+ "Score for one lone elk, two elk side by side, three elk in a triangle formation, \n"
@@ -159,7 +159,7 @@ public class ScoreCard {
 				System.out.println("  4     ||     13  ");
 				System.out.println();
 				break;
-				
+
 			case "E3":
 				System.out.println("ELK SCORECARD 3: \n"
 						+ "Score as below for each contiguous group of elk, based on size. \n"
@@ -176,7 +176,7 @@ public class ScoreCard {
 				System.out.println("  8+    ||     28  ");
 				System.out.println();
 				break;
-				
+
 			case "E4":
 				System.out.println("ELK SCORECARD 4: \n"
 						+ "Score as below for elk in a circular formation (surrounding a single non-elk tile.\n"
@@ -191,7 +191,7 @@ public class ScoreCard {
 				System.out.println("  6     ||     21  ");
 				System.out.println();
 				break;
-				
+
 			case "S1":
 				System.out.println("SALMON SCORECARD 1: \n"
 						+ "Score as below for each run of salmon, based on size, up to a max of 7.\n");
@@ -206,7 +206,7 @@ public class ScoreCard {
 				System.out.println("  7+    ||     25  ");
 				System.out.println();
 				break;
-				
+
 			case "S2":
 				System.out.println("SALMON SCORECARD 2: \n"
 						+ "Score as below for each run of salmon, based on size, up to a max of 5.\n");
@@ -219,7 +219,7 @@ public class ScoreCard {
 				System.out.println("  5+    ||     17  ");
 				System.out.println();
 				break;
-				
+
 			case "S3":
 				System.out.println("SALMON SCORECARD 3: \n"
 						+ "Score as below for each run of salmon, based on size, between size 3-5.\n");
@@ -230,7 +230,7 @@ public class ScoreCard {
 				System.out.println("  5+    ||     15  ");
 				System.out.println();
 				break;
-				
+
 			case "S4":
 				System.out.println("SALMON SCORECARD 4: \n"
 						+ "Score as below for each run of salmon, one point for each salmon in the run, \n"
@@ -241,10 +241,10 @@ public class ScoreCard {
 				System.out.println("OTHER   ||     +1  ");
 				System.out.println();
 				break;
-				
+
 			case "H1":
 				System.out.println("HAWK SCORECARD 1: \n"
-						+ "Score as below for each hawk that is not adjacent to any other hawk\n.");
+						+ "Score as below for each hawk that is not adjacent to any other hawk.\n");
 				System.out.println("SINGLES ||   POINTS");
 				System.out.println("-------------------");
 				System.out.println("  1     ||      2  ");
@@ -256,9 +256,9 @@ public class ScoreCard {
 				System.out.println("  7     ||     22  ");
 				System.out.println("  8+    ||     26  ");
 				System.out.println();
-				
+
 				break;
-				
+
 			case "H2":
 				System.out.println("HAWK SCORECARD 2: \n"
 						+ "Score as below for hawks within direct, uninterrupted lines of sight \n"
@@ -274,7 +274,7 @@ public class ScoreCard {
 				System.out.println("  8+    ||     28  ");
 				System.out.println();
 				break;
-				
+
 			case "H3":
 				System.out.println("HAWK SCORECARD 3: \n"
 						+ "Score 3 points for each line of sight between two hawks. \n"
@@ -284,7 +284,7 @@ public class ScoreCard {
 				System.out.println("2 HAWKS ||     +3  ");
 				System.out.println();
 				break;
-				
+
 			case "H4":
 				System.out.println("HAWK SCORECARD 4: \n"
 						+ "Score as below for each pair of hawks, \n"
@@ -297,7 +297,7 @@ public class ScoreCard {
 				System.out.println("  3+    ||      9  ");
 				System.out.println();
 				break;
-				
+
 			case "F1":
 				System.out.println("FOX SCORECARD 1: \n"
 						+ "Score for each fox as below, based on the number of unique animal types \n"
@@ -311,7 +311,7 @@ public class ScoreCard {
 				System.out.println("  5     ||      5  ");
 				System.out.println();
 				break;
-				
+
 			case "F2":
 				System.out.println("FOX SCORECARD 2: \n"
 						+ "Score for each fox as below, based on the number of unique animal pairs \n"
@@ -324,7 +324,7 @@ public class ScoreCard {
 				System.out.println("  3     ||      7  ");
 				System.out.println();
 				break;
-				
+
 			case "F3":
 				System.out.println("FOX SCORECARD 3: \n"
 						+ "Score for each fox as below, based on the number of similar animals \n"
@@ -340,7 +340,7 @@ public class ScoreCard {
 				System.out.println("  6     ||      6  ");
 				System.out.println();
 				break;
-				
+
 			case "F4":
 				System.out.println("FOX SCORECARD 4: \n"
 						+ "Score for each fox pair as below, based on the number of \n"
@@ -354,10 +354,11 @@ public class ScoreCard {
 				System.out.println("  4     ||     11  ");
 				System.out.println();
 				break;
-				
+
 			default:
 					throw new IllegalArgumentException("Invalid choice of scorecard to be printed");
 			}
+			Display.sleep(500);
 		}
 	}
 	

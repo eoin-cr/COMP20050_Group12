@@ -21,6 +21,7 @@ public class Command {
 		/** Lets player choose tile+token pair and place tile down on map*/
 		PAIR {public void enumSetCommand(Player player){
 			CurrentDeck.choosePair(player);
+			NEXT.enumSetCommand(player);
 		}},
 		
 		DECK {public void enumSetCommand(Player player){
@@ -35,8 +36,7 @@ public class Command {
 				Display.displayTileMap(player);
 			}},
 		
-		/** Moves to next players turn. Note that the game is exited after the last
-		 * player selects this option.*/
+		/** Moves to next players turn */
 		NEXT {public void enumSetCommand(Player player){
 			Display.displayDeck();
 		}},
@@ -76,7 +76,7 @@ public class Command {
 
 			// this catches all illegal argument exceptions, so we're gonna just print them for
 			// now until we make sure we've caught them all before they reach this stage
-			System.out.println(ex.toString());
+//			System.out.println(ex.toString());
 		}
 	}
 	

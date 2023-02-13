@@ -100,7 +100,6 @@ public class PlayerMap {
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
 			System.out.println("There is already a token on this tile.");
-			return false;
 		}
 		
 		else {
@@ -110,8 +109,8 @@ public class PlayerMap {
 				}
 			}
 			System.out.println("The tile's options for valid tokens do not match.");
-			return false;
 		}
+		return false;
 	}
 	
 	//check if player gets a nature token once token is placed
@@ -134,13 +133,15 @@ public class PlayerMap {
 				if (i % 2 == 0) {
 					indent = 1;
 				} else {
-					indent = 0;
+					indent = -1;
 				}
 				if (tmpBoard[i][j] == null & (
 						tmpBoard[i][j-1] != null
 						|| tmpBoard[i][j+1] != null
 						|| tmpBoard[i-1][j] != null
-						|| tmpBoard[i+1][j] != null)) {
+						|| tmpBoard[i-1][j+indent] != null
+						|| tmpBoard[i+1][j] != null
+						|| tmpBoard[i+1][j+indent] != null)) {
 					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
 					addTileToMap(tile, i, j);
@@ -148,8 +149,23 @@ public class PlayerMap {
 			}
 		}
 	}
+
+	public int[] returnPositionOfID(int ID) {
+		for (int i = 0; i < tileBoardPosition.length; i++) {
+			for (int j = 0; j < tileBoardPosition[0].length; j++) {
+				if (tileBoardPosition[i][j] != null && tileBoardPosition[i][j].getTileID() == ID) {
+					if (tileBoardPosition[i][j].isFakeTile()) {
+						return new int[]{i, j};
+					} else {
+						return new int[]{-1, -1};
+					}
+				}
+			}
+		}
+		return new int[]{-1,-1};
+	}
 	
-	private static HabitatTile[][] deepCopy(HabitatTile[][] original) {
+	public static HabitatTile[][] deepCopy(HabitatTile[][] original) {
 		final HabitatTile[][] result = new HabitatTile[original.length][];
 		for (int i = 0; i < original.length; i++) {
 			result[i] = Arrays.copyOf(original[i], original[i].length);

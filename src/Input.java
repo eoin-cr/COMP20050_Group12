@@ -146,37 +146,6 @@ public class Input {
         return choice;
     }
 
-    public static int[] chooseTileRowColumn() {
-        int[] rowcol = new int[2];
-        int row;
-        int col;
-
-        do {
-            System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                row = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                row = Integer.parseInt(getUserInput());
-            }
-        }while(row < 1 || row > 20);
-
-        do {
-            System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                col = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                col = Integer.parseInt(getUserInput());
-            }
-        }while(col < 1 || col > 20);
-
-        rowcol[0] = row;
-        rowcol[1] = col;
-
-        return rowcol;
-    }
-
     public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
         int[] result = new int[2];
         int choice;
@@ -196,7 +165,7 @@ public class Input {
             }
         } while(choice < 1 || choice > 2);
 
-        if (choice == 2) {
+        if (choice == 1) {
 
             do {
                 System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
@@ -239,5 +208,42 @@ public class Input {
         }
 
         return choice;
+    }
+
+    /**
+     * Allows the user to choose the tile placement.
+     * Checks are done to ensure that tiles can only be placed according to the
+     * rules of the game
+     */
+    public static int[] chooseTilePlacement(Player player) {
+        // display tile placement map
+        Player tmpMap = Display.displayPlacementMap(player);
+        System.out.println("Enter the tile ID where you want the tile to be placed");
+        Scanner in = new Scanner(System.in);
+        int input=-1;
+//        if (in.hasNextInt()) {
+//            input = in.nextInt();
+//        }
+
+        boolean firstRun = true;
+        boolean intInputted = true;
+
+        int[] coords = new int[]{-1,-1};
+        while (coords[0] == -1 && coords[1] == -1) {
+            if (!firstRun && intInputted) {
+                System.out.println("Invalid number.  Please enter the tileID");
+            }
+            try {
+                input = in.nextInt();
+                intInputted = true;
+            } catch (InputMismatchException ex) { // catches if user doesn't enter an int
+                System.out.println("You must enter an integer!  Please try again");
+                in.nextLine(); // clears buffer
+                intInputted = false;
+            }
+            firstRun = false;
+            coords = tmpMap.getMap().returnPositionOfID(input);
+        }
+        return coords;
     }
 }

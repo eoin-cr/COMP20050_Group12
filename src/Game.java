@@ -57,7 +57,7 @@ public class Game {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
                 Display.displayTileMap(player);
-                Display.sleep(500);
+//                Display.sleep(500);
         		// choose from tile token pairs
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
@@ -82,7 +82,7 @@ public class Game {
             Display.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
-            Display.sleep(500);
+//            Display.sleep(500);
         }
     }
 }
