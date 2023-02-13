@@ -32,23 +32,23 @@ public class CurrentDeck {
 
 		//deal with tile here, place on map after choosing which row/column to place on
 		//TODO: change to map numberings later instead of coords
-		int choice = Display.chooseFromDeck();
-		int[] rowcol = Display.chooseTileRowColumn();
+		int choice = Input.chooseFromDeck();
+		Display.displayPlacementMap(player);
+		int[] rowcol = Input.chooseTileRowColumn();
 		boolean succeeded = false;
 
 		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
-		Display.displayTileMap(player);
 		deckTiles.remove(choice);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
-			int[] result = Display.chooseTokenPlaceOrReturn(deckTokens.get(choice));
-			if (result[0] == 1) { //put token back in bag choice
+			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(choice));
+			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
 				System.out.println("You have put the token back in the bag");
 				succeeded = true;
-			} else if (result[0] == 2) {//add to map choice
+			} else if (result[0] == 1) {//add to map choice
 				succeeded = player.getMap().addTokenToTile(deckTokens.get(choice), result[1], player);
 			}
 		}
@@ -69,7 +69,7 @@ public class CurrentDeck {
     	
     	for (int i = 0; i < num; i++) {
     		deckTiles.add(Generation.generateHabitatTile());
-    		deckTokens.add(Generation.generateWildlifeToken());
+    		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
     	Display.displayDeck();
     	cullCheckFourTokens();
@@ -85,7 +85,7 @@ public class CurrentDeck {
 					//System.out.println("cull4 removing "+deckTokens.get(i).name()+ " token at "+i);
 					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
 					deckTokens.remove(i);
-					deckTokens.add(i, Generation.generateWildlifeToken());
+					deckTokens.add(i, Generation.generateWildlifeToken(true));
     				//System.out.println("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
 				}	
     		
@@ -114,14 +114,14 @@ public class CurrentDeck {
     	}
     	
     	if (threeMatch) {
-    		int choice = Display.chooseCullThree();
+    		int choice = Input.chooseCullThree();
     		if (choice == 1) {//cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
     					//System.out.println("cull3 removing "+deckTokens.get(i).name()+ " token at "+i);
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
     					deckTokens.remove(i);
-    					deckTokens.add(i, Generation.generateWildlifeToken());
+    					deckTokens.add(i, Generation.generateWildlifeToken(true));
         				//System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
     				}	
     			}

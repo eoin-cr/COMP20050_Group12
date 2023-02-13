@@ -45,7 +45,7 @@ public class HabitatTile {
 	private final WildlifeToken[] tokenOptions;
 	private boolean isTokenPlaced = false;
 	private WildlifeToken placedToken = null;
-	
+	private boolean isFakeTile = false;
     private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
@@ -53,8 +53,14 @@ public class HabitatTile {
     //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
-	//constructor
-	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {  
+	/**
+	 * Generates a habitat tile
+	 *
+	 * @param habitat1 The first habitat in the tile
+	 * @param habitat2 The second habitat in the tile
+	 * @param numTokens The number of tokens to place
+	 */
+	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {
 		this.tileID = tileCounter;
 		tileCounter++;
 		this.habitat1 = habitat1;
@@ -91,10 +97,20 @@ public class HabitatTile {
 	public boolean getIsTokenPlaced() {
 		return isTokenPlaced;
 	}
-	
 	public void setPlacedToken(WildlifeToken placedAnimal) {
 		this.placedToken = placedAnimal;
 		this.isTokenPlaced = true;
+	}
+
+	/**
+	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
+	 * simply represents the possible places on the map that a tile can be
+	 * placed)
+	 *
+	 * @param isFake whether the tile is 'fake' or not
+	 */
+	public void setFakeTile(boolean isFake) {
+		isFakeTile = isFake;
 	}
 
 	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
@@ -143,6 +159,13 @@ public class HabitatTile {
 	 * @return a string with ANSI colours.
 	 */	
 	public String toFormattedString() {
+		if (isFakeTile) {
+			final String GREY = "\033[37m";
+			return GREY + "|||| |||| |||| ||||" + ANSI_RESET + "\n"
+					+ GREY + "||||  " + String.format("%-3s", tileID) + "      ||||" + ANSI_RESET + "\n"
+					+ GREY + "||||           ||||" + ANSI_RESET + "\n"
+					+ GREY + "|||| |||| |||| ||||" + ANSI_RESET + "\n";
+		}
 		String first = habitat1.getBackgroundColour();
 		String second = habitat2.getBackgroundColour();
 		char[] animal = new char[3];
