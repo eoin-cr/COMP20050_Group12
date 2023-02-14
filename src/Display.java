@@ -82,13 +82,6 @@ public class Display {
 		displayDeck();
 	}
 
-	public static void displayPlacementMap(Player player) {
-		Player tmpPlayer = new Player(player.getPlayerName());
-		tmpPlayer.getMap().setTileBoard(player.getMap().getTileBoardPosition());
-		tmpPlayer.getMap().addPossibleTiles();
-		displayTileMap(tmpPlayer);
-	}
-
 	/**
 	 * Displays the possible tile placements on the passed player's map.
 	 *

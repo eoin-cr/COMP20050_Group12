@@ -153,38 +153,6 @@ public class Input {
         return choice;
     }
 
-
-    public static int[] chooseTileRowColumn() {
-        int[] rowcol = new int[2];
-        int row;
-        int col;
-
-        do {
-            System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                row = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                row = Integer.parseInt(getUserInput());
-            }
-        }while(row < 1 || row > 20);
-
-        do {
-            System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                col = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                col = Integer.parseInt(getUserInput());
-            }
-        }while(col < 1 || col > 20);
-
-        rowcol[0] = row;
-        rowcol[1] = col;
-
-        return rowcol;
-    }
-
     public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
         int[] result = new int[2];
         int choice;
