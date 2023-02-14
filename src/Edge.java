@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /** Assists with the orientation of tile, for rotation */
 public class Edge {
@@ -26,8 +27,8 @@ public class Edge {
 		}
 	}
 	
-	public static ArrayList<Edge> makeEdges(int tileID, HabitatTile.Habitat habitat1, HabitatTile.Habitat habitat2) {
-		ArrayList<Edge> edges = new ArrayList<>();
+	public static List<Edge> makeEdges(int tileID, HabitatTile.Habitat habitat1, HabitatTile.Habitat habitat2) {
+		List<Edge> edges = new ArrayList<>();
 		//base orientation before rotation
 		//sets sides 0,1,2 to habitat 1
 		for (int i = 0; i < 3; i++) {
@@ -39,9 +40,6 @@ public class Edge {
 			Edge e = new Edge(tileID, habitat2);
 			edges.add(e);
 		}
-		
 		return edges;
 	}
-
-
 }

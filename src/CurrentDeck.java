@@ -1,21 +1,22 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class CurrentDeck {
-	public static ArrayList<HabitatTile> deckTiles = new ArrayList<>();
-	public static ArrayList<WildlifeToken> deckTokens = new ArrayList<>();
+	public static List<HabitatTile> deckTiles = new ArrayList<>();
+	public static List<WildlifeToken> deckTokens = new ArrayList<>();
 	
 	public CurrentDeck() {}
 	
-	public static ArrayList<HabitatTile> getDeckTiles() { //getters and setters
+	public static List<HabitatTile> getDeckTiles() { //getters and setters
 		return deckTiles;
 	}
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
-	public static ArrayList<WildlifeToken> getDeckTokens() {
+	public static List<WildlifeToken> getDeckTokens() {
 		return deckTokens;
 	}
-	public static void setDeckTokens(ArrayList<WildlifeToken> tokens) {
+	public static void setDeckTokens(List<WildlifeToken> tokens) {
 		deckTokens = tokens;
 	}
 	public static WildlifeToken getToken (int index) {
@@ -27,33 +28,36 @@ public class CurrentDeck {
 	    	//Display.displayDeck();
 	        Display.sleep(500);
 	}
-	
-	public static void choosePair(Player player) {
 
+	/**
+	 * Allows the user to select a habitat+token pair and add it to their map
+	 *
+	 * @param player The player who will be selecting the pair
+	 */
+	public static void choosePair(Player player) {
 		//deal with tile here, place on map after choosing which row/column to place on
-		//TODO: change to map numberings later instead of coords
-		int choice = Display.chooseFromDeck();
-		int[] rowcol = Display.chooseTileRowColumn();
+		int choice = Input.chooseFromDeck();
+		int[] rowcol = Input.chooseTilePlacement(player);
+
 		boolean succeeded = false;
 
 		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
-		Display.displayTileMap(player);
 		deckTiles.remove(choice);
+		Display.displayTileMap(player);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
-			int[] result = Display.chooseTokenPlaceOrReturn(deckTokens.get(choice));
-			if (result[0] == 1) { //put token back in bag choice
+			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(choice));
+			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
 				System.out.println("You have put the token back in the bag");
 				succeeded = true;
-			} else if (result[0] == 2) {//add to map choice
+			} else if (result[0] == 1) {//add to map choice
 				succeeded = player.getMap().addTokenToTile(deckTokens.get(choice), result[1], player);
 			}
 		}
 		deckTokens.remove(choice);
-		
 		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	
@@ -69,8 +73,9 @@ public class CurrentDeck {
     	
     	for (int i = 0; i < num; i++) {
     		deckTiles.add(Generation.generateHabitatTile());
-    		deckTokens.add(Generation.generateWildlifeToken());
+    		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
+		Display.sleep(800);
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();
@@ -85,7 +90,7 @@ public class CurrentDeck {
 					//System.out.println("cull4 removing "+deckTokens.get(i).name()+ " token at "+i);
 					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
 					deckTokens.remove(i);
-					deckTokens.add(i, Generation.generateWildlifeToken());
+					deckTokens.add(i, Generation.generateWildlifeToken(true));
     				//System.out.println("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
 				}	
     		
@@ -97,7 +102,7 @@ public class CurrentDeck {
     	int check;
     	WildlifeToken type = null;
     	boolean threeMatch = false;
-    	
+
     	for (int i = 0; i < deckTokens.size(); i++) {
     		type = getToken(i);
     		check = 0;
@@ -114,14 +119,21 @@ public class CurrentDeck {
     	}
     	
     	if (threeMatch) {
-    		int choice = Display.chooseCullThree();
-    		if (choice == 1) {//cull choice
+			System.out.println();
+			System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+			int choice = Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+			if (choice == 1) {
+				System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+			} else {
+				System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+			}
+    		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
     					//System.out.println("cull3 removing "+deckTokens.get(i).name()+ " token at "+i);
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
     					deckTokens.remove(i);
-    					deckTokens.add(i, Generation.generateWildlifeToken());
+    					deckTokens.add(i, Generation.generateWildlifeToken(true));
         				//System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
     				}	
     			}
@@ -131,6 +143,4 @@ public class CurrentDeck {
     		//if choice is 2, deck remains unchanged - message display handled in display
     	}	
     }
-    
-    
 }
