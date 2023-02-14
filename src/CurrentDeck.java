@@ -33,12 +33,15 @@ public class CurrentDeck {
 		//deal with tile here, place on map after choosing which row/column to place on
 		//TODO: change to map numberings later instead of coords
 		int choice = Input.chooseFromDeck();
-		Display.displayPlacementMap(player);
-		int[] rowcol = Input.chooseTileRowColumn();
+//		Display.displayPlacementMap(player);
+//		int[] rowcol = Input.chooseTileRowColumn();
+		int[] rowcol = Input.chooseTilePlacement(player);
+
 		boolean succeeded = false;
 
 		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
 		deckTiles.remove(choice);
+		Display.displayTileMap(player);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
@@ -53,7 +56,6 @@ public class CurrentDeck {
 			}
 		}
 		deckTokens.remove(choice);
-		
 		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	
@@ -71,6 +73,7 @@ public class CurrentDeck {
     		deckTiles.add(Generation.generateHabitatTile());
     		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
+		Display.sleep(800);
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();

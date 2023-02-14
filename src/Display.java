@@ -90,6 +90,20 @@ public class Display {
 	}
 
 	/**
+	 * Displays the possible tile placements on the passed player's map.
+	 *
+	 * @param player the players map to be displayed with the possible tile
+	 *               placements
+	 */
+	public static Player displayPlacementMap(Player player) {
+		Player tmpPlayer = new Player("tmp");
+		tmpPlayer.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
+		tmpPlayer.getMap().addPossibleTiles();
+		displayTileMap(tmpPlayer);
+		return tmpPlayer;
+	}
+
+	/**
 	 * Displays the <i>full</i> tile map.
 	 * Detects the smallest rectangular area which contains every non-null
 	 * tile, and prints every tile in this area.

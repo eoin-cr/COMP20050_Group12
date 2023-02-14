@@ -113,6 +113,10 @@ public class HabitatTile {
 		isFakeTile = isFake;
 	}
 
+	public boolean isFakeTile() {
+		return isFakeTile;
+	}
+
 	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
 	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
 		if (!this.isTokenPlaced) {
@@ -126,7 +130,7 @@ public class HabitatTile {
 			return freed;
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return habitat1.name() + " + " + habitat2.name();

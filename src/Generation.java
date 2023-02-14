@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
 
@@ -60,7 +61,18 @@ public class Generation {
 			 numTokens = 1 + new Random().nextInt(3);
 		 }
 		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(false);
+
+            WildlifeToken tmp;
+			do {
+				tmp = Generation.generateWildlifeToken(false);
+				if (Arrays.asList(animalTypes).contains(tmp)) {
+					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
+				}
+			} while (Arrays.asList(animalTypes).contains(tmp));
+			animalTypes[i] = tmp;
+
+			//animalTypes[i] = Generation.generateWildlifeToken(false);
+
 		}
 		return animalTypes;
 	}
