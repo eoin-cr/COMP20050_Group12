@@ -50,7 +50,6 @@ public class HabitatTile {
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
-    //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
 	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
 	//constructor
@@ -96,23 +95,12 @@ public class HabitatTile {
 		this.placedToken = placedAnimal;
 		this.isTokenPlaced = true;
 	}
-
-	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
-	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
-		if (!this.isTokenPlaced) {
-			System.out.println("There is no token on this tile to remove. Please try a different tile.");
-			return null;
-		}
-		else {
-			WildlifeToken freed = this.placedToken;
-			this.placedToken = null;
-			this.isTokenPlaced = false;
-			return freed;
-		}
-	}
 	
 	@Override
 	public String toString() {
+		if(keystoneType == TileType.KEYSTONE){
+			return habitat1.name() + " Keystone";
+		}
 		return habitat1.name() + " + " + habitat2.name();
 	}
 
@@ -143,8 +131,7 @@ public class HabitatTile {
 	 * @return a string with ANSI colours.
 	 */	
 	public String toFormattedString() {
-		String first = habitat1.getBackgroundColour();
-		String second = habitat2.getBackgroundColour();
+
 		char[] animal = new char[3];
 		String[] colour = new String[4];
 
@@ -166,17 +153,18 @@ public class HabitatTile {
 			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
 		}
 
-		String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		return first + full +
-					first + "    |" + ANSI_RESET +
-					colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
-					colour[1] + " " + animal[1] + "  " + ANSI_RESET +
-					first  + "|    " + ANSI_RESET + "\n" +
-					second + "    |" + ANSI_RESET +
-					colour[2] + "  " + animal[2] + ANSI_RESET +
+		return 	edges.get(5).getHabitatType().backgroundColour + "    |    |" + ANSI_RESET +
+				edges.get(0).getHabitatType().backgroundColour +  "    |    " + ANSI_RESET +"\n"+
+				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
+				colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
+				colour[1] + " " + animal[1] + "  " + ANSI_RESET +
+				edges.get(1).getHabitatType().backgroundColour  + "|    " + ANSI_RESET + "\n" +
+				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
+				colour[2] + "  " + animal[2] + ANSI_RESET +
 				// inserts tile number and adds padding
-					colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
-					second  + "|    " + ANSI_RESET + "\n" +
-					second + full;
+				colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
+				edges.get(1).getHabitatType().backgroundColour        + "|    " + ANSI_RESET + "\n" +
+				edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET +
+				edges.get(2).getHabitatType().backgroundColour +  "|    |    " + ANSI_RESET +"\n";
 	}
 }

@@ -24,6 +24,7 @@ public class Edge {
 		if (tileID > HabitatTile.getTileCounter()) {
 			throw new IllegalArgumentException("You are trying to make edges for a non-existent tile");
 		}
+		this.habitatType =habitatType;
 	}
 	
 	public static ArrayList<Edge> makeEdges(int tileID, HabitatTile.Habitat habitat1, HabitatTile.Habitat habitat2) {
@@ -43,5 +44,7 @@ public class Edge {
 		return edges;
 	}
 
-
+	public HabitatTile.Habitat getHabitatType() {
+		return habitatType;
+	}
 }
