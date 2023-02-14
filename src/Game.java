@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** Deals with the running of the game */
 public class Game {
@@ -35,7 +33,9 @@ public class Game {
           Display.printPlayers(playerNames);  // from Display class
           Display.sleep(500);
 
+          ScoreCard.generateScorecards();
           Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+
           populatePlayers();
 
     }
@@ -85,6 +85,4 @@ public class Game {
             Display.sleep(500);
         }
     }
-
-
 }

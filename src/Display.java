@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -66,19 +65,141 @@ public class Display {
 	 * Displays tile token pairs.
 	 * The habitat of the tile and the token will be printed, as well as the
 	 * 'image' of the tile.
-	 *
-	 * @param tileTokenPairs a HashMap containing the tile token pairs to be
-	 *                       printed
 	 */
-	public static void displayTileTokenPairs(Map<HabitatTile, WildlifeToken> tileTokenPairs) {
+	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
-    	for (HabitatTile i : tileTokenPairs.keySet()) {
-    		System.out.println("Tile: " + i + ", Token: " + tileTokenPairs.get(i));
-    		//printHalfTile(i, ' ', ' ', ' ',' ');
-    		printHalfTile(i);
+
+    	for (int i = 0; i < 4; i++) {
+    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
+    				", Token: " +CurrentDeck.getToken(i).toString());
+    		printHalfTile(CurrentDeck.getTile(i));
     	}
     	System.out.println();
+	}
+	
+	public static int chooseFromDeck() {
+		int choice;
+		System.out.println();
+		
+		do {
+		System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+		System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+		try {
+			choice = Integer.parseInt(Input.getUserInput());
+		} catch (NumberFormatException e) {
+			System.out.println("You did not input a number. Please try again.");
+			choice = Integer.parseInt(Input.getUserInput());
+		}
+		} while (choice < 1 || choice > 4);
+		
+		choice--;
+		System.out.println("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
+				+CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
+		
+		return choice;
+	}
+	
+	public static int[] chooseTileRowColumn() {
+		int[] rowcol = new int[2];
+		int row;
+		int col;
+		
+		do {
+			System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
+			try {
+				row = Integer.parseInt(Input.getUserInput());
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				row = Integer.parseInt(Input.getUserInput());
+			}
+		}while(row < 1 || row > 20);
+		
+		do {
+			System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
+			try {
+				col = Integer.parseInt(Input.getUserInput());
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				col = Integer.parseInt(Input.getUserInput());
+			}
+		}while(col < 1 || col > 20);
+		
+		rowcol[0] = row;
+		rowcol[1] = col;
+		
+		return rowcol;
+	}
+	
+	public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
+		int[] result = new int[2];
+		int choice;
+		int tileID = -1;
+		
+		System.out.println();
+		System.out.println("Choose what to do with the " +token.name()+ " token you have drawn.");
+		
+		do {
+			System.out.println("Type 1 to put the token back in the bag, or 2 to place the token on one of your tiles: ");
+			try {
+				choice = Integer.parseInt(Input.getUserInput());
+				//System.out.println(choice);
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				choice = Integer.parseInt(Input.getUserInput());
+			}
+		} while(choice < 1 || choice > 2);
+		
+		if (choice == 2) {
+			
+			do {
+				System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+				try {
+					tileID = Integer.parseInt(Input.getUserInput());
+					//System.out.println(choice);
+				} catch (NumberFormatException e) {
+					System.out.println("You did not input a number. Please try again.");
+					tileID = Integer.parseInt(Input.getUserInput());
+				}
+			} while(tileID < 0 || tileID > Bag.getMaxTiles());
+			
+		}
+		
+		result[0] = choice;
+		result[1] = tileID;
+		
+		return result;
+	}
+	
+	public static int chooseCullThree() {
+		int choice;
+		System.out.println();
+		System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+		
+		do {
+			System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+			try {
+				choice = Integer.parseInt(Input.getUserInput());
+				//System.out.println(choice);
+			} catch (NumberFormatException e) {
+				System.out.println("You did not input a number. Please try again.");
+				choice = Integer.parseInt(Input.getUserInput());
+			}
+		}while(choice < 1 || choice > 2);
+		if (choice == 1) {
+			System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+		}
+		
+		else if (choice == 2) {
+			System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+		}
+		
+		return choice;
+	}
+	
+	public static void cullOccurence() {
+		System.out.println("A Wildlife Token cull has occurred.");
+		displayDeck();
 	}
 
 	/**
@@ -111,7 +232,7 @@ public class Display {
 				if (board[i][j] == null) {
 					line = indentFullTile(line);
 				} else {
-					line = combineTiles(board[i][j].toFormattedString('A', 'B', 'C', 'D'), line);
+					line = combineTiles(board[i][j].toFormattedString(), line);
 				}
 			}
 			if (i % 2 == 0) {
@@ -175,9 +296,7 @@ public class Display {
 				}
 			}
 		}
-
 		return boundaries;
-
 	}
 
 	/**
@@ -233,15 +352,13 @@ public class Display {
 	 */
 	public static void displayCommands() {
 		System.out.println("""
-				Enter PLACE to pick and place your Habitat Tile and Wildlife Token,\s
+				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
 				Enter MAP for your current map of Tiles,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
 				Enter NEXT to move on to the next player,\s
 				Enter QUIT to quit the program.
 				""");
 	}
-
-	public static final String ANSI_RESET = "\u001B[0m";
 
 	/**
 	 * Prints a tile to the terminal.
@@ -251,54 +368,37 @@ public class Display {
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
 	 */
-	// new display method which is closer to what he wants
-	// TODO: Change the background colour based on whether a token is selected
 	// TODO: Allow different tile orientations
 
-	/*
-	 public static void printHalfTile (HabitatTile tile, char char1, char char2,
-
-									  char char3, char char4) {
-		String first = tile.getHabitat1().getBackgroundColour();
-		String second = tile.getHabitat2().getBackgroundColour();
-		String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		System.out.println(
-				first + full +
-				first + "    |" + ANSI_RESET + "  " + char1 + "   " + char2 + "  " +
-				first  + "|    " + ANSI_RESET + "\n" +
-				second + "    |" + ANSI_RESET + "  " + char3  + "   " + char4 + "  " +
-				second  + "|    " + ANSI_RESET + "\n" +
-				second + full
-		);
-
-	}
-		*/
-
 	 public static void printHalfTile (HabitatTile tile) {
-		 String first = tile.getHabitat1().getBackgroundColour();
-		 String second = tile.getHabitat2().getBackgroundColour();
-		 char[] animalTypes = makeTokensOptionsOnTile();
-
-		 String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		 System.out.println(
-				 first + full +
-				 first + "    |" + ANSI_RESET + "  " + animalTypes[0] + "   " + animalTypes[1] + "  " +
-				 first  + "|    " + ANSI_RESET + "\n" +
-				 second + "    |" + ANSI_RESET + "  " + animalTypes[2]  + "      " +
-				 second  + "|    " + ANSI_RESET + "\n" +
-				 second + full
-				 );
-
+		 System.out.println(tile.toFormattedString());
 	 }
 
-	public static char[] makeTokensOptionsOnTile() {
-		char[] animalTypes = {' ', ' ', ' ', ' '};
-		int numTokens = 1 + new Random().nextInt(3);
-
-		for (int i = 0; i < numTokens; i++) {
-			animalTypes[i] = Generation.generateWildlifeToken(Bag.remainingTokens).toChar();
+	/**
+	 * Generates the options for tokens that can be placed on a tile.
+	 *
+	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
+	 *                  to set a specified amount
+	 * @return wildlife tokens
+	 */
+	public static WildlifeToken[] makeTokensOptionsOnTile(int numTokens) {
+		if (numTokens < 0 || numTokens > 3) {
+			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
 		}
-
+		WildlifeToken[] animalTypes = new WildlifeToken[3];
+		 if (numTokens == 0) {
+			 numTokens = 1 + new Random().nextInt(3);
+		 }
+		for (int i = 0; i < numTokens; i++) {
+			WildlifeToken tmp;
+			do {
+				tmp = Generation.generateWildlifeToken();
+				if (Arrays.asList(animalTypes).contains(tmp)) {
+					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
+				}
+			} while (Arrays.asList(animalTypes).contains(tmp));
+			animalTypes[i] = tmp;
+		}
 		return animalTypes;
 	}
 
