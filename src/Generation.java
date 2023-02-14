@@ -61,6 +61,7 @@ public class Generation {
 			 numTokens = 1 + new Random().nextInt(3);
 		 }
 		for (int i = 0; i < numTokens; i++) {
+
             WildlifeToken tmp;
 			do {
 				tmp = Generation.generateWildlifeToken(false);
@@ -69,6 +70,9 @@ public class Generation {
 				}
 			} while (Arrays.asList(animalTypes).contains(tmp));
 			animalTypes[i] = tmp;
+
+			//animalTypes[i] = Generation.generateWildlifeToken(false);
+
 		}
 		return animalTypes;
 	}

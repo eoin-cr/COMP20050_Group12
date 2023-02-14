@@ -142,6 +142,7 @@ public class PlayerMap {
 						|| tmpBoard[i-1][j+indent] != null
 						|| tmpBoard[i+1][j] != null
 						|| tmpBoard[i+1][j+indent] != null)) {
+
 					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
 					addTileToMap(tile, i, j);
@@ -149,6 +150,7 @@ public class PlayerMap {
 			}
 		}
 	}
+
 
 	public int[] returnPositionOfID(int ID) {
 		for (int i = 0; i < tileBoardPosition.length; i++) {

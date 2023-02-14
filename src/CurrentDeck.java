@@ -36,6 +36,7 @@ public class CurrentDeck {
 //		Display.displayPlacementMap(player);
 //		int[] rowcol = Input.chooseTileRowColumn();
 		int[] rowcol = Input.chooseTilePlacement(player);
+
 		boolean succeeded = false;
 
 		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
