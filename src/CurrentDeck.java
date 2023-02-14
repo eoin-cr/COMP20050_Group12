@@ -7,18 +7,18 @@ public class CurrentDeck {
 	
 	public CurrentDeck() {}
 	
-	public static List<HabitatTile> getDeckTiles() { //getters and setters
-		return deckTiles;
-	}
+//	public static List<HabitatTile> getDeckTiles() { //getters and setters
+//		return deckTiles;
+//	}
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
-	public static List<WildlifeToken> getDeckTokens() {
-		return deckTokens;
-	}
-	public static void setDeckTokens(List<WildlifeToken> tokens) {
-		deckTokens = tokens;
-	}
+//	public static List<WildlifeToken> getDeckTokens() {
+//		return deckTokens;
+//	}
+//	public static void setDeckTokens(List<WildlifeToken> tokens) {
+//		deckTokens = tokens;
+//	}
 	public static WildlifeToken getToken (int index) {
 		return deckTokens.get(index);
 	}
@@ -79,6 +79,7 @@ public class CurrentDeck {
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();
+		Bag.incrementTilesInUse(num);
     }
     	
     public static void cullCheckFourTokens() {

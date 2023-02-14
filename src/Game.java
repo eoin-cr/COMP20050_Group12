@@ -50,10 +50,8 @@ public class Game {
      * For each player it prints the current player and their map.
      * A sleep call is made after displaying the users map.
      */
-    public void playerTurnCycle() {
-        // TODO: This loop exits after the player list has been iterated though.
-        //       Instead, we want it to finish when all the tokens have run out.
-    	while (HabitatTile.getTileCounter() < Bag.getMaxTiles()) {
+    private void playerTurnCycle() {
+    	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
                 Display.displayTileMap(player);

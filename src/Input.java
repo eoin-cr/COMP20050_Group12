@@ -183,7 +183,7 @@ public class Input {
                     System.out.println("You did not input a number. Please try again.");
                     tileID = Integer.parseInt(getUserInput());
                 }
-            } while(tileID < 0 || tileID > Bag.getMaxTiles());
+            } while(tileID < 0 || tileID > HabitatTile.getTileCounter());
 
         }
 
