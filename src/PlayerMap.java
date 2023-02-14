@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
-	private final ArrayList<HabitatTile> tilesInMap;
+	private final List<HabitatTile> tilesInMap;
 	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
@@ -50,13 +51,11 @@ public class PlayerMap {
 	 * @param row the row of the board position array the tile will be added to
 	 * @param col the column of the board position array the tile will be added
 	 *          to
-	 * @throws IllegalArgumentException if there is already a tile at that
-	 * position
 	 */
-	public void addTileToMap(HabitatTile tile, int row, int col) throws IllegalArgumentException {
+	public void addTileToMap(HabitatTile tile, int row, int col) {
 		if (tileBoardPosition[row][col] != null) {
 			throw new IllegalArgumentException("There is already a tile at that position!");
-		} //TODO: handle this in the method itself by asking them to place again somewhere else
+		}
 		tileBoardPosition[row][col] = tile;
 		tilesInMap.add(tile);
 	}
@@ -67,14 +66,6 @@ public class PlayerMap {
 		boolean placed = false;
 		
 		for (HabitatTile tile : tilesInMap) {
-
-//			System.out.println(tile.getTileID()); //error checking tileID stuff
-//			System.out.println(tileID);
-//
-//			System.out.println("---");
-//			System.out.println(tileID);
-//			System.out.println(tile.getTileID());
-
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
 				placed = checkTokenOptionsMatch(token, tile);
@@ -93,10 +84,16 @@ public class PlayerMap {
 			System.out.println("Please try again.");
 		}
 
-		// returns -1 if unsuccessful in placing, otherwise returns 0
+		// returns whether the tile was successfully placed
 		return placed;
 	}
-	
+
+	/**
+	 * Check whether the chosen token can be placed on a certain tile
+	 * @param token the token to check
+	 * @param tile the tile to check whether the token can be placed on
+	 * @return whether a token can be placed
+	 */
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
 			System.out.println("There is already a token on this tile.");

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,7 +51,7 @@ public class HabitatTile {
     private final Habitat habitat1;
     private final Habitat habitat2;
     //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
-	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private List<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
 	/**
 	 * Generates a habitat tile

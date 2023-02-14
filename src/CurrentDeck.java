@@ -1,21 +1,22 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class CurrentDeck {
-	public static ArrayList<HabitatTile> deckTiles = new ArrayList<>();
-	public static ArrayList<WildlifeToken> deckTokens = new ArrayList<>();
+	public static List<HabitatTile> deckTiles = new ArrayList<>();
+	public static List<WildlifeToken> deckTokens = new ArrayList<>();
 	
 	public CurrentDeck() {}
 	
-	public static ArrayList<HabitatTile> getDeckTiles() { //getters and setters
+	public static List<HabitatTile> getDeckTiles() { //getters and setters
 		return deckTiles;
 	}
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
-	public static ArrayList<WildlifeToken> getDeckTokens() {
+	public static List<WildlifeToken> getDeckTokens() {
 		return deckTokens;
 	}
-	public static void setDeckTokens(ArrayList<WildlifeToken> tokens) {
+	public static void setDeckTokens(List<WildlifeToken> tokens) {
 		deckTokens = tokens;
 	}
 	public static WildlifeToken getToken (int index) {
@@ -27,14 +28,15 @@ public class CurrentDeck {
 	    	//Display.displayDeck();
 	        Display.sleep(500);
 	}
-	
-	public static void choosePair(Player player) {
 
+	/**
+	 * Allows the user to select a habitat+token pair and add it to their map
+	 *
+	 * @param player The player who will be selecting the pair
+	 */
+	public static void choosePair(Player player) {
 		//deal with tile here, place on map after choosing which row/column to place on
-		//TODO: change to map numberings later instead of coords
 		int choice = Input.chooseFromDeck();
-//		Display.displayPlacementMap(player);
-//		int[] rowcol = Input.chooseTileRowColumn();
 		int[] rowcol = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
@@ -100,7 +102,7 @@ public class CurrentDeck {
     	int check;
     	WildlifeToken type = null;
     	boolean threeMatch = false;
-    	
+
     	for (int i = 0; i < deckTokens.size(); i++) {
     		type = getToken(i);
     		check = 0;
@@ -117,8 +119,15 @@ public class CurrentDeck {
     	}
     	
     	if (threeMatch) {
-    		int choice = Input.chooseCullThree();
-    		if (choice == 1) {//cull choice
+			System.out.println();
+			System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+			int choice = Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+			if (choice == 1) {
+				System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+			} else {
+				System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+			}
+    		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
     					//System.out.println("cull3 removing "+deckTokens.get(i).name()+ " token at "+i);
@@ -134,6 +143,4 @@ public class CurrentDeck {
     		//if choice is 2, deck remains unchanged - message display handled in display
     	}	
     }
-    
-    
 }

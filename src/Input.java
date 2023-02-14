@@ -124,6 +124,13 @@ public class Input {
         return playerSet.size() < players.size();
     }
 
+    /**
+     * Allows the user to select a tile token pair from the deck.
+     * Returns a number from 0-3, representing where in the deck the chosen
+     * tile was.
+     *
+     * @return an int from 0-3 (inclusive)
+     */
     public static int chooseFromDeck() {
         int choice;
         System.out.println();
@@ -218,26 +225,26 @@ public class Input {
         return result;
     }
 
-    public static int chooseCullThree() {
+    /**
+     * Takes input of an int in a range and returns it.
+     *
+     * @param lowerBound {@code input >= lowerbound}
+     * @param upperBound {@code input <= upperbound}
+     * @param firstMessage {@code the message to print}
+     * @return an int such that {@code lowerbound <= input <= upperbound}
+     */
+    public static int boundedInt(int lowerBound, int upperBound, String firstMessage)  {
         int choice;
-        System.out.println();
-        System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
-
         do {
-            System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+            System.out.println(firstMessage);
             try {
                 choice = Integer.parseInt(getUserInput());
                 //System.out.println(choice);
             } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
+                System.out.println("You did not enter a number. Please try again.");
                 choice = Integer.parseInt(getUserInput());
             }
-        }while(choice < 1 || choice > 2);
-        if (choice == 1) {
-            System.out.println("You have chosen to cull three tokens of the same type in the deck.");
-        } else {
-            System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
-        }
+        }while(choice < lowerBound || choice > upperBound);
 
         return choice;
     }
