@@ -50,7 +50,7 @@ public class HabitatTile {
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
-	private ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private final ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
 	/**
 	 * Generates a habitat tile
@@ -146,13 +146,16 @@ public class HabitatTile {
 	}
 	public void rotateTile(){
 		int input= Input.boundedInt(1,6,"In which position would you like to rotate to (1-6).");
-			input--;
+
+		HabitatTile.Habitat[] temp = new Habitat[6];
 		for (int i = 0; i < 6; i++) {
-			int Index = (i+input)%6;
-			HabitatTile.Habitat temp = edges.get(Index).getHabitatType();
-				edges.get(Index).setHabitatType(edges.get(i).getHabitatType());
-			edges.get(i).setHabitatType(temp);
+			temp[(i + input) % 6] = edges.get(i).getHabitatType();
 		}
+
+		for (int j = 0; j <6; j++) {
+			edges.get(j).setHabitatType(temp[j]);
+		}
+
 	}
 
 	/**
