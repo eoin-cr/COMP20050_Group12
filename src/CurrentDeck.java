@@ -37,11 +37,11 @@ public class CurrentDeck {
 	public static void choosePair(Player player) {
 		//deal with tile here, place on map after choosing which row/column to place on
 		int choice = Input.chooseFromDeck();
-		int[] rowcol = Input.chooseTilePlacement(player);
+		int[] rowAndColumn = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
 
-		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
+		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
 		deckTiles.remove(choice);
 		Display.displayTileMap(player);
 
@@ -95,7 +95,7 @@ public class CurrentDeck {
     				//System.out.println("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
 				}	
     		
-    		Display.cullOccurence();
+    		Display.cullOccurrence();
     	}
     }
     
@@ -138,7 +138,7 @@ public class CurrentDeck {
         				//System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
     				}	
     			}
-    			Display.cullOccurence();
+    			Display.cullOccurrence();
     			cullCheckFourTokens();
     		}
     		//if choice is 2, deck remains unchanged - message display handled in display

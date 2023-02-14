@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /**
  * Deals with outputting to the console.
  */
@@ -77,7 +75,7 @@ public class Display {
     	System.out.println();
 	}
 
-	public static void cullOccurence() {
+	public static void cullOccurrence() {
 		System.out.println("A Wildlife Token cull has occurred.");
 		displayDeck();
 	}
@@ -206,7 +204,7 @@ public class Display {
 		// using an old for loop because I don't think changes in the new ones affect
 		// the thing it's iterating through
 		for (int i = 0; i < 4; i++) {
-			lines[i] = repeater(' ', 9) + lines[i];
+			lines[i] = "         " + lines[i];
 		}
 		return String.join("\n", lines);
 	}
@@ -266,23 +264,6 @@ public class Display {
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
-
-	/**
-	 * Returns a string containing a character repeated a certain amount of
-	 * times.
-	 *
-	 * @param a the character to be repeated
-	 * @param number the amount of times the character is to be repeated
-	 * @return a string containing the repeated character
-	 */
-	private static String repeater (char a, int number) {
-		if (a < 0) {
-			throw new IllegalArgumentException("a cannot be negative");
-		}
-		char[] repeat = new char[number];
-		Arrays.fill(repeat, a);
-		return new String(repeat);
-	}
 
 	/**
 	 * Pauses the program for a certain amount of time.

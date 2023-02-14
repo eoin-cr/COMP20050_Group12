@@ -228,9 +228,6 @@ public class Input {
         System.out.println("Enter the tile ID where you want the tile to be placed");
         Scanner in = new Scanner(System.in);
         int input=-1;
-//        if (in.hasNextInt()) {
-//            input = in.nextInt();
-//        }
 
         boolean firstRun = true;
         boolean intInputted = true;

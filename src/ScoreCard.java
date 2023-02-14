@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class ScoreCard {
-	private static String[] scorecards = new String[5];
+	private static final String[] scorecards = new String[5];
 //	private static [] scorecards = new String[5];
 //	stores the 5 scorecard options selected,
 //	each randomly generated from a choice of 4 possible options of cards
@@ -20,17 +20,17 @@ public class ScoreCard {
 
 	public static void generateScorecards() {
 		Random rand = new Random();
-		int[] randnums = new int[5];
+		int[] randNums = new int[5];
 		
 		for (int i = 0; i < 5; i++) {
-			randnums[i] = 1+rand.nextInt(4); //generate a number between 1-4
+			randNums[i] = 1+rand.nextInt(4); //generate a number between 1-4
 		}
-		BearScorecards tmp = BearScorecards.valueOf("B"+randnums[0]);
+		BearScorecards tmp = BearScorecards.valueOf("B"+randNums[0]);
 		scorecards[0] = tmp.toString();
-		scorecards[1] = String.format("E%d", randnums[1]);
-		scorecards[2] = String.format("S%d", randnums[2]);
-		scorecards[3] = String.format("H%d", randnums[3]);
-		scorecards[4] = String.format("F%d", randnums[4]);
+		scorecards[1] = String.format("E%d", randNums[1]);
+		scorecards[2] = String.format("S%d", randNums[2]);
+		scorecards[3] = String.format("H%d", randNums[3]);
+		scorecards[4] = String.format("F%d", randNums[4]);
 
 		printCardRules();
 	}

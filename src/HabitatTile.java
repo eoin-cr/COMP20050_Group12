@@ -20,19 +20,14 @@ public class HabitatTile {
 	 * Stores also the ANSI codes for text and background colours.
 	 */
     enum Habitat {
-		Forest("\033[38;2;84;130;53m", "\033[48;2;84;130;53m"),
-		Wetland("\033[48;2;198;224;180m", "\033[48;2;198;224;180m"),
-		River("\033[34m", "\033[44m"),
-		Mountain("\033[37m", "\033[47m"),
-		Prairie("\033[93m", "\033[103m");
-		private final String colour;
+		Forest("\033[48;2;84;130;53m"),
+		Wetland("\033[48;2;198;224;180m"),
+		River("\033[44m"),
+		Mountain("\033[47m"),
+		Prairie("\033[103m");
 		private final String backgroundColour;
-		Habitat(String colour, String backgroundColour) {
-			this.colour = colour;
+		Habitat(String backgroundColour) {
 			this.backgroundColour = backgroundColour;
-		}
-		public String getColour() {
-			return colour;
 		}
 		public String getBackgroundColour() {
 			return backgroundColour;
@@ -41,7 +36,6 @@ public class HabitatTile {
 
 	enum TileType {KEYSTONE, NON_KEYSTONE}
 	private final TileType keystoneType;
-	
 	private final WildlifeToken[] tokenOptions;
 	private boolean isTokenPlaced = false;
 	private WildlifeToken placedToken = null;
@@ -115,20 +109,6 @@ public class HabitatTile {
 
 	public boolean isFakeTile() {
 		return isFakeTile;
-	}
-
-	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
-	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
-		if (!this.isTokenPlaced) {
-			System.out.println("There is no token on this tile to remove. Please try a different tile.");
-			return null;
-		}
-		else {
-			WildlifeToken freed = this.placedToken;
-			this.placedToken = null;
-			this.isTokenPlaced = false;
-			return freed;
-		}
 	}
 
 	@Override
