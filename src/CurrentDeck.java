@@ -40,10 +40,13 @@ public class CurrentDeck {
 		int[] rowcol = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
-
-		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
-		deckTiles.remove(choice);
 		Display.displayTileMap(player);
+
+		//need to give some info on the rotation options and what they look like
+		deckTiles.get(choice).rotateTile();
+		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
+		Display.displayTileMap(player);
+		deckTiles.remove(choice);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag

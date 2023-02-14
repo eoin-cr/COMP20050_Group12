@@ -117,20 +117,6 @@ public class HabitatTile {
 		return isFakeTile;
 	}
 
-	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
-	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
-		if (!this.isTokenPlaced) {
-			System.out.println("There is no token on this tile to remove. Please try a different tile.");
-			return null;
-		}
-		else {
-			WildlifeToken freed = this.placedToken;
-			this.placedToken = null;
-			this.isTokenPlaced = false;
-			return freed;
-		}
-	}
-
 	@Override
 	public String toString() {
 		if(keystoneType == TileType.KEYSTONE){
@@ -158,6 +144,16 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
+	public void rotateTile(){
+		int input= Input.boundedInt(1,6,"In which position would you like to rotate to (1-6).");
+			input--;
+		for (int i = 0; i < 6; i++) {
+			int Index = (i+input)%6;
+			HabitatTile.Habitat temp = edges.get(Index).getHabitatType();
+				edges.get(Index).setHabitatType(edges.get(i).getHabitatType());
+			edges.get(i).setHabitatType(temp);
+		}
+	}
 
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
@@ -173,8 +169,6 @@ public class HabitatTile {
 					+ GREY + "||||           ||||" + ANSI_RESET + "\n"
 					+ GREY + "|||| |||| |||| ||||" + ANSI_RESET + "\n";
 		}
-		String first = habitat1.getBackgroundColour();
-		String second = habitat2.getBackgroundColour();
 
 		char[] animal = new char[3];
 		String[] colour = new String[4];

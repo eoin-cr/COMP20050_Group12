@@ -65,7 +65,7 @@ public class Display {
 	 * The habitat of the tile and the token will be printed, as well as the
 	 * 'image' of the tile.
 	 */
-	public static void displayDeck() {
+ 	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
 
@@ -266,7 +266,6 @@ public class Display {
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
-
 	/**
 	 * Returns a string containing a character repeated a certain amount of
 	 * times.
@@ -283,7 +282,6 @@ public class Display {
 		Arrays.fill(repeat, a);
 		return new String(repeat);
 	}
-
 	/**
 	 * Pauses the program for a certain amount of time.
 	 *

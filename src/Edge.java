@@ -46,4 +46,8 @@ public class Edge {
 	public HabitatTile.Habitat getHabitatType() {
 		return habitatType;
 	}
+
+	public void setHabitatType(HabitatTile.Habitat habitatType) {
+		this.habitatType = habitatType;
+	}
 }
