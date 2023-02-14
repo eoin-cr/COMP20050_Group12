@@ -42,7 +42,7 @@ public class Game {
 
     public void startGame() {
     	CurrentDeck.setStartTileTokenSelection();
-    	startPlayerTurns();
+    	playerTurnCycle();
     }
 
     /**
@@ -50,14 +50,14 @@ public class Game {
      * For each player it prints the current player and their map.
      * A sleep call is made after displaying the users map.
      */
-    public void startPlayerTurns() {
+    public void playerTurnCycle() {
         // TODO: This loop exits after the player list has been iterated though.
-        // Instead, we want it to finish when all the tokens have ran out.
+        //       Instead, we want it to finish when all the tokens have run out.
     	while (HabitatTile.getTileCounter() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
                 Display.displayTileMap(player);
-                Display.sleep(500);
+//                Display.sleep(500);
         		// choose from tile token pairs
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
@@ -82,7 +82,7 @@ public class Game {
             Display.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
-            Display.sleep(500);
+//            Display.sleep(500);
         }
     }
 }

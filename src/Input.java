@@ -122,5 +122,136 @@ public class Input {
          */
         Set<String> playerSet = new LinkedHashSet<>(players);
         return playerSet.size() < players.size();
-    }   
+    }
+
+    /**
+     * Allows the user to select a tile token pair from the deck.
+     * Returns a number from 0-3, representing where in the deck the chosen
+     * tile was.
+     *
+     * @return an int from 0-3 (inclusive)
+     */
+    public static int chooseFromDeck() {
+        int choice;
+        System.out.println();
+
+        do {
+        System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+        System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+        try {
+            choice = Integer.parseInt(getUserInput());
+        } catch (NumberFormatException e) {
+            System.out.println("You did not input a number. Please try again.");
+            choice = Integer.parseInt(getUserInput());
+        }
+        } while (choice < 1 || choice > 4);
+
+        choice--;
+        System.out.println("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
+                +CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
+
+        return choice;
+    }
+
+    public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
+        int[] result = new int[2];
+        int choice;
+        int tileID = -1;
+
+        System.out.println();
+        System.out.println("Choose what to do with the " +token.name()+ " token you have drawn.");
+
+        do {
+            System.out.println("Type 1 to place the token on one of your tiles, or 2 to put the token back in the bag: ");
+            try {
+                choice = Integer.parseInt(getUserInput());
+                //System.out.println(choice);
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                choice = Integer.parseInt(getUserInput());
+            }
+        } while(choice < 1 || choice > 2);
+
+
+        if (choice == 1) {
+            do {
+                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+                try {
+                    tileID = Integer.parseInt(getUserInput());
+                    //System.out.println(choice);
+                } catch (NumberFormatException e) {
+                    System.out.println("You did not input a number. Please try again.");
+                    tileID = Integer.parseInt(getUserInput());
+                }
+            } while(tileID < 0 || tileID > Bag.getMaxTiles());
+
+        }
+
+        result[0] = choice;
+        result[1] = tileID;
+
+        return result;
+    }
+
+    /**
+     * Takes input of an int in a range and returns it.
+     *
+     * @param lowerBound {@code input >= lowerbound}
+     * @param upperBound {@code input <= upperbound}
+     * @param firstMessage {@code the message to print}
+     * @return an int such that {@code lowerbound <= input <= upperbound}
+     */
+    public static int boundedInt(int lowerBound, int upperBound, String firstMessage)  {
+        int choice;
+        do {
+            System.out.println(firstMessage);
+            try {
+                choice = Integer.parseInt(getUserInput());
+                //System.out.println(choice);
+            } catch (NumberFormatException e) {
+                System.out.println("You did not enter a number. Please try again.");
+                choice = Integer.parseInt(getUserInput());
+            }
+        }while(choice < lowerBound || choice > upperBound);
+
+        return choice;
+    }
+
+    /**
+     * Allows the user to choose the tile placement.
+     * Checks are done to ensure that tiles can only be placed according to the
+     * rules of the game
+     */
+    public static int[] chooseTilePlacement(Player player) {
+        // display tile placement map
+        Player tmpMap = Display.displayPlacementMap(player);
+        System.out.println("Enter the tile ID where you want the tile to be placed");
+        Scanner in = new Scanner(System.in);
+        int input=-1;
+//        if (in.hasNextInt()) {
+//            input = in.nextInt();
+//        }
+
+        boolean firstRun = true;
+        boolean intInputted = true;
+
+        int[] coords = new int[]{-1,-1};
+        while (coords[0] == -1 && coords[1] == -1) {
+            if (!firstRun && intInputted) {
+                System.out.println("Invalid number.  Please enter the tileID");
+            }
+            try {
+                input = in.nextInt();
+                intInputted = true;
+            } catch (InputMismatchException ex) { // catches if user doesn't enter an int
+                System.out.println("You must enter an integer!  Please try again");
+                in.nextLine(); // clears buffer
+                intInputted = false;
+            }
+            firstRun = false;
+            coords = tmpMap.getMap().returnPositionOfID(input);
+        }
+        return coords;
+    }
+
 }

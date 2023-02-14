@@ -40,7 +40,6 @@ public class Edge {
 			Edge e = new Edge(tileID, habitat2);
 			edges.add(e);
 		}
-		
 		return edges;
 	}
 
