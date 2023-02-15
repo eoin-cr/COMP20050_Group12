@@ -12,6 +12,15 @@ public class Bag {
     public static final Map<WildlifeToken, Integer> remainingTokens = new HashMap<>();
     public static final List<HabitatTile[]> starterTiles = new ArrayList<>();
     private static int maxTiles;
+    private static int tilesPlaced = 0;
+
+    public static void incrementTilesInUse(int num) {
+        tilesPlaced += num;
+    }
+
+    public static int tilesInUse() {
+        return tilesPlaced;
+    }
 
     Bag(){} //constructor
     
@@ -48,6 +57,7 @@ public class Bag {
         //make habitat tiles
         if (numplayers == 2) {
         	setMaxTiles(43);
+//            setMaxTiles(5);
         }
         else if (numplayers == 3) {
         	setMaxTiles(63);

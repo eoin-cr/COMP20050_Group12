@@ -7,18 +7,18 @@ public class CurrentDeck {
 	
 	public CurrentDeck() {}
 	
-	public static List<HabitatTile> getDeckTiles() { //getters and setters
-		return deckTiles;
-	}
+//	public static List<HabitatTile> getDeckTiles() { //getters and setters
+//		return deckTiles;
+//	}
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
-	public static List<WildlifeToken> getDeckTokens() {
-		return deckTokens;
-	}
-	public static void setDeckTokens(List<WildlifeToken> tokens) {
-		deckTokens = tokens;
-	}
+//	public static List<WildlifeToken> getDeckTokens() {
+//		return deckTokens;
+//	}
+//	public static void setDeckTokens(List<WildlifeToken> tokens) {
+//		deckTokens = tokens;
+//	}
 	public static WildlifeToken getToken (int index) {
 		return deckTokens.get(index);
 	}
@@ -37,7 +37,7 @@ public class CurrentDeck {
 	public static void choosePair(Player player) {
 		//deal with tile here, place on map after choosing which row/column to place on
 		int choice = Input.chooseFromDeck();
-		int[] rowcol = Input.chooseTilePlacement(player);
+		int[] rowAndColumn = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
 		Display.displayTileMap(player);
@@ -82,6 +82,7 @@ public class CurrentDeck {
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();
+		Bag.incrementTilesInUse(num);
     }
     	
     public static void cullCheckFourTokens() {
@@ -97,7 +98,7 @@ public class CurrentDeck {
     				//System.out.println("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
 				}	
     		
-    		Display.cullOccurence();
+    		Display.cullOccurrence();
     	}
     }
     
@@ -140,7 +141,7 @@ public class CurrentDeck {
         				//System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
     				}	
     			}
-    			Display.cullOccurence();
+    			Display.cullOccurrence();
     			cullCheckFourTokens();
     		}
     		//if choice is 2, deck remains unchanged - message display handled in display
