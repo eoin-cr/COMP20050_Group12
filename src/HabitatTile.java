@@ -136,17 +136,18 @@ public class HabitatTile {
 		return Objects.hash(tileID);
 	}
 	public void rotateTile(){
-		int input= Input.boundedInt(1,NUMBER_OF_EDGES,"In which position would you like to rotate to (1-6).");
+		if (keystoneType == TileType.NON_KEYSTONE) {
+			int input = Input.boundedInt(1, NUMBER_OF_EDGES, "In which position would you like to rotate to (1-6).");
 
-		HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
-		for (int i = 0; i < NUMBER_OF_EDGES; i++) {
-			temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
+			HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
+			for (int i = 0; i < NUMBER_OF_EDGES; i++) {
+				temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
+			}
+
+			for (int j = 0; j < NUMBER_OF_EDGES; j++) {
+				edges.get(j).setHabitatType(temp[j]);
+			}
 		}
-
-		for (int j = 0; j < NUMBER_OF_EDGES; j++) {
-			edges.get(j).setHabitatType(temp[j]);
-		}
-
 	}
 
 	/**

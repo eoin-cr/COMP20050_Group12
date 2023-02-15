@@ -31,7 +31,6 @@ public class CurrentDeck {
 		int[] rowAndColumn = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
-		Display.displayTileMap(player);
 
 		//need to give some info on the rotation options and what they look like
 		deckTiles.get(choice).rotateTile();
