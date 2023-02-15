@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -44,8 +44,7 @@ public class HabitatTile {
     private final int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
-    //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
-	private List<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private final ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
 	/**
 	 * Generates a habitat tile
@@ -96,6 +95,7 @@ public class HabitatTile {
 		this.isTokenPlaced = true;
 	}
 
+
 	/**
 	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
 	 * simply represents the possible places on the map that a tile can be
@@ -113,6 +113,9 @@ public class HabitatTile {
 
 	@Override
 	public String toString() {
+		if(keystoneType == TileType.KEYSTONE){
+			return habitat1.name() + " Keystone";
+		}
 		return habitat1.name() + " + " + habitat2.name();
 	}
 
@@ -135,6 +138,19 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
+	public void rotateTile(){
+		int input= Input.boundedInt(1,6,"In which position would you like to rotate to (1-6).");
+
+		HabitatTile.Habitat[] temp = new Habitat[6];
+		for (int i = 0; i < 6; i++) {
+			temp[(i + input) % 6] = edges.get(i).getHabitatType();
+		}
+
+		for (int j = 0; j <6; j++) {
+			edges.get(j).setHabitatType(temp[j]);
+		}
+
+	}
 
 	/**
 	 * Returns a formatted string version of the habitat tile, so that it can
@@ -150,8 +166,7 @@ public class HabitatTile {
 					+ GREY + "||||           ||||" + ANSI_RESET + "\n"
 					+ GREY + "|||| |||| |||| ||||" + ANSI_RESET + "\n";
 		}
-		String first = habitat1.getBackgroundColour();
-		String second = habitat2.getBackgroundColour();
+
 		char[] animal = new char[3];
 		String[] colour = new String[4];
 
@@ -173,17 +188,18 @@ public class HabitatTile {
 			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
 		}
 
-		String full =  "    |    |    |    " + ANSI_RESET + "\n";
-		return first + full +
-					first + "    |" + ANSI_RESET +
-					colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
-					colour[1] + " " + animal[1] + "  " + ANSI_RESET +
-					first  + "|    " + ANSI_RESET + "\n" +
-					second + "    |" + ANSI_RESET +
-					colour[2] + "  " + animal[2] + ANSI_RESET +
+		return 	edges.get(5).getHabitatType().backgroundColour + "    |    |" + ANSI_RESET +
+				edges.get(0).getHabitatType().backgroundColour +  "    |    " + ANSI_RESET +"\n"+
+				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
+				colour[0] + "  " + animal[0] + "  " + ANSI_RESET +
+				colour[1] + " " + animal[1] + "  " + ANSI_RESET +
+				edges.get(1).getHabitatType().backgroundColour  + "|    " + ANSI_RESET + "\n" +
+				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
+				colour[2] + "  " + animal[2] + ANSI_RESET +
 				// inserts tile number and adds padding
-					colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
-					second  + "|    " + ANSI_RESET + "\n" +
-					second + full;
+				colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
+				edges.get(1).getHabitatType().backgroundColour        + "|    " + ANSI_RESET + "\n" +
+				edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET +
+				edges.get(2).getHabitatType().backgroundColour +  "|    |    " + ANSI_RESET +"\n";
 	}
 }
