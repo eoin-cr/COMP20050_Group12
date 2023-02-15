@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class ScoreCard {
 	private static final String[] scorecards = new String[5];
-//	private static [] scorecards = new String[5];
 //	stores the 5 scorecard options selected,
 //	each randomly generated from a choice of 4 possible options of cards
 //	indexing:
@@ -14,9 +13,11 @@ public class ScoreCard {
 	
 	public ScoreCard() {}
 
+/*
 	public static String[] getScorecards() {
 		return scorecards;
 	}
+*/
 
 	public static void generateScorecards() {
 		Random rand = new Random();
@@ -369,7 +370,7 @@ public class ScoreCard {
 			return description;
 		}
 	}
-	private static void printCardRules() {
+	public static void printCardRules() {
 		System.out.println("Below are the scorecards drawn for possible Wildlife Token placements on your board:\n\n");
 		System.out.println(BearScorecards.valueOf(scorecards[0]).getDescription());
 		Display.sleep(500);

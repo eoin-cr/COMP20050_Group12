@@ -63,7 +63,7 @@ public class Display {
 	 * The habitat of the tile and the token will be printed, as well as the
 	 * 'image' of the tile.
 	 */
- 	public static void displayDeck() {
+	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
 
@@ -245,8 +245,10 @@ public class Display {
 		System.out.println("""
 				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
 				Enter MAP for your current map of Tiles,\s
+				Enter DECK to see current deck of Tile + Token pairs again,\s
+				Enter SC to see the scorecard list again,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
-				Enter NEXT to move on to the next player,\s
+				Enter NEXT to skip your turn,\s
 				Enter QUIT to quit the program.
 				""");
 	}
@@ -259,13 +261,11 @@ public class Display {
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
 	 */
-	// TODO: Allow different tile orientations
-
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
-	/**
 
+	/**
 	 * Pauses the program for a certain amount of time.
 	 *
 	 * @param millis the amount of milliseconds to pause the program for

@@ -59,7 +59,20 @@ public class PlayerMap {
 		tileBoardPosition[row][col] = tile;
 		tilesInMap.add(tile);
 	}
-	
+
+	//used to check if there's no tiles in the players map that have a valid option for token drawn
+	//used in current deck class for check
+	public boolean checkAllTilesForValidToken(WildlifeToken token) {
+		for (HabitatTile tile : tilesInMap) {
+			for (WildlifeToken w : tile.getTokenOptions()) {
+				if (w == token) {
+					return true; // returns true as it found at least one valid token
+				}
+			}
+		}
+		return false;
+	}
+
 	//replaces token options with placed token, inverts colours, turns boolean to true
 	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
 		//place it on the correct tile
@@ -68,7 +81,9 @@ public class PlayerMap {
 		for (HabitatTile tile : tilesInMap) {
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
-				placed = checkTokenOptionsMatch(token, tile);
+				if (!tile.isFakeTile()) {
+					placed = checkTokenOptionsMatch(token, tile);
+				}
 				if (placed) {
 					tile.setPlacedToken(token);
 					System.out.println("You have successfully placed your token.");
@@ -163,7 +178,7 @@ public class PlayerMap {
 		}
 		return new int[]{-1,-1};
 	}
-	
+
 	public static HabitatTile[][] deepCopy(HabitatTile[][] original) {
 		final HabitatTile[][] result = new HabitatTile[original.length][];
 		for (int i = 0; i < original.length; i++) {

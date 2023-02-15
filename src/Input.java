@@ -175,7 +175,7 @@ public class Input {
 
         if (choice == 1) {
             do {
-                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token: ");
                 try {
                     tileID = Integer.parseInt(getUserInput());
                     //System.out.println(choice);

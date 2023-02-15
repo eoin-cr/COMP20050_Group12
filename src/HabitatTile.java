@@ -12,7 +12,7 @@ public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
 	public static final String WHITE = "\033[38;5;231m";
 	public static final String WHITE_BG = "\033[48;5;231m";
-	//private static final int NUMBER_OF_EDGES = 6;
+	private static final int NUMBER_OF_EDGES = 6;
 	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	/**
@@ -29,12 +29,9 @@ public class HabitatTile {
 		Habitat(String backgroundColour) {
 			this.backgroundColour = backgroundColour;
 		}
-		public String getBackgroundColour() {
-			return backgroundColour;
-		}
 	}
 
-	enum TileType {KEYSTONE, NON_KEYSTONE}
+	enum TileType {KEYSTONE, NON_KEYSTONE, FAKE}
 	private final TileType keystoneType;
 	private final WildlifeToken[] tokenOptions;
 	private boolean isTokenPlaced = false;
@@ -139,14 +136,14 @@ public class HabitatTile {
 		return Objects.hash(tileID);
 	}
 	public void rotateTile(){
-		int input= Input.boundedInt(1,6,"In which position would you like to rotate to (1-6).");
+		int input= Input.boundedInt(1,NUMBER_OF_EDGES,"In which position would you like to rotate to (1-6).");
 
-		HabitatTile.Habitat[] temp = new Habitat[6];
-		for (int i = 0; i < 6; i++) {
-			temp[(i + input) % 6] = edges.get(i).getHabitatType();
+		HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
+		for (int i = 0; i < NUMBER_OF_EDGES; i++) {
+			temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
 		}
 
-		for (int j = 0; j <6; j++) {
+		for (int j = 0; j < NUMBER_OF_EDGES; j++) {
 			edges.get(j).setHabitatType(temp[j]);
 		}
 

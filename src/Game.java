@@ -4,9 +4,7 @@ import java.util.List;
 /** Deals with the running of the game */
 public class Game {
     private final String[] playerNames;
-    // Note that in final ArrayLists you can modify the stored values, you
-    // just can't change the address the list is pointing to.
-    private final List<Player> playerList = new ArrayList<>();
+    private final static List<Player> playerList = new ArrayList<>();
 
     /*
      * Get player names
@@ -62,7 +60,8 @@ public class Game {
         		Command command = new Command();
         		do {
         			command.setCommand(player);
-        		} while (command.getCommand() != Command.CommandType.NEXT);
+        		} while (command.getCommand() != Command.CommandType.NEXT
+                            || command.getCommand() == Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}
     	}
@@ -80,7 +79,7 @@ public class Game {
             Display.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
-//            Display.sleep(500);
+            Display.sleep(500);
         }
     }
 }
