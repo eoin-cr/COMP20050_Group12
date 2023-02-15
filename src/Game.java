@@ -42,7 +42,7 @@ public class Game {
 
     public void startGame() {
     	CurrentDeck.setStartTileTokenSelection();
-    	startPlayerTurns();
+    	playerTurnCycle();
     }
 
     /**
@@ -50,27 +50,23 @@ public class Game {
      * For each player it prints the current player and their map.
      * A sleep call is made after displaying the users map.
      */
-    public void startPlayerTurns() {
-        // TODO: This loop exits after the player list has been iterated though.
-        //       Instead, we want it to finish when all the tokens have run out.
-    	//NOTE: something wrong with placedtilecounter = check the print statements in playermap when run
-    	while (HabitatTile.getPlacedTileCounter() < Bag.getMaxTiles()) {
-        		for (int i = 0; i < playerList.size(); i++) {
-        			Player player = playerList.get(i);
-        			System.out.println("Current player is: " +player.getPlayerName());
-                    Display.displayTileMap(player);
-                    
-            		Command command = new Command();
-            		for (;;) {
-            			command.setCommand(player);
-            			if (command.getCommand() == Command.CommandType.NEXT ||
-            					command.getCommand() == Command.CommandType.PAIR) {
-            				break;
-            			}
-            		}
-            		// automatically moves to next player if command type is next
-        		}
+    private void playerTurnCycle() {
+    	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
+    		for (Player player : playerList) {
+        		System.out.println("Current player is: " +player.getPlayerName());
+                Display.displayTileMap(player);
+//                Display.sleep(500);
+        		// choose from tile token pairs
+        		// place tile
+        		// now can choose to place token, move to next player, quit etc.
+        		Command command = new Command();
+        		do {
+        			command.setCommand(player);
+        		} while (command.getCommand() != Command.CommandType.NEXT
+                            || command.getCommand() == Command.CommandType.PAIR);
+        		// automatically moves to next player if command type is next
         	}
+    	}
     }
 
     /**
@@ -85,17 +81,7 @@ public class Game {
             Display.displayTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
-//            Display.sleep(500);
+            Display.sleep(500);
         }
-    }
-    
-    public static Player getNextPlayer(Player player) {
-    	int i = playerList.indexOf(player);
-    	if (i == playerList.size()-1) {
-    		return playerList.get(0);
-    	}
-    	else {
-    		return playerList.get(i+1);
-    	}
     }
 }

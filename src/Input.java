@@ -38,27 +38,27 @@ public class Input {
 
         while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
             if (!firstRun && intInputted) {
-                System.out.println("Invalid number. Please enter the number of players (must be between 2-4)");
+                System.out.println("Invalid number.  Please enter the number of players (must be between 2-4)");
             }
             try {
                 num = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                System.out.println("You must enter an integer! Please try again.");
+                System.out.println("You must enter an integer!  Please try again");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }
             firstRun = false;
         }
 
-        System.out.printf("Enter the names of the %d players. Hit enter after each name.\n", num);
+        System.out.printf("Enter the names of the %d players.  Hit enter after each name.\n", num);
         in.nextLine();  // clears buffer
         for (int i = 0; i < num; i++) {
             players.add(in.nextLine().toUpperCase());
         }
 
         while (playerListIsInvalid(players)) {
-            System.out.println("Invalid input! You cannot have duplicate names, nor " +
+            System.out.println("Invalid input!  You cannot have duplicate names, nor " +
                     "empty strings. All names have been wiped, please try again.");
             players.clear();
             for (int i = 0; i < num; i++) {
@@ -124,6 +124,13 @@ public class Input {
         return playerSet.size() < players.size();
     }
 
+    /**
+     * Allows the user to select a tile token pair from the deck.
+     * Returns a number from 0-3, representing where in the deck the chosen
+     * tile was.
+     *
+     * @return an int from 0-3 (inclusive)
+     */
     public static int chooseFromDeck() {
         int choice;
         System.out.println();
@@ -144,38 +151,6 @@ public class Input {
                 +CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
 
         return choice;
-    }
-
-
-    public static int[] chooseTileRowColumn() {
-        int[] rowcol = new int[2];
-        int row;
-        int col;
-
-        do {
-            System.out.println("Please choose which row to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                row = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                row = Integer.parseInt(getUserInput());
-            }
-        }while(row < 1 || row > 20);
-
-        do {
-            System.out.println("Please choose which column to place your tile choice. Type a number between 1 and 20: ");
-            try {
-                col = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
-                col = Integer.parseInt(getUserInput());
-            }
-        }while(col < 1 || col > 20);
-
-        rowcol[0] = row;
-        rowcol[1] = col;
-
-        return rowcol;
     }
 
     public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
@@ -208,7 +183,7 @@ public class Input {
                     System.out.println("You did not input a number. Please try again.");
                     tileID = Integer.parseInt(getUserInput());
                 }
-            } while(tileID < 0 || tileID > Bag.getMaxTiles());
+            } while(tileID < 0 || tileID > HabitatTile.getTileCounter());
 
         }
 
@@ -218,26 +193,26 @@ public class Input {
         return result;
     }
 
-    public static int chooseCullThree() {
+    /**
+     * Takes input of an int in a range and returns it.
+     *
+     * @param lowerBound {@code input >= lowerbound}
+     * @param upperBound {@code input <= upperbound}
+     * @param firstMessage {@code the message to print}
+     * @return an int such that {@code lowerbound <= input <= upperbound}
+     */
+    public static int boundedInt(int lowerBound, int upperBound, String firstMessage)  {
         int choice;
-        System.out.println();
-        System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
-
         do {
-            System.out.println("Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+            System.out.println(firstMessage);
             try {
                 choice = Integer.parseInt(getUserInput());
                 //System.out.println(choice);
             } catch (NumberFormatException e) {
-                System.out.println("You did not input a number. Please try again.");
+                System.out.println("You did not enter a number. Please try again.");
                 choice = Integer.parseInt(getUserInput());
             }
-        }while(choice < 1 || choice > 2);
-        if (choice == 1) {
-            System.out.println("You have chosen to cull three tokens of the same type in the deck.");
-        } else {
-            System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
-        }
+        }while(choice < lowerBound || choice > upperBound);
 
         return choice;
     }
@@ -250,12 +225,9 @@ public class Input {
     public static int[] chooseTilePlacement(Player player) {
         // display tile placement map
         Player tmpMap = Display.displayPlacementMap(player);
-        System.out.println("Please enter the tile ID where you want the tile to be placed: ");
+        System.out.println("Enter the tile ID where you want the tile to be placed");
         Scanner in = new Scanner(System.in);
         int input=-1;
-//        if (in.hasNextInt()) {
-//            input = in.nextInt();
-//        }
 
         boolean firstRun = true;
         boolean intInputted = true;
@@ -263,13 +235,13 @@ public class Input {
         int[] coords = new int[]{-1,-1};
         while (coords[0] == -1 && coords[1] == -1) {
             if (!firstRun && intInputted) {
-                System.out.println("Invalid number. Please enter the tileID: ");
+                System.out.println("Invalid number.  Please enter the tileID");
             }
             try {
                 input = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                System.out.println("You must enter an integer! Please try again.");
+                System.out.println("You must enter an integer!  Please try again");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }

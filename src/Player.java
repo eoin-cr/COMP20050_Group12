@@ -1,4 +1,3 @@
-
 /**
  * Stores information about the player.
  */
@@ -6,7 +5,7 @@ public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
 	private int playerScore;
-	private PlayerMap map;
+	private final PlayerMap map;
 
 	public Player(String playerName) { // constructor
 		this.playerName = playerName;

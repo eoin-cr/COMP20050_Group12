@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
-	private final ArrayList<HabitatTile> tilesInMap;
+	private final List<HabitatTile> tilesInMap;
 	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
 	
 	public PlayerMap() { //constructor
@@ -17,7 +18,6 @@ public class PlayerMap {
 		addTileToMap(starter[0], 8, 9); //places tiles in the middle of the map
 		addTileToMap(starter[1], 9, 9);
 		addTileToMap(starter[2], 9, 10);
-		HabitatTile.modifyPlacedTileCounter(3); //increment total placed tiles by 3
 	}
 
 	/**
@@ -25,7 +25,7 @@ public class PlayerMap {
 	 * map of tiles.
 	 *
 	 * @return a 2d array of habitat tiles (if a tile has not been placed the
-	 * el(String)(String)ement will be null)
+	 * element will be null)
 	 */
 	public HabitatTile[][] getTileBoardPosition() {
 		return tileBoardPosition;
@@ -51,21 +51,15 @@ public class PlayerMap {
 	 * @param row the row of the board position array the tile will be added to
 	 * @param col the column of the board position array the tile will be added
 	 *          to
-	 * @throws IllegalArgumentException if there is already a tile at that
-	 * position
 	 */
-	public boolean addTileToMap(HabitatTile tile, int row, int col) {
+	public void addTileToMap(HabitatTile tile, int row, int col) {
 		if (tileBoardPosition[row][col] != null) {
-			System.out.println("There is already a tile at that position. Please try again.");
-			return false;
+			throw new IllegalArgumentException("There is already a tile at that position!");
 		}
 		tileBoardPosition[row][col] = tile;
 		tilesInMap.add(tile);
-		HabitatTile.modifyPlacedTileCounter(1); //increment total placed tiles by 1
-		System.out.println("placed tile counter: " +HabitatTile.getPlacedTileCounter());
-		return true;
 	}
-	
+
 	//used to check if there's no tiles in the players map that have a valid option for token drawn
 	//used in current deck class for check
 	public boolean checkAllTilesForValidToken(WildlifeToken token) {
@@ -79,21 +73,13 @@ public class PlayerMap {
 		}
 		return atLeastOne;
 	}
-	
+
 	//replaces token options with placed token, inverts colours, turns boolean to true
 	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
 		//place it on the correct tile
 		boolean placed = false;
 		
 		for (HabitatTile tile : tilesInMap) {
-
-//			System.out.println(tile.getTileID()); //error checking tileID stuff
-//			System.out.println(tileID);
-//
-//			System.out.println("---");
-//			System.out.println(tileID);
-//			System.out.println(tile.getTileID());
-
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
 				if (tile.isFakeTile()) {
@@ -117,10 +103,16 @@ public class PlayerMap {
 			System.out.println("Please try again.");
 		}
 
-		// returns -1 if unsuccessful in placing, otherwise returns 0
+		// returns whether the tile was successfully placed
 		return placed;
 	}
-	
+
+	/**
+	 * Check whether the chosen token can be placed on a certain tile
+	 * @param token the token to check
+	 * @param tile the tile to check whether the token can be placed on
+	 * @return whether a token can be placed
+	 */
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
 			System.out.println("There is already a token on this tile.");
@@ -169,7 +161,6 @@ public class PlayerMap {
 
 					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
-					
 					addTileToMap(tile, i, j);
 				}
 			}
@@ -191,7 +182,7 @@ public class PlayerMap {
 		}
 		return new int[]{-1,-1};
 	}
-	
+
 	public static HabitatTile[][] deepCopy(HabitatTile[][] original) {
 		final HabitatTile[][] result = new HabitatTile[original.length][];
 		for (int i = 0; i < original.length; i++) {
