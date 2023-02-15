@@ -7,18 +7,9 @@ public class CurrentDeck {
 	
 	public CurrentDeck() {}
 	
-//	public static List<HabitatTile> getDeckTiles() { //getters and setters
-//		return deckTiles;
-//	}
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
-//	public static List<WildlifeToken> getDeckTokens() {
-//		return deckTokens;
-//	}
-//	public static void setDeckTokens(List<WildlifeToken> tokens) {
-//		deckTokens = tokens;
-//	}
 	public static WildlifeToken getToken (int index) {
 		return deckTokens.get(index);
 	}
@@ -44,26 +35,25 @@ public class CurrentDeck {
 
 		//need to give some info on the rotation options and what they look like
 		deckTiles.get(choice).rotateTile();
-		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
+		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
 		Display.displayTileMap(player);
+		WildlifeToken token = deckTokens.get(choice);
 		deckTiles.remove(choice);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
+			if (!player.getMap().checkAllTilesForValidToken(token)) {
+				System.out.println("You cannot add this token to your current map of tiles, as none of the options match.");
+				break;
+			}
 			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(choice));
 			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
 				System.out.println("You have put the token back in the bag");
 				succeeded = true;
 			} else if (result[0] == 1) {//add to map choice
-				if (player.getMap().checkAllTilesForValidToken(token) == false) {
-					System.out.println("You cannot add this token to your current map of tiles, as none of the options match.");
-					break;
-				}
-				else {
-					succeeded = player.getMap().addTokenToTile(token, result[1], player);
-				}
+				succeeded = player.getMap().addTokenToTile(token, result[1], player);
 			}
 		}
 		deckTokens.remove(choice);

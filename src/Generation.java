@@ -200,8 +200,4 @@ public class Generation {
         }
         return new HabitatTile(habitat, habitat, 0);
     }
-    
-//    public static FakeTile generateFakeTile() {
-//    	return new FakeTile();
-//    }
 }

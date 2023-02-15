@@ -63,15 +63,14 @@ public class PlayerMap {
 	//used to check if there's no tiles in the players map that have a valid option for token drawn
 	//used in current deck class for check
 	public boolean checkAllTilesForValidToken(WildlifeToken token) {
-		boolean atLeastOne = false;
 		for (HabitatTile tile : tilesInMap) {
 			for (WildlifeToken w : tile.getTokenOptions()) {
 				if (w == token) {
-					atLeastOne = true;
+					return true; // returns true as it found at least one valid token
 				}
 			}
 		}
-		return atLeastOne;
+		return false;
 	}
 
 	//replaces token options with placed token, inverts colours, turns boolean to true
@@ -82,10 +81,7 @@ public class PlayerMap {
 		for (HabitatTile tile : tilesInMap) {
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
-				if (tile.isFakeTile()) {
-					placed = false;
-				}
-				else {
+				if (!tile.isFakeTile()) {
 					placed = checkTokenOptionsMatch(token, tile);
 				}
 				if (placed) {

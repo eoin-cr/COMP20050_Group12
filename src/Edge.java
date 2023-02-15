@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 /** Assists with the orientation of tile, for rotation */
 public class Edge {
-	private int tileID;
 	private HabitatTile.Habitat habitatType;
 	//private boolean isConnected; //for later use for habitat corridors
 

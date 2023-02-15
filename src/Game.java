@@ -4,8 +4,6 @@ import java.util.List;
 /** Deals with the running of the game */
 public class Game {
     private final String[] playerNames;
-    // Note that in final ArrayLists you can modify the stored values, you
-    // just can't change the address the list is pointing to.
     private final static List<Player> playerList = new ArrayList<>();
 
     /*

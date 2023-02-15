@@ -261,8 +261,6 @@ public class Display {
 	 * i.e. the habitat colours cannot split the tile vertically.
 	 * @param tile the tile to be printed
 	 */
-	// TODO: Allow different tile orientations
-
 	 public static void printHalfTile (HabitatTile tile) {
 		 System.out.println(tile.toFormattedString());
 	 }
