@@ -21,24 +21,27 @@ public class Command {
 		/** Lets player choose tile+token pair and place tile down on map*/
 		PAIR {public void enumSetCommand(Player player){
 			CurrentDeck.choosePair(player);
-			NEXT.enumSetCommand(player);
 		}},
-		
-		DECK {public void enumSetCommand(Player player){
-			Display.displayDeck();
-		}},
-		
-		/** Displays the nature token shop */
-		NATURE {public void enumSetCommand(Player player){}},
 		
 		/** Display the player's map of tiles */
 		MAP {public void enumSetCommand(Player player){
 				Display.displayTileMap(player);
 			}},
 		
+		DECK {public void enumSetCommand(Player player){
+			Display.displayDeck();
+		}},
+		
+		SC {public void enumSetCommand(Player player){
+			ScoreCard.printCardRules();
+		}},
+		
+		/** Displays the nature token shop */
+		NATURE {public void enumSetCommand(Player player){}},
+		
 		/** Moves to next players turn */
 		NEXT {public void enumSetCommand(Player player){
-			Display.displayDeck();
+			return;
 		}},
 
 		/** Quits the game */

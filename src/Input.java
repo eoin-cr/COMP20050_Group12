@@ -38,27 +38,27 @@ public class Input {
 
         while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
             if (!firstRun && intInputted) {
-                System.out.println("Invalid number.  Please enter the number of players (must be between 2-4)");
+                System.out.println("Invalid number. Please enter the number of players (must be between 2-4)");
             }
             try {
                 num = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                System.out.println("You must enter an integer!  Please try again");
+                System.out.println("You must enter an integer! Please try again.");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }
             firstRun = false;
         }
 
-        System.out.printf("Enter the names of the %d players.  Hit enter after each name.\n", num);
+        System.out.printf("Enter the names of the %d players. Hit enter after each name.\n", num);
         in.nextLine();  // clears buffer
         for (int i = 0; i < num; i++) {
             players.add(in.nextLine().toUpperCase());
         }
 
         while (playerListIsInvalid(players)) {
-            System.out.println("Invalid input!  You cannot have duplicate names, nor " +
+            System.out.println("Invalid input! You cannot have duplicate names, nor " +
                     "empty strings. All names have been wiped, please try again.");
             players.clear();
             for (int i = 0; i < num; i++) {
@@ -200,7 +200,7 @@ public class Input {
 
         if (choice == 1) {
             do {
-                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token");
+                System.out.println("Choose the tile number where you want to place the " +token.name()+ " token: ");
                 try {
                     tileID = Integer.parseInt(getUserInput());
                     //System.out.println(choice);
@@ -250,7 +250,7 @@ public class Input {
     public static int[] chooseTilePlacement(Player player) {
         // display tile placement map
         Player tmpMap = Display.displayPlacementMap(player);
-        System.out.println("Enter the tile ID where you want the tile to be placed");
+        System.out.println("Please enter the tile ID where you want the tile to be placed: ");
         Scanner in = new Scanner(System.in);
         int input=-1;
 //        if (in.hasNextInt()) {
@@ -263,13 +263,13 @@ public class Input {
         int[] coords = new int[]{-1,-1};
         while (coords[0] == -1 && coords[1] == -1) {
             if (!firstRun && intInputted) {
-                System.out.println("Invalid number.  Please enter the tileID");
+                System.out.println("Invalid number. Please enter the tileID: ");
             }
             try {
                 input = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                System.out.println("You must enter an integer!  Please try again");
+                System.out.println("You must enter an integer! Please try again.");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }

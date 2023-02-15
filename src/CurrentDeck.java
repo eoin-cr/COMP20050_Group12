@@ -31,31 +31,38 @@ public class CurrentDeck {
 	public static void choosePair(Player player) {
 
 		//deal with tile here, place on map after choosing which row/column to place on
-		//TODO: change to map numberings later instead of coords
 		int choice = Input.chooseFromDeck();
-//		Display.displayPlacementMap(player);
-//		int[] rowcol = Input.chooseTileRowColumn();
+		
+		boolean tilePlaced = false;
+		while (!tilePlaced) {
 		int[] rowcol = Input.chooseTilePlacement(player);
-
-		boolean succeeded = false;
-
-		player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
+		tilePlaced = player.getMap().addTileToMap(deckTiles.get(choice), rowcol[0], rowcol[1]);
+		}
 		deckTiles.remove(choice);
 		Display.displayTileMap(player);
 
+		WildlifeToken token = deckTokens.get(choice);
+		boolean succeeded = false;
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
-			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(choice));
+			int[] result = Input.chooseTokenPlaceOrReturn(token);
 			if (result[0] == 2) { //put token back in bag choice
-				Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
-				System.out.println("You have put the token back in the bag");
+				Bag.remainingTokens.merge(token, 1, Integer::sum);
+				System.out.println("You have put the token back in the bag.");
 				succeeded = true;
 			} else if (result[0] == 1) {//add to map choice
-				succeeded = player.getMap().addTokenToTile(deckTokens.get(choice), result[1], player);
+				if (player.getMap().checkAllTilesForValidToken(token) == false) {
+					System.out.println("You cannot add this token to your current map of tiles, as none of the options match.");
+					break;
+				}
+				else {
+					succeeded = player.getMap().addTokenToTile(token, result[1], player);
+				}
 			}
 		}
 		deckTokens.remove(choice);
+		System.out.println("Your turn is now complete.");
 		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	

@@ -82,13 +82,6 @@ public class Display {
 		displayDeck();
 	}
 
-	public static void displayPlacementMap(Player player) {
-		Player tmpPlayer = new Player(player.getPlayerName());
-		tmpPlayer.getMap().setTileBoard(player.getMap().getTileBoardPosition());
-		tmpPlayer.getMap().addPossibleTiles();
-		displayTileMap(tmpPlayer);
-	}
-
 	/**
 	 * Displays the possible tile placements on the passed player's map.
 	 *
@@ -96,7 +89,7 @@ public class Display {
 	 *               placements
 	 */
 	public static Player displayPlacementMap(Player player) {
-		Player tmpPlayer = new Player("tmp");
+		Player tmpPlayer = new Player(player.getPlayerName());
 		tmpPlayer.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
 		tmpPlayer.getMap().addPossibleTiles();
 		displayTileMap(tmpPlayer);
@@ -254,8 +247,10 @@ public class Display {
 		System.out.println("""
 				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
 				Enter MAP for your current map of Tiles,\s
+				Enter DECK to see current deck of Tile + Token pairs again,\s
+				Enter SC to see the scorecard list again,\s
 				Enter NATURE to see and spend your Nature Tokens,\s
-				Enter NEXT to move on to the next player,\s
+				Enter NEXT to skip your turn,\s
 				Enter QUIT to quit the program.
 				""");
 	}

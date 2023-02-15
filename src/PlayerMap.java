@@ -17,6 +17,7 @@ public class PlayerMap {
 		addTileToMap(starter[0], 8, 9); //places tiles in the middle of the map
 		addTileToMap(starter[1], 9, 9);
 		addTileToMap(starter[2], 9, 10);
+		HabitatTile.modifyPlacedTileCounter(3); //increment total placed tiles by 3
 	}
 
 	/**
@@ -53,12 +54,30 @@ public class PlayerMap {
 	 * @throws IllegalArgumentException if there is already a tile at that
 	 * position
 	 */
-	public void addTileToMap(HabitatTile tile, int row, int col) throws IllegalArgumentException {
+	public boolean addTileToMap(HabitatTile tile, int row, int col) {
 		if (tileBoardPosition[row][col] != null) {
-			throw new IllegalArgumentException("There is already a tile at that position!");
-		} //TODO: handle this in the method itself by asking them to place again somewhere else
+			System.out.println("There is already a tile at that position. Please try again.");
+			return false;
+		}
 		tileBoardPosition[row][col] = tile;
 		tilesInMap.add(tile);
+		HabitatTile.modifyPlacedTileCounter(1); //increment total placed tiles by 1
+		System.out.println("placed tile counter: " +HabitatTile.getPlacedTileCounter());
+		return true;
+	}
+	
+	//used to check if there's no tiles in the players map that have a valid option for token drawn
+	//used in current deck class for check
+	public boolean checkAllTilesForValidToken(WildlifeToken token) {
+		boolean atLeastOne = false;
+		for (HabitatTile tile : tilesInMap) {
+			for (WildlifeToken w : tile.getTokenOptions()) {
+				if (w == token) {
+					atLeastOne = true;
+				}
+			}
+		}
+		return atLeastOne;
 	}
 	
 	//replaces token options with placed token, inverts colours, turns boolean to true
@@ -77,7 +96,12 @@ public class PlayerMap {
 
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
-				placed = checkTokenOptionsMatch(token, tile);
+				if (tile.isFakeTile()) {
+					placed = false;
+				}
+				else {
+					placed = checkTokenOptionsMatch(token, tile);
+				}
 				if (placed) {
 					tile.setPlacedToken(token);
 					System.out.println("You have successfully placed your token.");
@@ -145,6 +169,7 @@ public class PlayerMap {
 
 					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
+					
 					addTileToMap(tile, i, j);
 				}
 			}

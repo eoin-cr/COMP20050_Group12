@@ -39,15 +39,17 @@ public class HabitatTile {
 		}
 	}
 
-	enum TileType {KEYSTONE, NON_KEYSTONE}
-	private final TileType keystoneType;
+	enum TileType {KEYSTONE, NON_KEYSTONE, FAKE}
+	protected TileType keystoneType;
 	
-	private final WildlifeToken[] tokenOptions;
+	protected WildlifeToken[] tokenOptions;
 	private boolean isTokenPlaced = false;
 	private WildlifeToken placedToken = null;
-	private boolean isFakeTile = false;
-    private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
-    private final int tileID;  // identifying number for a tile, used in Edge class
+	private boolean isFakeTile;
+    protected static int totalTileCounter = 0;  // used to assign tileID number, skips a bunch of tiles in Generation
+    protected static int fakeTileCounter = 0;
+    private static int placedTileCounter = 0; // used to exit game, counts tiles placed down on map
+    protected int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
     //private Edge[] edges;  // stores what the 6 edges of the tile are connected to, if anything
@@ -61,23 +63,30 @@ public class HabitatTile {
 	 * @param numTokens The number of tokens to place
 	 */
 	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {
-		this.tileID = tileCounter;
-		tileCounter++;
+		this.setTileID();
+		this.setFakeTile(false);
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		if (habitat1 == habitat2) {
-			keystoneType = TileType.KEYSTONE;
-			numTokens = 1;
-		}
-		else {
-			keystoneType = TileType.NON_KEYSTONE;
-		}
-		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
+		this.setKeystoneType();
+		this.setTokenOptions(numTokens);
 		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 	}
 	
+	public static void modifyPlacedTileCounter(int i) {
+		placedTileCounter += i;
+	}
+	public static int getPlacedTileCounter() {
+		return placedTileCounter;
+	}
 	public static int getTileCounter() {
-		return tileCounter;
+		return totalTileCounter;
+	}
+	public void setTileID() {
+		this.tileID = totalTileCounter;
+		totalTileCounter++;
+	}
+	public int getTileID() {
+		return tileID;
 	}
 	public Habitat getHabitat1() {  // getters and setters
 		return habitat1;
@@ -85,11 +94,22 @@ public class HabitatTile {
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
-	public int getTileID() {
-		return tileID;
+	public void setKeystoneType() {
+		if (habitat1 == habitat2) {
+			this.keystoneType = TileType.KEYSTONE;
+		}
+		else {
+			this.keystoneType = TileType.NON_KEYSTONE;
+		}
 	}
 	public TileType getKeystoneType() {
 		return keystoneType;
+	}
+	public void setTokenOptions(int numTokens) {
+		if (this.getKeystoneType() == TileType.KEYSTONE) {
+			numTokens = 1;
+		}
+		this.tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
@@ -101,23 +121,6 @@ public class HabitatTile {
 		this.placedToken = placedAnimal;
 		this.isTokenPlaced = true;
 	}
-
-	/**
-	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
-	 * simply represents the possible places on the map that a tile can be
-	 * placed)
-	 *
-	 * @param isFake whether the tile is 'fake' or not
-	 */
-	public void setFakeTile(boolean isFake) {
-		isFakeTile = isFake;
-	}
-
-	public boolean isFakeTile() {
-		return isFakeTile;
-	}
-
-	// NOTE: you can't remove a token once it's placed on the tile afaik - eoin
 	public WildlifeToken removePlacedToken() { //to be used if you spend a nature token to move an animal token
 		if (!this.isTokenPlaced) {
 			System.out.println("There is no token on this tile to remove. Please try a different tile.");
@@ -129,6 +132,24 @@ public class HabitatTile {
 			this.isTokenPlaced = false;
 			return freed;
 		}
+	}
+	
+	/**
+	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
+	 * simply represents the possible places on the map that a tile can be
+	 * placed)
+	 *
+	 * @param isFake whether the tile is 'fake' or not
+	 */
+	public void setFakeTile(boolean isFake) {
+		if (isFake == true) {
+			fakeTileCounter++;
+		}
+		isFakeTile = isFake;
+	}
+
+	public boolean isFakeTile() {
+		return isFakeTile;
 	}
 
 	@Override

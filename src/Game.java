@@ -6,7 +6,7 @@ public class Game {
     private final String[] playerNames;
     // Note that in final ArrayLists you can modify the stored values, you
     // just can't change the address the list is pointing to.
-    private final List<Player> playerList = new ArrayList<>();
+    private final static List<Player> playerList = new ArrayList<>();
 
     /*
      * Get player names
@@ -53,21 +53,24 @@ public class Game {
     public void startPlayerTurns() {
         // TODO: This loop exits after the player list has been iterated though.
         //       Instead, we want it to finish when all the tokens have run out.
-    	while (HabitatTile.getTileCounter() < Bag.getMaxTiles()) {
-    		for (Player player : playerList) {
-        		System.out.println("Current player is: " +player.getPlayerName());
-                Display.displayTileMap(player);
-//                Display.sleep(500);
-        		// choose from tile token pairs
-        		// place tile
-        		// now can choose to place token, move to next player, quit etc.
-        		Command command = new Command();
-        		do {
-        			command.setCommand(player);
-        		} while (command.getCommand() != Command.CommandType.NEXT);
-        		// automatically moves to next player if command type is next
+    	//NOTE: something wrong with placedtilecounter = check the print statements in playermap when run
+    	while (HabitatTile.getPlacedTileCounter() < Bag.getMaxTiles()) {
+        		for (int i = 0; i < playerList.size(); i++) {
+        			Player player = playerList.get(i);
+        			System.out.println("Current player is: " +player.getPlayerName());
+                    Display.displayTileMap(player);
+                    
+            		Command command = new Command();
+            		for (;;) {
+            			command.setCommand(player);
+            			if (command.getCommand() == Command.CommandType.NEXT ||
+            					command.getCommand() == Command.CommandType.PAIR) {
+            				break;
+            			}
+            		}
+            		// automatically moves to next player if command type is next
+        		}
         	}
-    	}
     }
 
     /**
@@ -84,5 +87,15 @@ public class Game {
             // sleep so you can see the outputs, they don't just come all at once
 //            Display.sleep(500);
         }
+    }
+    
+    public static Player getNextPlayer(Player player) {
+    	int i = playerList.indexOf(player);
+    	if (i == playerList.size()-1) {
+    		return playerList.get(0);
+    	}
+    	else {
+    		return playerList.get(i+1);
+    	}
     }
 }
