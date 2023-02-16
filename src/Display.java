@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Deals with outputting to the console.
  */
@@ -66,13 +68,23 @@ public class Display {
 	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
+		String output = "";
 
     	for (int i = 0; i < 4; i++) {
-    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
-    				", Token: " +CurrentDeck.getToken(i).toString());
-    		printHalfTile(CurrentDeck.getTile(i));
+//    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
+//    				", Token: " +CurrentDeck.getToken(i).toString());
+//    		printHalfTile(CurrentDeck.getTile(i));
+			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
+					+ CurrentDeck.getTile(i).toFormattedString();
+			output = removeNewlineAndJoin(output, toAdd, "\t\t\t");
     	}
+		System.out.println(output);
     	System.out.println();
+	}
+
+	// https://stackoverflow.com/questions/8154366/how-to-center-a-string-using-string-format
+	public static String centerString (int width, String s) {
+		return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
 	}
 
 	public static void cullOccurrence() {
@@ -238,6 +250,21 @@ public class Display {
 		return String.join("\n", firstLines);
 	}
 
+	private static String removeNewlineAndJoin(String first, String second, String deliminator) {
+		if (Objects.equals(first, "")) {
+			return second;
+		} else if (Objects.equals(second, "")) {
+			return first;
+		}
+		String[] firstLines = first.split("\n");
+		String[] secondLines = second.split("\n");
+		for (int i = 0; i < firstLines.length && i < secondLines.length; i++) {
+			firstLines[i] += (deliminator + secondLines[i]);
+		}
+		return String.join("\n", firstLines);
+
+	}
+
 	/**
 	 * Displays the interactive commands the player can select from
 	 */
@@ -252,18 +279,6 @@ public class Display {
 				Enter QUIT to quit the program.
 				""");
 	}
-
-	/**
-	 * Prints a tile to the terminal.
-	 * The top half and bottom half both have a habitat colour (can be the
-	 * same).
-	 * At the moment there is no way to change the orientation of the tile,
-	 * i.e. the habitat colours cannot split the tile vertically.
-	 * @param tile the tile to be printed
-	 */
-	 public static void printHalfTile (HabitatTile tile) {
-		 System.out.println(tile.toFormattedString());
-	 }
 
 	/**
 	 * Pauses the program for a certain amount of time.
