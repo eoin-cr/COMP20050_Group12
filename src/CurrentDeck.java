@@ -32,8 +32,19 @@ public class CurrentDeck {
 
 		boolean succeeded = false;
 
-		//need to give some info on the rotation options and what they look like
-		deckTiles.get(choice).rotateTile();
+		// displays the different rotation options in order
+		String orientationOptions = "";
+		if (!deckTiles.get(choice).isKeystone()) {
+			for (int i = 0; i < 6; i++) {
+				deckTiles.get(choice).rotateTile(1);
+				orientationOptions = Display.removeNewlineAndJoin(
+						orientationOptions, deckTiles.get(choice).toFormattedString(), "\t\t\t"
+				);
+			}
+			System.out.println(orientationOptions);
+			// allows the user to select what rotation they want
+			deckTiles.get(choice).rotateTile(-1);
+		}
 		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
 		Display.displayTileMap(player);
 		WildlifeToken token = deckTokens.get(choice);
@@ -57,6 +68,7 @@ public class CurrentDeck {
 		}
 		deckTokens.remove(choice);
 		System.out.println("Your turn is now complete.");
+		Display.sleep(300);
 		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 	 }
 	
@@ -74,7 +86,7 @@ public class CurrentDeck {
     		deckTiles.add(Generation.generateHabitatTile());
     		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
-		Display.sleep(800);
+//		Display.sleep(800);
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();

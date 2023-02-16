@@ -71,9 +71,6 @@ public class Display {
 		String output = "";
 
     	for (int i = 0; i < 4; i++) {
-//    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
-//    				", Token: " +CurrentDeck.getToken(i).toString());
-//    		printHalfTile(CurrentDeck.getTile(i));
 			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
 					+ CurrentDeck.getTile(i).toFormattedString();
 			output = removeNewlineAndJoin(output, toAdd, "\t\t\t");
@@ -250,7 +247,7 @@ public class Display {
 		return String.join("\n", firstLines);
 	}
 
-	private static String removeNewlineAndJoin(String first, String second, String deliminator) {
+	public static String removeNewlineAndJoin(String first, String second, String deliminator) {
 		if (Objects.equals(first, "")) {
 			return second;
 		} else if (Objects.equals(second, "")) {
