@@ -11,6 +11,15 @@ public class Generation {
      * @return a starter habitat (habitat tile array).
      */
     public static HabitatTile[] generateStarterHabitat () {
+        // this should not be reached for regular players.  I only added this
+        // because the tmp player being created for the tile placement map
+        // was also calling this method, and eventually we were running out
+        // of starter habitats and the program would crash
+        if (Bag.starterTiles.size() == 0) {
+            return new HabitatTile[]{new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
+                    new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
+                    new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1)};
+        }
         int index = new Random().nextInt(Bag.starterTiles.size());
         HabitatTile[] tiles = Bag.starterTiles.get(index);
         Bag.starterTiles.remove(index);

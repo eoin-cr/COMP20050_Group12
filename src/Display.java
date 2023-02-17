@@ -266,15 +266,9 @@ public class Display {
 	 * Displays the interactive commands the player can select from
 	 */
 	public static void displayCommands() {
-		System.out.println("""
-				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
-				Enter MAP for your current map of Tiles,\s
-				Enter DECK to see current deck of Tile + Token pairs again,\s
-				Enter SC to see the scorecard list again,\s
-				Enter NATURE to see and spend your Nature Tokens,\s
-				Enter NEXT to skip your turn,\s
-				Enter QUIT to quit the program.
-				""");
+		for (Command.CommandType command : Command.CommandType.values()) {
+			System.out.println(command.getDescription());
+		}
 	}
 
 	/**

@@ -61,8 +61,9 @@ public class Game {
 
                 do {
                     command.setCommand(player);
-                } while (command.getCommand() != Command.CommandType.NEXT &&
-                        command.getCommand() != Command.CommandType.PAIR);
+//                } while (command.getCommand() != Command.CommandType.NEXT &&
+//                        command.getCommand() != Command.CommandType.PAIR);
+                } while (command.getCommand() != Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}
     	}
