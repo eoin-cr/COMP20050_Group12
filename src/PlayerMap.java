@@ -30,7 +30,7 @@ public class PlayerMap {
 	public HabitatTile[][] getTileBoardPosition() {
 		return tileBoardPosition;
 	}
-
+	
 	/**
 	 * Used to set a full tile board.
 	 * Do not use this method unless you are copying a full tile board into
@@ -57,6 +57,7 @@ public class PlayerMap {
 			throw new IllegalArgumentException("There is already a tile at that position!");
 		}
 		tileBoardPosition[row][col] = tile;
+		tile.setMapPosition(row, col);
 		tilesInMap.add(tile);
 	}
 
@@ -127,7 +128,7 @@ public class PlayerMap {
 	
 	//check if player gets a nature token once token is placed
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
-		if (tile.getKeystoneType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
+		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
 			p.addPlayerNatureToken(); //increments player's nature tokens
 			System.out.println("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
 		}
@@ -177,6 +178,15 @@ public class PlayerMap {
 			}
 		}
 		return new int[]{-1,-1};
+	}
+	
+	public HabitatTile returnTileAtPositionInMap(int row, int col) {
+		if (tileBoardPosition[row][col] == null) {
+			return null;
+		}
+		else {
+			return tileBoardPosition[row][col];
+		}
 	}
 
 	public static HabitatTile[][] deepCopy(HabitatTile[][] original) {

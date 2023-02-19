@@ -32,15 +32,17 @@ public class HabitatTile {
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE, FAKE}
-	private final TileType keystoneType;
-	private final WildlifeToken[] tokenOptions;
-	private boolean isTokenPlaced = false;
+	private TileType tileType;
+	private WildlifeToken[] tokenOptions;
 	private WildlifeToken placedToken = null;
-	private boolean isFakeTile = false;
+	private boolean isTokenPlaced = false;
+//	private boolean isFakeTile = false;
+//	private boolean isKeystone;
     private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
-    private final int tileID;  // identifying number for a tile, used in Edge class
+    private int tileID;  // identifying number for a tile, used in Edge class
     private final Habitat habitat1;
     private final Habitat habitat2;
+    private int[] mapPosition = new int[2]; //set to -1 initially to show it's not been placed
 	private final ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
 
 	/**
@@ -51,18 +53,13 @@ public class HabitatTile {
 	 * @param numTokens The number of tokens to place
 	 */
 	public HabitatTile(Habitat habitat1, Habitat habitat2, int numTokens) {
-		this.tileID = tileCounter;
-		tileCounter++;
+		this.setTileID();
+		this.setFakeTile(false);
 		this.habitat1 = habitat1;
 		this.habitat2 = habitat2;
-		if (habitat1 == habitat2) {
-			keystoneType = TileType.KEYSTONE;
-			numTokens = 1;
-		}
-		else {
-			keystoneType = TileType.NON_KEYSTONE;
-		}
-		tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
+		this.setKeystoneType();
+		this.setTokenOptions(numTokens);
+		this.setMapPosition(-1,-1);
 		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 	}
 	
@@ -75,14 +72,32 @@ public class HabitatTile {
 	public Habitat getHabitat2() {
 		return habitat2;
 	}
+	public void setTileID() {
+		this.tileID = tileCounter;
+		tileCounter++;
+	}
 	public int getTileID() {
 		return tileID;
 	}
-	public TileType getKeystoneType() {
-		return keystoneType;
+	public void setKeystoneType() {
+		if (habitat1 == habitat2) {
+			this.tileType = TileType.KEYSTONE;
+		}
+		else {
+			this.tileType = TileType.NON_KEYSTONE;
+		}
+	}
+	public TileType getTileType() {
+		return tileType;
 	}
 	public boolean isKeystone() {
-		return keystoneType == TileType.KEYSTONE;
+		return tileType == TileType.KEYSTONE;
+	}
+	public void setTokenOptions(int numTokens) {
+		if (this.getTileType() == TileType.KEYSTONE) {
+			numTokens = 1;
+		}
+		this.tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
@@ -94,8 +109,10 @@ public class HabitatTile {
 		this.placedToken = placedAnimal;
 		this.isTokenPlaced = true;
 	}
-
-
+	public WildlifeToken getPlacedToken() {
+		return placedToken;
+	}
+	
 	/**
 	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
 	 * simply represents the possible places on the map that a tile can be
@@ -104,16 +121,30 @@ public class HabitatTile {
 	 * @param isFake whether the tile is 'fake' or not
 	 */
 	public void setFakeTile(boolean isFake) {
-		isFakeTile = isFake;
+		if (isFake) {
+			tileType = TileType.FAKE;
+		}
 	}
-
 	public boolean isFakeTile() {
-		return isFakeTile;
+		return tileType == TileType.FAKE;
+	}
+	public void setMapPosition(int x, int y) {
+		mapPosition[0] = x;
+		mapPosition[1] = y;
+	}
+	public int[] getMapPosition() {
+		return mapPosition;
+	}
+	public ArrayList<Edge> getEdges(){
+		return edges;
+	}
+	public Edge getEdge(int index){
+		return edges.get(index);
 	}
 
 	@Override
 	public String toString() {
-		if(keystoneType == TileType.KEYSTONE){
+		if(tileType == TileType.KEYSTONE){
 			return habitat1.name() + " Keystone";
 		}
 		return habitat1.name() + " + " + habitat2.name();
@@ -138,12 +169,13 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
+	
 	public void rotateTile(int input){
-		if (keystoneType == TileType.NON_KEYSTONE) {
+		if (tileType == TileType.NON_KEYSTONE) {
 			// if the input is -1 we want the user to select an orientation,
 			// otherwise, we just rotate the tile by the amount given
 			if (input == -1) {
-				input = Input.boundedInt(1, NUMBER_OF_EDGES, "In which position would you like to rotate to (1-6).");
+				input = Input.boundedInt(1, NUMBER_OF_EDGES, "Which position would you like to rotate to? (Type a number between 1-6): ");
 			}
 
 			HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
@@ -165,7 +197,7 @@ public class HabitatTile {
 	 * @return a string with ANSI colours.
 	 */	
 	public String toFormattedString() {
-		if (isFakeTile) {
+		if (isFakeTile()) {
 			final String GREY = "\033[37m";
 			return GREY + "|||| |||| |||| ||||" + ANSI_RESET + "\n"
 					+ GREY + "||||  " + String.format("%-3s", tileID) + "      ||||" + ANSI_RESET + "\n"
