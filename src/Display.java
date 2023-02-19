@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Deals with outputting to the console.
  */
@@ -66,13 +68,20 @@ public class Display {
 	public static void displayDeck() {
     	System.out.println();
     	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
+		String output = "";
 
     	for (int i = 0; i < 4; i++) {
-    		System.out.println("Tile: " +CurrentDeck.getTile(i).getHabitat1()+ " + " +CurrentDeck.getTile(i).getHabitat2()+
-    				", Token: " +CurrentDeck.getToken(i).toString());
-    		printHalfTile(CurrentDeck.getTile(i));
+			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
+					+ CurrentDeck.getTile(i).toFormattedString();
+			output = removeNewlineAndJoin(output, toAdd, "\t\t\t");
     	}
+		System.out.println(output);
     	System.out.println();
+	}
+
+	// https://stackoverflow.com/questions/8154366/how-to-center-a-string-using-string-format
+	public static String centerString (int width, String s) {
+		return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
 	}
 
 	public static void cullOccurrence() {
@@ -238,32 +247,29 @@ public class Display {
 		return String.join("\n", firstLines);
 	}
 
+	public static String removeNewlineAndJoin(String first, String second, String deliminator) {
+		if (Objects.equals(first, "")) {
+			return second;
+		} else if (Objects.equals(second, "")) {
+			return first;
+		}
+		String[] firstLines = first.split("\n");
+		String[] secondLines = second.split("\n");
+		for (int i = 0; i < firstLines.length && i < secondLines.length; i++) {
+			firstLines[i] += (deliminator + secondLines[i]);
+		}
+		return String.join("\n", firstLines);
+
+	}
+
 	/**
 	 * Displays the interactive commands the player can select from
 	 */
 	public static void displayCommands() {
-		System.out.println("""
-				Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,\s
-				Enter MAP for your current map of Tiles,\s
-				Enter DECK to see current deck of Tile + Token pairs again,\s
-				Enter SC to see the scorecard list again,\s
-				Enter NATURE to see and spend your Nature Tokens,\s
-				Enter NEXT to skip your turn,\s
-				Enter QUIT to quit the program.
-				""");
+		for (Command.CommandType command : Command.CommandType.values()) {
+			System.out.println(command.getDescription());
+		}
 	}
-
-	/**
-	 * Prints a tile to the terminal.
-	 * The top half and bottom half both have a habitat colour (can be the
-	 * same).
-	 * At the moment there is no way to change the orientation of the tile,
-	 * i.e. the habitat colours cannot split the tile vertically.
-	 * @param tile the tile to be printed
-	 */
-	 public static void printHalfTile (HabitatTile tile) {
-		 System.out.println(tile.toFormattedString());
-	 }
 
 	/**
 	 * Pauses the program for a certain amount of time.

@@ -19,36 +19,50 @@ public class Command {
 	enum CommandType {
 
 		/** Lets player choose tile+token pair and place tile down on map*/
-		PAIR {public void enumSetCommand(Player player){
+		PAIR ("Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,")
+				{public void enumSetCommand(Player player){
 			CurrentDeck.choosePair(player);
 		}},
 		
 		/** Display the player's map of tiles */
-		MAP {public void enumSetCommand(Player player){
+		MAP ("Enter MAP for your current map of Tiles,")
+				{public void enumSetCommand(Player player){
 				Display.displayTileMap(player);
 			}},
 		
-		DECK {public void enumSetCommand(Player player){
+		DECK ("Enter DECK to see current deck of Tile + Token pairs again,")
+				{public void enumSetCommand(Player player){
 			Display.displayDeck();
 		}},
 		
-		SC {public void enumSetCommand(Player player){
+		SC ("Enter SC to see the scorecard list again,")
+				{public void enumSetCommand(Player player){
 			ScoreCard.printCardRules();
 		}},
 		
 		/** Displays the nature token shop */
-		NATURE {public void enumSetCommand(Player player){}},
+		NATURE ("Enter NATURE to see and spend your Nature Tokens,")
+				{public void enumSetCommand(Player player){}},
 		
-		/** Moves to next players turn */
-		NEXT {public void enumSetCommand(Player player){
-			return;
-		}},
+//		/** Moves to next players turn */
+//		NEXT {public void enumSetCommand(Player player){
+//			return;
+//		}},
 
 		/** Quits the game */
-		QUIT {public void enumSetCommand(Player player){
+		QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
 			Display.endScreen();
 			System.exit(0);
 		}};
+
+		private final String description;
+		CommandType(String description) {
+			this.description = description;
+		}
+
+		public String getDescription() {
+			return description;
+		}
 
 		public abstract void enumSetCommand(Player player);  // ignore this
 	}

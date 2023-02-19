@@ -81,6 +81,9 @@ public class HabitatTile {
 	public TileType getKeystoneType() {
 		return keystoneType;
 	}
+	public boolean isKeystone() {
+		return keystoneType == TileType.KEYSTONE;
+	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
 	}
@@ -135,18 +138,24 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
-	public void rotateTile(){
-		int input= Input.boundedInt(1,NUMBER_OF_EDGES,"In which position would you like to rotate to (1-6).");
+	public void rotateTile(int input){
+		if (keystoneType == TileType.NON_KEYSTONE) {
+			// if the input is -1 we want the user to select an orientation,
+			// otherwise, we just rotate the tile by the amount given
+			if (input == -1) {
+				input = Input.boundedInt(1, NUMBER_OF_EDGES, "In which position would you like to rotate to (1-6).");
+			}
 
-		HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
-		for (int i = 0; i < NUMBER_OF_EDGES; i++) {
-			temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
+			HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
+
+			for (int i = 0; i < NUMBER_OF_EDGES; i++) {
+				temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
+			}
+
+			for (int j = 0; j < NUMBER_OF_EDGES; j++) {
+				edges.get(j).setHabitatType(temp[j]);
+			}
 		}
-
-		for (int j = 0; j < NUMBER_OF_EDGES; j++) {
-			edges.get(j).setHabitatType(temp[j]);
-		}
-
 	}
 
 	/**

@@ -58,10 +58,12 @@ public class Game {
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
         		Command command = new Command();
-        		do {
-        			command.setCommand(player);
-        		} while (command.getCommand() != Command.CommandType.NEXT
-                            || command.getCommand() == Command.CommandType.PAIR);
+
+                do {
+                    command.setCommand(player);
+//                } while (command.getCommand() != Command.CommandType.NEXT &&
+//                        command.getCommand() != Command.CommandType.PAIR);
+                } while (command.getCommand() != Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}
     	}
