@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scoring {
+//	indexing:
+//	index 0 stores Bear score card option as a string		(B1,B2,B3,B4)
+//	index 1 stores Elk score card option as a string		(E1,E2,E3,E4)
+//	index 2 stores Salmon score card option as a string		(S1,S2,S3,S4)
+//	index 3 stores Hawk score card option as a string		(H1,H2,H3,H4)
+//	index 4 stores Fox score card option as a string		(F1,F2,F3,F4)
 	private static final String[] cards = ScoreCards.getScorecards();
 	private static final List<Player> players = Game.getPlayers();
 	private static Player winner = null;
@@ -10,10 +16,27 @@ public class Scoring {
 	
 	public static void startScoring() {
 		for (Player p : players) {
-			
+			ScoringBear.scoreBear(p, cards[0]);
+			ScoringElk.scoreElk(p, cards[1]);
+			ScoringSalmon.scoreSalmon(p, cards[2]);
+			ScoringHawk.scoreHawk(p, cards[3]);
+			ScoringFox.scoreFox(p, cards[4]);
 		}
+		//TODO: do habitat corridor and nature token scoring here as well
+		
+		//find winner of game
+		int maxScore = 0;
+		for (Player p : players) {
+			if (p.getPlayerScore() > maxScore) {
+				maxScore = p.getPlayerScore();
+				winner = p;
+			}
+		}
+		//TODO: display winner message and exit game
+		
 	}
 	
+	//helper functions for scoring
 	private static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
 		// Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge)
 		// Total 6 sides, like in the diagram below

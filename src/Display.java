@@ -71,7 +71,7 @@ public class Display {
 		String output = "";
 
     	for (int i = 0; i < 4; i++) {
-			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
+			String toAdd = " " + centerString(10, CurrentDeck.getToken(i).toString()) + "\n"
 					+ CurrentDeck.getTile(i).toFormattedString();
 			output = removeNewlineAndJoin(output, toAdd, "\t\t\t");
     	}

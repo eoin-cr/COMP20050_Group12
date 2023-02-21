@@ -45,6 +45,7 @@ public class CurrentDeck {
 			// allows the user to select what rotation they want
 			deckTiles.get(choice).rotateTile(-1);
 		}
+		
 		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
 		Display.displayTileMap(player);
 		WildlifeToken token = deckTokens.get(choice);

@@ -31,6 +31,10 @@ public class PlayerMap {
 		return tileBoardPosition;
 	}
 	
+	public List<HabitatTile> getTilesInMap(){
+		return tilesInMap;
+	}
+	
 	/**
 	 * Used to set a full tile board.
 	 * Do not use this method unless you are copying a full tile board into
@@ -58,7 +62,9 @@ public class PlayerMap {
 		}
 		tileBoardPosition[row][col] = tile;
 		tile.setMapPosition(row, col);
-		tilesInMap.add(tile);
+		if (!tile.isFakeTile()) {
+			tilesInMap.add(tile);
+		}
 	}
 
 	//used to check if there's no tiles in the players map that have a valid option for token drawn

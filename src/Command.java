@@ -51,6 +51,7 @@ public class Command {
 
 		/** Quits the game */
 		QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
+			Scoring.startScoring(); //find winner of game
 			Display.endScreen();
 			System.exit(0);
 		}};
