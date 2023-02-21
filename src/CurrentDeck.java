@@ -69,7 +69,9 @@ public class CurrentDeck {
 		deckTokens.remove(choice);
 		System.out.println("Your turn is now complete.");
 		Display.sleep(300);
-		generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
+		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
+			generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
+		}
 	 }
 	
 	 /**
