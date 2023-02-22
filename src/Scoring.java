@@ -36,8 +36,9 @@ public class Scoring {
 		
 	}
 	
-	//helper functions for scoring
-	private static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
+	//helper functions for getting all adjacent tiles of a tile
+	//has cases based on its position in the 2d array/map (might be missing sides)
+	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
 		// Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge)
 		// Total 6 sides, like in the diagram below
 //		 	  5   0
@@ -120,7 +121,8 @@ public class Scoring {
 		return adjacentTiles;
 	}
 	
-	private static WildlifeToken[] getAdjacentTokens(HabitatTile tile, PlayerMap map) {
+	//helper function that gets a tile's adjacent tiles' tokens in an array
+	public static WildlifeToken[] getAdjacentTokens(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
 		WildlifeToken[] adjacentTokens = new WildlifeToken[6];
 		for (int i = 0; i < 6; i++) {
@@ -134,7 +136,8 @@ public class Scoring {
 		return adjacentTokens;
 	}
 	
-	private static HabitatTile.Habitat[] getAdjacentHabitats(HabitatTile tile, PlayerMap map) {
+	//helper function that gets a tile's adjacent tiles' habitats in an array
+	public static HabitatTile.Habitat[] getAdjacentHabitats(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
 		HabitatTile.Habitat adjacentHabitats[] = new HabitatTile.Habitat[6];
 		for (int i = 0; i < 6; i++) {
@@ -148,4 +151,43 @@ public class Scoring {
 		adjacentHabitats[5] = adjacentTiles[5].getEdge(2).getHabitatType();
 		return adjacentHabitats;
 	}
+	
+	//helper function that returns an int count of how many adjacent tiles have the same matching token
+	public static int countAdjacentTokenMatches(WildlifeToken animalType, HabitatTile tile, PlayerMap map) {
+		int count = 0;
+		WildlifeToken[] adjacentTokens = getAdjacentTokens(tile, map);
+		for (int i = 0; i < adjacentTokens.length; i++) {
+			if (adjacentTokens[i] == animalType) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	//helper function to get one tile's adjacent tiles which match the wildlife token on the central tile, in an arraylist
+	public static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
+		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
+		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
+		for (HabitatTile checktile : adjacentTiles) {
+			if (checktile.getPlacedToken() == animalType) {
+				tileMatches.add(checktile);
+			}
+		}
+		return tileMatches;
+	}
+	
+	//helper function to recursively get a group of same token types all connected on a map, in an arraylist
+	public static void findTokenGroupRecursive(ArrayList<HabitatTile> groupOfTokens, WildlifeToken tokenType, HabitatTile centerTile, PlayerMap map) {
+		if (!groupOfTokens.contains(centerTile) && centerTile.getPlacedToken() == tokenType) {
+			groupOfTokens.add(centerTile);
+			ArrayList<HabitatTile> adjacentTokens = Scoring.getAdjacentTilesWithTokenMatch(tokenType, centerTile, map);
+			if (adjacentTokens.size() > 0) {
+				for (HabitatTile t : adjacentTokens) {
+					findTokenGroupRecursive(groupOfTokens, tokenType, t, map);
+				}
+			}
+		}
+	}
+	
+	
 }

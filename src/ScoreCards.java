@@ -102,8 +102,7 @@ public class ScoreCards {
 				
 			case "B2":
 				System.out.println("BEAR SCORECARD 2: \n"
-						+ "Score 10 points for each group of exactly three bears \n"
-						+ "(not in a line, but in a triangle formation).\n");
+						+ "Score 10 points for each group of exactly three bears.");
 				System.out.println("TRIPLE  ||   POINTS");
 				System.out.println("-------------------");
 				System.out.println("  1     ||     10  ");
