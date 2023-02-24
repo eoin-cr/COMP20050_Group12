@@ -57,16 +57,13 @@ public class Game {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
                 Display.displayTileMap(player);
-//                Display.sleep(500);
         		// choose from tile token pairs
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
         		Command command = new Command();
 
                 do {
-                    command.setCommand(player);
-//                } while (command.getCommand() != Command.CommandType.NEXT &&
-//                        command.getCommand() != Command.CommandType.PAIR);
+                    command.setCommand(player)
                 } while (command.getCommand() != Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}

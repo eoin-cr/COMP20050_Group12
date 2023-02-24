@@ -57,7 +57,6 @@ public class Bag {
         //make habitat tiles
         if (numplayers == 2) {
         	setMaxTiles(43);
-//            setMaxTiles(5);
         }
         else if (numplayers == 3) {
         	setMaxTiles(63);

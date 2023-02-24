@@ -99,6 +99,9 @@ public class HabitatTile {
 		}
 		this.tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 	}
+	public boolean isKeystone() {
+		return keystoneType == TileType.KEYSTONE;
+	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
 	}
@@ -169,7 +172,7 @@ public class HabitatTile {
 	public int hashCode() {
 		return Objects.hash(tileID);
 	}
-	
+
 	public void rotateTile(int input){
 		if (tileType == TileType.NON_KEYSTONE) {
 			// if the input is -1 we want the user to select an orientation,
