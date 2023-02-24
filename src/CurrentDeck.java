@@ -45,6 +45,7 @@ public class CurrentDeck {
 			// allows the user to select what rotation they want
 			deckTiles.get(choice).rotateTile(-1);
 		}
+    
 		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
 		Display.displayTileMap(player);
 		WildlifeToken token = deckTokens.get(choice);
@@ -68,11 +69,11 @@ public class CurrentDeck {
 		}
 		deckTokens.remove(choice);
 		System.out.println("Your turn is now complete.");
-		Display.sleep(300);
+		Display.sleep(300)
 		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
 			generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 		}
-	 }
+    }
 	
 	 /**
      * Generates the 'community' tile token pairs that users pick from.

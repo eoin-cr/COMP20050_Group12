@@ -40,6 +40,9 @@ public class Player {
 	public void setPlayerScore(int score) {
 		this.playerScore = score;
 	}
+	public void addToPlayerScore(int score) {
+		this.playerScore += score;
+	}
 	public PlayerMap getMap() {
 		return map; //note: to change the map, you have to use player.getMap().addTileToMap()
 	}

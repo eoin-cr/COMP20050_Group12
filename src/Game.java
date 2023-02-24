@@ -31,11 +31,15 @@ public class Game {
           Display.printPlayers(playerNames);  // from Display class
           Display.sleep(500);
 
-          ScoreCard.generateScorecards();
+          ScoreCards.generateScorecards();
           Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
 
           populatePlayers();
 
+    }
+    
+    public static List<Player> getPlayers() { //used in final scoring
+    	return playerList;
     }
 
     public void startGame() {
@@ -59,7 +63,7 @@ public class Game {
         		Command command = new Command();
 
                 do {
-                    command.setCommand(player);
+                    command.setCommand(player)
                 } while (command.getCommand() != Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}
@@ -81,4 +85,5 @@ public class Game {
             Display.sleep(500);
         }
     }
+    
 }

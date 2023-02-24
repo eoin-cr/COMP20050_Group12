@@ -37,7 +37,7 @@ public class Command {
 		
 		SC ("Enter SC to see the scorecard list again,")
 				{public void enumSetCommand(Player player){
-			ScoreCard.printCardRules();
+			ScoreCards.printScoreCardRules();
 		}},
 		
 		/** Displays the nature token shop */
@@ -51,6 +51,7 @@ public class Command {
 
 		/** Quits the game */
 		QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
+			Scoring.startScoring(); //find winner of gam
 			Display.endScreen();
 			System.exit(0);
 		}};
