@@ -22,7 +22,9 @@ public class Scoring {
 			ScoringHawk.scoreHawk(p, cards[3]);
 			ScoringFox.scoreFox(p, cards[4]);
 		}
-		//TODO: do habitat corridor and nature token scoring here as well
+	
+		habitatCorridorScoring();
+		natureTokenScoring();
 		
 		//find winner of game
 		int maxScore = 0;
@@ -32,21 +34,21 @@ public class Scoring {
 				winner = p;
 			}
 		}
-		//TODO: display winner message and exit game
+		//TODO: deal with winner ties, display winner message and exit game
 		
 	}
 	
 	//helper functions for getting all adjacent tiles of a tile
 	//has cases based on its position in the 2d array/map (might be missing sides)
+	// Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge)
+	// Total 6 sides, like in the diagram below
+//	 	  5   0
+//	 	  -- --
+//	 	4|     |1
+//	 	  -- --
+//	 	  3	  2
+	
 	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
-		// Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge)
-		// Total 6 sides, like in the diagram below
-//		 	  5   0
-//		 	  -- --
-//		 	4|     |1
-//		 	  -- --
-//		 	  3	  2
-		
 		HabitatTile[] adjacentTiles = new HabitatTile[6]; //initialise adjacent tiles with null
 		for (int i = 0; i < 6; i++) {
 			adjacentTiles[i] = null;
@@ -143,13 +145,118 @@ public class Scoring {
 		for (int i = 0; i < 6; i++) {
 			adjacentHabitats[i] = null;
 		}
-		adjacentHabitats[0] = adjacentTiles[0].getEdge(3).getHabitatType();
-		adjacentHabitats[1] = adjacentTiles[1].getEdge(4).getHabitatType();
-		adjacentHabitats[2] = adjacentTiles[2].getEdge(5).getHabitatType();
-		adjacentHabitats[3] = adjacentTiles[3].getEdge(0).getHabitatType();
-		adjacentHabitats[4] = adjacentTiles[4].getEdge(1).getHabitatType();
-		adjacentHabitats[5] = adjacentTiles[5].getEdge(2).getHabitatType();
+		if (adjacentTiles[0] != null) adjacentHabitats[0] = adjacentTiles[0].getEdge(3).getHabitatType();
+		if (adjacentTiles[1] != null) adjacentHabitats[1] = adjacentTiles[1].getEdge(4).getHabitatType();
+		if (adjacentTiles[2] != null) adjacentHabitats[2] = adjacentTiles[2].getEdge(5).getHabitatType();
+		if (adjacentTiles[3] != null) adjacentHabitats[3] = adjacentTiles[3].getEdge(0).getHabitatType();
+		if (adjacentTiles[4] != null) adjacentHabitats[4] = adjacentTiles[4].getEdge(1).getHabitatType();
+		if (adjacentTiles[5] != null) adjacentHabitats[5] = adjacentTiles[5].getEdge(2).getHabitatType();
 		return adjacentHabitats;
+	}
+	
+	public static void findHabitatCorridorRecursive(ArrayList<HabitatTile> habitatCorridor, HabitatTile centerTile, HabitatTile.Habitat habitatType, PlayerMap map) {
+		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
+		HabitatTile.Habitat[] adjacentHabitats = getAdjacentHabitats(centerTile, map);
+		
+		if (!habitatCorridor.contains(centerTile) && (centerTile.getHabitat1() == habitatType || centerTile.getHabitat2() == habitatType)) {
+			habitatCorridor.add(centerTile);
+			for (int i = 0; i < centerTile.getEdges().size(); i++) {
+				if (centerTile.getEdge(i).getHabitatType() == habitatType && adjacentHabitats[i] == habitatType) {
+					findHabitatCorridorRecursive(habitatCorridor, adjacentTiles[i], habitatType, map);
+				}
+			}
+		}
+		
+	}
+	
+	public static ArrayList<HabitatTile> findLongestHabitatCorridor(PlayerMap map, HabitatTile.Habitat habitatType) {
+		ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+		ArrayList<HabitatTile> longestCorridor = new ArrayList<>();
+		ArrayList<HabitatTile> newCorridor = new ArrayList<>();
+		int longestCorridorSize = 0;
+		
+		for (HabitatTile tile : map.getTilesInMap()) {
+			newCorridor.clear();
+			if (!visitedTiles.contains(tile) && (tile.getHabitat1() == habitatType || tile.getHabitat2() == habitatType)) {
+				findHabitatCorridorRecursive(newCorridor, tile, habitatType, map);
+				visitedTiles.addAll(newCorridor);
+				if (newCorridor.size() > longestCorridorSize) {
+					longestCorridor.clear();
+					longestCorridor.addAll(newCorridor);
+					longestCorridorSize = newCorridor.size();
+				}
+			}
+		}
+		
+		return longestCorridor;
+	}
+	
+	private static void habitatCorridorScoring() {
+		int longestForestSize = 0;
+		int longestWetlandSize = 0;
+		int longestRiverSize = 0;
+		int longestMountainSize = 0;
+		int longestPrairieSize = 0;
+		
+		Player longestForestPlayer = null;
+		Player longestWetlandPlayer = null;
+		Player longestRiverPlayer = null;
+		Player longestMountainPlayer = null;
+		Player longestPrairiePlayer = null;
+		
+		//each player's score for their personal longest habitat corridors of all 5 types
+		for (Player p : players) {
+			int playerForestCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Forest).size();
+			int playerWetlandCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Wetland).size();
+			int playerRiverCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.River).size();
+			int playerMountainCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Mountain).size();
+			int playerPrairieCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Prairie).size();
+			
+			p.addToPlayerScore(playerForestCorridor);
+			p.addToPlayerScore(playerWetlandCorridor);
+			p.addToPlayerScore(playerRiverCorridor);
+			p.addToPlayerScore(playerMountainCorridor);
+			p.addToPlayerScore(playerPrairieCorridor);
+			
+			if (playerForestCorridor > longestForestSize) {
+				longestForestPlayer = p;
+				longestForestSize = playerForestCorridor;
+			}
+			if (playerWetlandCorridor > longestWetlandSize) {
+				longestWetlandPlayer = p;
+				longestWetlandSize = playerWetlandCorridor;
+			}
+			if (playerRiverCorridor > longestRiverSize) {
+				longestRiverPlayer = p;
+				longestRiverSize = playerRiverCorridor;
+			}
+			if (playerMountainCorridor > longestMountainSize) {
+				longestMountainPlayer = p;
+				longestMountainSize = playerMountainCorridor;
+			}
+			if (playerPrairieCorridor > longestPrairieSize) {
+				longestPrairiePlayer = p;
+				longestPrairieSize = playerPrairieCorridor;
+			}
+		}
+		
+		//TODO: other cases for more than 2 players (may not be necessary?)
+		//bonus points for longest overall corridor
+		if (longestForestPlayer != null) 	longestForestPlayer.addToPlayerScore(2);
+		if (longestWetlandPlayer != null) 	longestWetlandPlayer.addToPlayerScore(2);
+		if (longestRiverPlayer != null) 	longestRiverPlayer.addToPlayerScore(2);
+		if (longestMountainPlayer != null) 	longestMountainPlayer.addToPlayerScore(2);
+		if (longestPrairiePlayer != null) 	longestPrairiePlayer.addToPlayerScore(2);
+	}
+	
+	public static void natureTokenScoring() {
+		for (Player p : players) {
+			if (p.getPlayerNatureTokens() > 0) {
+				System.out.println(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Tokens./s"
+						+ "These have been added to your score total.");
+				p.addToPlayerScore(p.getPlayerNatureTokens());
+			}
+		}
 	}
 	
 	//helper function that returns an int count of how many adjacent tiles have the same matching token
