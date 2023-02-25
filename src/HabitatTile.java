@@ -99,9 +99,6 @@ public class HabitatTile {
 		}
 		this.tokenOptions = Generation.generateTokenOptionsOnTiles(numTokens);
 	}
-	public boolean isKeystone() {
-		return keystoneType == TileType.KEYSTONE;
-	}
 	public WildlifeToken[] getTokenOptions() {
 		return tokenOptions;
 	}

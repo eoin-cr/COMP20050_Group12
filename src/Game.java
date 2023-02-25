@@ -63,7 +63,7 @@ public class Game {
         		Command command = new Command();
 
                 do {
-                    command.setCommand(player)
+                    command.setCommand(player);
                 } while (command.getCommand() != Command.CommandType.PAIR);
         		// automatically moves to next player if command type is next
         	}
