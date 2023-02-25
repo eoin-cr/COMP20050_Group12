@@ -1,3 +1,5 @@
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,17 +194,16 @@ public class Scoring {
 	}
 	
 	private static void habitatCorridorScoring() {
-		int longestForestSize = 0;
-		int longestWetlandSize = 0;
-		int longestRiverSize = 0;
-		int longestMountainSize = 0;
-		int longestPrairieSize = 0;
 		
-		Player longestForestPlayer = null;
-		Player longestWetlandPlayer = null;
-		Player longestRiverPlayer = null;
-		Player longestMountainPlayer = null;
-		Player longestPrairiePlayer = null;
+		//indexing:
+		//0 stores forest
+		//1 stores wetland
+		//2 stores river
+		//3 stores mountain
+		//4 stores prairie
+		
+		int[] longestCorridorSizes = new int[5];
+		ArrayList<Player> longestCorridorPlayers = new ArrayList<>();
 		
 		//each player's score for their personal longest habitat corridors of all 5 types
 		for (Player p : players) {
@@ -217,36 +218,8 @@ public class Scoring {
 			p.addToPlayerScore(playerRiverCorridor);
 			p.addToPlayerScore(playerMountainCorridor);
 			p.addToPlayerScore(playerPrairieCorridor);
-			
-			if (playerForestCorridor > longestForestSize) {
-				longestForestPlayer = p;
-				longestForestSize = playerForestCorridor;
-			}
-			if (playerWetlandCorridor > longestWetlandSize) {
-				longestWetlandPlayer = p;
-				longestWetlandSize = playerWetlandCorridor;
-			}
-			if (playerRiverCorridor > longestRiverSize) {
-				longestRiverPlayer = p;
-				longestRiverSize = playerRiverCorridor;
-			}
-			if (playerMountainCorridor > longestMountainSize) {
-				longestMountainPlayer = p;
-				longestMountainSize = playerMountainCorridor;
-			}
-			if (playerPrairieCorridor > longestPrairieSize) {
-				longestPrairiePlayer = p;
-				longestPrairieSize = playerPrairieCorridor;
-			}
+			 
 		}
-		
-		//TODO: other cases for more than 2 players (may not be necessary?)
-		//bonus points for longest overall corridor
-		if (longestForestPlayer != null) 	longestForestPlayer.addToPlayerScore(2);
-		if (longestWetlandPlayer != null) 	longestWetlandPlayer.addToPlayerScore(2);
-		if (longestRiverPlayer != null) 	longestRiverPlayer.addToPlayerScore(2);
-		if (longestMountainPlayer != null) 	longestMountainPlayer.addToPlayerScore(2);
-		if (longestPrairiePlayer != null) 	longestPrairiePlayer.addToPlayerScore(2);
 	}
 	
 	public static void natureTokenScoring() {
