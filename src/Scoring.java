@@ -166,7 +166,7 @@ public class Scoring {
 
 			for (int i = 0; i < 5; i++) {
 				corridorSizeMatchPlayers.clear();
-				if (tieFound[i] == false) {
+				if (tieFound[i]) {
 					for (Player p : players) {
 						if (p.getLongestCorridorSizes()[i] == secondLongestCorridorSizes[i]) {
 							corridorSizeMatchPlayers.add(p);
@@ -301,9 +301,10 @@ public class Scoring {
 	 * Helper function for Scorecard scoring, retrieves a single tile's adjacent tiles with a Wildlife token match.
 	 * @return Arraylist of Habitat Tiles with same token type.
 	 */
-	private static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
+	public static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
 		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
 		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
+
 		for (HabitatTile checktile : adjacentTiles) {
 			if (checktile != null && checktile.getPlacedToken() == animalType) {
 				tileMatches.add(checktile);
@@ -328,7 +329,7 @@ public class Scoring {
 	 * Helper function for Scorecard scoring, retrieves the tokens of a single tile's adjacent tiles
 	 * @return Array of WildlifeTokens
 	 */
-	private static WildlifeToken[] getAdjacentTokens(HabitatTile tile, PlayerMap map) {
+	public static WildlifeToken[] getAdjacentTokens(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
 		WildlifeToken[] adjacentTokens = new WildlifeToken[6];
 		for (int i = 0; i < 6; i++) {
@@ -348,7 +349,7 @@ public class Scoring {
 	 */
 	private static HabitatTile.Habitat[] getAdjacentHabitats(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
-		HabitatTile.Habitat adjacentHabitats[] = new HabitatTile.Habitat[6];
+		HabitatTile.Habitat[] adjacentHabitats = new HabitatTile.Habitat[6];
 		for (int i = 0; i < 6; i++) {
 			adjacentHabitats[i] = null;
 		}
