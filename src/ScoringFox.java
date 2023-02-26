@@ -5,10 +5,10 @@ public class ScoringFox {
 	
 	public static void scoreFox(Player player, String foxOption) {
 		switch (foxOption){
-		case "B1" -> foxScoringOption1(player);
-		case "B2" -> foxScoringOption2(player);
-		case "B3" -> foxScoringOption3(player);
-		case "B4" -> foxScoringOption4(player);
+		case "F1" -> foxScoringOption1(player);
+		case "F2" -> foxScoringOption2(player);
+		case "F3" -> foxScoringOption3(player);
+		case "F4" -> foxScoringOption4(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + foxOption);
 		}
 	}

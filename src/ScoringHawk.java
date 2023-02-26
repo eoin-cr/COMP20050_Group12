@@ -5,10 +5,10 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
 	public static void scoreHawk(Player player, String hawkOption) {
 		switch (hawkOption){
-		case "B1" -> hawkScoringOption1(player);
-		case "B2" -> hawkScoringOption2(player);
-		case "B3" -> hawkScoringOption3(player);
-		case "B4" -> hawkScoringOption4(player);
+		case "H1" -> hawkScoringOption1(player);
+		case "H2" -> hawkScoringOption2(player);
+		case "H3" -> hawkScoringOption3(player);
+		case "H4" -> hawkScoringOption4(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + hawkOption);
 		}
 	}

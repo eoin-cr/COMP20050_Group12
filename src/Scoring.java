@@ -15,12 +15,27 @@ public class Scoring {
 	public Scoring() {}
 	
 	public static void startScoring() {
+		System.out.println("Now scoring!");
 		for (Player p : players) {
+			System.out.println(p.getPlayerName());
+			int tmpScore = p.getPlayerScore();
+			System.out.printf("First score: %d\n", tmpScore);
 			ScoringBear.scoreBear(p, cards[0]);
+			System.out.printf("Bear score: %d\n", p.getPlayerScore()-tmpScore);
+			tmpScore = p.getPlayerScore();
 			ScoringElk.scoreElk(p, cards[1]);
+			System.out.printf("Elk score: %d\n", p.getPlayerScore()-tmpScore);
+			tmpScore = p.getPlayerScore();
 			ScoringSalmon.scoreSalmon(p, cards[2]);
+			System.out.printf("Salmon score: %d\n", p.getPlayerScore()-tmpScore);
+			tmpScore = p.getPlayerScore();
 			ScoringHawk.scoreHawk(p, cards[3]);
+			System.out.printf("Hawk score: %d\n", p.getPlayerScore()-tmpScore);
+			tmpScore = p.getPlayerScore();
 			ScoringFox.scoreFox(p, cards[4]);
+			System.out.printf("Fox score: %d\n", p.getPlayerScore()-tmpScore);
+			System.out.printf("Total token score: %d\n", p.getPlayerScore());
+			System.out.println("==================");
 		}
 	
 		habitatCorridorScoring();
@@ -34,6 +49,7 @@ public class Scoring {
 				winner = p;
 			}
 		}
+		System.out.printf("The winner is %s with %d points!\n", winner.getPlayerName(), maxScore);
 		//TODO: deal with winner ties, display winner message and exit game
 		
 	}
@@ -252,7 +268,7 @@ public class Scoring {
 	public static void natureTokenScoring() {
 		for (Player p : players) {
 			if (p.getPlayerNatureTokens() > 0) {
-				System.out.println(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Tokens./s"
+				System.out.println(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Tokens. "
 						+ "These have been added to your score total.");
 				p.addToPlayerScore(p.getPlayerNatureTokens());
 			}
@@ -275,9 +291,9 @@ public class Scoring {
 	public static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
 		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
 		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
-		for (HabitatTile checktile : adjacentTiles) {
-			if (checktile.getPlacedToken() == animalType) {
-				tileMatches.add(checktile);
+		for (HabitatTile checkTile : adjacentTiles) {
+			if (checkTile != null && checkTile.getPlacedToken() == animalType) {
+				tileMatches.add(checkTile);
 			}
 		}
 		return tileMatches;
