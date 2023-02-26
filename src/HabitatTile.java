@@ -13,7 +13,6 @@ public class HabitatTile {
 	public static final String WHITE = "\033[38;5;231m";
 	public static final String WHITE_BG = "\033[48;5;231m";
 	private static final int NUMBER_OF_EDGES = 6;
-	//TODO: change the edge class with just two instance variables for what the habitat types are
 
 	/**
 	 * The habitats that a tile can have.
@@ -29,6 +28,18 @@ public class HabitatTile {
 		Habitat(String backgroundColour) {
 			this.backgroundColour = backgroundColour;
 		}
+		/**
+		 * Returns name of Habitat enum as a string, based on its constant value
+		 * @param ord
+		 */
+		public static String getName(int ord) {
+			for (Habitat h : Habitat.values()) {
+				if (ord == h.ordinal()) {
+					return h.name();
+				}
+			}
+			return null;
+		}
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE, FAKE}
@@ -36,14 +47,12 @@ public class HabitatTile {
 	private WildlifeToken[] tokenOptions;
 	private WildlifeToken placedToken = null;
 	private boolean isTokenPlaced = false;
-//	private boolean isFakeTile = false;
-//	private boolean isKeystone;
-    private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number, modified in constructor
-    private int tileID;  // identifying number for a tile, used in Edge class
+    private static int tileCounter = 0;  // counts number of tiles instantiated, used to assign a tileID number
+    private int tileID;
     private final Habitat habitat1;
     private final Habitat habitat2;
     private int[] mapPosition = new int[2]; //set to -1 initially to show it's not been placed
-	private final ArrayList<Edge> edges;  // stores what the 6 edges of the tile are connected to, if anything
+	private final ArrayList<Edge> edges;
 
 	/**
 	 * Generates a habitat tile
@@ -66,7 +75,7 @@ public class HabitatTile {
 	public static int getTileCounter() {
 		return tileCounter;
 	}
-	public Habitat getHabitat1() {  // getters and setters
+	public Habitat getHabitat1() {
 		return habitat1;
 	}
 	public Habitat getHabitat2() {

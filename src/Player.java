@@ -1,22 +1,25 @@
+import java.util.ArrayList;
+
 /**
- * Stores information about the player.
+ * Stores information about the player, including
+ * an individual player's map of tiles.
+ * @see PlayerMap
  */
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
 	private int playerScore;
 	private final PlayerMap map;
+	private int[] longestCorridorSizes = new int[5];
 
-	public Player(String playerName) { // constructor
+	public Player(String playerName) {
 		this.playerName = playerName;
 		this.playerNatureTokens = 0;
 		this.playerScore = 0;
 		map = new PlayerMap();
-		//a player's map holds all tiles+tokens currently placed by player
-		//any tokens not used are returned to the bag
 	}
 	
-	public String getPlayerName() { //getters and setters
+	public String getPlayerName() {
 		return playerName;
 	}
 	public int getPlayerNatureTokens() {
@@ -37,14 +40,28 @@ public class Player {
 	public int getPlayerScore() {
 		return playerScore;
 	}
-	public void setPlayerScore(int score) {
-		this.playerScore = score;
-	}
 	public void addToPlayerScore(int score) {
 		this.playerScore += score;
 	}
 	public PlayerMap getMap() {
-		return map; //note: to change the map, you have to use player.getMap().addTileToMap()
+		return map; 
+		//note: to modify the map, you have to use player.getMap().addTileToMap()
+	}
+	public int[] getLongestCorridorSizes() {
+		return longestCorridorSizes;
+	}
+	/**
+	 * Lets you save size of longest habitat corridor a player has on their map in an int array, for each habitat.
+	 * 	0 stores Forest corridor size.
+	 *	1 stores Wetland corridor size.
+	 *	2 stores River corridor size.
+	 *	3 stores Mountain corridor size.
+	 *	4 stores Prairie corridor size.
+	 * @param index
+	 * @param size
+	 */
+	public void setLongestCorridorSize(int index, int size) {
+		longestCorridorSizes[index] = size;
 	}
 
 }
