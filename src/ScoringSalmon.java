@@ -4,25 +4,17 @@ public class ScoringSalmon {
 private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
 	public static void scoreSalmon(Player player, String salmonOption) {
+		int score = 0;
 		switch (salmonOption){
-		case "S1" -> salmonScoringOption1(player);
-		case "S2" -> salmonScoringOption2(player);
-		case "S3" -> salmonScoringOption3(player);
-		case "S4" -> salmonScoringOption4(player);
+		case "S1" -> score = salmonScoringOption1(player);
+		case "S2" -> score = salmonScoringOption2(player);
+		case "S3" -> score = salmonScoringOption3(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + salmonOption);
 		}
+		System.out.println(player.getPlayerName() + " Salmon Score: " + score); //for testing
 	}
 	
-	private static void salmonScoringOption1(Player player) {
-//		PlayerMap map = player.getMap();
-//		for (HabitatTile tile : map.getTilesInMap()) {
-//			if (tile.getIsTokenPlaced() && tile.getPlacedToken() == WildlifeToken.Salmon) {
-//
-//			}
-//		}
-
-		//score for runs of bears
-		int runs = 0;
+	private static int salmonScoringOption1(Player player) {
 		PlayerMap map = player.getMap();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
@@ -49,17 +41,22 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			player.addToPlayerScore(27);
 		}
 
+		int score = 0;
+		return score;
 	}
-	private static void salmonScoringOption2(Player player) {
+
+	private static int salmonScoringOption2(Player player) {
 		PlayerMap map = player.getMap();
 		
+		int score = 0;
+		return score;
 	}
-	private static void salmonScoringOption3(Player player) {
+
+	private static int salmonScoringOption3(Player player) {
 		PlayerMap map = player.getMap();
 		
+		int score = 0;
+		return score;
 	}
-	private static void salmonScoringOption4(Player player) {
-		PlayerMap map = player.getMap();
-		
-	}
+
 }

@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
-/** Assists with the orientation of tile, for rotation */
+/** Stores information about the habitat type of a single edge of a tile.
+ * Assists with the orientation of tile, for rotation.
+ * Also assists with scoring habitat corridors. */
 public class Edge {
 	private HabitatTile.Habitat habitatType;
 	//private boolean isConnected; //for later use for habitat corridors
@@ -12,15 +14,9 @@ public class Edge {
 //	 	4|     |1
 //	 	  -- --
 //	 	  3	  2
-	/**
-	 * Constructs an Edge object.
-	 *
-	 * @throws IllegalArgumentException if one of the tiles is numbered less
-	 * than 0, or if one of the edges is out of the range
-	 * ({@code edge < 0 || edge > 5})
-	 */
+	
 	public Edge(int tileID, HabitatTile.Habitat habitatType) {
-		if (tileID > HabitatTile.getTileCounter()) {
+		if (tileID < 0 || tileID > HabitatTile.getTileCounter()) {
 			throw new IllegalArgumentException("You are trying to make edges for a non-existent tile");
 		}
 		this.habitatType =habitatType;
@@ -41,7 +37,7 @@ public class Edge {
 		}
 		return edges;
 	}
-
+	
 	public HabitatTile.Habitat getHabitatType() {
 		return habitatType;
 	}

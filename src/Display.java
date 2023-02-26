@@ -261,6 +261,14 @@ public class Display {
 		return String.join("\n", firstLines);
 
 	}
+	
+	public static void scoringScreen() {
+		System.out.println();
+		System.out.println("-----------------------------------------------------------------------");
+		System.out.println("------------------------------SCORING START----------------------------");
+		System.out.println("-----------------------------------------------------------------------");
+		System.out.println();
+	}
 
 	/**
 	 * Displays the interactive commands the player can select from
