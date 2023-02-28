@@ -4,7 +4,7 @@ import java.util.List;
 public class ScoringElk {
 
 	public static void scoreElk(Player player, String elkOption) {
-		int score = 0;
+		int score;
 		switch (elkOption){
 		case "E1" -> score = elkScoringOption1(player);
 		case "E2" -> score = elkScoringOption2(player);
@@ -68,30 +68,29 @@ public class ScoringElk {
 								temp[2]=Scoring.getAdjacentTiles(tile,map)[0];
 								if (temp[2].getPlacedToken() == WildlifeToken.Elk  && !usedTiles.contains(temp[2])) {
 									if(i == 4) {
-										temp[2]=Scoring.getAdjacentTiles(tile,map)[2];
-										if (temp[2].getPlacedToken() == WildlifeToken.Elk  && !usedTiles.contains(temp[3])) {
+										temp[3]=Scoring.getAdjacentTiles(tile,map)[2];
+										if (temp[3].getPlacedToken() == WildlifeToken.Elk  && !usedTiles.contains(temp[3])) {
 											score += 13;
 											usedTiles.addAll(List.of(temp));
 										}
 									}else{
-										score+=9;
+										score += 9;
 										usedTiles.addAll(List.of(temp));
 									}
 								}
 							}else{
-								score+=5;
+								score += 5;
 								usedTiles.addAll(List.of(temp));
 							}
 						}
 					}else{
-						score+=2;
+						score += 2;
 						usedTiles.addAll(List.of(temp));
 					}
 				}
 				//end of for each loop
 			}
 		}
-
 		return score;
 	}
 }
