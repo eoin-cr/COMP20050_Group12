@@ -88,14 +88,14 @@ public class Command {
 		try {
 			command = CommandType.valueOf(input);
 			command.enumSetCommand(player);  // calls the function represented in the enum
-		} catch (AbstractMethodError impossibleError) {} // this should throw basically all errors for debugging
-//		} catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
-//			System.out.println("Invalid input for options of commands. Please try again. \n");
+//		} catch (AbstractMethodError impossibleError) {} // this should throw basically all errors for debugging
+		} catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
+			System.out.println("Invalid input for options of commands. Please try again. \n");
 
 			// this catches all illegal argument exceptions, so we're gonna just print them for
 			// now until we make sure we've caught them all before they reach this stage
 //			System.out.println(ex.toString());
-//		}
+		}
 	}
 	
 	public CommandType getCommand() {
