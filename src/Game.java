@@ -56,7 +56,7 @@ public class Game {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
         		System.out.println("Current player is: " +player.getPlayerName());
-                Display.displayTileMap(player);
+                Display.displayPlayerTileMap(player);
         		// choose from tile token pairs
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
@@ -79,7 +79,7 @@ public class Game {
         for (String name : playerNames) {
             Player player = new Player(name);
             playerList.add(player); // adds to game's arraylist of players
-            Display.displayTileMap(player); // displays player's current map of tiles
+            Display.displayPlayerTileMap(player); // displays player's current map of tiles
 
             // sleep so you can see the outputs, they don't just come all at once
             Display.sleep(500);

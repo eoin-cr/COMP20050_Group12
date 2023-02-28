@@ -10,7 +10,7 @@ public class Scoring {
 //	index 4 stores Fox score card option as a string		(F1,F2,F3,F4)
 	private static final String[] cards = ScoreCards.getScorecards();
 	private static final List<Player> players = Game.getPlayers();
-	private static ArrayList<Player> winners = new ArrayList<>();
+	private static final ArrayList<Player> winners = new ArrayList<>();
 	
 	public Scoring() {}
 	
@@ -29,7 +29,10 @@ public class Scoring {
 		for (Player p : players) {
 			ScoringBear.scoreBear(p, cards[0]);
 			ScoringElk.scoreElk(p, cards[1]);
-			ScoringSalmon.scoreSalmon(p, cards[2]);
+//			ScoringSalmon.scoreSalmon(p, cards[2]);
+			int salmonScore = ScoringSalmon.scoreSalmon(p.getMap(), cards[2]);
+			p.addToPlayerScore(salmonScore);
+			System.out.println(p.getPlayerName() + " Salmon Score: " + salmonScore); //for testing
 			ScoringHawk.scoreHawk(p, cards[3]);
 			ScoringFox.scoreFox(p, cards[4]);
 			System.out.println();
