@@ -29,7 +29,8 @@ public class Scoring {
 		for (Player p : players) {
 			ScoringBear.scoreBear(p, cards[0]);
 			ScoringElk.scoreElk(p, cards[1]);
-			ScoringSalmon.scoreSalmon(p, cards[2]);
+//			ScoringSalmon.scoreSalmon(p, cards[2]);
+			p.addToPlayerScore(ScoringSalmon.scoreSalmon(p.getMap(), cards[2]));
 			ScoringHawk.scoreHawk(p, cards[3]);
 			ScoringFox.scoreFox(p, cards[4]);
 			System.out.println();

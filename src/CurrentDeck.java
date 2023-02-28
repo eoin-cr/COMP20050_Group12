@@ -47,7 +47,7 @@ public class CurrentDeck {
 		}
     
 		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
-		Display.displayTileMap(player);
+		Display.displayPlayerTileMap(player);
 		WildlifeToken token = deckTokens.get(choice);
 		deckTiles.remove(choice);
 

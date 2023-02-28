@@ -39,6 +39,16 @@ public class Generation {
             tokensLeft += value;
         }
 
+        // if the bag is empty we put some more tokens in it
+        if (tokensLeft == 0) {
+            Bag.remainingTokens.put(WildlifeToken.Bear, 10);
+            Bag.remainingTokens.put(WildlifeToken.Elk, 10);
+            Bag.remainingTokens.put(WildlifeToken.Salmon, 10);
+            Bag.remainingTokens.put(WildlifeToken.Hawk, 10);
+            Bag.remainingTokens.put(WildlifeToken.Fox, 10);
+            tokensLeft = 50;
+        }
+
         int index = new Random().nextInt(tokensLeft);
         WildlifeToken animalType = null;
 
