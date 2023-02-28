@@ -290,9 +290,9 @@ public class Scoring {
 	 */
 	public static void findTokenGroupRecursive(ArrayList<HabitatTile> groupOfTokens, WildlifeToken tokenType, HabitatTile centerTile, PlayerMap map) {
 		if (!groupOfTokens.contains(centerTile) && centerTile.getPlacedToken() == tokenType) {
+			groupOfTokens.add(centerTile);
 			ArrayList<HabitatTile> adjacentTokens = Scoring.getAdjacentTilesWithTokenMatch(tokenType, centerTile, map);
-			if (adjacentTokens.size() > 0 && adjacentTokens.size() < 3) {
-				groupOfTokens.add(centerTile);
+			if (adjacentTokens.size() > 0) {
 				for (HabitatTile t : adjacentTokens) {
 					findTokenGroupRecursive(groupOfTokens, tokenType, t, map);
 				}

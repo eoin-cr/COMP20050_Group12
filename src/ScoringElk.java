@@ -46,8 +46,20 @@ public class ScoringElk {
 	
 	private static int elkScoringOption2(Player player) {
 		PlayerMap map = player.getMap();
-		
+		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
+		ArrayList<HabitatTile> elkGroup = new ArrayList<>();
 		int score = 0;
+		int[] points= {2,4,7,10,14,18,23};
+
+		for (HabitatTile tile : map.getTilesInMap()){
+			if(tile.getPlacedToken() == WildlifeToken.Elk && !usedTiles.contains(tile)){
+				elkGroup.clear();
+				Scoring.findTokenGroupRecursive(elkGroup,WildlifeToken.Elk,tile,map);
+
+				usedTiles.addAll(elkGroup);
+				score+= elkGroup.size()<8 ? points[elkGroup.size()-1] : 28;
+			}
+		}
 		return score;
 	}
 	
