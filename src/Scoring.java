@@ -238,7 +238,7 @@ public class Scoring {
 	//START OF HELPER FUNCTIONS
 
 	/**
-	 * Helper function for Habitat corridor scoring, retrieves longest habitat corridor of a certain type on a single player's map
+	 * Helper function for Habitat corridor scoring, retrieves the longest habitat corridor of a certain type on a single player's map
 	 * @return Arraylist of tiles with matching habitats
 	 */
 	private static ArrayList<HabitatTile> findLongestHabitatCorridor(PlayerMap map, HabitatTile.Habitat habitatType) {
@@ -380,7 +380,7 @@ public class Scoring {
 //	 	  -- --
 //	 	  3	  2
 	
-	private static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
+	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = new HabitatTile[6];
 		for (int i = 0; i < 6; i++) {
 			adjacentTiles[i] = null;
