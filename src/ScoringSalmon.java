@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ScoringSalmon {
 
@@ -10,11 +12,10 @@ public class ScoringSalmon {
 		case "S3" -> score = salmonScoringOption3(map);
 		default -> throw new IllegalArgumentException("Unexpected value: " + salmonOption);
 		}
-//		System.out.println(player.getPlayerName() + " Salmon Score: " + score); //for testing
 		return score;
 	}
 
-	private static int salmonScoringOption1(PlayerMap map) {
+	private static int salmonScorer(PlayerMap map, int maxRun, List<Integer> scores) {
 		int score = 0;
 		ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 
@@ -23,9 +24,8 @@ public class ScoringSalmon {
 			if (!visitedTiles.contains(tile) && tile.getIsTokenPlaced() && tile.getPlacedToken() == WildlifeToken.Salmon) {
 				ArrayList<HabitatTile> salmonGroup = new ArrayList<>();
 				Scoring.findTokenGroupRecursive(salmonGroup, WildlifeToken.Salmon, tile, map);
-				if (salmonGroup.size() <= 3) {
-					int n = salmonGroup.size();
-					score += (1 + (n * (n+1))/2);
+				if (salmonGroup.size() <= 3 && salmonGroup.size() > 0) {
+					score += scores.get(salmonGroup.size()-1);
 				} else {
 					int runSize = 0;
 					boolean invalid = false;
@@ -38,12 +38,10 @@ public class ScoringSalmon {
 						runSize++;
 					}
 					if (!invalid) {
-						if (runSize > 7) {
-							score += 26;
-						} else if (runSize > 4) {
-							score += (runSize*(runSize+1)/2);
+						if (runSize > maxRun) {
+							score += scores.get(scores.size() - 1);
 						} else if (runSize > 0) {
-							score += (1 + (runSize*(runSize+1)/2));
+							score += scores.get(runSize-1);
 						}
 					}
 				}
@@ -51,22 +49,24 @@ public class ScoringSalmon {
 				visitedTiles.addAll(salmonGroup);
 			}
 		} //all runs found
-
 		return score;
+	}
+
+	private static int salmonScoringOption1(PlayerMap map) {
+		List<Integer> scores = new ArrayList<>();
+		Collections.addAll(scores, 2, 4, 7, 11, 15, 20, 26);
+		return salmonScorer(map, 7, scores);
 	}
 
 	private static int salmonScoringOption2(PlayerMap map) {
-//		PlayerMap map = player.getMap();
-		
-		int score = 0;
-		return score;
+		List<Integer> scores = new ArrayList<>();
+		Collections.addAll(scores, 2, 4, 8, 12);
+		return salmonScorer(map, 4, scores);
 	}
 
 	private static int salmonScoringOption3(PlayerMap map) {
-//		PlayerMap map = player.getMap();
-		
-		int score = 0;
-		return score;
+		List<Integer> scores = new ArrayList<>();
+		Collections.addAll(scores, 2, 4, 9, 11, 17);
+		return salmonScorer(map, 5, scores);
 	}
-
 }
