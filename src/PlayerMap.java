@@ -48,6 +48,10 @@ public class PlayerMap {
 		tileBoardPosition = board;
 	}
 
+	public void clearTileBoard() {
+		tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
+	}
+
 	/**
 	 * Adds a tile to the board array at position {@code board[x][y]}.
 	 *
@@ -94,7 +98,7 @@ public class PlayerMap {
 				if (placed) {
 					tile.setPlacedToken(token);
 					System.out.println("You have successfully placed your token.");
-					Display.displayTileMap(p);
+					Display.displayPlayerTileMap(p);
 					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token
 					break;
 				}
@@ -202,5 +206,4 @@ public class PlayerMap {
 		}
 		return result;
 	}
-
 }

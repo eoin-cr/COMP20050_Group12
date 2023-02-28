@@ -71,6 +71,16 @@ public class HabitatTile {
 		this.setMapPosition(-1,-1);
 		edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 	}
+
+	/**
+	 * Allows the manual setting of the token, which is usually
+	 * generated randomly, for testing.
+	 * DO NOT USE THIS FOR WRITING ACTUAL CODE, ONLY FOR TESTS!!!
+	 */
+	protected void setTokenForTesting(WildlifeToken token) {
+		placedToken = token;
+		isTokenPlaced = true;
+	}
 	
 	public static int getTileCounter() {
 		return tileCounter;

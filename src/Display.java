@@ -99,7 +99,7 @@ public class Display {
 		Player tmpPlayer = new Player("tmp");
 		tmpPlayer.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
 		tmpPlayer.getMap().addPossibleTiles();
-		displayTileMap(tmpPlayer);
+		displayPlayerTileMap(tmpPlayer);
 		return tmpPlayer;
 	}
 
@@ -109,13 +109,25 @@ public class Display {
 	 * tile, and prints every tile in this area.
 	 * Null tiles are represented with empty space.
 	 *
-	 * @param player the player whose tile map is to be displayed
+	 * @param player the player's tile map to be displayed
 	 */
-	public static void displayTileMap(Player player) {
+	public static void displayPlayerTileMap(Player player) {
 		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
-		HabitatTile[][] board = player.getMap().getTileBoardPosition();
+		displayTileMap(player.getMap());
+	}
 
-		int[] boundaries = tileBoundaries(player);
+	/**
+	 * Displays the <i>full</i> tile map.
+	 * Detects the smallest rectangular area which contains every non-null
+	 * tile, and prints every tile in this area.
+	 * Null tiles are represented with empty space.
+	 *
+	 * @param map the tile map to be displayed
+	 */
+	public static void displayTileMap(PlayerMap map) {
+		HabitatTile[][] board = map.getTileBoardPosition();
+
+		int[] boundaries = tileBoundaries(map);
 
 		/*
 		 * prints all the tiles within the boundary (the area where tiles exist)
@@ -148,13 +160,13 @@ public class Display {
 	/**
 	 * Finds the smallest boundary rectangle which contains every tile placed.
 	 *
-	 * @param player the player whose map boundary is to be found
+	 * @param map the map whose boundary to be found
 	 * @return an int array containing the index of the [top, bottom, left, right]
 	 * co-ords of the boundary
 	 */
 	// int[] boundaries are [top, bottom, left, right]
-	private static int[] tileBoundaries(Player player) {
-		HabitatTile[][] board = player.getMap().getTileBoardPosition();
+	private static int[] tileBoundaries(PlayerMap map) {
+		HabitatTile[][] board = map.getTileBoardPosition();
 		int[] boundaries = new int[4];
 
 		// get uppermost tile

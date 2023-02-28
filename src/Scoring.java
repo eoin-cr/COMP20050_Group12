@@ -29,7 +29,8 @@ public class Scoring {
 		for (Player p : players) {
 			ScoringBear.scoreBear(p, cards[0]);
 			ScoringElk.scoreElk(p, cards[1]);
-			ScoringSalmon.scoreSalmon(p, cards[2]);
+//			ScoringSalmon.scoreSalmon(p, cards[2]);
+			p.addToPlayerScore(ScoringSalmon.scoreSalmon(p.getMap(), cards[2]));
 			ScoringHawk.scoreHawk(p, cards[3]);
 			ScoringFox.scoreFox(p, cards[4]);
 			System.out.println();
@@ -301,7 +302,7 @@ public class Scoring {
 	 * Helper function for Scorecard scoring, retrieves a single tile's adjacent tiles with a Wildlife token match.
 	 * @return Arraylist of Habitat Tiles with same token type.
 	 */
-	private static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
+	public static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
 		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
 		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
 		for (HabitatTile checktile : adjacentTiles) {
