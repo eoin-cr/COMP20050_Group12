@@ -16,12 +16,27 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
 	private static int hawkScoringOption1(Player player) {
 		PlayerMap map = player.getMap();
+		int hawkCount=0;
+		int score = 0;
+
 		for (HabitatTile tile : map.getTilesInMap()) {
-			if (tile.getIsTokenPlaced() && tile.getPlacedToken() == WildlifeToken.Hawk) {
-				
+			if (tile.getPlacedToken() == WildlifeToken.Hawk) {
+				if(Scoring.getAdjacentTilesWithTokenMatch(WildlifeToken.Hawk,tile,map).size() == 0){
+					hawkCount++;
+				}
 			}
 		}
-		int score = 0;
+		switch (hawkCount){
+			case 0-> {}
+			case 1-> score = 2;
+			case 2-> score = 5;
+			case 3-> score = 8;
+			case 4-> score = 11;
+			case 5-> score = 14;
+			case 6-> score = 18;
+			case 7-> score = 22;
+			default -> score = 26;
+		}
 		return score;
 	}
 	private static int hawkScoringOption2(Player player) {
