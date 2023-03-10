@@ -23,7 +23,6 @@ public class ScoringFox {
 				}
 			}
 		}
-
 		return score;
 	}
 	
