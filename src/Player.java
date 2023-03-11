@@ -8,11 +8,13 @@ import java.util.ArrayList;
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
+	private int[] longestCorridorSizes = new int[5];
 	private int[] wildlifeScores = new int[5];
 	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score 
+	private int corridorsPlayerScore;
+	private int wildlifePlayerScore;
 	private int totalPlayerScore;
 	private final PlayerMap map;
-	private int[] longestCorridorSizes = new int[5];
 
 	public Player(String playerName) {
 		this.playerName = playerName;
@@ -62,6 +64,20 @@ public class Player {
 		default ->
 		throw new IllegalArgumentException("Unexpected nature token passed to set player's score: " + token);
 		}
+	}
+	public int calculateCorridorsPlayerScore() {
+		int sum = 0;
+		for (int i : longestCorridorSizes) {
+			sum += i;
+		}
+		return sum;
+	}
+	public int calculateWildlifePlayerScore() {
+		int sum = 0;
+		for (int i : wildlifeScores) {
+			sum += i;
+		}
+		return sum;
 	}
 	public int getTotalPlayerScore() {
 		return totalPlayerScore;
