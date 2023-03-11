@@ -1,6 +1,6 @@
 public class ScoringFox {
 
-	public static void scoreFox(Player player, String foxOption) {
+	public static int scoreFox(Player player, String foxOption) {
 		int score;
 		switch (foxOption){
 		case "F1" -> score = foxScoringOption1(player);
@@ -8,7 +8,8 @@ public class ScoringFox {
 		case "F3" -> score = foxScoringOption3(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + foxOption);
 		}
-		System.out.println(player.getPlayerName() + " Fox Score: " + score); //for testing
+		//System.out.println(player.getPlayerName() + " Fox Score: " + score); //for testing
+		return score;
 	}
 	
 	private static int foxScoringOption1(Player player) {
