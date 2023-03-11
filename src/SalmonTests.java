@@ -12,6 +12,9 @@ public class SalmonTests {
         tile.setTokenForTesting(WildlifeToken.Salmon);
         return tile;
     }
+
+    // we can use this as the scoring for salmon works the same for all the options,
+    // there's just different numbers for runs
     private void generalTests(List<Integer> expectedScores, String option) {
         PlayerMap map = new PlayerMap();
         map.clearTileBoard();
@@ -28,7 +31,7 @@ public class SalmonTests {
 
         // test whether it returns 0 for invalid runs
         PlayerMap badMap = new PlayerMap();
-        badMap.setTileBoard(map.deepCopy(map.getTileBoardPosition()));
+        badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
         badMap.addTileToMap(newTile(), 7,8);
         badMap.addTileToMap(newTile(), 9,8);
         assertEquals(ScoringSalmon.scoreSalmon(badMap, option), expectedScores.get(3));
@@ -36,7 +39,7 @@ public class SalmonTests {
         map.addTileToMap(newTile(), 8, 11);
         assertEquals(ScoringSalmon.scoreSalmon(map, option), expectedScores.get(4));
 
-        badMap.setTileBoard(map.deepCopy(map.getTileBoardPosition()));
+        badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
         badMap.addTileToMap(newTile(), 7,9);
         badMap.addTileToMap(newTile(), 9,10);
         assertEquals(ScoringSalmon.scoreSalmon(badMap, option), expectedScores.get(5));
