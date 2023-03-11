@@ -8,14 +8,15 @@ import java.util.ArrayList;
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
-	private int playerScore;
+	private int[] wildlifeScores = new int[5];
+	private int totalPlayerScore;
 	private final PlayerMap map;
 	private int[] longestCorridorSizes = new int[5];
 
 	public Player(String playerName) {
 		this.playerName = playerName;
 		this.playerNatureTokens = 0;
-		this.playerScore = 0;
+		this.totalPlayerScore = 0;
 		map = new PlayerMap();
 	}
 	
@@ -37,11 +38,11 @@ public class Player {
 			throw new IllegalArgumentException("Out of nature tokens, cannot subtract further");
 		}
 	}
-	public int getPlayerScore() {
-		return playerScore;
+	public int getTotalPlayerScore() {
+		return totalPlayerScore;
 	}
-	public void addToPlayerScore(int score) {
-		this.playerScore += score;
+	public void addToTotalPlayerScore(int score) {
+		this.totalPlayerScore += score;
 	}
 	public PlayerMap getMap() {
 		return map; 

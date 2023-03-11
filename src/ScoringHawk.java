@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ScoringHawk {
 private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
-	public static void scoreHawk(Player player, String hawkOption) {
+	public static int scoreHawk(Player player, String hawkOption) {
 		int score = 0;
 		switch (hawkOption){
 		case "H1" -> score = hawkScoringOption1(player);
@@ -12,11 +13,12 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 		default -> throw new IllegalArgumentException("Unexpected value: " + hawkOption);
 		}
 		System.out.println(player.getPlayerName() + " Hawk Score: " + score); //for testing
+		return score;
 	}
 	
 	private static int hawkScoringOption1(Player player) {
 		PlayerMap map = player.getMap();
-		int hawkCount=0;
+		int hawkCount = 0;
 		int score = 0;
 
 		for (HabitatTile tile : map.getTilesInMap()) {
@@ -41,8 +43,22 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	}
 	private static int hawkScoringOption2(Player player) {
 		PlayerMap map = player.getMap();
-		
+		int linesOfSight = 0;
 		int score = 0;
+		
+		for (HabitatTile tile : map.getTilesInMap()) {
+			if (tile.getPlacedToken() == WildlifeToken.Hawk) {
+				boolean validHawk = true;
+				HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(tile, map);
+				for (HabitatTile t : adjacentTiles) {
+					if (t.getPlacedToken() == WildlifeToken.Hawk) {
+						validHawk = false;
+						//invalidate all hawk paths
+					}
+				}
+			}
+		}
+		
 		return score;
 	}
 	private static int hawkScoringOption3(Player player) {

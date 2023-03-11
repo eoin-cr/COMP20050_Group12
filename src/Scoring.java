@@ -31,7 +31,7 @@ public class Scoring {
 			ScoringElk.scoreElk(p, cards[1]);
 //			ScoringSalmon.scoreSalmon(p, cards[2]);
 			int salmonScore = ScoringSalmon.scoreSalmon(p.getMap(), cards[2]);
-			p.addToPlayerScore(salmonScore);
+			p.addToTotalPlayerScore(salmonScore);
 			System.out.println(p.getPlayerName() + " Salmon Score: " + salmonScore); //for testing
 			ScoringHawk.scoreHawk(p, cards[3]);
 			ScoringFox.scoreFox(p, cards[4]);
@@ -58,7 +58,7 @@ public class Scoring {
 			p.setLongestCorridorSize(4, prairieCorridor);
 
 			int score = forestCorridor + wetlandCorridor + riverCorridor + mountainCorridor + prairieCorridor;
-			p.addToPlayerScore(score);
+			p.addToTotalPlayerScore(score);
 
 			System.out.println(p.getPlayerName() + " scored " +score+ " points for Habitat Corridors.");
 		}
@@ -115,7 +115,7 @@ public class Scoring {
 				if (corridorSizeMatchPlayers.size() > 1) { //tie
 					System.out.print("Players: [ ");
 					for (Player p1 : corridorSizeMatchPlayers) {
-						p1.addToPlayerScore(1);
+						p1.addToTotalPlayerScore(1);
 						System.out.print(p1.getPlayerName()+ " ");
 					}
 					System.out.println("] tied for longest " +HabitatTile.Habitat.getName(i)+ " corridor.");
@@ -124,7 +124,7 @@ public class Scoring {
 				else { //one person has longest corridor
 					System.out.println(corridorSizeMatchPlayers.get(0).getPlayerName() + " made the longest "
 							+ HabitatTile.Habitat.getName(i)+ " corridor. 2 bonus points.");
-					corridorSizeMatchPlayers.get(0).addToPlayerScore(2);
+					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(2);
 				}
 			}
 		}
@@ -144,7 +144,7 @@ public class Scoring {
 					tieFound[i] = false;
 					System.out.println(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the longest "
 							+HabitatTile.Habitat.getName(i)+ " corridor. 3 bonus points.");
-					corridorSizeMatchPlayers.get(0).addToPlayerScore(3);
+					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(3);
 				}
 				else if (corridorSizeMatchPlayers.size() == 2) { //tie with 2 players
 					tieFound[i] = true;
@@ -152,14 +152,14 @@ public class Scoring {
 							+corridorSizeMatchPlayers.get(1).getPlayerName() + " ] "
 							+ "tied for longest " +HabitatTile.Habitat.getName(i)+ " corridor.");
 					System.out.println("They each get 2 bonus points.");
-					corridorSizeMatchPlayers.get(0).addToPlayerScore(2);
-					corridorSizeMatchPlayers.get(1).addToPlayerScore(2);
+					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(2);
+					corridorSizeMatchPlayers.get(1).addToTotalPlayerScore(2);
 				}
 				else if (corridorSizeMatchPlayers.size() > 2) { //tie with 3-4 players
 					tieFound[i] = true;
 					System.out.print("Players: [ ");
 					for (Player p1 : corridorSizeMatchPlayers) {
-						p1.addToPlayerScore(1);
+						p1.addToTotalPlayerScore(1);
 						System.out.print(p1.getPlayerName()+ " ");
 					}
 					System.out.println("] tied for longest " +HabitatTile.Habitat.getName(i)+ " corridor.");
@@ -178,7 +178,7 @@ public class Scoring {
 					if (corridorSizeMatchPlayers.size() == 1) {
 						System.out.println(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the second longest "
 								+HabitatTile.Habitat.getName(i)+ " corridor. 1 bonus point.");
-						corridorSizeMatchPlayers.get(0).addToPlayerScore(1);
+						corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(1);
 					}
 					//else if more than 1 player gets second largest corridor, no bonus points
 				}
@@ -192,7 +192,7 @@ public class Scoring {
 			if (p.getPlayerNatureTokens() > 0) {
 				System.out.println(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Token(s). "
 						+ p.getPlayerNatureTokens() + " bonus point(s).");
-				p.addToPlayerScore(p.getPlayerNatureTokens());
+				p.addToTotalPlayerScore(p.getPlayerNatureTokens());
 			}
 		}
 		System.out.println();
@@ -201,13 +201,13 @@ public class Scoring {
 	private static void findWinnerAfterScoring() {
 		int winningScore = 0;
 		for (Player p : players) {
-			if (p.getPlayerScore() > winningScore) {
-				winningScore = p.getPlayerScore();
+			if (p.getTotalPlayerScore() > winningScore) {
+				winningScore = p.getTotalPlayerScore();
 			}
 		}
 
 		for (Player p : players) {
-			if (p.getPlayerScore() == winningScore) {
+			if (p.getTotalPlayerScore() == winningScore) {
 				winners.add(p);
 			}
 		}
@@ -456,6 +456,129 @@ public class Scoring {
 		}
 		
 		return adjacentTiles;
+	}
+	
+	public static HabitatTile getAdjacentTileAtSide(HabitatTile tile, PlayerMap map ,int edgeNum) {
+		if (edgeNum < 0 || edgeNum > 5) {
+			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
+		}
+		
+		HabitatTile adjacentTile = null;
+		int row = tile.getMapPosition()[0];
+		int col = tile.getMapPosition()[1];
+		
+		//edge cases
+		if (row == 0 && col == 0) { //missing sides 3,4,5,0 - top left on map
+			switch (edgeNum) {
+			case 1 -> adjacentTile = map.returnTileAtPositionInMap(0, 1);
+			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, 0);
+			default -> adjacentTile = null;
+			}
+		}
+		else if (row == 0 && col > 0 && col < 19) { //missing sides 5,0
+			switch (edgeNum) {
+			case 1 -> adjacentTile = map.returnTileAtPositionInMap(0, col+1);
+			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, col+1);
+			case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
+			case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
+			default -> adjacentTile = null;
+			}
+		}
+		else if (row == 0 && col == 19) { //missing sides 5,0,1 - top right on map
+			switch (edgeNum) {
+			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, 19);
+			case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, 18);
+			case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, 18);
+			default -> adjacentTile = null;
+			}
+		}
+		else if (col == 0 && row > 0 && row < 19) { //alternating, missing side 4 or sides 3,4,5
+			if (row%2 != 0) { //odd rows, missing side 4
+				switch (edgeNum) {
+				case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 1);
+				case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, 1);
+				case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 1);
+				case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 0);
+				case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 0);
+				default -> adjacentTile = null;
+				}
+			}
+			else { //even rows, missing sides 3,4,5
+				switch (edgeNum) {
+				case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 0);
+				case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, 1);
+				case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 0);
+				default -> adjacentTile = null;
+				}
+			}
+		}
+		else if (col == 0 && row == 19) { //missing sides 2,3,4 - bottom left on map
+			switch (edgeNum) {
+			case 5 -> adjacentTile = map.returnTileAtPositionInMap(18, 0);
+			case 0 -> adjacentTile = map.returnTileAtPositionInMap(18, 1);
+			case 1 -> adjacentTile = map.returnTileAtPositionInMap(19, 1);
+			default -> adjacentTile = null;
+			}
+		}
+		else if (col == 19 && row > 0 && row < 19) { //alternating, missing sides 0,1,2 or side 1
+			if (row%2 != 0) { //odd rows, missing sides 0,1,2
+				switch (edgeNum) {
+				case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
+				case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
+				case 5 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
+				default -> adjacentTile = null;
+				}
+			}
+			else { //even rows, missing side 1
+				switch (edgeNum) {
+				case 0 -> adjacentTile = map.returnTileAtPositionInMap(0, col+1);
+				case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, col+1);
+				case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
+				case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
+				case 5 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
+				default -> adjacentTile = null;
+				}
+				
+			}
+		}
+		else if (col == 19 && row == 19) { //missing sides 0,1,2,3 - bottom right on map
+			switch (edgeNum) {
+			case 4 -> adjacentTile = map.returnTileAtPositionInMap(19, 18);
+			case 5 -> adjacentTile = map.returnTileAtPositionInMap(18, 19);
+			default -> adjacentTile = null;
+			}
+		}
+		else { //non edge case, no missing sides, in the middle of the map
+			switch (edgeNum) {
+			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
+			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
+			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col+1);
+			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
+			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
+			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
+			default -> adjacentTile = null;
+			}
+		}
+		
+		return adjacentTile;
+	}
+	
+	/**
+	 * Helper function that walks in a direction along the map, as specified by an edge number. 
+	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
+	 * until the end of the map is reached.
+	 * @param tile
+	 * @param map
+	 * @param edgeNum
+	 * @return next tile walked to
+	 */
+	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {
+		HabitatTile nextTile = null;
+		if (tile != null) {
+			nextTile = getAdjacentTileAtSide(tile, map, edgeNum);
+			walkInDirectionRecursive(nextTile, map, edgeNum);
+		}
+		return nextTile;
 	}
 
 }
