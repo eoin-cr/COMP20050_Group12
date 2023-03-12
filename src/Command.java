@@ -42,7 +42,9 @@ public class Command {
 		
 		/** Displays the nature token shop */
 		NATURE ("Enter NATURE to see and spend your Nature Tokens,")
-				{public void enumSetCommand(Player player){}},
+				{public void enumSetCommand(Player player){
+					NatureTokens.tokenMenu(player);
+				}},
 		
 //		/** Moves to next players turn */
 //		NEXT {public void enumSetCommand(Player player){
@@ -98,8 +100,7 @@ public class Command {
 		}
 	}
 	
-	public CommandType getCommand() {
-		return command;
-	}
-
+//	public CommandType getCommand() {
+//		return command;
+//	}
 }

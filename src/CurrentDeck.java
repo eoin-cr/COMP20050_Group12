@@ -28,28 +28,33 @@ public class CurrentDeck {
 	public static void choosePair(Player player) {
 		//deal with tile here, place on map after choosing which row/column to place on
 		int choice = Input.chooseFromDeck();
+		choosePairHelper(player, choice, choice);
+		Game.switchTurn();
+	}
+
+	public static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
 		int[] rowAndColumn = Input.chooseTilePlacement(player);
 
 		boolean succeeded = false;
 
 		// displays the different rotation options in order
 		String orientationOptions = "";
-		if (!deckTiles.get(choice).isKeystone()) {
+		if (!deckTiles.get(tileChoice).isKeystone()) {
 			for (int i = 0; i < 6; i++) {
-				deckTiles.get(choice).rotateTile(1);
+				deckTiles.get(tileChoice).rotateTile(1);
 				orientationOptions = Display.removeNewlineAndJoin(
-						orientationOptions, deckTiles.get(choice).toFormattedString(), "\t\t\t"
+						orientationOptions, deckTiles.get(tileChoice).toFormattedString(), "\t\t\t"
 				);
 			}
 			System.out.println(orientationOptions);
 			// allows the user to select what rotation they want
-			deckTiles.get(choice).rotateTile(-1);
+			deckTiles.get(tileChoice).rotateTile(-1);
 		}
     
-		player.getMap().addTileToMap(deckTiles.get(choice), rowAndColumn[0], rowAndColumn[1]);
+		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowAndColumn[0], rowAndColumn[1]);
 		Display.displayPlayerTileMap(player);
-		WildlifeToken token = deckTokens.get(choice);
-		deckTiles.remove(choice);
+		WildlifeToken token = deckTokens.get(tokenChoice);
+		deckTiles.remove(tileChoice);
 
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
@@ -58,16 +63,16 @@ public class CurrentDeck {
 				System.out.println("You cannot add this token to your current map of tiles, as none of the options match.");
 				break;
 			}
-			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(choice));
+			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
 			if (result[0] == 2) { //put token back in bag choice
-				Bag.remainingTokens.merge(deckTokens.get(choice), 1, Integer::sum);
+				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
 				System.out.println("You have put the token back in the bag");
 				succeeded = true;
 			} else if (result[0] == 1) {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
 			}
 		}
-		deckTokens.remove(choice);
+		deckTokens.remove(tokenChoice);
 		System.out.println("Your turn is now complete.");
 		Display.sleep(300);
 		if (Bag.tilesInUse() < Bag.getMaxTiles()) {

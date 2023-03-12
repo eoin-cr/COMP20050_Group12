@@ -5,6 +5,10 @@ import java.util.List;
 public class Game {
     private final String[] playerNames;
     private final static List<Player> playerList = new ArrayList<>();
+    // we set this to static, so we can access it from static methods.  This does mean
+    // that multiple game classes cannot be run simultaneously, but this should not be
+    // an issue
+    private static boolean switchTurn = false;
 
     /*
      * Get player names
@@ -55,6 +59,7 @@ public class Game {
     private void playerTurnCycle() {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
+                switchTurn = false;
         		System.out.println("Current player is: " +player.getPlayerName());
                 Display.displayPlayerTileMap(player);
         		// choose from tile token pairs
@@ -64,7 +69,8 @@ public class Game {
 
                 do {
                     command.setCommand(player);
-                } while (command.getCommand() != Command.CommandType.PAIR);
+//                } while (command.getCommand() != Command.CommandType.PAIR);
+                } while (!switchTurn);
         		// automatically moves to next player if command type is next
         	}
     	}
@@ -84,6 +90,9 @@ public class Game {
             // sleep so you can see the outputs, they don't just come all at once
             Display.sleep(500);
         }
+    }
+    public static void switchTurn() {
+        switchTurn = true;
     }
     
 }

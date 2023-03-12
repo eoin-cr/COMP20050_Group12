@@ -136,14 +136,14 @@ public class Input {
         System.out.println();
 
         do {
-        System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
-        System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
-        try {
-            choice = Integer.parseInt(getUserInput());
-        } catch (NumberFormatException e) {
-            System.out.println("You did not input a number. Please try again.");
-            choice = Integer.parseInt(getUserInput());
-        }
+            System.out.println("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+            System.out.println("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+            try {
+                choice = Integer.parseInt(getUserInput());
+            } catch (NumberFormatException e) {
+                System.out.println("You did not input a number. Please try again.");
+                choice = Integer.parseInt(getUserInput());
+            }
         } while (choice < 1 || choice > 4);
 
         choice--;
