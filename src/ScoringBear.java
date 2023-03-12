@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class ScoringBear {
 	private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
-	public static void scoreBear(Player player, String bearOption) {
+	public static int scoreBear(Player player, String bearOption) {
 		int score = 0;
 		switch (bearOption){
 		case "B1" -> score = bearScoringOption1(player);
@@ -12,7 +12,8 @@ public class ScoringBear {
 		case "B3" -> score = bearScoringOption3(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + bearOption);
 		}
-		System.out.println(player.getPlayerName() + " Bear Score: " + score); //for testing
+		//System.out.println(player.getPlayerName() + " Bear Score: " + score); //for testing
+		return score;
 	}
 	
 	private static int bearScoringOption1(Player player) {
@@ -42,7 +43,6 @@ public class ScoringBear {
 		} else if (pairs >= 4) { // ?? not sure about this case
 			score = 27;
 		}
-		player.addToPlayerScore(score);
 		return score;
 	}
 	
@@ -64,7 +64,6 @@ public class ScoringBear {
 		} //all triples now found
 		
 		int score = triples*10;
-		player.addToPlayerScore(score);
 		return score;
 	}
 	
@@ -93,10 +92,9 @@ public class ScoringBear {
 		
 		int score = (singles*2) + (doubles*5) + (triples*8);
 		//bonus of 3 points if minimum of one of each group
-		if (singles > 0 && singles == doubles && singles == triples) {
+		if (singles > 1 && doubles > 1 && triples > 1) {
 			score += 3;
 		}
-		player.addToPlayerScore(score);
 		return score;
 	}
 

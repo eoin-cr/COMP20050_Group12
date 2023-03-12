@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ScoringElk {
 
-	public static void scoreElk(Player player, String elkOption) {
+	public static int scoreElk(Player player, String elkOption) {
 		int score;
 		switch (elkOption){
 		case "E1" -> score = elkScoringOption1(player);
@@ -12,7 +12,8 @@ public class ScoringElk {
 		case "E3" -> score = elkScoringOption3(player);
 		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
 		}
-		System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
+		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
+		return score;
 	}
 
 	//treats line > 4 the same as 4

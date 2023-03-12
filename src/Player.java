@@ -8,14 +8,18 @@ import java.util.ArrayList;
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
-	private int playerScore;
-	private final PlayerMap map;
 	private int[] longestCorridorSizes = new int[5];
+	private int[] wildlifeScores = new int[5];
+	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score 
+	private int corridorsPlayerScore;
+	private int wildlifePlayerScore;
+	private int totalPlayerScore;
+	private final PlayerMap map;
 
 	public Player(String playerName) {
 		this.playerName = playerName;
 		this.playerNatureTokens = 0;
-		this.playerScore = 0;
+		this.totalPlayerScore = 0;
 		map = new PlayerMap();
 	}
 	
@@ -37,11 +41,49 @@ public class Player {
 			throw new IllegalArgumentException("Out of nature tokens, cannot subtract further");
 		}
 	}
-	public int getPlayerScore() {
-		return playerScore;
+	public int getPlayerWildlifeScore(WildlifeToken token) {
+		int score;
+		switch (token) {
+		case Bear -> score = wildlifeScores[0];
+		case Elk -> score = wildlifeScores[1];
+		case Salmon -> score = wildlifeScores[2];
+		case Hawk -> score = wildlifeScores[3];
+		case Fox -> score = wildlifeScores[4];
+		default ->
+		throw new IllegalArgumentException("Unexpected nature token passed to retrieve player's score: " + token);
+		}
+		return score;
 	}
-	public void addToPlayerScore(int score) {
-		this.playerScore += score;
+	public void setPlayerWildlifeScore(WildlifeToken token, int score) {
+		switch (token) {
+		case Bear -> wildlifeScores[0] = score;
+		case Elk -> wildlifeScores[1] = score;
+		case Salmon -> wildlifeScores[2] = score;
+		case Hawk -> wildlifeScores[3] = score;
+		case Fox -> wildlifeScores[4] = score;
+		default ->
+		throw new IllegalArgumentException("Unexpected nature token passed to set player's score: " + token);
+		}
+	}
+	public int calculateCorridorsPlayerScore() {
+		int sum = 0;
+		for (int i : longestCorridorSizes) {
+			sum += i;
+		}
+		return sum;
+	}
+	public int calculateWildlifePlayerScore() {
+		int sum = 0;
+		for (int i : wildlifeScores) {
+			sum += i;
+		}
+		return sum;
+	}
+	public int getTotalPlayerScore() {
+		return totalPlayerScore;
+	}
+	public void addToTotalPlayerScore(int score) {
+		this.totalPlayerScore += score;
 	}
 	public PlayerMap getMap() {
 		return map; 
