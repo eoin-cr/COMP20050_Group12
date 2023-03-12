@@ -12,6 +12,7 @@ public class HabitatTile {
 	public static final String ANSI_RESET = "\033[0m";
 	public static final String WHITE = "\033[38;5;231m";
 	public static final String WHITE_BG = "\033[48;5;231m";
+	public static final String BLACK_TEXT = "\033[30m";
 	private static final int NUMBER_OF_EDGES = 6;
 
 	/**
@@ -30,7 +31,7 @@ public class HabitatTile {
 		}
 		/**
 		 * Returns name of Habitat enum as a string, based on its constant value
-		 * @param ord
+		 * @param ord index of name to get
 		 */
 		public static String getName(int ord) {
 			for (Habitat h : Habitat.values()) {
@@ -51,7 +52,7 @@ public class HabitatTile {
     private int tileID;
     private final Habitat habitat1;
     private final Habitat habitat2;
-    private int[] mapPosition = new int[2]; //set to -1 initially to show it's not been placed
+    private final int[] mapPosition = new int[2]; //set to -1 initially to show it's not been placed
 	private final ArrayList<Edge> edges;
 
 	/**
@@ -254,7 +255,7 @@ public class HabitatTile {
 				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
 				colour[2] + "  " + animal[2] + ANSI_RESET +
 				// inserts tile number and adds padding
-				colour[3] + "   " +	String.format("%-3s", tileID) + ANSI_RESET +
+				colour[3] + "   " + BLACK_TEXT + String.format("%-3s", tileID) + ANSI_RESET +
 				edges.get(1).getHabitatType().backgroundColour        + "|    " + ANSI_RESET + "\n" +
 				edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET +
 				edges.get(2).getHabitatType().backgroundColour +  "|    |    " + ANSI_RESET +"\n";
