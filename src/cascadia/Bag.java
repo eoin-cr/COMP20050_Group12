@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +40,8 @@ public class Bag {
     public static void makeBag (int numplayers) {
     	//make tokens
     	remainingTokens.put(WildlifeToken.Bear, 80);
-//    	remainingTokens.put(WildlifeToken.Elk, 30);
-//        remainingTokens.put(WildlifeToken.Salmon, 30);
+//    	remainingTokens.put(cascadia.WildlifeToken.Elk, 30);
+//        remainingTokens.put(cascadia.WildlifeToken.Salmon, 30);
         remainingTokens.put(WildlifeToken.Hawk, 30);
         remainingTokens.put(WildlifeToken.Fox, 30);
         

@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +30,11 @@ public class Scoring {
 	private static void scoreCardScoring() {
 		for (Player p : players) {
 			ScoringBear.scoreBear(p, cards[0]);
-			ScoringElk.scoreElk(p, cards[1]);
-//			ScoringSalmon.scoreSalmon(p, cards[2]);
+//			ScoringElk.scoreElk(p, cards[1]);
+			int elkScore = ScoringElk.scoreElk(p.getMap(), cards[1]);
+			p.addToTotalPlayerScore(elkScore);
+			System.out.println(p.getPlayerName() + " Elk Score: " + elkScore); //for testing
+//			cascadia.ScoringSalmon.scoreSalmon(p, cards[2]);
 			int salmonScore = ScoringSalmon.scoreSalmon(p.getMap(), cards[2]);
 			p.addToTotalPlayerScore(salmonScore);
 			System.out.println(p.getPlayerName() + " Salmon Score: " + salmonScore); //for testing
@@ -40,7 +45,7 @@ public class Scoring {
 	}
 	
 	/**
-	 * Used in CurrentDeck class, each time a player places a token on their map.
+	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
 	 * That particular Wildlife token type is rescored for that player's whole map.
 	 * Keeps player's wildlife scores updated per turn.
 	 * @see CurrentDeck
@@ -50,7 +55,7 @@ public class Scoring {
 	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
 		switch (token) {
 		case Bear -> player.setPlayerWildlifeScore(WildlifeToken.Bear, ScoringBear.scoreBear(player, cards[0]));
-		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.scoreElk(player, cards[1]));
+		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.scoreElk(player.getMap(), cards[1]));
 		case Salmon -> player.setPlayerWildlifeScore(WildlifeToken.Salmon, ScoringSalmon.scoreSalmon(player.getMap(), cards[2]));
 		case Hawk -> player.setPlayerWildlifeScore(WildlifeToken.Hawk, ScoringHawk.scoreHawk(player, cards[3]));
 		case Fox -> player.setPlayerWildlifeScore(WildlifeToken.Fox, ScoringFox.scoreFox(player, cards[4]));
@@ -184,7 +189,7 @@ public class Scoring {
 
 
 	/**
-	 * Helper function for general Scoring, gets a single tile's adjacent tiles.
+	 * Helper function for general cascadia.Scoring, gets a single tile's adjacent tiles.
 	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
 	 * Missing sides are null.
 	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).

@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +33,8 @@ public class Game {
      */
 
     public Game() { //constructor
-    	  playerNames = Input.getPlayers();  // from Input class
-          Display.printPlayers(playerNames);  // from Display class
+    	  playerNames = Input.getPlayers();  // from cascadia.Input class
+          Display.printPlayers(playerNames);  // from cascadia.Display class
           Display.sleep(500);
 
           ScoreCards.generateScorecards();
@@ -69,7 +71,7 @@ public class Game {
 
                 do {
                     command.setCommand(player);
-//                } while (command.getCommand() != Command.CommandType.PAIR);
+//                } while (command.getCommand() != cascadia.Command.CommandType.PAIR);
                 } while (!switchTurn);
         		// automatically moves to next player if command type is next
         	}

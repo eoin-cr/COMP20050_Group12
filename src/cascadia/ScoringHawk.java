@@ -1,5 +1,6 @@
+package cascadia;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ScoringHawk {
 private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();

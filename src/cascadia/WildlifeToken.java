@@ -1,3 +1,5 @@
+package cascadia;
+
 // Wildlife token doesn't need to store any other information except the animal
 // type. So I've made it just an enum, and removed unnecessary class information
 public enum WildlifeToken {

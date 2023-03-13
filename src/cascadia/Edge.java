@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 
 /** Stores information about the habitat type of a single edge of a tile.

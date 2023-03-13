@@ -1,3 +1,5 @@
+package cascadia;
+
 public class ScoringFox {
 
 	public static int scoreFox(Player player, String foxOption) {

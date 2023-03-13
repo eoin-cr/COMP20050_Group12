@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package cascadia;
 
 /**
  * Stores information about the player, including
