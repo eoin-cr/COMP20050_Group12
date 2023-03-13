@@ -1,4 +1,6 @@
-package cascadia;
+package cascadia.scoring;
+
+import cascadia.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class Scoring {
 	}
 	
 	/**
-	 * Used in CurrentDeck class, each time a player places a token on their map.
+	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
 	 * That particular Wildlife token type is rescored for that player's whole map.
 	 * Keeps player's wildlife scores updated per turn.
 	 * @see CurrentDeck
@@ -189,7 +191,7 @@ public class Scoring {
 
 
 	/**
-	 * Helper function for general Scoring, gets a single tile's adjacent tiles.
+	 * Helper function for general cascadia.scoring.Scoring, gets a single tile's adjacent tiles.
 	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
 	 * Missing sides are null.
 	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).
@@ -238,7 +240,7 @@ public class Scoring {
 			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
 		}
 		
-		HabitatTile adjacentTile = null;
+		HabitatTile adjacentTile;
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
