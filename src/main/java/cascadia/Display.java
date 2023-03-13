@@ -114,7 +114,7 @@ public class Display {
 	 * @param player the player's tile map to be displayed
 	 */
 	public static void displayPlayerTileMap(Player player) {
-		System.out.println("cascadia.Player " + player.getPlayerName() + "'s current map of tiles are: ");
+		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
 		displayTileMap(player.getMap());
 	}
 
