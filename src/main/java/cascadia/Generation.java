@@ -79,7 +79,7 @@ public class Generation {
 		}
 		WildlifeToken[] animalTypes = new WildlifeToken[3];
 		 if (numTokens == 0) {
-			 numTokens = 1 + new Random().nextInt(3);
+			 numTokens = 2 + new Random().nextInt(2);
 		 }
 		for (int i = 0; i < numTokens; i++) {
 
