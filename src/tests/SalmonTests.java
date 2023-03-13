@@ -1,9 +1,6 @@
-package tests;
+package cascadia;
 
-import cascadia.HabitatTile;
-import cascadia.PlayerMap;
-import cascadia.ScoringSalmon;
-import cascadia.WildlifeToken;
+import cascadia.scoring.ScoringSalmon;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
