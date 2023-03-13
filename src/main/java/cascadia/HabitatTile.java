@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -5,7 +7,7 @@ import java.util.Objects;
  * Deals with habitat tiles.
  * Stores information such as the habitats (and their corresponding colour),
  * the tile ID, the edges of the tiles (although managed by the
- * Edge class), and deals with the generation of habitat tiles.
+ * cascadia.Edge class), and deals with the generation of habitat tiles.
  * @see Edge
  */
 public class HabitatTile {
@@ -19,7 +21,7 @@ public class HabitatTile {
 	 * The habitats that a tile can have.
 	 * Stores also the ANSI codes for text and background colours.
 	 */
-    enum Habitat {
+    public enum Habitat {
 		Forest("\033[48;2;84;130;53m"),
 		Wetland("\033[48;2;198;224;180m"),
 		River("\033[44m"),
@@ -78,7 +80,10 @@ public class HabitatTile {
 	 * generated randomly, for testing.
 	 * DO NOT USE THIS FOR WRITING ACTUAL CODE, ONLY FOR TESTS!!!
 	 */
-	protected void setTokenForTesting(WildlifeToken token) {
+	// TODO: Discuss what the best practice for this would be. I feel like it shouldn't
+	//		be public, but I've now moved the tests into their own package so it kinda needs
+	//		to be
+	public void setTokenForTesting(WildlifeToken token) {
 		placedToken = token;
 		isTokenPlaced = true;
 	}

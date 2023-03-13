@@ -1,12 +1,16 @@
+package cascadia.scoring;
+
+import cascadia.HabitatTile;
+import cascadia.PlayerMap;
+import cascadia.WildlifeToken;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ScoringSalmon {
-
-	public static int scoreSalmon(Player p, String salmonOption) {
+	public static int scoreSalmon(PlayerMap map, String salmonOption) {
 		int score;
-		PlayerMap map = p.getMap();
 		switch (salmonOption){
 		case "S1" -> score = salmonScoringOption1(map);
 		case "S2" -> score = salmonScoringOption2(map);

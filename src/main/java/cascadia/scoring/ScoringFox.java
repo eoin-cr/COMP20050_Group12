@@ -1,3 +1,10 @@
+package cascadia.scoring;
+
+import cascadia.HabitatTile;
+import cascadia.Player;
+import cascadia.PlayerMap;
+import cascadia.WildlifeToken;
+
 public class ScoringFox {
 
 	public static int scoreFox(Player player, String foxOption) {

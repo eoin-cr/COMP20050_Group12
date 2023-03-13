@@ -1,11 +1,17 @@
+package cascadia.scoring;
+
+import cascadia.HabitatTile;
+import cascadia.Player;
+import cascadia.PlayerMap;
+import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
 
 public class ScoringBear {
-	private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
 	public static int scoreBear(Player player, String bearOption) {
-		int score = 0;
+		int score;
 		switch (bearOption){
 		case "B1" -> score = bearScoringOption1(player);
 		case "B2" -> score = bearScoringOption2(player);
@@ -62,9 +68,7 @@ public class ScoringBear {
 				visitedTiles.addAll(bearGroup);
 			}
 		} //all triples now found
-		
-		int score = triples*10;
-		return score;
+		return triples*10;
 	}
 	
 	private static int bearScoringOption3(Player player) {

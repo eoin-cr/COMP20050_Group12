@@ -1,3 +1,5 @@
+package cascadia.scoring;
+
 import java.util.Random;
 
 public class ScoreCards {

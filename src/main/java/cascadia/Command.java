@@ -1,3 +1,8 @@
+package cascadia;
+
+import cascadia.scoring.ScoreCards;
+import cascadia.scoring.Scoring;
+
 /**
  * Helps model player state.
  * Deals with interacting with the user on their turn.
@@ -24,7 +29,7 @@ public class Command {
 			CurrentDeck.choosePair(player);
 		}},
 		
-		/** Display the player's map of tiles */
+		/** cascadia.Display the player's map of tiles */
 		MAP ("Enter MAP for your current map of Tiles,")
 				{public void enumSetCommand(Player player){
 				Display.displayPlayerTileMap(player);
@@ -47,7 +52,7 @@ public class Command {
 				}},
 		
 //		/** Moves to next players turn */
-//		NEXT {public void enumSetCommand(Player player){
+//		NEXT {public void enumSetCommand(cascadia.Player player){
 //			return;
 //		}},
 

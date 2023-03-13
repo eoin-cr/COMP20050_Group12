@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+package cascadia;
 
 /**
  * Stores information about the player, including
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Player {
 	private final String playerName;
 	private int playerNatureTokens;
-	private int[] longestCorridorSizes = new int[5];
-	private int[] wildlifeScores = new int[5];
+	private final int[] longestCorridorSizes = new int[5];
+	private final int[] wildlifeScores = new int[5];
 	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score 
 	private int corridorsPlayerScore;
 	private int wildlifePlayerScore;
@@ -95,14 +95,15 @@ public class Player {
 		return longestCorridorSizes;
 	}
 	/**
-	 * Lets you save size of longest habitat corridor a player has on their map in an int array, for each habitat.
+	 * Lets you save size of the longest habitat corridor a player has on
+	 * their map in an int array, for each habitat.
 	 * 	0 stores Forest corridor size.
 	 *	1 stores Wetland corridor size.
 	 *	2 stores River corridor size.
 	 *	3 stores Mountain corridor size.
 	 *	4 stores Prairie corridor size.
-	 * @param index
-	 * @param size
+	 * @param index the index of the habitat corridor to save
+	 * @param size the size to save
 	 */
 	public void setLongestCorridorSize(int index, int size) {
 		longestCorridorSizes[index] = size;

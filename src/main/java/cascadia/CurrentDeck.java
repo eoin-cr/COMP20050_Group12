@@ -1,3 +1,6 @@
+package cascadia;
+
+import cascadia.scoring.Scoring;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class CurrentDeck {
 
 	public static void setStartTileTokenSelection() {
 	    	generateTileTokenPairs(4);
-	    	//Display.displayDeck();
+	    	//cascadia.Display.displayDeck();
 	        Display.sleep(500);
 	}
 
@@ -97,7 +100,7 @@ public class CurrentDeck {
     		deckTiles.add(Generation.generateHabitatTile());
     		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
-//		Display.sleep(800);
+//		cascadia.Display.sleep(800);
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();
