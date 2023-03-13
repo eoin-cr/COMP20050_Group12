@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScoringElk {
+public class x	ScoringElk {
 
 	public static int calculateScore (PlayerMap map, String elkOption) {
 		int score;
@@ -101,7 +101,7 @@ public class ScoringElk {
 
 					for (int j = 1; j < i; j++) {
 						temp[j] = Scoring.getAdjacentTiles(tile, map)[elkShape[j]];
-						if (temp[j].getPlacedToken() != WildlifeToken.Elk || usedTiles.contains(temp[j])) {
+						if (temp[j] ==  null || temp[j].getPlacedToken() != WildlifeToken.Elk || usedTiles.contains(temp[j])) {
 							VaildTiles = false;
 						}
 					}
