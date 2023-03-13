@@ -108,9 +108,11 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			if (t != null && t.getIsTokenPlaced() && t.getPlacedToken() == WildlifeToken.Hawk) { //not a valid hawk
 				visitedTiles.add(t); //both invalid hawk tiles get added to visited tiles
 				visitedTiles.add(hawkTile);
+				System.out.println(hawkTile.getTileID() + " has checkHawk: false");
 				return false;
 			}
 		}
+		System.out.println(hawkTile.getTileID() + " has checkHawk: true");
 		return true;
 	}
 	
@@ -121,13 +123,16 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 		
 		for (int i = 0; i < 6; i++) { //walk through all 6 directions from all sides of the tile
 			HabitatTile nextTile = adjacentTiles[i];
+			if (nextTile != null) System.out.println("tile at side: " +i+ " is: " +nextTile.getTileID());
 			//keep walking along line while not end of map or not interrupted by wildlife or until you hit a hawk
-			while (nextTile != null && nextTile.getIsTokenPlaced() == false) {
+			do {
 				nextTile = Scoring.walkToTileAtSide(nextTile, map, i);
-			}
+				if (nextTile != null) System.out.println("tile at side: " +i+ " is: " +nextTile.getTileID());
+			} while (nextTile != null && nextTile.getIsTokenPlaced() == false);
 			//only make a line of sight that has not already been accounted for, between two valid hawks only
 			if (nextTile != null && nextTile.getIsTokenPlaced() && nextTile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(nextTile) && checkValidHawk(map, nextTile)) {
 				linesOfSight++;
+				System.out.println("lines of sight incremented to " + linesOfSight);
 			}
 		}
 	

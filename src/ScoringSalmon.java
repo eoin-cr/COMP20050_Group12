@@ -4,8 +4,9 @@ import java.util.List;
 
 public class ScoringSalmon {
 
-	public static int scoreSalmon(PlayerMap map, String salmonOption) {
+	public static int scoreSalmon(Player p, String salmonOption) {
 		int score;
+		PlayerMap map = p.getMap();
 		switch (salmonOption){
 		case "S1" -> score = salmonScoringOption1(map);
 		case "S2" -> score = salmonScoringOption2(map);

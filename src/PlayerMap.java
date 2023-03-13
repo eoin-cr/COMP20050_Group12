@@ -190,8 +190,12 @@ public class PlayerMap {
 		return new int[]{-1,-1};
 	}
 	
-	public HabitatTile returnTileAtPositionInMap(int row, int col) {
-		if (tileBoardPosition[row][col] == null) {
+	public HabitatTile returnTileAtPositionInMap (int row, int col) {
+		if (row < 0 || col > 19) {
+			return null;
+		}
+		
+		else if (tileBoardPosition[row][col] == null) {
 			return null;
 		}
 		else {
