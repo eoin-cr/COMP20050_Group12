@@ -70,6 +70,7 @@ public class Player {
 		for (int i : longestCorridorSizes) {
 			sum += i;
 		}
+		corridorsPlayerScore = sum;
 		return sum;
 	}
 	public int calculateWildlifePlayerScore() {
@@ -77,6 +78,7 @@ public class Player {
 		for (int i : wildlifeScores) {
 			sum += i;
 		}
+		wildlifePlayerScore = sum;
 		return sum;
 	}
 	public int getTotalPlayerScore() {

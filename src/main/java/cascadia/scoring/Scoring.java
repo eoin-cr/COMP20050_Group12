@@ -1,4 +1,6 @@
-package cascadia;
+package cascadia.scoring;
+
+import cascadia.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,7 @@ public class Scoring {
 			int elkScore = ScoringElk.scoreElk(p.getMap(), cards[1]);
 			p.addToTotalPlayerScore(elkScore);
 			System.out.println(p.getPlayerName() + " Elk Score: " + elkScore); //for testing
-//			cascadia.ScoringSalmon.scoreSalmon(p, cards[2]);
+//			cascadia.scoring.ScoringSalmon.scoreSalmon(p, cards[2]);
 			int salmonScore = ScoringSalmon.scoreSalmon(p.getMap(), cards[2]);
 			p.addToTotalPlayerScore(salmonScore);
 			System.out.println(p.getPlayerName() + " Salmon Score: " + salmonScore); //for testing
@@ -189,7 +191,7 @@ public class Scoring {
 
 
 	/**
-	 * Helper function for general cascadia.Scoring, gets a single tile's adjacent tiles.
+	 * Helper function for general cascadia.scoring.Scoring, gets a single tile's adjacent tiles.
 	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
 	 * Missing sides are null.
 	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).
@@ -212,67 +214,22 @@ public class Scoring {
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
-		//edge cases
-		if (row == 0 && col == 0) { //missing sides 3,4,5,0 - top left on map
-			adjacentTiles[1] = map.returnTileAtPositionInMap(0, 1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(1, 0);
-		}
-		else if (row == 0 && col > 0 && col < 19) { //missing sides 5,0
-			adjacentTiles[1] = map.returnTileAtPositionInMap(0, col+1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(1, col+1);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(1, col);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(0, col-1);
-		}
-		else if (row == 0 && col == 19) { //missing sides 5,0,1 - top right on map
-			adjacentTiles[2] = map.returnTileAtPositionInMap(1, 19);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(1, 18);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(0, 18);
-		}
-		else if (col == 0 && row > 0 && row < 19) { //alternating, missing side 4 or sides 3,4,5
-			if (row%2 != 0) { //odd rows, missing side 4
-				adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, 1);
-				adjacentTiles[1] = map.returnTileAtPositionInMap(row, 1);
-				adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, 1);
-				adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, 0);
-				adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, 0);
-			}
-			else { //even rows, missing sides 3,4,5
-				adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, 0);
-				adjacentTiles[1] = map.returnTileAtPositionInMap(row, 1);
-				adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, 0);
-			}
-		}
-		else if (col == 0 && row == 19) { //missing sides 2,3,4 - bottom left on map
-			adjacentTiles[5] = map.returnTileAtPositionInMap(18, 0);
-			adjacentTiles[0] = map.returnTileAtPositionInMap(18, 1);
-			adjacentTiles[1] = map.returnTileAtPositionInMap(19, 1);
-		}
-		else if (col == 19 && row > 0 && row < 19) { //alternating, missing sides 0,1,2 or side 1
-			if (row%2 != 0) { //odd rows, missing sides 0,1,2
-				adjacentTiles[3] = map.returnTileAtPositionInMap(1, col);
-				adjacentTiles[4] = map.returnTileAtPositionInMap(0, col-1);
-				adjacentTiles[5] = map.returnTileAtPositionInMap(0, col-1);
-			}
-			else { //even rows, missing side 1
-				adjacentTiles[0] = map.returnTileAtPositionInMap(0, col+1);
-				adjacentTiles[2] = map.returnTileAtPositionInMap(1, col+1);
-				adjacentTiles[3] = map.returnTileAtPositionInMap(1, col);
-				adjacentTiles[4] = map.returnTileAtPositionInMap(0, col-1);
-				adjacentTiles[5] = map.returnTileAtPositionInMap(0, col-1);
-				
-			}
-		}
-		else if (col == 19 && row == 19) { //missing sides 0,1,2,3 - bottom right on map
-			adjacentTiles[4] = map.returnTileAtPositionInMap(19, 18);
-			adjacentTiles[5] = map.returnTileAtPositionInMap(18, 19);
-		}
-		else { //non edge case, no missing sides, in the middle of the map
+		if (row % 2 == 0) {
 			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col+1);
 			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
 			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col+1);
 			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col);
 			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
 			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
+					
+		}
+		else if (row % 2 != 0) {
+			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
+			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
+			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
+			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col-1);
+			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
+			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col-1);
 		}
 		
 		return adjacentTiles;
@@ -287,88 +244,7 @@ public class Scoring {
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
-		//edge cases
-		if (row == 0 && col == 0) { //missing sides 3,4,5,0 - top left on map
-			switch (edgeNum) {
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(0, 1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, 0);
-			default -> adjacentTile = null;
-			}
-		}
-		else if (row == 0 && col > 0 && col < 19) { //missing sides 5,0
-			switch (edgeNum) {
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(0, col+1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, col+1);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
-			default -> adjacentTile = null;
-			}
-		}
-		else if (row == 0 && col == 19) { //missing sides 5,0,1 - top right on map
-			switch (edgeNum) {
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, 19);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, 18);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, 18);
-			default -> adjacentTile = null;
-			}
-		}
-		else if (col == 0 && row > 0 && row < 19) { //alternating, missing side 4 or sides 3,4,5
-			if (row%2 != 0) { //odd rows, missing side 4
-				switch (edgeNum) {
-				case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 1);
-				case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, 1);
-				case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 1);
-				case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 0);
-				case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 0);
-				default -> adjacentTile = null;
-				}
-			}
-			else { //even rows, missing sides 3,4,5
-				switch (edgeNum) {
-				case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, 0);
-				case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, 1);
-				case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, 0);
-				default -> adjacentTile = null;
-				}
-			}
-		}
-		else if (col == 0 && row == 19) { //missing sides 2,3,4 - bottom left on map
-			switch (edgeNum) {
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(18, 0);
-			case 0 -> adjacentTile = map.returnTileAtPositionInMap(18, 1);
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(19, 1);
-			default -> adjacentTile = null;
-			}
-		}
-		else if (col == 19 && row > 0 && row < 19) { //alternating, missing sides 0,1,2 or side 1
-			if (row%2 != 0) { //odd rows, missing sides 0,1,2
-				switch (edgeNum) {
-				case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
-				case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
-				case 5 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
-				default -> adjacentTile = null;
-				}
-			}
-			else { //even rows, missing side 1
-				switch (edgeNum) {
-				case 0 -> adjacentTile = map.returnTileAtPositionInMap(0, col+1);
-				case 2 -> adjacentTile = map.returnTileAtPositionInMap(1, col+1);
-				case 3 -> adjacentTile = map.returnTileAtPositionInMap(1, col);
-				case 4 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
-				case 5 -> adjacentTile = map.returnTileAtPositionInMap(0, col-1);
-				default -> adjacentTile = null;
-				}
-				
-			}
-		}
-		else if (col == 19 && row == 19) { //missing sides 0,1,2,3 - bottom right on map
-			switch (edgeNum) {
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(19, 18);
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(18, 19);
-			default -> adjacentTile = null;
-			}
-		}
-		else { //non edge case, no missing sides, in the middle of the map
+		if (row %2 == 0) { //non edge case, no missing sides, in the middle of the map
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
@@ -378,6 +254,18 @@ public class Scoring {
 			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
 			default -> adjacentTile = null;
 			}
+		}
+		else if (row % 2 != 0) {
+			switch (edgeNum) {
+			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
+			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
+			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
+			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col-1);
+			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
+			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col-1);
+			default -> adjacentTile = null;
+			}
+			
 		}
 		
 		return adjacentTile;

@@ -1,5 +1,8 @@
 package cascadia;
 
+import cascadia.scoring.ScoreCards;
+import cascadia.scoring.Scoring;
+
 /**
  * Helps model player state.
  * Deals with interacting with the user on their turn.

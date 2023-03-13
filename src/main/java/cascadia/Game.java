@@ -1,5 +1,7 @@
 package cascadia;
 
+import cascadia.scoring.ScoreCards;
+
 import java.util.ArrayList;
 import java.util.List;
 
