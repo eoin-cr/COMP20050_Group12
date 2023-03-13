@@ -1,5 +1,6 @@
-package main.java.cascadia;
+package test.java.cascadia;
 
+import main.java.cascadia.*;
 import main.java.cascadia.scoring.ScoringSalmon;
 import org.junit.Test;
 import java.util.ArrayList;
