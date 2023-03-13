@@ -2,20 +2,26 @@ package test.java.cascadia;
 
 import main.java.cascadia.*;
 import main.java.cascadia.scoring.ScoringElk;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 //import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.Assert.*;
 
 public class ScoringElkTest {
+    private PlayerMap map;
+
+    @Before
+    public void generateMap() {
+        map = new PlayerMap();
+        map.clearTileBoard();
+    }
     private static HabitatTile newElkTile() {
         return ScoringSalmonTest.newTile(WildlifeToken.Elk);
     }
 
     @Test
     public void testElk1Horizontal() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 9, 7);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 2);
         map.addTileToMap(newElkTile(), 9, 8);
@@ -26,11 +32,8 @@ public class ScoringElkTest {
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 13);
     }
 
-    // TODO: check if completely vertical lines are valid scoring
     @Test
     public void testElk1Vertical() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 9, 9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 2);
         map.addTileToMap(newElkTile(), 10, 9);
@@ -43,8 +46,6 @@ public class ScoringElkTest {
 
     @Test
     public void testElk1Diagonal1() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 9, 9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 2);
         map.addTileToMap(newElkTile(), 10, 9);
@@ -57,8 +58,6 @@ public class ScoringElkTest {
 
     @Test
     public void testElk1Diagonal2() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 9, 12);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 2);
         map.addTileToMap(newElkTile(), 10, 11);
@@ -73,8 +72,6 @@ public class ScoringElkTest {
     }
     @Test
     public void testElk1Both() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 8, 8);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 2);
         map.addTileToMap(newElkTile(), 9, 8);
@@ -100,8 +97,6 @@ public class ScoringElkTest {
     @Test
     @Ignore // ignoring for now as this is the most complicated of the elk scoring A methods
     public void testElk1Intersect() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 8, 8);
         map.addTileToMap(newElkTile(), 9, 8);
         map.addTileToMap(newElkTile(), 9, 9);
@@ -124,8 +119,6 @@ public class ScoringElkTest {
 
     @Test
     public void testElk2() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 8,8);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 2);
         map.addTileToMap(newElkTile(), 8,9);
@@ -175,9 +168,8 @@ public class ScoringElkTest {
 
     @Test
     public void testElk3Basics() {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newElkTile(), 8, 8);
+        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 2);
         map.addTileToMap(newElkTile(), 8,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 5);

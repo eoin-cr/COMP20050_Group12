@@ -26,18 +26,6 @@ public class ScoringElk {
 		return option.score(map);
 	}
 
-//	public static int calculateScore (PlayerMap map, String elkOption) {
-//		int score;
-//		switch (elkOption){
-//		case "E1" -> score = elkScoringOption1(map);
-//		case "E2" -> score = elkScoringOption2(map);
-//		case "E3" -> score = elkScoringOption3(map);
-//		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
-//		}
-//		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
-//		return score;
-//	}
-
 	//treats line > 4 the same as 4
 	private static int elkScoringOption1(PlayerMap map) {
 
