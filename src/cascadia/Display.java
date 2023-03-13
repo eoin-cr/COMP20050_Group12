@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.Objects;
 
 /**
@@ -50,7 +52,7 @@ public class Display {
 	 *
 	 * @param playerNames a String array of player names
 	 */
-	public static void printPlayers(String[] playerNames) { // used in Game class
+	public static void printPlayers(String[] playerNames) { // used in cascadia.Game class
     	System.out.println();
         System.out.println("The player list is:");
     
@@ -112,7 +114,7 @@ public class Display {
 	 * @param player the player's tile map to be displayed
 	 */
 	public static void displayPlayerTileMap(Player player) {
-		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
+		System.out.println("cascadia.Player " + player.getPlayerName() + "'s current map of tiles are: ");
 		displayTileMap(player.getMap());
 	}
 

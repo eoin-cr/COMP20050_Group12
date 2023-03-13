@@ -1,3 +1,5 @@
+package cascadia;
+
 public class Main {
     public static void main(String[] args) {
         Display.welcome();  // prints giant cascadia welcome message

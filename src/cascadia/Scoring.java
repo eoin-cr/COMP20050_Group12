@@ -1,3 +1,5 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +29,18 @@ public class Scoring {
 
 	private static void scoreCardScoring() {
 		for (Player p : players) {
-			scorePlayerTokenPlacement(p, WildlifeToken.Bear);
-			scorePlayerTokenPlacement(p, WildlifeToken.Elk);
-			scorePlayerTokenPlacement(p, WildlifeToken.Salmon);
-			scorePlayerTokenPlacement(p, WildlifeToken.Hawk);
-			scorePlayerTokenPlacement(p, WildlifeToken.Fox);
-			p.addToTotalPlayerScore(p.calculateWildlifePlayerScore());
+			ScoringBear.scoreBear(p, cards[0]);
+//			ScoringElk.scoreElk(p, cards[1]);
+			int elkScore = ScoringElk.scoreElk(p.getMap(), cards[1]);
+			p.addToTotalPlayerScore(elkScore);
+			System.out.println(p.getPlayerName() + " Elk Score: " + elkScore); //for testing
+//			ScoringSalmon.scoreSalmon(p, cards[2]);
+			int salmonScore = ScoringSalmon.scoreSalmon(p.getMap(), cards[2]);
+			p.addToTotalPlayerScore(salmonScore);
+			System.out.println(p.getPlayerName() + " Salmon Score: " + salmonScore); //for testing
+			ScoringHawk.scoreHawk(p, cards[3]);
+			ScoringFox.scoreFox(p, cards[4]);
+			System.out.println();
 		}
 	}
 	
@@ -47,8 +55,8 @@ public class Scoring {
 	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
 		switch (token) {
 		case Bear -> player.setPlayerWildlifeScore(WildlifeToken.Bear, ScoringBear.scoreBear(player, cards[0]));
-		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.scoreElk(player, cards[1]));
-		case Salmon -> player.setPlayerWildlifeScore(WildlifeToken.Salmon, ScoringSalmon.scoreSalmon(player, cards[2]));
+		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.scoreElk(player.getMap(), cards[1]));
+		case Salmon -> player.setPlayerWildlifeScore(WildlifeToken.Salmon, ScoringSalmon.scoreSalmon(player.getMap(), cards[2]));
 		case Hawk -> player.setPlayerWildlifeScore(WildlifeToken.Hawk, ScoringHawk.scoreHawk(player, cards[3]));
 		case Fox -> player.setPlayerWildlifeScore(WildlifeToken.Fox, ScoringFox.scoreFox(player, cards[4]));
 		default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
@@ -211,7 +219,7 @@ public class Scoring {
 			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col);
 			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
 			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
-					
+
 		}
 		else if (row % 2 != 0) {
 			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
@@ -255,9 +263,9 @@ public class Scoring {
 			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col-1);
 			default -> adjacentTile = null;
 			}
-			
+
 		}
-		
+
 		return adjacentTile;
 	}
 	

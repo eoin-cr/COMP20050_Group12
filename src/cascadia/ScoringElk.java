@@ -1,15 +1,17 @@
+package cascadia;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class ScoringElk {
 
-	public static int scoreElk(Player player, String elkOption) {
+	public static int scoreElk(PlayerMap map, String elkOption) {
 		int score;
 		switch (elkOption){
-		case "E1" -> score = elkScoringOption1(player);
-		case "E2" -> score = elkScoringOption2(player);
-		case "E3" -> score = elkScoringOption3(player);
+		case "E1" -> score = elkScoringOption1(map);
+		case "E2" -> score = elkScoringOption2(map);
+		case "E3" -> score = elkScoringOption3(map);
 		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
 		}
 		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
@@ -17,11 +19,10 @@ public class ScoringElk {
 	}
 
 	//treats line > 4 the same as 4
-	private static int elkScoringOption1(Player player) {
+	private static int elkScoringOption1(PlayerMap map) {
 
 		int score = 0;
 		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
-		PlayerMap map = player.getMap();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Elk && !usedTiles.contains(tile)) {
@@ -62,8 +63,7 @@ public class ScoringElk {
 		return score;
 	}
 
-	private static int elkScoringOption2(Player player) {
-		PlayerMap map = player.getMap();
+	private static int elkScoringOption2(PlayerMap map) {
 		ArrayList<HabitatTile> elkGroup = new ArrayList<>();
 		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
 		int score = 0;
@@ -81,8 +81,7 @@ public class ScoringElk {
 		return score;
 	}
 	
-	private static int elkScoringOption3(Player player) {
-		PlayerMap map = player.getMap();
+	private static int elkScoringOption3(PlayerMap map) {
 		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
 		int score = 0;
 		int[] elkShape = {1,0,2};
