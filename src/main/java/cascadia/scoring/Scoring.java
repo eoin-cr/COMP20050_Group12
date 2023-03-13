@@ -31,36 +31,19 @@ public class Scoring {
 
 	private static void scoreCardScoring() {
 		for (Player p : players) {
-			int score = ScoringBear.calculateScore(p.getMap(), cards[0]);
-			p.addToTotalPlayerScore(score);
-			System.out.println(p.getPlayerName() + " Bear Score: " + score);
-
-			score = ScoringElk.calculateScore(p.getMap(), cards[1]);
-			p.addToTotalPlayerScore(score);
-			System.out.println(p.getPlayerName() + " Elk Score: " + score);
-
-			score = ScoringSalmon.calculateScore(p.getMap(), cards[2]);
-			p.addToTotalPlayerScore(score);
-			System.out.println(p.getPlayerName() + " Salmon Score: " + score);
-
-			score = ScoringHawk.calculateScore(p.getMap(), cards[3]);
-			p.addToTotalPlayerScore(score);
-			System.out.println(p.getPlayerName() + " Hawk Score: " + score);
-
-			score = ScoringFox.calculateScore(p.getMap(), cards[4]);
-			p.addToTotalPlayerScore(score);
-			System.out.println(p.getPlayerName() + " Fox Score: " + score);
-
+			scoreTokenAndAdd(ScoringBear.calculateScore(p.getMap(), ScoringBear.Option.valueOf(cards[0])), p, "Bear");
+			scoreTokenAndAdd(ScoringElk.calculateScore(p.getMap(), ScoringElk.Option.valueOf(cards[1])), p, "Elk");
+			scoreTokenAndAdd(ScoringSalmon.calculateScore(p.getMap(), ScoringSalmon.Option.valueOf(cards[2])), p, "Salmon");
+			scoreTokenAndAdd(ScoringHawk.calculateScore(p.getMap(), ScoringHawk.Option.valueOf(cards[3])), p, "Hawk");
+			scoreTokenAndAdd(ScoringFox.calculateScore(p.getMap(), ScoringFox.Option.valueOf(cards[4])), p, "Fox");
 			System.out.println();
 		}
 	}
 
-//	private static void scoreTokenAndAddToPlayer(Player p, ScoreToken token, int index) {
-//			int score = token.calculateScore(p.getMap(), cards[index]);
-//			p.addToTotalPlayerScore(score);
-//			System.out.println(p.getPlayerName() + " " + token.toString() + " Score: " + score);
-//	}
-
+	private static void scoreTokenAndAdd(int score, Player p, String name) {
+		p.addToTotalPlayerScore(score);
+		System.out.println(p.getPlayerName() + " " + name + " Score: " + score);
+	}
 
 	// Will just be using end scoring for now to simplify things
 //	/**
@@ -212,7 +195,7 @@ public class Scoring {
 	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
 	 * Missing sides are null.
 	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).
-	 * @return Array of tiles
+	 * @return Array of 5 tiles
 	 */
 
 //	  Total 6 sides, like in the diagram below
@@ -292,9 +275,6 @@ public class Scoring {
 	 * Helper function that walks in a direction along the map, as specified by an edge number. 
 	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
 	 * until the end of the map is reached.
-	 * @param tile
-	 * @param map
-	 * @param edgeNum
 	 * @return next tile walked to
 	 */
 	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {

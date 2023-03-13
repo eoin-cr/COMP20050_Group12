@@ -8,18 +8,23 @@ import java.util.ArrayList;
 
 public class ScoringHawk {
 private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
-	
-	public static int calculateScore(PlayerMap map, String hawkOption) {
-		int score;
-		switch (hawkOption){
-		case "H1" -> score = hawkScoringOption1(map);
-		case "H2" -> score = hawkScoringOption2(map);
-		case "H3" -> score = hawkScoringOption3(map);
-		default -> throw new IllegalArgumentException("Unexpected value: " + hawkOption);
-		}
-		return score;
+	public enum Option {
+		H1 {public int score(PlayerMap map){
+			return hawkScoringOption1(map);
+		}},
+		H2 {public int score(PlayerMap map) {
+			return hawkScoringOption2(map);
+		}},
+		H3 {public int score(PlayerMap map) {
+			return hawkScoringOption3(map);
+		}};
+		public abstract int score(PlayerMap map);
 	}
-	
+
+	public static int calculateScore(PlayerMap map, Option option) {
+		return option.score(map);
+	}
+
 	//scores for individual hawks on map
 	private static int hawkScoringOption1(PlayerMap map) {
 		int hawkCount = 0;

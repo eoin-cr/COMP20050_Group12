@@ -5,19 +5,23 @@ import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
 public class ScoringFox {
-
-	public static int calculateScore(PlayerMap map, String foxOption) {
-		int score;
-		switch (foxOption){
-		case "F1" -> score = foxScoringOption1(map);
-		case "F2" -> score = foxScoringOption2(map);
-		case "F3" -> score = foxScoringOption3(map);
-		default -> throw new IllegalArgumentException("Unexpected value: " + foxOption);
-		}
-		//System.out.println(player.getPlayerName() + " Fox Score: " + score); //for testing
-		return score;
+	public enum Option {
+		F1 {public int score(PlayerMap map){
+			return foxScoringOption1(map);
+		}},
+		F2 {public int score(PlayerMap map) {
+			return foxScoringOption2(map);
+		}},
+		F3 {public int score(PlayerMap map) {
+			return foxScoringOption3(map);
+		}};
+		public abstract int score(PlayerMap map);
 	}
-	
+
+	public static int calculateScore(PlayerMap map, Option option) {
+		return option.score(map);
+	}
+
 	private static int foxScoringOption1(PlayerMap map) {
 		int score = 0;
 		for (HabitatTile tile : map.getTilesInMap()) {

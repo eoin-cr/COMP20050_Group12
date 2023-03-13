@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    SalmonTests.class,
-    ElkTests.class
+    ScoringSalmonTest.class,
+    ScoringElkTest.class
 })
 
 public class ScoringTestSuite {

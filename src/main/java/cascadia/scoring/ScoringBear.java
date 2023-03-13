@@ -8,16 +8,22 @@ import java.util.ArrayList;
 
 public class ScoringBear {
 	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+//	enum BearOptions{B1, B2, B3}
+	public enum Option {
+		B1 {public int score(PlayerMap map){
+			return bearScoringOption1(map);
+		}},
+		B2 {public int score(PlayerMap map) {
+			return bearScoringOption2(map);
+		}},
+		B3 {public int score(PlayerMap map) {
+			return bearScoringOption3(map);
+		}};
+		public abstract int score(PlayerMap map);
+	}
 
-	public static int calculateScore(PlayerMap map, String option) {
-		int score;
-		switch (option){
-		case "B1" -> score = bearScoringOption1(map);
-		case "B2" -> score = bearScoringOption2(map);
-		case "B3" -> score = bearScoringOption3(map);
-		default -> throw new IllegalArgumentException("Unexpected value: " + option);
-		}
-		return score;
+	public static int calculateScore(PlayerMap map, Option option) {
+		return option.score(map);
 	}
 
 	private static int bearScoringOption1(PlayerMap map) {

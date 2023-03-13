@@ -8,7 +8,7 @@ import java.util.List;
 //import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.Assert.*;
 
-public class SalmonTests {
+public class ScoringSalmonTest {
     protected static HabitatTile newTile(WildlifeToken token) {
         HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1);
         tile.setTokenForTesting(token);
@@ -17,7 +17,7 @@ public class SalmonTests {
 
     // we can use this as the scoring for salmon works the same for all the options,
     // there's just different numbers for runs
-    private void generalValidRunTests(List<Integer> expectedScores, String option) {
+    private void generalValidRunTests(List<Integer> expectedScores, ScoringSalmon.Option option) {
         PlayerMap map = new PlayerMap();
         map.clearTileBoard();
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
@@ -42,7 +42,7 @@ public class SalmonTests {
 
     // These runs should get invalidated as we can't have more than 2 salmon tiles touching
     // any one tile in a valid run
-    private void generalInvalidRunTests(String option) {
+    private void generalInvalidRunTests(ScoringSalmon.Option option) {
         PlayerMap map = new PlayerMap();
         map.clearTileBoard();
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
@@ -67,35 +67,35 @@ public class SalmonTests {
     public void testSalmon1ValidRuns() {
         List<Integer> scores = new ArrayList<>();
         Collections.addAll(scores, 2,4,7,11,15);
-        generalValidRunTests(scores, "S1");
+        generalValidRunTests(scores, ScoringSalmon.Option.S1);
     }
 
     @Test
     public void testSalmon1InvalidRuns() {
-        generalInvalidRunTests("S1");
+        generalInvalidRunTests(ScoringSalmon.Option.S1);
     }
 
     @Test
     public void testSalmon2ValidRuns() {
         List<Integer> scores = new ArrayList<>();
         Collections.addAll(scores, 2,4,8,12,12);
-        generalValidRunTests(scores, "S2");
+        generalValidRunTests(scores, ScoringSalmon.Option.S2);
     }
 
     @Test
     public void testSalmon2InvalidRuns() {
-        generalInvalidRunTests("S2");
+        generalInvalidRunTests(ScoringSalmon.Option.S2);
     }
 
     @Test
     public void testSalmon3ValidRuns() {
         List<Integer> scores = new ArrayList<>();
         Collections.addAll(scores, 2,4,9,11,17);
-        generalValidRunTests(scores, "S3");
+        generalValidRunTests(scores, ScoringSalmon.Option.S3);
     }
 
     @Test
     public void testSalmon3InvalidRuns() {
-        generalInvalidRunTests("S3");
+        generalInvalidRunTests(ScoringSalmon.Option.S3);
     }
 }

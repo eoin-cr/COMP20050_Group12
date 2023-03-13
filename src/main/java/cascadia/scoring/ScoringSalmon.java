@@ -9,15 +9,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class ScoringSalmon {
-	public static int calculateScore(PlayerMap map, String salmonOption) {
-		int score;
-		switch (salmonOption){
-		case "S1" -> score = salmonScoringOption1(map);
-		case "S2" -> score = salmonScoringOption2(map);
-		case "S3" -> score = salmonScoringOption3(map);
-		default -> throw new IllegalArgumentException("Unexpected value: " + salmonOption);
-		}
-		return score;
+	public enum Option {
+		S1 {public int score(PlayerMap map){
+				return salmonScoringOption1(map);
+		}},
+		S2 {public int score(PlayerMap map) {
+			return salmonScoringOption2(map);
+		}},
+		S3 {public int score(PlayerMap map) {
+			return salmonScoringOption3(map);
+		}};
+		public abstract int score(PlayerMap map);
+	}
+	public static int calculateScore(PlayerMap map, Option option) {
+		return option.score(map);
 	}
 
 	private static int salmonScorer(PlayerMap map, int maxRun, List<Integer> scores) {

@@ -80,9 +80,6 @@ public class HabitatTile {
 	 * generated randomly, for testing.
 	 * DO NOT USE THIS FOR WRITING ACTUAL CODE, ONLY FOR TESTS!!!
 	 */
-	// TODO: Discuss what the best practice for this would be. I feel like it shouldn't
-	//		be public, but I've now moved the tests into their own package so it kinda needs
-	//		to be
 	public void setTokenForTesting(WildlifeToken token) {
 		placedToken = token;
 		isTokenPlaced = true;

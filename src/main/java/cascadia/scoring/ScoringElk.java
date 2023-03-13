@@ -8,19 +8,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class x	ScoringElk {
+public class ScoringElk {
 
-	public static int calculateScore (PlayerMap map, String elkOption) {
-		int score;
-		switch (elkOption){
-		case "E1" -> score = elkScoringOption1(map);
-		case "E2" -> score = elkScoringOption2(map);
-		case "E3" -> score = elkScoringOption3(map);
-		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
-		}
-		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
-		return score;
+	public enum Option {
+		E1 {public int score(PlayerMap map){
+			return elkScoringOption1(map);
+		}},
+		E2 {public int score(PlayerMap map) {
+			return elkScoringOption2(map);
+		}},
+		E3 {public int score(PlayerMap map) {
+			return elkScoringOption3(map);
+		}};
+		public abstract int score(PlayerMap map);
 	}
+	public static int calculateScore(PlayerMap map, Option option) {
+		return option.score(map);
+	}
+
+//	public static int calculateScore (PlayerMap map, String elkOption) {
+//		int score;
+//		switch (elkOption){
+//		case "E1" -> score = elkScoringOption1(map);
+//		case "E2" -> score = elkScoringOption2(map);
+//		case "E3" -> score = elkScoringOption3(map);
+//		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
+//		}
+//		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
+//		return score;
+//	}
 
 	//treats line > 4 the same as 4
 	private static int elkScoringOption1(PlayerMap map) {
@@ -97,16 +113,17 @@ public class x	ScoringElk {
 
 					HabitatTile[] temp = new HabitatTile[4];
 					temp[0] = tile;
-					boolean VaildTiles = true;
+					boolean validTiles = true;
 
 					for (int j = 1; j < i; j++) {
 						temp[j] = Scoring.getAdjacentTiles(tile, map)[elkShape[j]];
-						if (temp[j] ==  null || temp[j].getPlacedToken() != WildlifeToken.Elk || usedTiles.contains(temp[j])) {
-							VaildTiles = false;
+						if (temp[j] == null || temp[j].getPlacedToken() != WildlifeToken.Elk
+								|| usedTiles.contains(temp[j])) {
+							validTiles = false;
 						}
 					}
 
-					if (VaildTiles) {
+					if (validTiles) {
 						score += points[i];
 						usedTiles.addAll(Arrays.stream(temp).toList());
 					}
