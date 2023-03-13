@@ -115,7 +115,7 @@ public class ScoringElk {
 					temp[0] = tile;
 					boolean validTiles = true;
 
-					for (int j = 1; j < i; j++) {
+					for (int j = 1; j < i && j < 3; j++) {
 						temp[j] = Scoring.getAdjacentTiles(tile, map)[elkShape[j]];
 						if (temp[j] == null || temp[j].getPlacedToken() != WildlifeToken.Elk
 								|| usedTiles.contains(temp[j])) {
