@@ -98,7 +98,7 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 				
 				if (validHawk) { //check lines of sight now for a valid hawk
 					linesOfSight += getLinesOfSight(map, tile);
-					System.out.println(linesOfSight);
+					//System.out.println(linesOfSight);
 					visitedTiles.add(tile); //already accounted for all its lines of sight
 				}
 			}
