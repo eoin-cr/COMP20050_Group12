@@ -8,10 +8,10 @@ import cascadia.WildlifeToken;
 import java.util.ArrayList;
 
 public class ScoringHawk {
-private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
 	public static int scoreHawk(Player player, String hawkOption) {
-		int score = 0;
+		int score;
 		switch (hawkOption){
 		case "H1" -> score = hawkScoringOption1(player);
 		case "H2" -> score = hawkScoringOption2(player);
@@ -27,7 +27,8 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	private static int hawkScoringOption1(Player player) {
 		PlayerMap map = player.getMap();
 		int hawkCount = 0;
-		int score = 0;
+		int score;
+		int[] hawkScores = new int[]{0,2,5,8,11,14,18,22,26};
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Hawk) {
@@ -36,19 +37,7 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 				}
 			}
 		}
-		
-		switch (hawkCount){
-			case 0-> score = 0;
-			case 1-> score = 2;
-			case 2-> score = 5;
-			case 3-> score = 8;
-			case 4-> score = 11;
-			case 5-> score = 14;
-			case 6-> score = 18;
-			case 7-> score = 22;
-			default -> score = 26;
-		}
-		
+		score = (hawkCount < 8) ? hawkScores[hawkCount] : hawkScores[8];
 		return score;
 	}
 	
@@ -56,32 +45,12 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	private static int hawkScoringOption2(Player player) {
 		PlayerMap map = player.getMap();
 		int linesOfSight = 0;
-		int score = 0;
-		
-		for (HabitatTile tile : map.getTilesInMap()) {
-			if (tile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(tile)) {
-				boolean validHawk = checkValidHawk(map, tile);
-				
-				if (validHawk) { //check lines of sight now for a valid hawk
-					linesOfSight += getLinesOfSight(map, tile);
-					visitedTiles.add(tile); //already accounted for all its lines of sight
-				}
-			}
-		}
-		
-		switch (linesOfSight) {
-		case 0 -> score = 0;
-		case 1 -> score = 2;
-		case 2 -> score = 5;
-		case 3 -> score = 9;
-		case 4 -> score = 12;
-		case 5 -> score = 16;
-		case 6 -> score = 20;
-		case 7 -> score = 24;
-		case 8 -> score = 28;
-		default -> score = 28; //more than 8
-		}
-		
+		int score;
+		int[] hawkScore = new int[]{0,2,5,9,12,16,20,24,28};
+
+
+		linesOfSight = getMapLinesOfSight(map, linesOfSight);
+		score = linesOfSight < 8 ? hawkScore[linesOfSight] : hawkScore[8];
 		return score;
 	}
 	
@@ -89,24 +58,27 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	private static int hawkScoringOption3(Player player) {
 		PlayerMap map = player.getMap();
 		int linesOfSight = 0;
-		int score = 0;
-		
+		int score;
+
+		linesOfSight = getMapLinesOfSight(map, linesOfSight);
+		score = 3*linesOfSight;
+		return score;
+	}
+
+	private static int getMapLinesOfSight(PlayerMap map, int linesOfSight) {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(tile)) {
 				boolean validHawk = checkValidHawk(map, tile);
-				
+
 				if (validHawk) { //check lines of sight now for a valid hawk
 					linesOfSight += getLinesOfSight(map, tile);
 					visitedTiles.add(tile); //already accounted for all its lines of sight
 				}
 			}
 		}
-		
-		score = 3*linesOfSight;
-		
-		return score;
+		return linesOfSight;
 	}
-	
+
 	//helper function, only a valid hawk if there are no other adjacent hawks
 	private static boolean checkValidHawk(PlayerMap map, HabitatTile hawkTile) {
 		HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(hawkTile, map);
@@ -134,14 +106,13 @@ private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			do {
 				nextTile = Scoring.walkToTileAtSide(nextTile, map, i);
 				if (nextTile != null) System.out.println("tile at side: " +i+ " is: " +nextTile.getTileID());
-			} while (nextTile != null && nextTile.getIsTokenPlaced() == false);
+			} while (nextTile != null && !nextTile.getIsTokenPlaced());
 			//only make a line of sight that has not already been accounted for, between two valid hawks only
 			if (nextTile != null && nextTile.getIsTokenPlaced() && nextTile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(nextTile) && checkValidHawk(map, nextTile)) {
 				linesOfSight++;
 				System.out.println("lines of sight incremented to " + linesOfSight);
 			}
 		}
-	
 		return linesOfSight;
 	}
 	

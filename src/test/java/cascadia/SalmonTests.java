@@ -1,11 +1,12 @@
 package cascadia;
 
+import cascadia.scoring.ScoringSalmon;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 //import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.*;
 
 public class SalmonTests {
     protected static HabitatTile newTile(WildlifeToken token) {
@@ -22,21 +23,21 @@ public class SalmonTests {
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
 
         // test whether the values for runs of 1, 2, and 3 are correct
-//        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(0));
-//
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 9);
-//        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(1));
-//
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 10);
-//        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(2));
-//
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
-//        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(3));
-//
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 9, 12);
-////        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 12);
-//        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(4));
-//        cascadia.Display.displayTileMap(map);
+        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(0));
+
+        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 9);
+        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(1));
+
+        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 10);
+        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(2));
+
+        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
+        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(3));
+
+        map.addTileToMap(newTile(WildlifeToken.Salmon), 9, 12);
+//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 12);
+        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(4));
+        cascadia.Display.displayTileMap(map);
     }
 
     // These runs should get invalidated as we can't have more than 2 salmon tiles touching
@@ -53,13 +54,13 @@ public class SalmonTests {
         badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 7,8);
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 9,8);
-//        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
-//
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
-//        badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
-//        badMap.addTileToMap(newTile(WildlifeToken.Salmon), 7,9);
-//        badMap.addTileToMap(newTile(WildlifeToken.Salmon), 9,10);
-//        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
+        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
+
+        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
+        badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
+        badMap.addTileToMap(newTile(WildlifeToken.Salmon), 7,9);
+        badMap.addTileToMap(newTile(WildlifeToken.Salmon), 9,10);
+        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
     }
 
     @Test

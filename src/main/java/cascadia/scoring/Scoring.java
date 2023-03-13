@@ -51,8 +51,8 @@ public class Scoring {
 	 * That particular Wildlife token type is rescored for that player's whole map.
 	 * Keeps player's wildlife scores updated per turn.
 	 * @see CurrentDeck
-	 * @param player
-	 * @param token
+	 * @param player the player who's score is to be updated
+	 * @param token the token to be scored
 	 */
 	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
 		switch (token) {
@@ -223,7 +223,7 @@ public class Scoring {
 			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
 					
 		}
-		else if (row % 2 != 0) {
+		else {
 			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
 			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
 			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
@@ -255,7 +255,7 @@ public class Scoring {
 			default -> adjacentTile = null;
 			}
 		}
-		else if (row % 2 != 0) {
+		else {
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
