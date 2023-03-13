@@ -69,7 +69,7 @@ public class NatureTokens {
         List<Integer> chosen = new ArrayList<>();
         while (choice != 0 && numEntered < 4) {
             choice = Input.boundedInt(0, 4, "Enter the number of a token to" +
-                    " remove, or enter 0 to finish inputting");
+                    " remove (1-4), or enter 0 to finish inputting");
             if (choice != 0 && !chosen.contains(choice-1)) {
                 numEntered++;
                 chosen.add(choice-1);

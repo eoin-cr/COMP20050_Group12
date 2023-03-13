@@ -1,26 +1,24 @@
 package cascadia.scoring;
 
 import cascadia.HabitatTile;
-import cascadia.Player;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
 public class ScoringFox {
 
-	public static int scoreFox(Player player, String foxOption) {
+	public static int calculateScore(PlayerMap map, String foxOption) {
 		int score;
 		switch (foxOption){
-		case "F1" -> score = foxScoringOption1(player);
-		case "F2" -> score = foxScoringOption2(player);
-		case "F3" -> score = foxScoringOption3(player);
+		case "F1" -> score = foxScoringOption1(map);
+		case "F2" -> score = foxScoringOption2(map);
+		case "F3" -> score = foxScoringOption3(map);
 		default -> throw new IllegalArgumentException("Unexpected value: " + foxOption);
 		}
 		//System.out.println(player.getPlayerName() + " Fox Score: " + score); //for testing
 		return score;
 	}
 	
-	private static int foxScoringOption1(Player player) {
-		PlayerMap map = player.getMap();
+	private static int foxScoringOption1(PlayerMap map) {
 		int score = 0;
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
@@ -34,8 +32,7 @@ public class ScoringFox {
 		return score;
 	}
 	
-	private static int foxScoringOption2(Player player) {
-		PlayerMap map = player.getMap();
+	private static int foxScoringOption2(PlayerMap map) {
 		int score = 0;
 
 		for (HabitatTile tile : map.getTilesInMap()) {
@@ -52,8 +49,7 @@ public class ScoringFox {
 		return score;
 	}
 	
-	private static int foxScoringOption3(Player player) {
-		PlayerMap map = player.getMap();
+	private static int foxScoringOption3(PlayerMap map) {
 		int score = 0;
 
 		for (HabitatTile tile : map.getTilesInMap()) {

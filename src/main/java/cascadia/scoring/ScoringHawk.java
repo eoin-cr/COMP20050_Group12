@@ -1,7 +1,6 @@
 package cascadia.scoring;
 
 import cascadia.HabitatTile;
-import cascadia.Player;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
@@ -10,22 +9,19 @@ import java.util.ArrayList;
 public class ScoringHawk {
 private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	
-	public static int scoreHawk(Player player, String hawkOption) {
+	public static int calculateScore(PlayerMap map, String hawkOption) {
 		int score;
 		switch (hawkOption){
-		case "H1" -> score = hawkScoringOption1(player);
-		case "H2" -> score = hawkScoringOption2(player);
-		case "H3" -> score = hawkScoringOption3(player);
+		case "H1" -> score = hawkScoringOption1(map);
+		case "H2" -> score = hawkScoringOption2(map);
+		case "H3" -> score = hawkScoringOption3(map);
 		default -> throw new IllegalArgumentException("Unexpected value: " + hawkOption);
 		}
-		System.out.println(player.getPlayerName() + " Hawk Score: " + score); //for testing
-		
 		return score;
 	}
 	
 	//scores for individual hawks on map
-	private static int hawkScoringOption1(Player player) {
-		PlayerMap map = player.getMap();
+	private static int hawkScoringOption1(PlayerMap map) {
 		int hawkCount = 0;
 		int score;
 		int[] hawkScores = new int[]{0,2,5,8,11,14,18,22,26};
@@ -42,8 +38,7 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	}
 	
 	//scores for uninterrupted lines of sight, between individual valid hawks on map without adjacent hawks
-	private static int hawkScoringOption2(Player player) {
-		PlayerMap map = player.getMap();
+	private static int hawkScoringOption2(PlayerMap map) {
 		int linesOfSight = 0;
 		int score;
 		int[] hawkScore = new int[]{0,2,5,9,12,16,20,24,28};
@@ -55,8 +50,7 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	}
 	
 	//scores for uninterrupted lines of sight, between individual valid hawks on map without adjacent hawks
-	private static int hawkScoringOption3(Player player) {
-		PlayerMap map = player.getMap();
+	private static int hawkScoringOption3(PlayerMap map) {
 		int linesOfSight = 0;
 		int score;
 
@@ -86,11 +80,11 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			if (t != null && t.getIsTokenPlaced() && t.getPlacedToken() == WildlifeToken.Hawk) { //not a valid hawk
 				visitedTiles.add(t); //both invalid hawk tiles get added to visited tiles
 				visitedTiles.add(hawkTile);
-				System.out.println(hawkTile.getTileID() + " has checkHawk: false");
+//				System.out.println(hawkTile.getTileID() + " has checkHawk: false");
 				return false;
 			}
 		}
-		System.out.println(hawkTile.getTileID() + " has checkHawk: true");
+//		System.out.println(hawkTile.getTileID() + " has checkHawk: true");
 		return true;
 	}
 	

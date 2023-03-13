@@ -1,6 +1,5 @@
 package cascadia;
 
-import cascadia.scoring.Scoring;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,9 +72,9 @@ public class CurrentDeck {
 				succeeded = true;
 			} else if (result[0] == 1) {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
-				if (succeeded) { //get score change for player for that token type on their map
-					Scoring.scorePlayerTokenPlacement(player, token);
-				}
+//				if (succeeded) { //get score change for player for that token type on their map
+//					Scoring.scorePlayerTokenPlacement(player, token);
+//				}
 			}
 		}
 		deckTokens.remove(tokenChoice);

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ScoringElk {
 
-	public static int scoreElk(PlayerMap map, String elkOption) {
+	public static int calculateScore (PlayerMap map, String elkOption) {
 		int score;
 		switch (elkOption){
 		case "E1" -> score = elkScoringOption1(map);

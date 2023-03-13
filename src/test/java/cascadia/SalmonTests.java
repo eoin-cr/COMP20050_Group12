@@ -23,20 +23,20 @@ public class SalmonTests {
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
 
         // test whether the values for runs of 1, 2, and 3 are correct
-        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(0));
+        assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(0));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 9);
-        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(1));
+        assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(1));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 10);
-        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(2));
+        assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(2));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
-        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(3));
+        assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(3));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 9, 12);
 //        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 12);
-        assertEquals(ScoringSalmon.scoreSalmon(map, option), (int) expectedScores.get(4));
+        assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(4));
 //        cascadia.Display.displayTileMap(map);
     }
 
@@ -54,13 +54,13 @@ public class SalmonTests {
         badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 7,8);
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 9,8);
-        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
+        assertEquals(ScoringSalmon.calculateScore(badMap, option), 0);
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 11);
         badMap.setTileBoard(PlayerMap.deepCopy(map.getTileBoardPosition()));
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 7,9);
         badMap.addTileToMap(newTile(WildlifeToken.Salmon), 9,10);
-        assertEquals(ScoringSalmon.scoreSalmon(badMap, option), 0);
+        assertEquals(ScoringSalmon.calculateScore(badMap, option), 0);
     }
 
     @Test

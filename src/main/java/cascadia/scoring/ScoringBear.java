@@ -1,7 +1,6 @@
 package cascadia.scoring;
 
 import cascadia.HabitatTile;
-import cascadia.Player;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
@@ -9,24 +8,22 @@ import java.util.ArrayList;
 
 public class ScoringBear {
 	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
-	
-	public static int scoreBear(Player player, String bearOption) {
+
+	public static int calculateScore(PlayerMap map, String option) {
 		int score;
-		switch (bearOption){
-		case "B1" -> score = bearScoringOption1(player);
-		case "B2" -> score = bearScoringOption2(player);
-		case "B3" -> score = bearScoringOption3(player);
-		default -> throw new IllegalArgumentException("Unexpected value: " + bearOption);
+		switch (option){
+		case "B1" -> score = bearScoringOption1(map);
+		case "B2" -> score = bearScoringOption2(map);
+		case "B3" -> score = bearScoringOption3(map);
+		default -> throw new IllegalArgumentException("Unexpected value: " + option);
 		}
-		//System.out.println(player.getPlayerName() + " Bear Score: " + score); //for testing
 		return score;
 	}
-	
-	private static int bearScoringOption1(Player player) {
+
+	private static int bearScoringOption1(PlayerMap map) {
 		//score for pairs of bears
 		int pairs = 0;
-		PlayerMap map = player.getMap();
-		
+
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
@@ -52,11 +49,10 @@ public class ScoringBear {
 		return score;
 	}
 	
-	private static int bearScoringOption2(Player player) {
+	private static int bearScoringOption2(PlayerMap map) {
 		//score for each group of 3 bears
 		int triples = 0;
-		PlayerMap map = player.getMap();
-		
+
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
@@ -71,13 +67,12 @@ public class ScoringBear {
 		return triples*10;
 	}
 	
-	private static int bearScoringOption3(Player player) {
+	private static int bearScoringOption3(PlayerMap map) {
 		//score for each group of bears 1-3 in size
 		int singles = 0;
 		int doubles = 0;
 		int triples = 0;
-		PlayerMap map = player.getMap();
-		
+
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
@@ -101,5 +96,4 @@ public class ScoringBear {
 		}
 		return score;
 	}
-
 }

@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ScoringSalmon {
-	public static int scoreSalmon(PlayerMap map, String salmonOption) {
+	public static int calculateScore(PlayerMap map, String salmonOption) {
 		int score;
 		switch (salmonOption){
 		case "S1" -> score = salmonScoringOption1(map);
