@@ -1,4 +1,4 @@
-package cascadia;
+package main.java.cascadia;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,10 +44,7 @@ public class NatureTokens {
         System.out.printf("You have spent a nature token.  You now have %d token%s\n", tokens,
                 tokens == 1 ? "" : "s");
         CurrentDeck.choosePairHelper(player, tileChoice, tokenChoice);
-
-        // we have to tell the game to switch the turn next, as the player will have
-        // placed down tiles on the map
-        Game.switchTurn();
+        // Game.switchTurn();
     }
 
     private static void wipeTokens(Player player) {

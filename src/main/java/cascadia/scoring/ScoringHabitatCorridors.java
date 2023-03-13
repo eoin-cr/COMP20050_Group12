@@ -1,42 +1,41 @@
-package cascadia.scoring;
+package main.java.cascadia.scoring;
 
-import cascadia.HabitatTile;
-import cascadia.Player;
-import cascadia.PlayerMap;
+import main.java.cascadia.HabitatTile;
+import main.java.cascadia.Player;
+import main.java.cascadia.PlayerMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScoringHabitatCorridors {
-	
 	public static void scorePlayerHabitatCorridors(Player player, HabitatTile tile) {
 		//for keystone tile, just check corridors twice
 		HabitatTile.Habitat[] habitats = {tile.getHabitat1(), tile.getHabitat2()};
 		
 		for (HabitatTile.Habitat habitatType : habitats) {
 			switch (habitatType) {
-				case Forest -> {
-					int forestCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Forest).size();
-					player.setLongestCorridorSize(0, forestCorridor);
-				}
-				case Wetland -> {
-					int wetlandCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Wetland).size();
-					player.setLongestCorridorSize(1, wetlandCorridor);
-				}
-				case River -> {
-					int riverCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.River).size();
-					player.setLongestCorridorSize(2, riverCorridor);
-				}
-				case Mountain -> {
-					int mountainCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Mountain).size();
-					player.setLongestCorridorSize(3, mountainCorridor);
-				}
-				case Prairie -> {
-					int prairieCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Prairie).size();
-					player.setLongestCorridorSize(4, prairieCorridor);
-				}
-				default -> {
-				}
+			case Forest:
+				int forestCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Forest).size();
+				player.setLongestCorridorSize(0, forestCorridor);
+				break;
+			case Wetland:
+				int wetlandCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Wetland).size();
+				player.setLongestCorridorSize(1, wetlandCorridor);
+				break;
+			case River:
+				int riverCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.River).size();
+				player.setLongestCorridorSize(2, riverCorridor);
+				break;
+			case Mountain:
+				int mountainCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Mountain).size();
+				player.setLongestCorridorSize(3, mountainCorridor);
+				break;
+			case Prairie:
+				int prairieCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Prairie).size();
+				player.setLongestCorridorSize(4, prairieCorridor);
+				break;
+			default:
+				break;
 			}
 		}
 		

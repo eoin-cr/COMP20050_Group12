@@ -1,9 +1,10 @@
-package cascadia.scoring;
+package main.java.cascadia.scoring;
 
-import cascadia.*;
+import main.java.cascadia.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Scoring {
 //	indexing of cards:
@@ -18,18 +19,8 @@ public class Scoring {
 	
 	public Scoring() {}
 	
-	public static void startScoring() {
-		Display.scoringScreen();
-		ScoringHabitatCorridors.habitatCorridorScoring(players);
-		ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
-		scoreCardScoring();
-		natureTokenScoring();
-		findWinnerAfterScoring();
-	}
 
-	//START OF SCORING FUNCTIONS
-
-	private static void scoreCardScoring() {
+	public static void scoreCardScoring() {
 		for (Player p : players) {
 			scoreTokenAndAdd(ScoringBear.calculateScore(p.getMap(), ScoringBear.Option.valueOf(cards[0])), p, "Bear");
 			scoreTokenAndAdd(ScoringElk.calculateScore(p.getMap(), ScoringElk.Option.valueOf(cards[1])), p, "Elk");
@@ -65,6 +56,7 @@ public class Scoring {
 //		}
 //		System.out.println("The token you placed was of type: " +token.name()+ ". Your current Wildlife score for that type is: " +player.getPlayerWildlifeScore(token));
 //	}
+
 
 	private static void natureTokenScoring() {
 		for (Player p : players) {
@@ -191,11 +183,11 @@ public class Scoring {
 
 
 	/**
-	 * Helper function for general cascadia.scoring.Scoring, gets a single tile's adjacent tiles.
+	 * Helper function for general Scoring, gets a single tile's adjacent tiles.
 	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
 	 * Missing sides are null.
 	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).
-	 * @return Array of 5 tiles
+	 * @return Array of tiles
 	 */
 
 //	  Total 6 sides, like in the diagram below
@@ -221,9 +213,9 @@ public class Scoring {
 			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col);
 			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
 			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
-
+					
 		}
-		else {
+		else if (row % 2 != 0) {
 			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
 			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
 			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
@@ -235,16 +227,23 @@ public class Scoring {
 		return adjacentTiles;
 	}
 	
+	/**
+	 * Walks one tile over on player's map, following a specified edge (ie walks either left/right or diagonally)
+	 * @param tile
+	 * @param map
+	 * @param edgeNum
+	 * @return
+	 */
 	public static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map ,int edgeNum) {
 		if (edgeNum < 0 || edgeNum > 5) {
 			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
 		}
 		
-		HabitatTile adjacentTile;
+		HabitatTile adjacentTile = null;
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
-		if (row %2 == 0) { //non edge case, no missing sides, in the middle of the map
+		if (row % 2 == 0) { //non edge case, no missing sides, in the middle of the map
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
@@ -255,7 +254,7 @@ public class Scoring {
 			default -> adjacentTile = null;
 			}
 		}
-		else {
+		else if (row % 2 != 0) {
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
@@ -265,9 +264,9 @@ public class Scoring {
 			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col-1);
 			default -> adjacentTile = null;
 			}
-
+			
 		}
-
+		//if (adjacentTile != null) System.out.println("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
 		return adjacentTile;
 	}
 	
@@ -275,6 +274,9 @@ public class Scoring {
 	 * Helper function that walks in a direction along the map, as specified by an edge number. 
 	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
 	 * until the end of the map is reached.
+	 * @param tile
+	 * @param map
+	 * @param edgeNum
 	 * @return next tile walked to
 	 */
 	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {

@@ -1,4 +1,4 @@
-package cascadia.scoring;
+package main.java.cascadia.scoring;
 
 import java.util.Random;
 
@@ -210,7 +210,7 @@ public class ScoreCards {
 				
 			case "H1":
 				System.out.println("HAWK SCORECARD 1: \n"
-						+ "Score as below for each hawk that is not adjacent to any other hawk\n.");
+						+ "Score as below for each hawk that is not adjacent to any other hawk.\n");
 				System.out.println("SINGLES ||   POINTS");
 				System.out.println("-------------------");
 				System.out.println("  1     ||      2  ");

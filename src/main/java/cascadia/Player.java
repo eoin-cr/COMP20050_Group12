@@ -1,4 +1,4 @@
-package cascadia;
+package main.java.cascadia;
 
 /**
  * Stores information about the player, including

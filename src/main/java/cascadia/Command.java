@@ -1,7 +1,7 @@
-package cascadia;
+package main.java.cascadia;
 
-import cascadia.scoring.ScoreCards;
-import cascadia.scoring.Scoring;
+import main.java.cascadia.scoring.ScoreCards;
+import main.java.cascadia.scoring.Scoring;
 
 /**
  * Helps model player state.
@@ -58,7 +58,7 @@ public class Command {
 
 		/** Quits the game */
 		QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
-			Scoring.startScoring(); //find winner of game
+			Scoring.scoreCardScoring(); //find winner of game
 			Display.endScreen();
 			System.exit(0);
 		}};

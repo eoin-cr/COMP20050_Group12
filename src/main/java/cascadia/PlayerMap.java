@@ -1,8 +1,8 @@
-package cascadia;
-
+package main.java.cascadia;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
@@ -99,6 +99,7 @@ public class PlayerMap {
 				}
 				if (placed) {
 					tile.setPlacedToken(token);
+					tile.setTokenPlaced();
 					System.out.println("You have successfully placed your token.");
 					Display.displayPlayerTileMap(p);
 					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token

@@ -1,8 +1,8 @@
-package cascadia.scoring;
+package main.java.cascadia.scoring;
 
-import cascadia.HabitatTile;
-import cascadia.PlayerMap;
-import cascadia.WildlifeToken;
+import main.java.cascadia.HabitatTile;
+import main.java.cascadia.PlayerMap;
+import main.java.cascadia.WildlifeToken;
 
 public class ScoringFox {
 	public enum Option {

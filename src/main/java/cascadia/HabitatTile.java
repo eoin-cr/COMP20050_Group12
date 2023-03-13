@@ -1,4 +1,4 @@
-package cascadia;
+package main.java.cascadia;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -127,14 +127,15 @@ public class HabitatTile {
 	public boolean getIsTokenPlaced() {
 		return isTokenPlaced;
 	}
+	public void setTokenPlaced() {
+		isTokenPlaced = true;
+	}
 	public void setPlacedToken(WildlifeToken placedAnimal) {
-		this.placedToken = placedAnimal;
-		this.isTokenPlaced = true;
+		placedToken = placedAnimal;
 	}
 	public WildlifeToken getPlacedToken() {
 		return placedToken;
 	}
-	
 	/**
 	 * Sets whether the tile is a 'fake' tile (i.e. it is a grey tile that
 	 * simply represents the possible places on the map that a tile can be

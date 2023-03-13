@@ -1,5 +1,5 @@
-package cascadia;
-
+package main.java.cascadia;
+import main.java.cascadia.scoring.Scoring;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +17,7 @@ public class CurrentDeck {
 	}
 
 	public static void setStartTileTokenSelection() {
-	    	generateTileTokenPairs(4);
-	    	//cascadia.Display.displayDeck();
+	    	generateTileTokenPairs(4); //also displays deck
 	        Display.sleep(500);
 	}
 
@@ -28,36 +27,53 @@ public class CurrentDeck {
 	 * @param player The player who will be selecting the pair
 	 */
 	public static void choosePair(Player player) {
-		//deal with tile here, place on map after choosing which row/column to place on
+		//choose a tile/token pair from options on deck displayed
 		int choice = Input.chooseFromDeck();
 		choosePairHelper(player, choice, choice);
-		Game.switchTurn();
 	}
 
 	public static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
 		int[] rowAndColumn = Input.chooseTilePlacement(player);
-
-		boolean succeeded = false;
-
-		// displays the different rotation options in order
+		rotateTile(tileChoice);
+		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
+		placeTokenChoiceOnMap(player, tokenChoice);
+		
+		System.out.println("Your turn is now complete.");
+		Display.sleep(300);
+		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
+			generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
+		}
+		
+		Game.switchTurn(); //move to next player
+    }
+	
+	// displays the different rotation options in order, rotates tile choice to that rotation
+	public static void rotateTile(int tileChoice) {
 		String orientationOptions = "";
 		if (!deckTiles.get(tileChoice).isKeystone()) {
 			for (int i = 0; i < 6; i++) {
 				deckTiles.get(tileChoice).rotateTile(1);
-				orientationOptions = Display.removeNewlineAndJoin(
+					orientationOptions = Display.removeNewlineAndJoin(
 						orientationOptions, deckTiles.get(tileChoice).toFormattedString(), "\t\t\t"
-				);
+					);
 			}
 			System.out.println(orientationOptions);
 			// allows the user to select what rotation they want
 			deckTiles.get(tileChoice).rotateTile(-1);
 		}
-    
-		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowAndColumn[0], rowAndColumn[1]);
+	}
+	
+	//places tile choice on map
+	public static void placeTileChoiceOnMap(Player player, int tileChoice, int[] rowcol) {
+		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowcol[0], rowcol[1]);
 		Display.displayPlayerTileMap(player);
-		WildlifeToken token = deckTokens.get(tokenChoice);
 		deckTiles.remove(tileChoice);
-
+	}
+	
+	//places token choice on map
+	public static void placeTokenChoiceOnMap(Player player, int tokenChoice) {
+		WildlifeToken token = deckTokens.get(tokenChoice);
+		boolean succeeded = false;
 		while (!succeeded) {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
@@ -78,12 +94,7 @@ public class CurrentDeck {
 			}
 		}
 		deckTokens.remove(tokenChoice);
-		System.out.println("Your turn is now complete.");
-		Display.sleep(300);
-		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
-			generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
-		}
-    }
+	}
 	
 	 /**
      * Generates the 'community' tile token pairs that users pick from.
@@ -99,7 +110,7 @@ public class CurrentDeck {
     		deckTiles.add(Generation.generateHabitatTile());
     		deckTokens.add(Generation.generateWildlifeToken(true));
     	}
-//		cascadia.Display.sleep(800);
+    	
     	Display.displayDeck();
     	cullCheckFourTokens();
     	cullCheckThreeTokens();

@@ -1,4 +1,4 @@
-package cascadia;
+package main.java.cascadia;
 
 import java.util.Arrays;
 import java.util.Map;
