@@ -232,8 +232,10 @@ public class HabitatTile {
 
 		char[] animal = new char[3];
 		String[] colour = new String[4];
+		String ID_COLOUR;  // the colour of the ID text, so it's always easily visible
 
 		if (!isTokenPlaced) {
+			ID_COLOUR = BLACK_TEXT;
 			for (int i = 0; i < tokenOptions.length; i++) {
 				if (tokenOptions[i] != null) {
 					animal[i] = tokenOptions[i].toChar();
@@ -247,6 +249,7 @@ public class HabitatTile {
 			colour[3] = WHITE_BG;
 
 		} else {
+			ID_COLOUR = WHITE;
 			animal = new char[]{placedToken.toChar(), ' ', ' ', ' '};
 			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
 		}
@@ -260,7 +263,7 @@ public class HabitatTile {
 				edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET +
 				colour[2] + "  " + animal[2] + ANSI_RESET +
 				// inserts tile number and adds padding
-				colour[3] + "   " + BLACK_TEXT + String.format("%-3s", tileID) + ANSI_RESET +
+				colour[3] + "   " + ID_COLOUR + String.format("%-3s", tileID) + ANSI_RESET +
 				edges.get(1).getHabitatType().backgroundColour        + "|    " + ANSI_RESET + "\n" +
 				edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET +
 				edges.get(2).getHabitatType().backgroundColour +  "|    |    " + ANSI_RESET +"\n";
