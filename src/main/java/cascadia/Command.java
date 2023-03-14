@@ -1,7 +1,7 @@
-package main.java.cascadia;
+package cascadia;
 
-import main.java.cascadia.scoring.ScoreCards;
-import main.java.cascadia.scoring.Scoring;
+import cascadia.scoring.ScoreCards;
+import cascadia.scoring.Scoring;
 
 /**
  * Helps model player state.

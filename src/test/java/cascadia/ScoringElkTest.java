@@ -1,7 +1,6 @@
-package test.java.cascadia;
+package cascadia;
 
-import main.java.cascadia.*;
-import main.java.cascadia.scoring.ScoringElk;
+import cascadia.scoring.ScoringElk;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

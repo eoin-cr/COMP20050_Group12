@@ -1,8 +1,8 @@
-package main.java.cascadia.scoring;
+package cascadia.scoring;
 
-import main.java.cascadia.HabitatTile;
-import main.java.cascadia.PlayerMap;
-import main.java.cascadia.WildlifeToken;
+import cascadia.HabitatTile;
+import cascadia.PlayerMap;
+import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
 

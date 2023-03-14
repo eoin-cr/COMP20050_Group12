@@ -1,4 +1,4 @@
-package main.java.cascadia;
+package cascadia;
 
 public class Main {
     public static void main(String[] args) {
