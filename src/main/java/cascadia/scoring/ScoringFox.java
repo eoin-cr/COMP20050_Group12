@@ -24,6 +24,7 @@ public class ScoringFox {
 
 	private static int foxScoringOption1(PlayerMap map) {
 		int score = 0;
+		
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
 				for (WildlifeToken animal: WildlifeToken.values()) {
@@ -38,18 +39,34 @@ public class ScoringFox {
 	
 	private static int foxScoringOption2(PlayerMap map) {
 		int score = 0;
+		int pairs;
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
-				int pairs = 0;
-				for (WildlifeToken animal : WildlifeToken.values()) {
-					if (animal != WildlifeToken.Fox) {
-						if (Scoring.getAdjacentTilesWithTokenMatch(animal, tile, map).size() > 2) pairs++;
+				pairs = 0;
+				WildlifeToken[] adjTokens = Scoring.getAdjacentTokens(tile,map);
+				int[] storeWildlifeCounts = new int[5];
+				
+				for (WildlifeToken token : adjTokens) {
+					if (token != null && token != WildlifeToken.Fox) {
+						storeWildlifeCounts[token.ordinal()]++;
 					}
 				}
-				if (pairs!= 0) score += (pairs*2)+1;
+				
+				for (int count : storeWildlifeCounts) {
+					if (count >= 2) pairs++;
+				}
+				
+				switch (pairs){
+				case 0 -> score += 0;
+				case 1 -> score += 3;
+				case 2 -> score += 5;
+				case 3 -> score += 7;
+				default -> throw new IllegalArgumentException("Invalid no. of adjacent pairs near fox: " + pairs);
+				}
 			}
 		}
+		
 		return score;
 	}
 	
@@ -59,19 +76,20 @@ public class ScoringFox {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
 				WildlifeToken[] adjTokens = Scoring.getAdjacentTokens(tile,map);
-				WildlifeToken temp= null;
-				int tempRun=0;
-				for (WildlifeToken animal: adjTokens) {
-					if(temp == null) temp = animal;
-					else if(temp != animal && animal != null || temp.equals(WildlifeToken.Fox)){
-						tempRun = 0;
-						break;
+				int[] storeWildlifeCounts = new int[5];
+				for (WildlifeToken token : adjTokens) {
+					if (token != null && token != WildlifeToken.Fox) {
+						storeWildlifeCounts[token.ordinal()]++;
 					}
-					tempRun++;
 				}
-				score += tempRun;
+				int max = 0;
+				for (int count : storeWildlifeCounts) {
+					max = Math.max(max, count);
+				}
+				score += max;
 			}
 		}
 		return score;
 	}
+	
 }
