@@ -1,5 +1,9 @@
 package main.java.cascadia.scoring;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import main.java.cascadia.HabitatTile;
 import main.java.cascadia.PlayerMap;
 import main.java.cascadia.WildlifeToken;
@@ -23,12 +27,17 @@ public class ScoringFox {
 	}
 
 	private static int foxScoringOption1(PlayerMap map) {
+		//score for each unique animal adjacent to fox
 		int score = 0;
+		List<WildlifeToken> adjacentTokens = new ArrayList<>();
+		
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
+				adjacentTokens.clear();
+				adjacentTokens = Arrays.asList(Scoring.getAdjacentTokens(tile, map));
 				for (WildlifeToken animal: WildlifeToken.values()) {
-					if	(!Scoring.getAdjacentTilesWithTokenMatch(animal,tile,map).isEmpty()){
-						score ++;
+					if (adjacentTokens.contains(animal)) {
+						score++;
 					}
 				}
 			}

@@ -39,11 +39,11 @@ public class Bag {
     // TODO: Change these values to the ones that correspond to the amount of players
     public static void makeBag (int numplayers) {
     	//make tokens
-    	remainingTokens.put(WildlifeToken.Bear, 100);
+    	remainingTokens.put(WildlifeToken.Bear, 30);
     	remainingTokens.put(WildlifeToken.Elk, 30);
         remainingTokens.put(WildlifeToken.Salmon, 30);
         remainingTokens.put(WildlifeToken.Hawk, 30);
-        remainingTokens.put(WildlifeToken.Fox, 30);
+        remainingTokens.put(WildlifeToken.Fox, 80);
         
         //make all possible tiles to draw from
     	remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
