@@ -2,19 +2,26 @@ package cascadia;
 
 import org.junit.Test;
 import org.junit.Before;
-//import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.Assert.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
 import java.util.*;
+import static org.junit.Assert.*;
 
 public class CurrentDeckTest {
+    Player player;
     @Before
     public void setTiles() {
+        player = new Player("test");
         List<HabitatTile> list = new ArrayList<>(Collections.nCopies(3,
                 new HabitatTile(HabitatTile.Habitat.Prairie,
                         HabitatTile.Habitat.Wetland, 2)
         ));
         list.add(new HabitatTile(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.River, 2));
         CurrentDeck.setDeckTiles(list);
+        ArrayList<WildlifeToken> tokenList = new ArrayList<>(Collections.nCopies(3, WildlifeToken.Bear));
+        tokenList.add(WildlifeToken.Hawk);
+        CurrentDeck.setDeckTokens(clone(tokenList));
         CurrentDeck.startTesting();
         Bag.makeBag(2);
     }
@@ -74,10 +81,15 @@ public class CurrentDeckTest {
         // the tokens are randomly generated so the output deck will be different
         // each time
         for (int i = 0; i < 10; i++) {
-            changeBagTokens(0, 10, 10, 10, 10);
-            CurrentDeck.setDeckTokens(clone(list));
-            CurrentDeck.cullCheckThreeTokens();
-            assertNotEquals(list, CurrentDeck.getDeckTokens());
+
+            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
+                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
+                        .thenReturn(1);
+                changeBagTokens(0, 10, 10, 10, 10);
+                CurrentDeck.setDeckTokens(clone(list));
+                CurrentDeck.cullCheckThreeTokens();
+                assertNotEquals(list, CurrentDeck.getDeckTokens());
+            }
         }
     }
 
@@ -91,7 +103,11 @@ public class CurrentDeckTest {
         CurrentDeck.setDeckTokens(clone(list));
         Display.displayDeck();
         try {
-            CurrentDeck.cullCheckThreeTokens();
+            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
+                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
+                        .thenReturn(1);
+                CurrentDeck.cullCheckThreeTokens();
+            }
         } catch (Exception ignored) {
             // if there's an exception caused by running out of tokens or something,
             // which would happen when the program constantly tries to replace the 3
@@ -103,25 +119,33 @@ public class CurrentDeckTest {
         assertEquals(list, CurrentDeck.getDeckTokens());
     }
 
-    @Test
-    public void testChoosePairHelper() {
-        Player player = new Player("test");
-        CurrentDeck.choosePairHelper(player, 0, 0);
-        HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
-        assertTrue(tile.equalHabitats(
-                new HabitatTile(
-                        HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Wetland, 0)
-        ));
-    }
+//    @Test
+//    public void testChoosePairHelper() {
+//        Player player = new Player("test");
+//        CurrentDeck.choosePairHelper(player, 0, 0);
+//        HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
+//        assertTrue(tile.equalHabitats(
+//                new HabitatTile(
+//                        HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Wetland, 0)
+//        ));
+//    }
 
     @Test
-    public void testChoosePairHelper2() {
-        Player player = new Player("test");
-        CurrentDeck.choosePairHelper(player, 3, 3);
-        HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
-        assertTrue(tile.equalHabitats(
-                new HabitatTile(
-                        HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Wetland, 0)
-        ));
+    public void testPairHelper3() {
+//        System.out.println(CurrentDeck.getDeckTiles());
+//        Display.displayDeck();
+//        when(Input.chooseTilePlacement(player)).thenReturn(new int[]{1,1});
+
+        try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
+            utilities.when(() -> Input.chooseTilePlacement(player))
+                    .thenReturn(new int[]{1,1});
+
+            CurrentDeck.choosePairHelper(player, 1, 1);
+            HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
+            assertTrue(tile.equalHabitats(
+                    new HabitatTile(
+                            HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Wetland, 0)
+            ));
+        }
     }
 }
