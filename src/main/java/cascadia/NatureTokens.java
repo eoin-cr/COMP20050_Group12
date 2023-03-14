@@ -1,4 +1,4 @@
-package main.java.cascadia;
+package cascadia;
 
 import java.util.ArrayList;
 import java.util.Collections;

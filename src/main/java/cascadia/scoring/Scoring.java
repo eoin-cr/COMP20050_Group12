@@ -1,6 +1,6 @@
-package main.java.cascadia.scoring;
+package cascadia.scoring;
 
-import main.java.cascadia.*;
+import cascadia.*;
 
 import java.util.ArrayList;
 import java.util.List;

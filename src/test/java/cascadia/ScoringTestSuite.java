@@ -1,4 +1,4 @@
-package test.java.cascadia;
+package cascadia;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

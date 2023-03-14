@@ -1,15 +1,22 @@
-package test.java.cascadia;
+package cascadia;
 
-import main.java.cascadia.*;
-import main.java.cascadia.scoring.ScoringSalmon;
+import cascadia.scoring.ScoringSalmon;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.junit.Before;
 //import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.Assert.*;
 
 public class ScoringSalmonTest {
+    private PlayerMap map;
+    @Before
+    public void generateMap() {
+        map = new PlayerMap();
+        map.clearTileBoard();
+    }
+
     protected static HabitatTile newTile(WildlifeToken token) {
         HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1);
         tile.setTokenForTesting(token);
@@ -19,8 +26,6 @@ public class ScoringSalmonTest {
     // we can use this as the scoring for salmon works the same for all the options,
     // there's just different numbers for runs
     private void generalValidRunTests(List<Integer> expectedScores, ScoringSalmon.Option option) {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
 
         // test whether the values for runs of 1, 2, and 3 are correct
@@ -44,8 +49,6 @@ public class ScoringSalmonTest {
     // These runs should get invalidated as we can't have more than 2 salmon tiles touching
     // any one tile in a valid run
     private void generalInvalidRunTests(ScoringSalmon.Option option) {
-        PlayerMap map = new PlayerMap();
-        map.clearTileBoard();
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 8);
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 9);

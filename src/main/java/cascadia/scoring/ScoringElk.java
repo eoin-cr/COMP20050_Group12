@@ -1,8 +1,8 @@
-package main.java.cascadia.scoring;
+package cascadia.scoring;
 
-import main.java.cascadia.HabitatTile;
-import main.java.cascadia.PlayerMap;
-import main.java.cascadia.WildlifeToken;
+import cascadia.HabitatTile;
+import cascadia.PlayerMap;
+import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,18 +25,6 @@ public class ScoringElk {
 	public static int calculateScore(PlayerMap map, Option option) {
 		return option.score(map);
 	}
-
-//	public static int calculateScore (PlayerMap map, String elkOption) {
-//		int score;
-//		switch (elkOption){
-//		case "E1" -> score = elkScoringOption1(map);
-//		case "E2" -> score = elkScoringOption2(map);
-//		case "E3" -> score = elkScoringOption3(map);
-//		default -> throw new IllegalArgumentException("Unexpected value: " + elkOption);
-//		}
-//		//System.out.println(player.getPlayerName() + " Elk Score: " + score); //for testing
-//		return score;
-//	}
 
 	//treats line > 4 the same as 4
 	private static int elkScoringOption1(PlayerMap map) {

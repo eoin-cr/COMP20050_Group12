@@ -1,4 +1,4 @@
-package main.java.cascadia.scoring;
+package cascadia.scoring;
 
 import java.util.Random;
 
