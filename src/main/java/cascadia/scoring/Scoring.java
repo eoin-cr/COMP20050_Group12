@@ -19,7 +19,6 @@ public class Scoring {
 	
 	public Scoring() {}
 	
-
 	public static void startScoring() {
 		Display.scoringScreen();
 		ScoringHabitatCorridors.habitatCorridorScoring(players);
@@ -224,7 +223,7 @@ public class Scoring {
 			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
 					
 		}
-		else if (row % 2 != 0) {
+		else {
 			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
 			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
 			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
@@ -238,17 +237,13 @@ public class Scoring {
 	
 	/**
 	 * Walks one tile over on player's map, following a specified edge (ie walks either left/right or diagonally)
-	 * @param tile
-	 * @param map
-	 * @param edgeNum
-	 * @return
 	 */
 	public static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map ,int edgeNum) {
 		if (edgeNum < 0 || edgeNum > 5) {
 			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
 		}
 		
-		HabitatTile adjacentTile = null;
+		HabitatTile adjacentTile;
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
@@ -263,7 +258,7 @@ public class Scoring {
 			default -> adjacentTile = null;
 			}
 		}
-		else if (row % 2 != 0) {
+		else {
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
@@ -283,9 +278,6 @@ public class Scoring {
 	 * Helper function that walks in a direction along the map, as specified by an edge number. 
 	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
 	 * until the end of the map is reached.
-	 * @param tile
-	 * @param map
-	 * @param edgeNum
 	 * @return next tile walked to
 	 */
 	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {

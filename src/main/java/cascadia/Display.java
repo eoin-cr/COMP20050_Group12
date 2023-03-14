@@ -311,4 +311,19 @@ public class Display {
 		System.out.println("Now leaving Cascadia. Thank you for playing.");
 	}
 
+    // displays the different rotation options in order, rotates tile choice to that rotation
+    public static void rotateTile(HabitatTile tile) {
+        String orientationOptions = "";
+        if (!tile.isKeystone()) {
+            for (int i = 0; i < 6; i++) {
+                tile.rotateTile(1);
+                    orientationOptions = removeNewlineAndJoin(
+                        orientationOptions, tile.toFormattedString(), "\t\t\t"
+                    );
+            }
+            System.out.println(orientationOptions);
+            // allows the user to select what rotation they want
+            tile.rotateTile(-1);
+        }
+    }
 }

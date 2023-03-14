@@ -221,4 +221,25 @@ public class Generation {
         }
         return new HabitatTile(habitat, habitat, 0);
     }
+
+    /**
+     * Generates the 'community' tile token pairs that users pick from.
+     *
+     * @param num the number of tile token pairs to generate
+     */
+    public static void generateTileTokenPairs(int num) {
+        if (CurrentDeck.getDeckTiles().size() + num > 4) {
+            throw new IllegalArgumentException("You are trying to generate more than 4 pairs for the current deck.");
+        }
+
+        for (int i = 0; i < num; i++) {
+            CurrentDeck.addDeckTile(generateHabitatTile());
+            CurrentDeck.addDeckToken(generateWildlifeToken(true));
+        }
+
+        Display.displayDeck();
+        CurrentDeck.cullCheckFourTokens();
+        CurrentDeck.cullCheckThreeTokens();
+        Bag.incrementTilesInUse(num);
+    }
 }

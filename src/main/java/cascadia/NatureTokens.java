@@ -83,8 +83,8 @@ public class NatureTokens {
         // on removing
         chosen.sort(Collections.reverseOrder());
         for (Integer num : chosen) {
-            CurrentDeck.deckTokens.remove((int) num);
-            CurrentDeck.deckTokens.add(Generation.generateWildlifeToken(true));
+            CurrentDeck.removeDeckToken(num);
+            CurrentDeck.addDeckToken(Generation.generateWildlifeToken(true));
         }
     }
 }
