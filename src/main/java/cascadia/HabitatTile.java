@@ -266,4 +266,9 @@ public class HabitatTile {
 				edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET +
 				edges.get(2).getHabitatType().backgroundColour +  "|    |    " + ANSI_RESET +"\n";
 	}
+
+	public boolean equalHabitats(HabitatTile tile) {
+		return (habitat1 == tile.habitat1 && habitat2 == tile.habitat2 ||
+				habitat1 == tile.habitat2 && habitat2 == tile.habitat1);
+	}
 }

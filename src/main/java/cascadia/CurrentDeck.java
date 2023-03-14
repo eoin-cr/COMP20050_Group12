@@ -40,8 +40,24 @@ public class CurrentDeck {
 	}
 
 	public static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
-		int[] rowAndColumn = Input.chooseTilePlacement(player);
-		Display.rotateTile(deckTiles.get(tileChoice));
+		if (player == null) {
+			throw new IllegalArgumentException("Player cannot be null");
+		} else if (tileChoice >= deckTiles.size() || tileChoice < 0) {
+			throw new IllegalArgumentException(String.format("Tile choice must be greater " +
+					"than 0 and not more than the amount of deck tiles.  Tile choice was " +
+					"%d and the amount of deck tiles is %d", tileChoice, deckTiles.size()));
+		} else if (tokenChoice >= deckTokens.size() || tokenChoice < 0) {
+			throw new IllegalArgumentException(String.format("Token choice must be greater " +
+					"than 0 and not more than the amount of deck tokens.  Token choice was " +
+					"%d and the amount of deck tokens is %d", tokenChoice, deckTokens.size()));
+		}
+		int[] rowAndColumn;
+		if (!testing) {
+			rowAndColumn = Input.chooseTilePlacement(player);
+			Display.rotateTile(deckTiles.get(tileChoice));
+		} else {
+			rowAndColumn = new int[]{1,1};
+		}
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 		
@@ -72,12 +88,17 @@ public class CurrentDeck {
 				System.out.println("You cannot add this token to your current map of tiles, as none of the options match.");
 				break;
 			}
-			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
+			int[] result;
+			if (testing) {
+				result = new int[]{2,0};
+			} else {
+				result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
+			}
 			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
 				System.out.println("You have put the token back in the bag");
 				succeeded = true;
-			} else if (result[0] == 1) {//add to map choice
+			} else {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
 //				if (succeeded) { //get score change for player for that token type on their map
 //					Scoring.scorePlayerTokenPlacement(player, token);
@@ -163,7 +184,9 @@ public class CurrentDeck {
         				//System.out.println("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
     				}	
     			}
-    			Display.cullOccurrence();
+				if (!testing) {
+					Display.cullOccurrence();
+				}
     			cullCheckFourTokens();
     		}
     		//if choice is 2, deck remains unchanged - message display handled in display

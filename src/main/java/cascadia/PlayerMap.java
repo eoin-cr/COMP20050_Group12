@@ -55,7 +55,7 @@ public class PlayerMap {
 	}
 
 	/**
-	 * Adds a tile to the board array at position {@code board[x][y]}.
+	 * Adds a tile to the board array at position {@code board[x][y]} (0 indexed).
 	 *
 	 * @param tile the tile to be added to the board position array
 	 * @param row the row of the board position array the tile will be added to
