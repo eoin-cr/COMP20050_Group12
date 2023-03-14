@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 public class ScoringSalmonTest {
     private PlayerMap map;
+    
     @Before
     public void generateMap() {
         map = new PlayerMap();
