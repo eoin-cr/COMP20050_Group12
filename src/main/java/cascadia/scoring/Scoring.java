@@ -20,6 +20,15 @@ public class Scoring {
 	public Scoring() {}
 	
 
+	public static void startScoring() {
+		Display.scoringScreen();
+		ScoringHabitatCorridors.habitatCorridorScoring(players);
+		ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
+		scoreCardScoring();
+		natureTokenScoring();
+		findWinnerAfterScoring();
+	}
+	
 	public static void scoreCardScoring() {
 		for (Player p : players) {
 			scoreTokenAndAdd(ScoringBear.calculateScore(p.getMap(), ScoringBear.Option.valueOf(cards[0])), p, "Bear");
