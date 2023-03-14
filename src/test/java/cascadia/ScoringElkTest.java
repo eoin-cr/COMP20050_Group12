@@ -2,11 +2,9 @@ package cascadia;
 
 import cascadia.scoring.ScoringElk;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-//import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class ScoringElkTest {
     private PlayerMap map;
@@ -95,14 +93,14 @@ public class ScoringElkTest {
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 26);
     }
     @Test
-    @Ignore // ignoring for now as this is the most complicated of the elk scoring A methods
+    //@Ignore // ignoring for now as this is the most complicated of the elk scoring A methods
     public void testElk1Intersect() {
         map.addTileToMap(newElkTile(), 8, 8);
         map.addTileToMap(newElkTile(), 9, 8);
         map.addTileToMap(newElkTile(), 9, 9);
         map.addTileToMap(newElkTile(), 9, 10);
         map.addTileToMap(newElkTile(), 9, 11);
-        Display.displayTileMap(map);
+        //Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 15);
         map.addTileToMap(newElkTile(), 10, 8);
 //        Display.displayTileMap(map);
@@ -111,10 +109,11 @@ public class ScoringElkTest {
 //        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 20);
         map.addTileToMap(newElkTile(), 12, 8);
-//        Display.displayTileMap(map);
-        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 13);
+        //        Display.displayTileMap(map);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 22);
         map.addTileToMap(newElkTile(), 13, 8);
-        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 13);
+        Display.displayTileMap(map);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 25);
     }
 
     @Test
@@ -169,13 +168,14 @@ public class ScoringElkTest {
     @Test
     public void testElk3Basics() {
         map.addTileToMap(newElkTile(), 8, 8);
-        Display.displayTileMap(map);
+
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 2);
         map.addTileToMap(newElkTile(), 8,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 5);
         map.addTileToMap(newElkTile(), 7,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 9);
         map.addTileToMap(newElkTile(), 9,9);
+        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 13);
     }
 }
