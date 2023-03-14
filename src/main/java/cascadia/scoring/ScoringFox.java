@@ -24,6 +24,7 @@ public class ScoringFox {
 
 	private static int foxScoringOption1(PlayerMap map) {
 		int score = 0;
+		
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
 				for (WildlifeToken animal: WildlifeToken.values()) {
@@ -59,19 +60,20 @@ public class ScoringFox {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
 				WildlifeToken[] adjTokens = Scoring.getAdjacentTokens(tile,map);
-				WildlifeToken temp= null;
-				int tempRun=0;
-				for (WildlifeToken animal: adjTokens) {
-					if(temp == null) temp = animal;
-					else if(temp != animal && animal != null || temp.equals(WildlifeToken.Fox)){
-						tempRun = 0;
-						break;
+				int[] storeWildlifeCounts = new int[5];
+				for (WildlifeToken token : adjTokens) {
+					if (token != null && token != WildlifeToken.Fox) {
+						storeWildlifeCounts[token.ordinal()]++;
 					}
-					tempRun++;
 				}
-				score += tempRun;
+				int max = 0;
+				for (int count : storeWildlifeCounts) {
+					max = Math.max(max, count);
+				}
+				score += max;
 			}
 		}
 		return score;
 	}
+	
 }

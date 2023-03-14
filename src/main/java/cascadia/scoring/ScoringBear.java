@@ -28,11 +28,13 @@ public class ScoringBear {
 
 	private static int bearScoringOption1(PlayerMap map) {
 		//score for pairs of bears
+		visitedTiles.clear();
 		int pairs = 0;
+		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
-				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+				bearGroup.clear();
 				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 2) {
 					pairs++;
@@ -57,11 +59,13 @@ public class ScoringBear {
 	
 	private static int bearScoringOption2(PlayerMap map) {
 		//score for each group of 3 bears
+		visitedTiles.clear();
 		int triples = 0;
+		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
-				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+				bearGroup.clear();
 				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 3) {
 					triples++;
@@ -75,13 +79,15 @@ public class ScoringBear {
 	
 	private static int bearScoringOption3(PlayerMap map) {
 		//score for each group of bears 1-3 in size
+		visitedTiles.clear();
 		int singles = 0;
 		int doubles = 0;
 		int triples = 0;
+		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
-				ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+				bearGroup.clear();
 				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 1) {
 					singles++;
