@@ -34,7 +34,15 @@ public class PlayerMap {
 	}
 	
 	public List<HabitatTile> getTilesInMap(){
-		return tilesInMap;
+		List<HabitatTile> tiles = new ArrayList<>();
+		for (int i = 0; i < BOARD_HEIGHT; i++) {
+			for (int j = 0; j < BOARD_WIDTH; j++) {
+				if (tileBoardPosition[i][j] != null) {
+					tiles.add(tileBoardPosition[i][j]);
+				}
+			}
+		}
+		return tiles;
 	}
 	
 	/**
