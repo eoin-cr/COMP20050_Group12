@@ -7,7 +7,9 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ScoringSalmonTest.class,
         ScoringElkTest.class,
-        ScoringFoxTest.class
+        ScoringFoxTest.class,
+        ScoringHawkTest.class,
+        ScoringHabitatCorridorsTest.class,
 })
 
 public class ScoringTestSuite {

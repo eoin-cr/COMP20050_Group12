@@ -221,7 +221,6 @@ public class ScoringHabitatCorridors {
 	 * Helper function for Habitat corridor scoring, retrieves a chunk of connected tiles on the map with matching habitat types.
 	 * Habitat types match based on the edges of two adjacent tiles.
 	 */
-	//TODO: make sure edges of two tiles match up, right now just going off if one of the 2 habitats match, not edge habitat match
 	public static void findHabitatCorridorRecursive(ArrayList<HabitatTile> habitatCorridor, HabitatTile centerTile, HabitatTile.Habitat habitatType, PlayerMap map) {
 		HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(centerTile, map);
 		HabitatTile.Habitat[] adjacentHabitats = Scoring.getAdjacentHabitats(centerTile, map);

@@ -30,6 +30,7 @@ public class ScoringBear {
 		//score for pairs of bears
 		visitedTiles.clear();
 		int pairs = 0;
+		int[] bearScores = new int[]{0,4,11,19,27};
 		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
@@ -44,17 +45,13 @@ public class ScoringBear {
 			}
 		} //all pairs now found
 		
-		int score = 0;
-		if (pairs == 1) {
-			score = 4;
-		} else if (pairs == 2) {
-			score = 11;
-		} else if (pairs == 3) {
-			score = 19;
-		} else if (pairs >= 4) { // ?? not sure about this case
-			score = 27;
+		if (pairs < 0) {
+			return 0;
+		} else if (pairs > 4) {
+			return bearScores[4];
+		} else {
+			return bearScores[pairs];
 		}
-		return score;
 	}
 	
 	private static int bearScoringOption2(PlayerMap map) {

@@ -53,7 +53,16 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 		int linesOfSight = 0;
 		int[] hawkScores = new int[]{0,2,5,9,12,16,20,24,28};
 
-		linesOfSight = getMapLinesOfSight(map, linesOfSight);
+		for (HabitatTile tile : map.getTilesInMap()) {
+			if (tile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(tile)) {
+				boolean validHawk = checkValidHawk(map, tile);
+				
+				if (validHawk) { //check lines of sight now for a valid hawk
+					linesOfSight += getLineOfSightOneStepOver(map, tile);
+					visitedTiles.add(tile); //already accounted for all its lines of sight
+				}
+			}
+		}
 
 		if (linesOfSight < 0) {
 			return 0;
@@ -64,19 +73,6 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 		}
 	}
 
-	private static int getMapLinesOfSight(PlayerMap map, int linesOfSight) {
-		for (HabitatTile tile : map.getTilesInMap()) {
-			if (tile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(tile)) {
-				boolean validHawk = checkValidHawk(map, tile);
-
-				if (validHawk) { //check lines of sight now for a valid hawk
-					linesOfSight += getLinesOfSight(map, tile);
-					visitedTiles.add(tile); //already accounted for all its lines of sight
-				}
-			}
-		}
-		return linesOfSight;
-	}
 
 	//scores for uninterrupted lines of sight, between individual valid hawks on map without adjacent hawks
 	private static int hawkScoringOption3(PlayerMap map) {
@@ -84,7 +80,16 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 		int linesOfSight = 0;
 		int score;
 
-		linesOfSight = getMapLinesOfSight(map, linesOfSight);
+		for (HabitatTile tile : map.getTilesInMap()) {
+			if (tile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(tile)) {
+				boolean validHawk = checkValidHawk(map, tile);
+				
+				if (validHawk) { //check lines of sight now for a valid hawk
+					linesOfSight += getLinesOfSight(map, tile);
+					visitedTiles.add(tile); //already accounted for all its lines of sight
+				}
+			}
+		}
 
 		score = 3*linesOfSight;
 		
@@ -102,6 +107,24 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			}
 		}
 		return true;
+	}
+	
+	//helper function
+	private static int getLineOfSightOneStepOver(PlayerMap map, HabitatTile hawkTile) {
+		int linesOfSight = 0;
+		HabitatTile currTile;
+		for (int i = 0; i < 6; i++) { //walk from all sides of the tile, check for diagonal and horizontal lines of sight
+			currTile = hawkTile;
+			currTile = Scoring.walkToTileAtSide(currTile, map, i); //walk one step in a direction
+			if (currTile != null && !currTile.getIsTokenPlaced()) {//walk another step while not end of map or not interrupted by wildlife
+				currTile = Scoring.walkToTileAtSide(currTile, map, i);
+			}
+			if (currTile != null && currTile.getIsTokenPlaced() && currTile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(currTile) && checkValidHawk(map, currTile)) {
+					linesOfSight++;
+			}
+		}
+		
+		return linesOfSight;
 	}
 	
 	//helper function
