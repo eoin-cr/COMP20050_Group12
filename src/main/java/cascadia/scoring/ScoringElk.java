@@ -7,10 +7,10 @@ import cascadia.WildlifeToken;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScoringElk {
+public class ScoringElk extends ScoreToken {
 	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 
-	public enum Option {
+	public enum Option implements Scorable {
 		E1 {public int score(PlayerMap map){
 			return elkScoringOption1(map);
 		}},
@@ -21,9 +21,6 @@ public class ScoringElk {
 			return elkScoringOption3(map);
 		}};
 		public abstract int score(PlayerMap map);
-	}
-	public static int calculateScore(PlayerMap map, Option option) {
-		return option.score(map);
 	}
 
 	//treats line > 4 the same as 4
