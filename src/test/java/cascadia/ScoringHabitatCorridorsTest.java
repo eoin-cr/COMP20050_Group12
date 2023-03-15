@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScoringHabitatCorridorsTest {
 	private PlayerMap map;
@@ -54,10 +55,48 @@ public class ScoringHabitatCorridorsTest {
     	assertEquals(1, longestRiver.size());
     }
     
-//    @Test
-//    public void testCorridorBasic() {
-//    	
-//    }
+    @Test
+    public void testCorridorScoring() {
+    	Player p1 = new Player("p1");
+    	PlayerMap m1 = p1.getMap();
+    	Player p2 = new Player("p2");
+    	PlayerMap m2 = p2.getMap();
+    	
+    	List<Player> players = new ArrayList<>();
+    	players.add(p1);
+    	players.add(p2);
+    	
+    	m1.clearTileBoard();
+    	m2.clearTileBoard();
+    	
+    	m1.addTileToMap(newTile(Habitat.Forest, Habitat.River), 8, 8);
+    	m1.addTileToMap(newTile(Habitat.Forest, Habitat.Prairie), 7, 8);
+    	m1.addTileToMap(newTile(Habitat.River, Habitat.Wetland), 7, 9);
+    	m1.addTileToMap(newTile(Habitat.River, Habitat.River), 9, 9);
+    	m1.addTileToMap(newTile(Habitat.River, Habitat.Mountain), 6, 8);
+    	ArrayList<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(m1, Habitat.River);
+    	assertEquals(3, longestRiver.size());
+    	Display.displayTileMap(p1.getMap());
+    	
+    	m2.addTileToMap(newTile(Habitat.Forest, Habitat.Prairie), 8, 8);
+    	m2.addTileToMap(newTile(Habitat.Prairie, Habitat.Forest), 7, 8);
+    	m2.addTileToMap(newTile(Habitat.Forest, Habitat.Wetland), 7, 9);
+    	m2.addTileToMap(newTile(Habitat.Prairie, Habitat.Prairie), 9, 9);
+    	m2.addTileToMap(newTile(Habitat.Forest, Habitat.River), 9, 8);
+    	m2.addTileToMap(newTile(Habitat.Mountain, Habitat.Mountain), 9, 10);
+    	ArrayList<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Forest);
+    	assertEquals(3, longestForest.size());
+    	ArrayList<HabitatTile> longestPrairie = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Prairie);
+    	assertEquals(2, longestPrairie.size());
+    	Display.displayTileMap(p2.getMap());
+    	
+    	ScoringHabitatCorridors.habitatCorridorScoring(players);
+    	assertEquals(7, p1.getTotalPlayerScore());
+    	assertEquals(8, p2.getTotalPlayerScore());
+    	ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
+    	assertEquals(11, p1.getTotalPlayerScore());
+    	assertEquals(14, p2.getTotalPlayerScore());
+    }
     
     
     
