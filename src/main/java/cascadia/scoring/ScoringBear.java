@@ -6,10 +6,10 @@ import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
 
-public class ScoringBear implements ScoreToken {
+public class ScoringBear extends ScoreToken {
 	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 //	enum BearOptions{B1, B2, B3}
-	public enum Option {
+	public static enum Option implements Scorable {
 		B1 {public int score(PlayerMap map){
 			return bearScoringOption1(map);
 		}},

@@ -6,9 +6,9 @@ import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
 
-public class ScoringHawk implements ScoreToken {
+public class ScoringHawk extends ScoreToken {
 private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
-	public enum Option {
+	public enum Option implements Scorable {
 		H1 {public int score(PlayerMap map){
 			return hawkScoringOption1(map);
 		}},

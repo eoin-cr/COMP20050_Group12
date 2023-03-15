@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ScoringElk implements ScoreToken {
+public class ScoringElk extends ScoreToken {
 	private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 
-	public enum Option {
+	public enum Option implements Scorable {
 		E1 {public int score(PlayerMap map){
 			return elkScoringOption1(map);
 		}},
@@ -23,6 +23,10 @@ public class ScoringElk implements ScoreToken {
 		}};
 		public abstract int score(PlayerMap map);
 	}
+
+//	static int calculateScore(PlayerMap map, Option option) {
+//		return option.score(map);
+//	}
 
 	//treats line > 4 the same as 4
 	private static int elkScoringOption1(PlayerMap map) {

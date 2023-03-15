@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ScoringSalmon implements ScoreToken {
-	public enum Option {
+public class ScoringSalmon extends ScoreToken {
+	public enum Option implements Scorable {
 		S1 {public int score(PlayerMap map){
 				return salmonScoringOption1(map);
 		}},
