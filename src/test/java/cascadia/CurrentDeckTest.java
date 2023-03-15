@@ -3,8 +3,8 @@ package cascadia;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Before;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
+//import org.mockito.MockedStatic;
+//import org.mockito.Mockito;
 
 import java.util.*;
 import static org.junit.Assert.*;
@@ -87,14 +87,14 @@ public class CurrentDeckTest {
         // each time
         for (int i = 0; i < 10; i++) {
 
-            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
-                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
-                        .thenReturn(1);
+//            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
+//                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
+//                        .thenReturn(1);
                 changeBagTokens(0, 10, 10, 10, 10);
                 CurrentDeck.setDeckTokens(clone(list));
                 CurrentDeck.cullCheckThreeTokens();
                 assertNotEquals(list, CurrentDeck.getDeckTokens());
-            }
+//            }
         }
     }
 
@@ -108,11 +108,11 @@ public class CurrentDeckTest {
         CurrentDeck.setDeckTokens(clone(list));
         Display.displayDeck();
         try {
-            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
-                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
-                        .thenReturn(1);
+//            try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
+//                utilities.when(() -> Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: "))
+//                        .thenReturn(1);
                 CurrentDeck.cullCheckThreeTokens();
-            }
+//            }
         } catch (Exception ignored) {
             // if there's an exception caused by running out of tokens or something,
             // which would happen when the program constantly tries to replace the 3

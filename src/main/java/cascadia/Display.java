@@ -1,4 +1,6 @@
 package cascadia;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 /**
@@ -13,7 +15,7 @@ public class Display {
 	 * <a href="https://patorjk.com/software/taag/#p=testall&f=Bulbhead&t=CASCADIA">this website.</a>
 	 */
     public static void welcome() {
-        System.out.println(
+        Display.out(
 				"""
 						________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\________/\\\\\\\\\\\\\\\\\\\\\\__________/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\\\\\_____/\\\\\\\\\\\\\\\\\\____
 						 _____/\\\\\\////////____/\\\\\\\\\\\\\\\\\\\\\\\\\\____/\\\\\\/////////\\\\\\_____/\\\\\\////////____/\\\\\\\\\\\\\\\\\\\\\\\\\\__\\/\\\\\\////////\\\\\\__\\/////\\\\\\///____/\\\\\\\\\\\\\\\\\\\\\\\\\\__
@@ -29,7 +31,7 @@ public class Display {
 
 		sleep(300);
 
-        System.out.println("Welcome to Cascadia!");
+        Display.out("Welcome to Cascadia!");
 
         // another sleep call
 		sleep(300);
@@ -52,13 +54,13 @@ public class Display {
 	 * @param playerNames a String array of player names
 	 */
 	public static void printPlayers(String[] playerNames) { // used in cascadia.Game class
-    	System.out.println();
-        System.out.println("The player list is:");
+    	Display.out("");
+        Display.out("The player list is:");
     
         for (int i = 0; i < playerNames.length; i++) {
-     	   System.out.println((i+1)+ ": " + playerNames[i]);
+     	   Display.out((i+1)+ ": " + playerNames[i]);
         }
-        System.out.println();
+        Display.out("");
     }
 
 	/**
@@ -67,8 +69,8 @@ public class Display {
 	 * 'image' of the tile.
 	 */
 	public static void displayDeck() {
-    	System.out.println();
-    	System.out.println("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
+    	Display.out("");
+    	Display.out("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
 		String output = "";
 
     	for (int i = 0; i < 4; i++) {
@@ -76,8 +78,8 @@ public class Display {
 					+ CurrentDeck.getTile(i).toFormattedString();
 			output = removeNewlineAndJoin(output, toAdd, "        ");
     	}
-		System.out.println(output);
-    	System.out.println();
+		Display.out(output);
+    	Display.out("");
 	}
 
 	// https://stackoverflow.com/questions/8154366/how-to-center-a-string-using-string-format
@@ -86,7 +88,7 @@ public class Display {
 	}
 
 	public static void cullOccurrence() {
-		System.out.println("A Wildlife Token cull has occurred.");
+		Display.out("A Wildlife Token cull has occurred.");
 		displayDeck();
 	}
 
@@ -113,7 +115,7 @@ public class Display {
 	 * @param player the player's tile map to be displayed
 	 */
 	public static void displayPlayerTileMap(Player player) {
-		System.out.println("Player " + player.getPlayerName() + "'s current map of tiles are: ");
+		Display.out("Player " + player.getPlayerName() + "'s current map of tiles are: ");
 		displayTileMap(player.getMap());
 	}
 
@@ -151,10 +153,10 @@ public class Display {
 			if (i % 2 == 0) {
 				line = indentHalfTile(line);
 			}
-			System.out.println(line);
+			Display.out(line);
 		}
 		// prints a newline after the map
-		System.out.println();
+		Display.out("");
 
 	}
 
@@ -276,11 +278,11 @@ public class Display {
 	}
 	
 	public static void scoringScreen() {
-		System.out.println();
-		System.out.println("-----------------------------------------------------------------------");
-		System.out.println("------------------------------SCORING START----------------------------");
-		System.out.println("-----------------------------------------------------------------------");
-		System.out.println();
+		Display.out("");
+		Display.out("-----------------------------------------------------------------------");
+		Display.out("------------------------------SCORING START----------------------------");
+		Display.out("-----------------------------------------------------------------------");
+		Display.out("");
 	}
 
 	/**
@@ -288,7 +290,7 @@ public class Display {
 	 */
 	public static void displayCommands() {
 		for (Command.CommandType command : Command.CommandType.values()) {
-			System.out.println(command.getDescription());
+			Display.out(command.getDescription());
 		}
 	}
 
@@ -308,7 +310,7 @@ public class Display {
 	 */
 	public static void endScreen() {
 		clearScreen();
-		System.out.println("Now leaving Cascadia. Thank you for playing.");
+		Display.out("Now leaving Cascadia. Thank you for playing.");
 	}
 
     // displays the different rotation options in order, rotates tile choice to that rotation
@@ -321,9 +323,19 @@ public class Display {
                         orientationOptions, tile.toFormattedString(), "\t\t\t"
                     );
             }
-            System.out.println(orientationOptions);
+            Display.out(orientationOptions);
             // allows the user to select what rotation they want
             tile.rotateTile(-1);
         }
     }
+
+	public static void out(@Nullable String s) {
+		System.out.println(s);
+	}
+
+//	public static void outf(@Nullable String s) {
+	public static void outf(String format, Object ... args) {
+		System.out.printf(format, args);
+	}
+//	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class NatureTokens {
     public static void tokenMenu(Player player) {
         int tokens = player.getPlayerNatureTokens();
-        System.out.printf("You have %d token%s\n",
+        Display.outf("You have %d token%s\n",
                 tokens, tokens == 1 ? "" : "s");
 
         // only allows user to spend a token if they have more than 0, if they don't
@@ -36,12 +36,12 @@ public class NatureTokens {
                 " to place (1-4)");
         tileChoice--;
         tokenChoice--;
-        System.out.println("You have chosen the pair: " +CurrentDeck.getTile(tileChoice).getHabitat1()+ " + "
+        Display.out("You have chosen the pair: " +CurrentDeck.getTile(tileChoice).getHabitat1()+ " + "
                 +CurrentDeck.getTile(tileChoice).getHabitat2()+ " tile, " +CurrentDeck.getToken(tokenChoice)+ " token.");
 
         player.subPlayerNatureToken();
         int tokens = player.getPlayerNatureTokens();
-        System.out.printf("You have spent a nature token.  You now have %d token%s\n", tokens,
+        Display.outf("You have spent a nature token.  You now have %d token%s\n", tokens,
                 tokens == 1 ? "" : "s");
         CurrentDeck.choosePairHelper(player, tileChoice, tokenChoice);
         // Game.switchTurn();
@@ -56,7 +56,7 @@ public class NatureTokens {
         player.subPlayerNatureToken();
         int tokens = player.getPlayerNatureTokens();
         Display.displayDeck();
-        System.out.printf("You have spent a nature token.  You now have %d token%s\n", tokens,
+        Display.outf("You have spent a nature token.  You now have %d token%s\n", tokens,
                 tokens == 1 ? "" : "s");
     }
 
@@ -70,9 +70,9 @@ public class NatureTokens {
             if (choice != 0 && !chosen.contains(choice-1)) {
                 numEntered++;
                 chosen.add(choice-1);
-                System.out.println("Token replaced");
+                Display.out("Token replaced");
             } else if (chosen.contains(choice-1)) {
-                System.out.println("You have already removed that token");
+                Display.out("You have already removed that token");
             }
         }
         return chosen;

@@ -35,13 +35,13 @@ public class Scoring {
 			scoreTokenAndAdd(ScoringSalmon.calculateScore(p.getMap(), ScoringSalmon.Option.valueOf(cards[2])), p, "Salmon");
 			scoreTokenAndAdd(ScoringHawk.calculateScore(p.getMap(), ScoringHawk.Option.valueOf(cards[3])), p, "Hawk");
 			scoreTokenAndAdd(ScoringFox.calculateScore(p.getMap(), ScoringFox.Option.valueOf(cards[4])), p, "Fox");
-			System.out.println();
+			Display.out("");
 		}
 	}
 
 	private static void scoreTokenAndAdd(int score, Player p, String name) {
 		p.addToTotalPlayerScore(score);
-		System.out.println(p.getPlayerName() + " " + name + " Score: " + score);
+		Display.out(p.getPlayerName() + " " + name + " Score: " + score);
 	}
 
 	// Will just be using end scoring for now to simplify things
@@ -62,19 +62,19 @@ public class Scoring {
 //		case Fox -> player.setPlayerWildlifeScore(WildlifeToken.Fox, ScoringFox.calculateScore(player, cards[4]));
 //		default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
 //		}
-//		System.out.println("The token you placed was of type: " +token.name()+ ". Your current Wildlife score for that type is: " +player.getPlayerWildlifeScore(token));
+//		Display.out("The token you placed was of type: " +token.name()+ ". Your current Wildlife score for that type is: " +player.getPlayerWildlifeScore(token));
 //	}
 
 
 	private static void natureTokenScoring() {
 		for (Player p : players) {
 			if (p.getPlayerNatureTokens() > 0) {
-				System.out.println(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Token(s). "
+				Display.out(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Token(s). "
 						+ p.getPlayerNatureTokens() + " bonus point(s).");
 				p.addToTotalPlayerScore(p.getPlayerNatureTokens());
 			}
 		}
-		System.out.println();
+		Display.out("");
 	}
 
 	private static void findWinnerAfterScoring() {
@@ -92,11 +92,11 @@ public class Scoring {
 		}
 
 		if (winners.size() == 1) {
-			System.out.println("Winner is " + winners.get(0).getPlayerName() + " with score " +winningScore+ ".\n");
+			Display.out("Winner is " + winners.get(0).getPlayerName() + " with score " +winningScore+ ".\n");
 		}
 
 		else {
-			System.out.println("A tie break has occurred. Now checking player Nature Tokens.");
+			Display.out("A tie break has occurred. Now checking player Nature Tokens.");
 			int maxNatureTokens = 0;
 			ArrayList<Player> tieBreakWinners = new ArrayList<>();
 			for (Player p : winners) {
@@ -105,7 +105,7 @@ public class Scoring {
 				}
 			}
 			if (tieBreakWinners.size() == 1) {
-				System.out.println("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
+				Display.out("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
 						+ winningScore+ "and Nature Tokens " +tieBreakWinners.get(0).getPlayerNatureTokens()+ ".\n");
 			}
 			else {
@@ -113,7 +113,7 @@ public class Scoring {
 				for (Player p : tieBreakWinners) {
 					System.out.print(p.getPlayerName() + " ");
 				}
-				System.out.println("] have tied for the win, with score " +winningScore+ ".\n");
+				Display.out("] have tied for the win, with score " +winningScore+ ".\n");
 			}
 		}
 	}
@@ -270,7 +270,7 @@ public class Scoring {
 			}
 			
 		}
-		//if (adjacentTile != null) System.out.println("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
+		//if (adjacentTile != null) Display.out("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
 		return adjacentTile;
 	}
 	

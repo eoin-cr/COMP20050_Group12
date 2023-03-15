@@ -63,7 +63,7 @@ public class Game {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
                 switchTurn = false;
-        		System.out.println("Current player is: " +player.getPlayerName());
+        		Display.out("Current player is: " +player.getPlayerName());
                 Display.displayPlayerTileMap(player);
         		// choose from tile token pairs
         		// place tile

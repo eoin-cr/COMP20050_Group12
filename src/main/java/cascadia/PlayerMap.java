@@ -100,7 +100,7 @@ public class PlayerMap {
 				if (placed) {
 					tile.setPlacedToken(token);
 					tile.setTokenPlaced();
-					System.out.println("You have successfully placed your token.");
+					Display.out("You have successfully placed your token.");
 					Display.displayPlayerTileMap(p);
 					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token
 					break;
@@ -109,8 +109,8 @@ public class PlayerMap {
 		}
 
 		if (!placed) {
-			System.out.println("You are trying to add a token to an invalid tile.");
-			System.out.println("Please try again.");
+			Display.out("You are trying to add a token to an invalid tile.");
+			Display.out("Please try again.");
 		}
 
 		// returns whether the tile was successfully placed
@@ -125,7 +125,7 @@ public class PlayerMap {
 	 */
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
-			System.out.println("There is already a token on this tile.");
+			Display.out("There is already a token on this tile.");
 		}
 		
 		else {
@@ -134,7 +134,7 @@ public class PlayerMap {
 					return true;
 				}
 			}
-			System.out.println("The tile's options for valid tokens do not match.");
+			Display.out("The tile's options for valid tokens do not match.");
 		}
 		return false;
 	}
@@ -143,7 +143,7 @@ public class PlayerMap {
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
 		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
 			p.addPlayerNatureToken(); //increments player's nature tokens
-			System.out.println("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
+			Display.out("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
 		}
 	}
 
