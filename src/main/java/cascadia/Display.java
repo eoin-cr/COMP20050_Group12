@@ -1,7 +1,7 @@
 package cascadia;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Objects;
+
+import org.eclipse.jdt.annotation.Nullable;
 
 /**
  * Deals with outputting to the console.
@@ -322,9 +322,7 @@ public class Display {
 		System.out.println(s);
 	}
 
-//	public static void outf(@Nullable String s) {
 	public static void outf(String format, Object ... args) {
 		System.out.printf(format, args);
 	}
-//	}
 }

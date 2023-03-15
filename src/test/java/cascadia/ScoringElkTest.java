@@ -77,7 +77,7 @@ public class ScoringElkTest {
         map.addTileToMap(newElkTile(), 9, 9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 7);
         map.addTileToMap(newElkTile(), 9, 10);
-        Display.displayTileMap(map);
+       // Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 11);
         map.addTileToMap(newElkTile(), 9, 11);
 //        Display.displayTileMap(map);
@@ -112,7 +112,7 @@ public class ScoringElkTest {
         //        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 22);
         map.addTileToMap(newElkTile(), 13, 8);
-        Display.displayTileMap(map);
+        //Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E1), 25);
     }
 
@@ -174,7 +174,6 @@ public class ScoringElkTest {
         map.addTileToMap(newElkTile(), 7,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 9);
         map.addTileToMap(newElkTile(), 9,9);
-        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 13);
     }
     
@@ -187,7 +186,6 @@ public class ScoringElkTest {
         map.addTileToMap(newElkTile(), 7,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 9);
         map.addTileToMap(newElkTile(), 6,8);
-        Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 13);
     }
 }
