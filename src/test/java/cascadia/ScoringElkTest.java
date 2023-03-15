@@ -166,15 +166,27 @@ public class ScoringElkTest {
     }
 
     @Test
-    public void testElk3Basics() {
+    public void testElk3Version1() {
         map.addTileToMap(newElkTile(), 8, 8);
-
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 2);
         map.addTileToMap(newElkTile(), 8,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 5);
         map.addTileToMap(newElkTile(), 7,9);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 9);
         map.addTileToMap(newElkTile(), 9,9);
+        Display.displayTileMap(map);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 13);
+    }
+    
+    @Test
+    public void testElk3Version2() {
+        map.addTileToMap(newElkTile(), 8, 8);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 2);
+        map.addTileToMap(newElkTile(), 7,8);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 5);
+        map.addTileToMap(newElkTile(), 7,9);
+        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 9);
+        map.addTileToMap(newElkTile(), 6,8);
         Display.displayTileMap(map);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E3), 13);
     }
