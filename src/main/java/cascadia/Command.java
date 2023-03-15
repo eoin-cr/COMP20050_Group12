@@ -104,8 +104,4 @@ public class Command {
 //			Display.out(ex.toString());
 		}
 	}
-	
-//	public CommandType getCommand() {
-//		return command;
-//	}
 }

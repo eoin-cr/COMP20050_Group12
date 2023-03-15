@@ -8,11 +8,11 @@ import java.util.List;
 
 public class Scoring {
 //	indexing of cards:
-//	index 0 stores Bear score card option as a string		(B1,B2,B3,B4)
-//	index 1 stores Elk score card option as a string		(E1,E2,E3,E4)
-//	index 2 stores Salmon score card option as a string		(S1,S2,S3,S4)
-//	index 3 stores Hawk score card option as a string		(H1,H2,H3,H4)
-//	index 4 stores Fox score card option as a string		(F1,F2,F3,F4)
+//	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
+//	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
+//	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
+//	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
+//	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
 	private static final String[] cards = ScoreCards.getScorecards();
 	private static final List<Player> players = Game.getPlayers();
 	private static final ArrayList<Player> winners = new ArrayList<>();
@@ -47,10 +47,10 @@ public class Scoring {
 	// Will just be using end scoring for now to simplify things
 //	/**
 //	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
-//	 * That particular Wildlife token type is rescored for that player's whole map.
+//	 * That particular Wildlife token type is re-scored for that player's whole map.
 //	 * Keeps player's wildlife scores updated per turn.
 //	 * @see CurrentDeck
-//	 * @param player the player who's score is to be updated
+//	 * @param player the player whose score is to be updated
 //	 * @param token the token to be scored
 //	 */
 //	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
@@ -137,9 +137,9 @@ public class Scoring {
 		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
 		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
 
-		for (HabitatTile checktile : adjacentTiles) {
-			if (checktile != null && checktile.getPlacedToken() == animalType) {
-				tileMatches.add(checktile);
+		for (HabitatTile checkTile : adjacentTiles) {
+			if (checkTile != null && checkTile.getPlacedToken() == animalType) {
+				tileMatches.add(checkTile);
 			}
 		}
 		return tileMatches;
@@ -174,7 +174,7 @@ public class Scoring {
 			adjacentHabitats[i] = null;
 		}
 		//Center tile has 6 edges - each edge connects to adjacent tile's specific edge according to position on map
-		//in relation to center tile. Eg. Center tile edge 0 connects to above tile's edge 3.
+		//in relation to center tile. E.g. Center tile edge 0 connects to above tile's edge 3.
 		if (adjacentTiles[0] != null) adjacentHabitats[0] = adjacentTiles[0].getEdge(3).getHabitatType();
 		if (adjacentTiles[1] != null) adjacentHabitats[1] = adjacentTiles[1].getEdge(4).getHabitatType();
 		if (adjacentTiles[2] != null) adjacentHabitats[2] = adjacentTiles[2].getEdge(5).getHabitatType();
@@ -242,7 +242,7 @@ public class Scoring {
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
 		
-		if (row % 2 == 0) { //non edge case, no missing sides, in the middle of the map
+		if (row % 2 == 0) { //non-edge case, no missing sides, in the middle of the map
 			switch (edgeNum) {
 			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
 			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
