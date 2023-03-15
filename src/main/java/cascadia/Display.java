@@ -1,7 +1,7 @@
 package cascadia;
-import java.util.Objects;
+import org.jetbrains.annotations.Nullable;
 
-import org.eclipse.jdt.annotation.Nullable;
+import java.util.Objects;
 
 /**
  * Deals with outputting to the console.

@@ -1,13 +1,9 @@
 package cascadia;
 
 import cascadia.scoring.ScoringHawk;
-import cascadia.scoring.ScoringSalmon;
+//import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
@@ -27,8 +23,7 @@ public class ScoringHawkTest {
     }
     
     protected static HabitatTile newTileNoToken() {
-        HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1);
-        return tile;
+		return new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1);
     }
     
     @Test
