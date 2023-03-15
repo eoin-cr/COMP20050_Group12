@@ -31,40 +31,43 @@ public class ScoringElk {
 
 		int score = 0;
 		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
+		for (int z = 4; z > 0  ; z--) {
+			for (HabitatTile tile : map.getTilesInMap()) {
+				if (tile.getPlacedToken() == WildlifeToken.Elk && !usedTiles.contains(tile)) {
 
-		for (HabitatTile tile : map.getTilesInMap()) {
-			if (tile.getPlacedToken() == WildlifeToken.Elk && !usedTiles.contains(tile)) {
+					//creates a 2d arraylist for storing the possible lines
+					List<List<HabitatTile>> lines = new ArrayList<>();
+					lines.add(new ArrayList<>());
+					lines.add(new ArrayList<>());
+					lines.add(new ArrayList<>());
 
-				//creates a 2d arraylist for storing the possible lines
-				List<List<HabitatTile>> lines = new ArrayList<>();
-				lines.add(new ArrayList<>());
-				lines.add(new ArrayList<>());
-				lines.add(new ArrayList<>());
+					HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(tile, map);
 
-				HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(tile, map);
+					//loop through the adjacent tiles
+					for (int i = 1; i < 4; i++) {
+						lines.get(i - 1).add(tile);
+						HabitatTile currTile = adjacentTiles[i];
 
-				//loop through the adjacent tiles
-				for (int i = 1;i < 4;i++) {
-					lines.get(i-1).add(tile);
-					HabitatTile currTile = adjacentTiles[i];
-
-					//moves along till it reaches a non elk tile or the edge
-					while (currTile !=  null && currTile.getPlacedToken() ==  WildlifeToken.Elk
-							&& !usedTiles.contains(currTile)){
-						lines.get(i-1).add(currTile);
-						currTile = Scoring.getAdjacentTiles(currTile,map)[i];
+						//moves along till it reaches a non elk tile or the edge
+						while (currTile != null && currTile.getPlacedToken() == WildlifeToken.Elk
+								&& !usedTiles.contains(currTile)) {
+							lines.get(i - 1).add(currTile);
+							currTile = Scoring.getAdjacentTiles(currTile, map)[i];
+						}
 					}
-				}
-				//finds the longest line
-				int maxIndex = ( lines.get(0).size() > lines.get(1).size()) ? 0 : ( lines.get(1).size() > lines.get(2).size()) ? 1 : 2;
+					//finds the longest line
+					int maxIndex = (lines.get(0).size() > lines.get(1).size()) ? 0 : (lines.get(1).size() > lines.get(2).size()) ? 1 : 2;
 
-				usedTiles.addAll(lines.get(maxIndex));
+					if(lines.get(maxIndex).size() >= z) {
+						usedTiles.addAll(lines.get(maxIndex));
 
-				switch (lines.get(maxIndex).size()) {
-					case (1) -> score += 2;
-					case (2) -> score += 5;
-					case (3) -> score += 9;
-					default -> score +=13;
+						switch (lines.get(maxIndex).size()) {
+							case (1) -> score += 2;
+							case (2) -> score += 5;
+							case (3) -> score += 9;
+							default -> score += 13;
+						}
+					}
 				}
 			}
 		}
@@ -74,6 +77,7 @@ public class ScoringElk {
 	private static int elkScoringOption2(PlayerMap map) {
 		ArrayList<HabitatTile> elkGroup = new ArrayList<>();
 		ArrayList<HabitatTile> usedTiles = new ArrayList<>();
+
 		int score = 0;
 		int[] points= {2,4,7,10,14,18,23};
 
@@ -112,7 +116,7 @@ public class ScoringElk {
 					}
 
 					if (validTiles) {
-						score += points[i];
+						score += points[i-1];
 						usedTiles.addAll(Arrays.stream(temp).toList());
 					}
 				}
