@@ -52,12 +52,12 @@ public class CurrentDeck {
 					"%d and the amount of deck tokens is %d", tokenChoice, deckTokens.size()));
 		}
 		int[] rowAndColumn;
-//		if (!testing) {
+		if (!testing) {
 			rowAndColumn = Input.chooseTilePlacement(player);
-//			Display.rotateTile(deckTiles.get(tileChoice));
-//		} else {
-//			rowAndColumn = new int[]{1,1};
-//		}
+			Display.rotateTile(deckTiles.get(tileChoice));
+		} else {
+			rowAndColumn = new int[]{1,1};
+		}
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 
@@ -163,18 +163,18 @@ public class CurrentDeck {
 			WildlifeToken type = tripledToken(deckTokens);
 			System.out.println(type);
 			int choice;
-//			if (!testing) {
-			System.out.println();
-			System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
-			choice = Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
-			if (choice == 1) {
-				System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+			if (!testing) {
+				System.out.println();
+				System.out.println("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+				choice = Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+				if (choice == 1) {
+					System.out.println("You have chosen to cull three tokens of the same type in the deck.");
+				} else {
+					System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+				}
 			} else {
-				System.out.println("You have chosen to leave the tokens untouched. The current deck remains the same.");
+				choice = 1;
 			}
-//			} else {
-//				choice = 1;
-//			}
     		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
@@ -219,8 +219,8 @@ public class CurrentDeck {
 	}
 
 	public static void removeDeckToken(int index) {
-		if (index < 0 || index > deckTokens.size()) {
-			throw new IllegalArgumentException(String.format("index cannot be < 0 or > " +
+		if (index < 0 || index >= deckTokens.size()) {
+			throw new IllegalArgumentException(String.format("index cannot be < 0 or >= " +
 					"deckTokens.size.  The index is %d and deckTiles size is %d",
 					index, deckTokens.size()));
 		}
