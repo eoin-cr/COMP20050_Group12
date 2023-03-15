@@ -109,4 +109,8 @@ public class Player {
 		longestCorridorSizes[index] = size;
 	}
 
+	@Override
+	public String toString() {
+		return playerName;
+	}
 }

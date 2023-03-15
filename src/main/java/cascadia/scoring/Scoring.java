@@ -93,14 +93,12 @@ public class Scoring {
 
 		if (winners.size() == 1) {
 			Display.out("Winner is " + winners.get(0).getPlayerName() + " with score " +winningScore+ ".\n");
-		}
-
-		else {
+		} else {
 			Display.out("A tie break has occurred. Now checking player Nature Tokens.");
 			int maxNatureTokens = 0;
 			ArrayList<Player> tieBreakWinners = new ArrayList<>();
 			for (Player p : winners) {
-				if (p.getPlayerNatureTokens() > maxNatureTokens) {
+				if (p.getPlayerNatureTokens() >= maxNatureTokens) {
 					tieBreakWinners.add(p);
 				}
 			}
@@ -109,11 +107,8 @@ public class Scoring {
 						+ winningScore+ "and Nature Tokens " +tieBreakWinners.get(0).getPlayerNatureTokens()+ ".\n");
 			}
 			else {
-				System.out.print("Players: [");
-				for (Player p : tieBreakWinners) {
-					System.out.print(p.getPlayerName() + " ");
-				}
-				Display.out("] have tied for the win, with score " +winningScore+ ".\n");
+				Display.outf("Players: %s have tied for the win, with a score of %d\n\n",
+						tieBreakWinners, winningScore);
 			}
 		}
 	}
