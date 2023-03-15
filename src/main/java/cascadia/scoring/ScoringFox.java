@@ -4,7 +4,7 @@ import cascadia.HabitatTile;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
-public class ScoringFox {
+public class ScoringFox implements ScoreToken {
 	public enum Option {
 		F1 {public int score(PlayerMap map){
 			return foxScoringOption1(map);
@@ -16,10 +16,6 @@ public class ScoringFox {
 			return foxScoringOption3(map);
 		}};
 		public abstract int score(PlayerMap map);
-	}
-
-	public static int calculateScore(PlayerMap map, Option option) {
-		return option.score(map);
 	}
 
 	private static int foxScoringOption1(PlayerMap map) {

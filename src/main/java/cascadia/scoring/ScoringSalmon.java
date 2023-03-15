@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ScoringSalmon {
+public class ScoringSalmon implements ScoreToken {
 	public enum Option {
 		S1 {public int score(PlayerMap map){
 				return salmonScoringOption1(map);
@@ -20,9 +20,6 @@ public class ScoringSalmon {
 			return salmonScoringOption3(map);
 		}};
 		public abstract int score(PlayerMap map);
-	}
-	public static int calculateScore(PlayerMap map, Option option) {
-		return option.score(map);
 	}
 
 	private static int salmonScorer(PlayerMap map, int maxRun, List<Integer> scores) {
