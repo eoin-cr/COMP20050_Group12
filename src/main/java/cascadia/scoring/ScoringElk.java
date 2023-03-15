@@ -5,11 +5,10 @@ import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ScoringElk {
-	private static ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 
 	public enum Option {
 		E1 {public int score(PlayerMap map){

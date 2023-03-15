@@ -38,16 +38,6 @@ public class Display {
     }
 
 	/**
-	 * Clears the terminal screen.
-	 * Note: This only works on an actual terminal, not terminal emulators
-	 * inside IDEs.
-	 */
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-
-	/**
 	 * Prints the player names, as well as the number showing the order they
 	 * will be playing in.
 	 *
@@ -309,7 +299,6 @@ public class Display {
 	 * Displays the end screen that will be printed once the game has finished.
 	 */
 	public static void endScreen() {
-		clearScreen();
 		Display.out("Now leaving Cascadia. Thank you for playing.");
 	}
 

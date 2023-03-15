@@ -37,7 +37,7 @@ public class Bag {
      * Sets up the tiles and tokens in the bag, so they can be generated.
      */
     // TODO: Change these values to the ones that correspond to the amount of players
-    public static void makeBag (int numplayers) {
+    public static void makeBag (int numPlayers) {
     	//make tokens
     	remainingTokens.put(WildlifeToken.Bear, 30);
     	remainingTokens.put(WildlifeToken.Elk, 30);
@@ -57,13 +57,13 @@ public class Bag {
 		
     	
         //make habitat tiles
-        if (numplayers == 2) {
+        if (numPlayers == 2) {
         	setMaxTiles(43);
         }
-        else if (numplayers == 3) {
+        else if (numPlayers == 3) {
         	setMaxTiles(63);
         }
-        else if (numplayers == 4) {
+        else if (numPlayers == 4) {
         	setMaxTiles(83);
         }
         else {

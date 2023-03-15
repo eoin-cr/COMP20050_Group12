@@ -273,20 +273,20 @@ public class Scoring {
 		//if (adjacentTile != null) Display.out("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
 		return adjacentTile;
 	}
-	
-	/**
-	 * Helper function that walks in a direction along the map, as specified by an edge number. 
-	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
-	 * until the end of the map is reached.
-	 * @return next tile walked to
-	 */
-	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {
-		HabitatTile nextTile = null;
-		if (tile != null) {
-			nextTile = walkToTileAtSide(tile, map, edgeNum);
-			walkInDirectionRecursive(nextTile, map, edgeNum);
-		}
-		return nextTile;
-	}
+//
+//	/**
+//	 * Helper function that walks in a direction along the map, as specified by an edge number.
+//	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
+//	 * until the end of the map is reached.
+//	 * @return next tile walked to
+//	 */
+//	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {
+//		HabitatTile nextTile = null;
+//		if (tile != null) {
+//			nextTile = walkToTileAtSide(tile, map, edgeNum);
+//			walkInDirectionRecursive(nextTile, map, edgeNum);
+//		}
+//		return nextTile;
+//	}
 
 }
