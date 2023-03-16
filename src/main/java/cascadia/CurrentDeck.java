@@ -119,70 +119,32 @@ public class CurrentDeck {
     			&& deckTokens.get(0) == deckTokens.get(3)) {
 
 			for (int i = deckTokens.size()-1; i >= 0; i--) {
-				//Display.out("cull4 removing "+deckTokens.get(i).name()+ " token at "+i);
 				Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
 				deckTokens.remove(i);
 				deckTokens.add(i, Generation.generateWildlifeToken(true));
-				//Display.out("cull4 adding "+deckTokens.get(i).name()+ " token at "+i);
 			}
 			Display.cullOccurrence();
     	}
     }
-
-
-	private static <E> void removeDuplicates(List<E> list) {
-		// sets can't have duplicate values, so by converting our
-		// list to one and then converting back we easily remove
-		// the duplicate values
-		Set<E> set = new HashSet<>(list);
-		list.clear();
-		list.addAll(set);
-	}
-
-	private static <E> boolean hasThreeDuplicates(ArrayList<E> list) {
-		@SuppressWarnings("unchecked cast")
-		ArrayList<E> clonedList = (ArrayList<E>) list.clone();
-		removeDuplicates(clonedList);
-		return clonedList.size() == 2; // if it had H,H,H,B it will now just have H,B
-	}
-
-	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-		// if we have 3 of one token and 1 of another, if the first 2 are
-		// the same, they must both be the tripled one.  Otherwise, if they're
-		// different, the 3rd and 4th tokens must both be the tripled one
-		if (list.get(0) == list.get(1)) {
-			return list.get(0);
-		}
-		return list.get(2);
-	}
 
     protected static void cullCheckThreeTokens() {
     	boolean threeMatch = hasThreeDuplicates((ArrayList<WildlifeToken>) deckTokens);
 
     	if (threeMatch) {
 			WildlifeToken type = tripledToken(deckTokens);
-			Display.out(type.toString());
 			int choice;
 			if (!testing) {
-				Display.out("");
-				Display.out("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
-				choice = Input.boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
-				if (choice == 1) {
-					Display.out("You have chosen to cull three tokens of the same type in the deck.");
-				} else {
-					Display.out("You have chosen to leave the tokens untouched. The current deck remains the same.");
-				}
+				choice = Input.chooseCullThreeOptions();
 			} else {
 				choice = 1;
 			}
     		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
-    					//Display.out("cull3 removing "+deckTokens.get(i).name()+ " token at "+i);
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
     					deckTokens.remove(i);
     					deckTokens.add(i, Generation.generateWildlifeToken(true));
-        				//Display.out("cull3 adding "+deckTokens.get(i).name()+ " token at "+i);
+
     				}	
     			}
 				if (!testing) {
@@ -193,6 +155,34 @@ public class CurrentDeck {
     		//if choice is 2, deck remains unchanged - message display handled in display
     	}	
     }
+    
+    private static boolean hasThreeDuplicates(ArrayList<WildlifeToken> list) {
+		int[] counts = new int[5];
+		
+		for (WildlifeToken t : list) {
+			counts[t.ordinal()]++;
+		}
+		for (int num : counts) {
+			if (num == 3) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
+		WildlifeToken type = null;
+		if (list.get(0) == list.get(1) || list.get(0) == list.get(2) || list.get(0) == list.get(3)) {
+			type = list.get(0);
+		}
+		else if (list.get(1) == list.get(2) || list.get(1) == list.get(3) ) {
+			type = list.get(1);
+		}
+		else { // 2 == 3 and one other
+			type = list.get(2);
+		}
+		return type;
+	}
 
 	public static List<HabitatTile> getDeckTiles() {
 		return deckTiles;

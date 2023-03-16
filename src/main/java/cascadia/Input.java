@@ -193,6 +193,18 @@ public class Input {
 
         return result;
     }
+    
+    public static int chooseCullThreeOptions() {
+		Display.out("");
+		Display.out("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+		int choice = boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
+		if (choice == 1) {
+			Display.out("You have chosen to cull three tokens of the same type in the deck.");
+		} else {
+			Display.out("You have chosen to leave the tokens untouched. The current deck remains the same.");
+		}
+		return choice;
+    }
 
     /**
      * Takes input of an int in a range and returns it.
