@@ -1,8 +1,6 @@
 package cascadia;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
@@ -61,14 +59,14 @@ public class CurrentDeck {
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 
-		Display.out("Your turn is now complete.");
+		Display.outln("Your turn is now complete.");
 		Display.sleep(300);
 		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
 			Generation.generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 		}
 
 		if (testing) {
-//			Display.out("1");
+//			Display.outln("1");
 			return;
 		}
 		Game.switchTurn(); //move to next player
@@ -89,7 +87,7 @@ public class CurrentDeck {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
 			if (!player.getMap().checkAllTilesForValidToken(token)) {
-				Display.out("You cannot add this token to your current map of tiles, as none of the options match.");
+				Display.outln("You cannot add this token to your current map of tiles, as none of the options match.");
 				break;
 			}
 			int[] result;
@@ -100,7 +98,7 @@ public class CurrentDeck {
 			}
 			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
-				Display.out("You have put the token back in the bag");
+				Display.outln("You have put the token back in the bag");
 				succeeded = true;
 			} else {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
@@ -171,7 +169,7 @@ public class CurrentDeck {
 	}
 
 	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-		WildlifeToken type = null;
+		WildlifeToken type;
 		if (list.get(0) == list.get(1) || list.get(0) == list.get(2) || list.get(0) == list.get(3)) {
 			type = list.get(0);
 		}

@@ -82,236 +82,236 @@ public class ScoreCards {
 	}
 	
 	public static void printScoreCardRules() {
-		Display.out("Below are the scorecards drawn for possible Wildlife Token placements on your board:\n");
+		Display.outln("Below are the scorecards drawn for possible Wildlife Token placements on your board:\n");
 		for (String s : scorecards) {
 			switch (s) {
 				case "B1" -> {
-					Display.out("""
+					Display.outln("""
 							BEAR SCORECARD 1:\s
 							Score as below, based on the total number of\s
 							pairs of exactly 2 bears placed side by side.
 							""");
-					Display.out("PAIRS   ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     4   ");
-					Display.out("  2     ||     11  ");
-					Display.out("  3     ||     19  ");
-					Display.out("  4     ||     27  ");
-					Display.out("");
+					Display.outln("PAIRS   ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     4   ");
+					Display.outln("  2     ||     11  ");
+					Display.outln("  3     ||     19  ");
+					Display.outln("  4     ||     27  ");
+					Display.outln("");
 				}
 				case "B2" -> {
-					Display.out("""
+					Display.outln("""
 							BEAR SCORECARD 2:\s
 							Score 10 points for each group of exactly three bears.
 							""");
-					Display.out("TRIPLE  ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     10  ");
-					Display.out("");
+					Display.outln("TRIPLE  ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     10  ");
+					Display.outln("");
 				}
 				case "B3" -> {
-					Display.out("""
+					Display.outln("""
 							BEAR SCORECARD 3:\s
 							Score as below for each group of bears 1-3 in size,\s
 							with a bonus of 3 points for having one of each of the 3 group sizes.
 							""");
-					Display.out("GROUP   ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     5   ");
-					Display.out("  3     ||     8   ");
-					Display.out("  ALL   ||    +3   ");
-					Display.out("");
+					Display.outln("GROUP   ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     5   ");
+					Display.outln("  3     ||     8   ");
+					Display.outln("  ALL   ||    +3   ");
+					Display.outln("");
 				}
 				case "E1" -> {
-					Display.out("""
+					Display.outln("""
 							ELK SCORECARD 1:\s
 							Score as below for lines of elk in any orientation,\s
 							connected from flat side to flat side of the hexagons.
 							""");
-					Display.out("LINE    ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     5   ");
-					Display.out("  3     ||     9   ");
-					Display.out("  4     ||     13  ");
-					Display.out("");
+					Display.outln("LINE    ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     5   ");
+					Display.outln("  3     ||     9   ");
+					Display.outln("  4     ||     13  ");
+					Display.outln("");
 				}
 				case "E2" -> {
-					Display.out("""
+					Display.outln("""
 							ELK SCORECARD 2:\s
 							Score as below for each contiguous group of elk, based on size.\s
 							These groups may be of any shape or size, not necessarily in a line or group exclusively.
 							""");
-					Display.out("GROUP   ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     4   ");
-					Display.out("  3     ||     7   ");
-					Display.out("  4     ||     10  ");
-					Display.out("  5     ||     14  ");
-					Display.out("  6     ||     18  ");
-					Display.out("  7     ||     23  ");
-					Display.out("  8+    ||     28  ");
-					Display.out("");
+					Display.outln("GROUP   ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     4   ");
+					Display.outln("  3     ||     7   ");
+					Display.outln("  4     ||     10  ");
+					Display.outln("  5     ||     14  ");
+					Display.outln("  6     ||     18  ");
+					Display.outln("  7     ||     23  ");
+					Display.outln("  8+    ||     28  ");
+					Display.outln("");
 				}
 				case "E3" -> {
-					Display.out("""
+					Display.outln("""
 							ELK SCORECARD 3:\s
 							Score for one lone elk, two elk side by side, three elk in a triangle formation,\s
 							or four elk in a diamond formation.
 							""");
-					Display.out("GROUP   ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     5   ");
-					Display.out("  3     ||     9   ");
-					Display.out("  4     ||     13  ");
-					Display.out("");
+					Display.outln("GROUP   ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     5   ");
+					Display.outln("  3     ||     9   ");
+					Display.outln("  4     ||     13  ");
+					Display.outln("");
 				}
 				case "S1" -> {
-					Display.out("""
+					Display.outln("""
 							SALMON SCORECARD 1:\s
 							Score as below for each run of salmon (where a run is a group of adjacent salmon
 							where each salmon is connected to no more than 2 other salmon), based on size,\s
 							up to a max of 7.
 							""");
-					Display.out("RUN     ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     4   ");
-					Display.out("  3     ||     7   ");
-					Display.out("  4     ||     11  ");
-					Display.out("  5     ||     15  ");
-					Display.out("  6     ||     20  ");
-					Display.out("  7+    ||     26  ");
-					Display.out("");
+					Display.outln("RUN     ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     4   ");
+					Display.outln("  3     ||     7   ");
+					Display.outln("  4     ||     11  ");
+					Display.outln("  5     ||     15  ");
+					Display.outln("  6     ||     20  ");
+					Display.outln("  7+    ||     26  ");
+					Display.outln("");
 				}
 				case "S2" -> {
-					Display.out("""
+					Display.outln("""
 							SALMON SCORECARD 2:\s
 							Score as below for each run of salmon (where a run is a group of adjacent salmon
 							where each salmon is connected to no more than 2 other salmon), based on size,\s
 							up to a max of 4.
 							""");
-					Display.out("RUN     ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     4   ");
-					Display.out("  3     ||     8   ");
-					Display.out("  4+    ||     12  ");
-					Display.out("");
+					Display.outln("RUN     ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     4   ");
+					Display.outln("  3     ||     8   ");
+					Display.outln("  4+    ||     12  ");
+					Display.outln("");
 				}
 				case "S3" -> {
-					Display.out("""
+					Display.outln("""
 							SALMON SCORECARD 3:\s
 							Score as below for each run of salmon (where a run is a group of adjacent salmon
 							where each salmon is connected to no more than 2 other salmon), based on size,\s
 							up to a max of 5.
 							""");
-					Display.out("RUN     ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||     2   ");
-					Display.out("  2     ||     5   ");
-					Display.out("  3     ||     9   ");
-					Display.out("  4     ||     11  ");
-					Display.out("  5+    ||     17  ");
-					Display.out("");
+					Display.outln("RUN     ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||     2   ");
+					Display.outln("  2     ||     5   ");
+					Display.outln("  3     ||     9   ");
+					Display.outln("  4     ||     11  ");
+					Display.outln("  5+    ||     17  ");
+					Display.outln("");
 				}
 				case "H1" -> {
-					Display.out("""
+					Display.outln("""
 							HAWK SCORECARD 1:\s
 							Score as below for each hawk that is not adjacent to any other hawk.
 							""");
-					Display.out("SINGLES ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||      2  ");
-					Display.out("  2     ||      5  ");
-					Display.out("  3     ||      8  ");
-					Display.out("  4     ||     11  ");
-					Display.out("  5     ||     14  ");
-					Display.out("  6     ||     18  ");
-					Display.out("  7     ||     22  ");
-					Display.out("  8+    ||     26  ");
-					Display.out("");
+					Display.outln("SINGLES ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||      2  ");
+					Display.outln("  2     ||      5  ");
+					Display.outln("  3     ||      8  ");
+					Display.outln("  4     ||     11  ");
+					Display.outln("  5     ||     14  ");
+					Display.outln("  6     ||     18  ");
+					Display.outln("  7     ||     22  ");
+					Display.outln("  8+    ||     26  ");
+					Display.outln("");
 				}
 				case "H2" -> {
-					Display.out("""
+					Display.outln("""
 							HAWK SCORECARD 2:\s
 							Score as below for each hawk based on its line of sight\s
 							to other hawks, i.e. not adjacent to each other and not interrupted by\s
 							other wildlife or a gap in the tiles.
 							""");
-					Display.out("IN SIGHT||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||      2  ");
-					Display.out("  2     ||      5  ");
-					Display.out("  3     ||      9  ");
-					Display.out("  4     ||     12  ");
-					Display.out("  5     ||     16  ");
-					Display.out("  6     ||     20  ");
-					Display.out("  7     ||     24  ");
-					Display.out("  8     ||     28  ");
-					Display.out("");
+					Display.outln("IN SIGHT||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||      2  ");
+					Display.outln("  2     ||      5  ");
+					Display.outln("  3     ||      9  ");
+					Display.outln("  4     ||     12  ");
+					Display.outln("  5     ||     16  ");
+					Display.outln("  6     ||     20  ");
+					Display.outln("  7     ||     24  ");
+					Display.outln("  8     ||     28  ");
+					Display.outln("");
 				}
 				case "H3" -> {
-					Display.out("""
+					Display.outln("""
 							HAWK SCORECARD 3:\s
 							Score 3 points for each line of sight between two hawks\s
 							(i.e. not adjacent to each other and not interrupted by\s
 							other wildlife or a gap in the tiles).
 							(Note: multiple lines of sight may involve the same hawk).
 							""");
-					Display.out("IN SIGHT||   POINTS");
-					Display.out("-------------------");
-					Display.out("2 HAWKS ||     +3  ");
-					Display.out("");
+					Display.outln("IN SIGHT||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("2 HAWKS ||     +3  ");
+					Display.outln("");
 				}
 				case "F1" -> {
-					Display.out("""
+					Display.outln("""
 							FOX SCORECARD 1:\s
 							Score for each fox as below, based on the number of unique animal types\s
 							(including other foxes) directly adjacent to it.""");
-					Display.out("ANIMALS ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||      1  ");
-					Display.out("  2     ||      2  ");
-					Display.out("  3     ||      3  ");
-					Display.out("  4     ||      4  ");
-					Display.out("  5     ||      5  ");
-					Display.out("");
+					Display.outln("ANIMALS ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||      1  ");
+					Display.outln("  2     ||      2  ");
+					Display.outln("  3     ||      3  ");
+					Display.outln("  4     ||      4  ");
+					Display.outln("  5     ||      5  ");
+					Display.outln("");
 				}
 				case "F2" -> {
-					Display.out("""
+					Display.outln("""
 							FOX SCORECARD 2:\s
 							Score for each fox as below, based on the number of unique animal pairs\s
 							(not including other fox pairs) directly adjacent to it.\s
 							Pairs of other animals do not need to be adjacent to each other.
 							The same wildlife cannot count for more than one pair.
 							""");
-					Display.out("PAIRS   ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||      3  ");
-					Display.out("  2     ||      5  ");
-					Display.out("  3     ||      7  ");
-					Display.out("");
+					Display.outln("PAIRS   ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||      3  ");
+					Display.outln("  2     ||      5  ");
+					Display.outln("  3     ||      7  ");
+					Display.outln("");
 				}
 				case "F3" -> {
-					Display.out("""
+					Display.outln("""
 							FOX SCORECARD 3:\s
 							Score for each fox as below, based on the number of similar animals\s
 							(not including other foxes) directly adjacent to it.\s
 							Only score the most abundant adjacent animal type.\s
 							""");
-					Display.out("SIMILAR ||   POINTS");
-					Display.out("-------------------");
-					Display.out("  1     ||      1  ");
-					Display.out("  2     ||      2  ");
-					Display.out("  3     ||      3  ");
-					Display.out("  4     ||      4  ");
-					Display.out("  5     ||      5  ");
-					Display.out("  6     ||      6  ");
-					Display.out("");
+					Display.outln("SIMILAR ||   POINTS");
+					Display.outln("-------------------");
+					Display.outln("  1     ||      1  ");
+					Display.outln("  2     ||      2  ");
+					Display.outln("  3     ||      3  ");
+					Display.outln("  4     ||      4  ");
+					Display.outln("  5     ||      5  ");
+					Display.outln("  6     ||      6  ");
+					Display.outln("");
 				}
 				default -> throw new IllegalArgumentException("Invalid choice of scorecard to be printed");
 			}

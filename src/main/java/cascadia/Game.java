@@ -23,7 +23,7 @@ public class Game {
      * Store placed tile
      * Allow user to place token
      * Store placed token
-     * Continue until num of tokens has run out.
+     * Continue until num of tokens has run outln.
      */
 
     /**
@@ -63,7 +63,7 @@ public class Game {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
                 switchTurn = false;
-        		Display.out("Current player is: " +player.getPlayerName());
+        		Display.outln("Current player is: " +player.getPlayerName());
                 Display.displayPlayerTileMap(player);
         		// choose from tile token pairs
         		// place tile

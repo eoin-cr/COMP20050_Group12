@@ -35,17 +35,17 @@ public class Input {
         final int MIN_PLAYERS = 2;
         final int MAX_PLAYERS = 4;
 
-        Display.out("Enter number of players (must be " + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
+        Display.outln("Enter number of players (must be " + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
 
         while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
             if (!firstRun && intInputted) {
-                Display.out("Invalid number.  Please enter the number of players (must be between 2-4)");
+                Display.outln("Invalid number.  Please enter the number of players (must be between 2-4)");
             }
             try {
                 num = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                Display.out("You must enter an integer!  Please try again");
+                Display.outln("You must enter an integer!  Please try again");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }
@@ -59,7 +59,7 @@ public class Input {
         }
 
         while (playerListIsInvalid(players)) {
-            Display.out("Invalid input!  You cannot have duplicate names, nor " +
+            Display.outln("Invalid input!  You cannot have duplicate names, nor " +
                     "empty strings. All names have been wiped, please try again.");
             players.clear();
             for (int i = 0; i < num; i++) {
@@ -134,21 +134,21 @@ public class Input {
      */
     public static int chooseFromDeck() {
         int choice;
-        Display.out("");
+        Display.outln("");
 
         do {
-            Display.out("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
-            Display.out("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
+            Display.outln("Please choose a Habitat Tile + Wildlife Token pair from the selection above.");
+            Display.outln("Type 1 for the first pair, 2 for the second, 3 for the third, 4 for the fourth: ");
             try {
                 choice = Integer.parseInt(getUserInput());
             } catch (NumberFormatException e) {
-                Display.out("You did not input a number. Please try again.");
+                Display.outln("You did not input a number. Please try again.");
                 choice = Integer.parseInt(getUserInput());
             }
         } while (choice < 1 || choice > 4);
 
         choice--;
-        Display.out("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
+        Display.outln("You have chosen the pair: " +CurrentDeck.getTile(choice).getHabitat1()+ " + "
                 +CurrentDeck.getTile(choice).getHabitat2()+ " tile, " +CurrentDeck.getToken(choice)+ " token.");
 
         return choice;
@@ -159,16 +159,16 @@ public class Input {
         int choice;
         int tileID = -1;
 
-        Display.out("");
-        Display.out("Choose what to do with the " +token.name()+ " token you have drawn.");
+        Display.outln("");
+        Display.outln("Choose what to do with the " +token.name()+ " token you have drawn.");
 
         do {
-            Display.out("Type 1 to place the token on one of your tiles, or 2 to put the token back in the bag: ");
+            Display.outln("Type 1 to place the token on one of your tiles, or 2 to put the token back in the bag: ");
             try {
                 choice = Integer.parseInt(getUserInput());
-                //Display.out(choice);
+                //Display.outln(choice);
             } catch (NumberFormatException e) {
-                Display.out("You did not input a number. Please try again.");
+                Display.outln("You did not input a number. Please try again.");
                 choice = Integer.parseInt(getUserInput());
             }
         } while(choice < 1 || choice > 2);
@@ -176,12 +176,12 @@ public class Input {
 
         if (choice == 1) {
             do {
-                Display.out("Choose the tile number where you want to place the " +token.name()+ " token: ");
+                Display.outln("Choose the tile number where you want to place the " +token.name()+ " token: ");
                 try {
                     tileID = Integer.parseInt(getUserInput());
-                    //Display.out(choice);
+                    //Display.outln(choice);
                 } catch (NumberFormatException e) {
-                    Display.out("You did not input a number. Please try again.");
+                    Display.outln("You did not input a number. Please try again.");
                     tileID = Integer.parseInt(getUserInput());
                 }
             } while(tileID < 0 || tileID > HabitatTile.getTileCounter());
@@ -195,13 +195,13 @@ public class Input {
     }
     
     public static int chooseCullThreeOptions() {
-		Display.out("");
-		Display.out("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
+		Display.outln("");
+		Display.outln("There are three Wildlife Tokens of the same type. Would you like to cull them? ");
 		int choice = boundedInt(1, 2, "Type 1 to cull and replace tokens, or 2 to leave tokens untouched: ");
 		if (choice == 1) {
-			Display.out("You have chosen to cull three tokens of the same type in the deck.");
+			Display.outln("You have chosen to cull three tokens of the same type in the deck.");
 		} else {
-			Display.out("You have chosen to leave the tokens untouched. The current deck remains the same.");
+			Display.outln("You have chosen to leave the tokens untouched. The current deck remains the same.");
 		}
 		return choice;
     }
@@ -217,12 +217,12 @@ public class Input {
     public static int boundedInt(int lowerBound, int upperBound, String firstMessage)  {
         int choice;
         do {
-            Display.out(firstMessage);
+            Display.outln(firstMessage);
             try {
                 choice = Integer.parseInt(getUserInput());
-                //Display.out(choice);
+                //Display.outln(choice);
             } catch (NumberFormatException e) {
-                Display.out("You did not enter a number. Please try again.");
+                Display.outln("You did not enter a number. Please try again.");
                 choice = Integer.parseInt(getUserInput());
             }
         }while(choice < lowerBound || choice > upperBound);
@@ -238,7 +238,7 @@ public class Input {
     public static int[] chooseTilePlacement(Player player) {
         // display tile placement map
         Player tmpMap = Display.displayPlacementMap(player);
-        Display.out("Enter the tile ID where you want the tile to be placed");
+        Display.outln("Enter the tile ID where you want the tile to be placed");
         Scanner in = new Scanner(System.in);
         int input=-1;
 
@@ -248,13 +248,13 @@ public class Input {
         int[] coords = new int[]{-1,-1};
         while (coords[0] == -1 && coords[1] == -1) {
             if (!firstRun && intInputted) {
-                Display.out("Invalid number.  Please enter the tileID");
+                Display.outln("Invalid number.  Please enter the tileID");
             }
             try {
                 input = in.nextInt();
                 intInputted = true;
             } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                Display.out("You must enter an integer!  Please try again");
+                Display.outln("You must enter an integer!  Please try again");
                 in.nextLine(); // clears buffer
                 intInputted = false;
             }

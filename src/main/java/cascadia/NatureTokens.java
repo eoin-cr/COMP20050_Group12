@@ -36,7 +36,7 @@ public class NatureTokens {
                 " to place (1-4)");
         tileChoice--;
         tokenChoice--;
-        Display.out("You have chosen the pair: " +CurrentDeck.getTile(tileChoice).getHabitat1()+ " + "
+        Display.outln("You have chosen the pair: " +CurrentDeck.getTile(tileChoice).getHabitat1()+ " + "
                 +CurrentDeck.getTile(tileChoice).getHabitat2()+ " tile, " +CurrentDeck.getToken(tokenChoice)+ " token.");
 
         player.subPlayerNatureToken();
@@ -70,9 +70,9 @@ public class NatureTokens {
             if (choice != 0 && !chosen.contains(choice-1)) {
                 numEntered++;
                 chosen.add(choice-1);
-                Display.out("Token replaced");
+                Display.outln("Token replaced");
             } else if (chosen.contains(choice-1)) {
-                Display.out("You have already removed that token");
+                Display.outln("You have already removed that token");
             }
         }
         return chosen;

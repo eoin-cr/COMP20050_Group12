@@ -65,9 +65,9 @@ public class ScoringHabitatCorridors {
 			int score = forestCorridor + wetlandCorridor + riverCorridor + mountainCorridor + prairieCorridor;
 			p.addToTotalPlayerScore(score);
 
-			Display.out(p.getPlayerName() + " scored " +score+ " points for Habitat Corridors.");
+			Display.outln(p.getPlayerName() + " scored " +score+ " points for Habitat Corridors.");
 		}
-		Display.out("");
+		Display.outln("");
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ScoringHabitatCorridors {
 					displayCorridorTie(corridorSizeMatchPlayers, i);
 				}
 				else { //one person has the longest corridor
-					Display.out(corridorSizeMatchPlayers.get(0).getPlayerName() + " made the longest "
+					Display.outln(corridorSizeMatchPlayers.get(0).getPlayerName() + " made the longest "
 							+ HabitatTile.Habitat.getName(i)+ " corridor. 2 bonus points.");
 					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(2);
 				}
@@ -141,16 +141,16 @@ public class ScoringHabitatCorridors {
 				}
 				if (corridorSizeMatchPlayers.size() == 1) {
 					tieFound[i] = false;
-					Display.out(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the longest "
+					Display.outln(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the longest "
 							+HabitatTile.Habitat.getName(i)+ " corridor. 3 bonus points.");
 					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(3);
 				}
 				else if (corridorSizeMatchPlayers.size() == 2) { //tie with 2 players
 					tieFound[i] = true;
-					System.out.print("Players: [ " +corridorSizeMatchPlayers.get(0).getPlayerName() + " "
+					Display.out("Players: [ " +corridorSizeMatchPlayers.get(0).getPlayerName() + " "
 							+corridorSizeMatchPlayers.get(1).getPlayerName() + " ] "
 							+ "tied for longest " +HabitatTile.Habitat.getName(i)+ " corridor.");
-					Display.out("They each get 2 bonus points.");
+					Display.outln("They each get 2 bonus points.");
 					corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(2);
 					corridorSizeMatchPlayers.get(1).addToTotalPlayerScore(2);
 				}
@@ -169,7 +169,7 @@ public class ScoringHabitatCorridors {
 						}
 					}
 					if (corridorSizeMatchPlayers.size() == 1) {
-						Display.out(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the second longest "
+						Display.outln(corridorSizeMatchPlayers.get(0).getPlayerName()  + " made the second longest "
 								+HabitatTile.Habitat.getName(i)+ " corridor. 1 bonus point.");
 						corridorSizeMatchPlayers.get(0).addToTotalPlayerScore(1);
 					}
@@ -177,17 +177,17 @@ public class ScoringHabitatCorridors {
 				}
 			}
 		}
-		Display.out("");
+		Display.outln("");
 	}
 
 	private static void displayCorridorTie(ArrayList<Player> corridorSizeMatchPlayers, int i) {
-		System.out.print("Players: [ ");
+		Display.out("Players: [ ");
 		for (Player p1 : corridorSizeMatchPlayers) {
 			p1.addToTotalPlayerScore(1);
-			System.out.print(p1.getPlayerName()+ " ");
+			Display.out(p1.getPlayerName()+ " ");
 		}
-		Display.out("] tied for longest " + HabitatTile.Habitat.getName(i)+ " corridor.");
-		Display.out("They each get 1 bonus point.");
+		Display.outln("] tied for longest " + HabitatTile.Habitat.getName(i)+ " corridor.");
+		Display.outln("They each get 1 bonus point.");
 	}
 
 	//HELPER FUNCTIONS FOR FINDING CORRIDORS ON A MAP

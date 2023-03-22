@@ -15,7 +15,7 @@ public class Generation {
     public static HabitatTile[] generateStarterHabitat () {
         // this should not be reached for regular players.  I only added this
         // because the tmp player being created for the tile placement map
-        // was also calling this method, and eventually we were running out
+        // was also calling this method, and eventually we were running outln
         // of starter habitats and the program would crash
         if (Bag.starterTiles.size() == 0) {
             return new HabitatTile[]{new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
@@ -28,28 +28,43 @@ public class Generation {
         return tiles;
     }
 
+    private static int getNumTokensLeft() {
+        int tokenTypesLeft = 0;
+        int tokensLeft = 0;
+
+        // get the total amount of tokens left of all animal types
+        for (Integer value : Bag.remainingTokens.values()) {
+            if (value > 0) {
+                tokenTypesLeft++;
+            }
+            tokensLeft += value;
+        }
+
+        // we want to always have enough different types of tokens so each token on a tile
+        // and enough tokens to pair with four tiles
+        if (tokenTypesLeft < 3 || tokensLeft < 4) {
+            addTokens();
+            tokensLeft = 50; // ok it's not exactly 50 but this exact number doesn't matter
+        }
+        return tokensLeft;
+    }
+
+    private static void addTokens() {
+        // if the bag is empty we put some more tokens in it
+        Bag.remainingTokens.put(WildlifeToken.Bear, 10);
+        Bag.remainingTokens.put(WildlifeToken.Elk, 10);
+        Bag.remainingTokens.put(WildlifeToken.Salmon, 10);
+        Bag.remainingTokens.put(WildlifeToken.Hawk, 10);
+        Bag.remainingTokens.put(WildlifeToken.Fox, 10);
+    }
+
     /**
      * Randomly generates a wildlife token.
      * Uses a hashmap to decrease the probability of getting a certain animal
      * as more tokens with that animal are placed.
      */
     public static WildlifeToken generateWildlifeToken (boolean removeFromRemaining) {
-        int tokensLeft = 0;
-
-        // get the total amount of tokens left of all animal types
-        for (Integer value : Bag.remainingTokens.values()) {
-            tokensLeft += value;
-        }
-
-        // if the bag is empty we put some more tokens in it
-        if (tokensLeft == 0) {
-            Bag.remainingTokens.put(WildlifeToken.Bear, 10);
-            Bag.remainingTokens.put(WildlifeToken.Elk, 10);
-            Bag.remainingTokens.put(WildlifeToken.Salmon, 10);
-            Bag.remainingTokens.put(WildlifeToken.Hawk, 10);
-            Bag.remainingTokens.put(WildlifeToken.Fox, 10);
-            tokensLeft = 50;
-        }
+        int tokensLeft = getNumTokensLeft();
 
         int index = new Random().nextInt(tokensLeft);
         WildlifeToken animalType = null;
@@ -78,26 +93,21 @@ public class Generation {
 			throw new IllegalArgumentException("numTokens must be between 1-3. You entered " + numTokens);
 		}
 		WildlifeToken[] animalTypes = new WildlifeToken[3];
-		 if (numTokens == 0) {
-			 numTokens = 2 + new Random().nextInt(2);
-		 }
 		for (int i = 0; i < numTokens; i++) {
-
             WildlifeToken tmp;
 			do {
+                getNumTokensLeft();
 				tmp = Generation.generateWildlifeToken(false);
 				if (Arrays.asList(animalTypes).contains(tmp)) {
 					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
 				}
 			} while (Arrays.asList(animalTypes).contains(tmp));
 			animalTypes[i] = tmp;
-
 			//animalTypes[i] = cascadia.Generation.generateWildlifeToken(false);
-
 		}
 		return animalTypes;
 	}
-	
+
     /**
      * Generates a new habitat tile.
      * The chance of it returning a keystone type is dependent on the amount of
