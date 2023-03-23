@@ -10,6 +10,14 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class CurrentDeckTest {
+    /*
+        Mockito is a library that allows us to 'mock' method calls.
+        For example, current deck takes a lot of input from the user, however,
+        we can't ask the user for input in a test.  So what we can do with
+        mockito is make it so when a certain input function is called, instead
+        of actually taking input, it simply returns a preset value.
+     */
+
     @Before
     public void setTiles() {
         List<HabitatTile> list = new ArrayList<>(Collections.nCopies(3,
@@ -100,16 +108,19 @@ public class CurrentDeckTest {
 
     @Test
 //    @Ignore
-    public void testChoosePairHelper3() {
+    public void testChoosePair3() {
         Player player = new Player("test");
-
+        int tileChoice = 1;
         try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
             utilities.when(() -> Input.chooseTilePlacement(player))
                     .thenReturn(new int[]{1,1});
-            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(1)))
+            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(tileChoice)))
                     .thenReturn(new int[]{2, -1});
+            utilities.when(Input::chooseFromDeck)
+                    .thenReturn(tileChoice);
 
-            CurrentDeck.choosePairHelper(player, 1, 1);
+            CurrentDeck.choosePair(player);
+
             HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
             System.out.println(tile);
             assertTrue(tile.equalHabitats(
@@ -120,15 +131,18 @@ public class CurrentDeckTest {
     }
 
     @Test
-    public void testChoosePairHelper() {
+    public void testChoosePair() {
         Player player = new Player("test");
+        int tileChoice = 0;
         try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
             utilities.when(() -> Input.chooseTilePlacement(player))
                     .thenReturn(new int[]{1,1});
-            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(0)))
+            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(tileChoice)))
                     .thenReturn(new int[]{2, -1});
+            utilities.when(Input::chooseFromDeck)
+                    .thenReturn(tileChoice);
 
-            CurrentDeck.choosePairHelper(player, 0, 0);
+            CurrentDeck.choosePair(player);
             HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
             System.out.println(tile);
             assertTrue(tile.equalHabitats(
@@ -139,15 +153,18 @@ public class CurrentDeckTest {
     }
 
     @Test
-    public void testChoosePairHelper2() {
+    public void testChoosePair2() {
+        int tileChoice = 3;
         Player player = new Player("test");
         try (MockedStatic<Input> utilities = Mockito.mockStatic(Input.class)) {
             utilities.when(() -> Input.chooseTilePlacement(player))
                     .thenReturn(new int[]{1,1});
-            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(3)))
+            utilities.when(() -> Input.chooseTokenPlaceOrReturn(CurrentDeck.getDeckTokens().get(tileChoice)))
                     .thenReturn(new int[]{2, -1});
+            utilities.when(Input::chooseFromDeck)
+                    .thenReturn(tileChoice);
 
-            CurrentDeck.choosePairHelper(player, 3, 3);
+            CurrentDeck.choosePair(player);
             HabitatTile tile = player.getMap().getTileBoardPosition()[1][1];
             System.out.println(tile);
             assertTrue(tile.equalHabitats(
@@ -173,5 +190,18 @@ public class CurrentDeckTest {
             fail();
         } catch (IllegalArgumentException ignored) {}
         CurrentDeck.removeDeckToken(2);
+    }
+
+    @Test
+    public void setStartTileTokenSelectionTest() {
+        System.out.println("Hi");
+        try {
+            CurrentDeck.setDeckTiles(new ArrayList<>());
+            CurrentDeck.setDeckTokens(new ArrayList<>());
+            CurrentDeck.setStartTileTokenSelection();
+//            assertTrue(true);
+        } catch (Exception ignored) {
+            fail();
+        }
     }
 }

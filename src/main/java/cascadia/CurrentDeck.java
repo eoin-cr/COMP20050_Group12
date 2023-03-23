@@ -5,14 +5,10 @@ import java.util.List;
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
 	private static List<WildlifeToken> deckTokens = new ArrayList<>();
-//	private static boolean testing = false;
-	
+
 	public CurrentDeck() {}
 
-//	public static void startTesting() {
-//		testing = true;
-//	}
-	
+
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
 	}
@@ -201,6 +197,10 @@ public class CurrentDeck {
 		deckTiles.add(tile);
 	}
 
+	/**
+	 * Removes a deck token, 0 indexed
+	 * @param index the index of the token to remove
+	 */
 	public static void removeDeckToken(int index) {
 		if (index < 0 || index >= deckTokens.size()) {
 			throw new IllegalArgumentException(String.format("index cannot be < 0 or >= " +
