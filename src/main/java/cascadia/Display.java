@@ -278,7 +278,7 @@ public class Display {
 	 * Displays the interactive commands the player can select from
 	 */
 	public static void displayCommands() {
-		for (Command.CommandType command : Command.CommandType.values()) {
+		for (Command command : Command.values()) {
 			Display.outln(command.getDescription());
 		}
 	}

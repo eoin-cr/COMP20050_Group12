@@ -113,4 +113,27 @@ public class Player {
 	public String toString() {
 		return playerName;
 	}
+
+    /**
+	 * Allows the user to select an option from the command menu.
+	 * Within this method the possible commands are displayed and user input is
+	 * taken and acted upon.
+	 */
+    public void setCommand() {
+        Display.displayCommands();
+        String input = Input.getUserInput();  // this is automatically uppercase
+
+        // automatically converts input to enum
+        try {
+			Command command = Command.valueOf(input);
+            command.enumSetCommand(this);  // calls the function represented in the enum
+//		} catch (AbstractMethodError impossibleError) {} // this should throw basically all errors for debugging
+        } catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
+            Display.outln("Invalid input for options of commands. Please try again. \n");
+
+            // this catches all illegal argument exceptions, so we're gonna just print them for
+            // now until we make sure we've caught them all before they reach this stage
+//			Display.outln(ex.toString());
+        }
+    }
 }

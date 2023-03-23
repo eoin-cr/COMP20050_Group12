@@ -68,10 +68,9 @@ public class Game {
         		// choose from tile token pairs
         		// place tile
         		// now can choose to place token, move to next player, quit etc.
-        		Command command = new Command();
 
                 do {
-                    command.setCommand(player);
+                    player.setCommand();
 //                } while (command.getCommand() != cascadia.Command.CommandType.PAIR);
                 } while (!switchTurn);
         		// automatically moves to next player if command type is next
