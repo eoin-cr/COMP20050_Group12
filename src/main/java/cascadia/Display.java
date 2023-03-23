@@ -159,48 +159,30 @@ public class Display {
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(PlayerMap map) {
 		HabitatTile[][] board = map.getTileBoardPosition();
-		int[] boundaries = new int[4];
+		int uppermost = board.length;
+		int lowermost = 0;
+		int leftmost = board[0].length;
+		int rightmost = 0;
 
-		// get uppermost tile
 		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[0].length; j++) {
+			for (int j = 0; j < board[i].length; j++) {
 				if (board[i][j] != null) {
-					boundaries[1] = i;
-					break;
+					if (i < uppermost) {
+						uppermost = i;
+					}
+					if (i > lowermost) {
+						lowermost = i;
+					}
+					if (j < leftmost) {
+						leftmost = j;
+					}
+					if (j > rightmost) {
+						rightmost = j;
+					}
 				}
 			}
 		}
-
-		// get lowermost tile
-		for (int i = board.length - 1; i >= 0; i--) {
-			for (int j = 0; j < board[0].length; j++) {
-				if (board[i][j] != null) {
-					boundaries[0] = i;
-					break;
-				}
-			}
-		}
-
-		// get leftmost tile
-		for (int i = 0; i < board[0].length; i++) {
-			for (HabitatTile[] habitatTiles : board) {
-				if (habitatTiles[i] != null) {
-					boundaries[3] = i;
-					break;
-				}
-			}
-		}
-
-		// get rightmost tile
-		for (int i = board[0].length - 1; i >= 0; i--) {
-			for (HabitatTile[] habitatTiles : board) {
-				if (habitatTiles[i] != null) {
-					boundaries[2] = i;
-					break;
-				}
-			}
-		}
-		return boundaries;
+		return new int[]{uppermost, lowermost, leftmost, rightmost};
 	}
 
 	/**
@@ -302,21 +284,27 @@ public class Display {
 	}
 
     // displays the different rotation options in order, rotates tile choice to that rotation
-    public static void rotateTile(HabitatTile tile) {
+    public static void selectTileRotation(HabitatTile tile) {
         String orientationOptions = "";
-        if (!tile.isKeystone()) {
-            for (int i = 0; i < 6; i++) {
-                tile.rotateTile(1);
-                    orientationOptions = removeNewlineAndJoin(
-                        orientationOptions, tile.toFormattedString(), "\t\t\t"
-                    );
-            }
-            Display.outln(orientationOptions);
-            // allows the user to select what rotation they want
-            tile.rotateTile(-1);
-        }
+		// we don't want to bother with rotating a keystone tile as they only have one orientation
+		if (tile.isKeystone()) {
+			return;
+		}
+
+		for (int i = 0; i < 6; i++) {
+			tile.rotateTile(1);
+			orientationOptions = removeNewlineAndJoin(
+					orientationOptions, tile.toFormattedString(), "\t\t\t"
+			);
+		}
+		Display.outln(orientationOptions);
+		// allows the user to select what rotation they want
+		tile.rotateTile(-1);
     }
 
+	// Allows us to easily change the output method (e.g. If we needed to change
+	// it to output to a file, we can just change these 3 methods, rather than
+	// every single System.out call)
 	public static void outln(String s) {
 		System.out.println(s);
 	}

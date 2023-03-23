@@ -194,22 +194,26 @@ public class HabitatTile {
 	}
 
 	public void rotateTile(int input){
-		if (tileType == TileType.NON_KEYSTONE) {
-			// if the input is -1 we want the user to select an orientation,
-			// otherwise, we just rotate the tile by the amount given
-			if (input == -1) {
-				input = Input.boundedInt(1, NUMBER_OF_EDGES, "Which position would you like to rotate to? (Type a number between 1-6): ");
-			}
+		// we don't want to rotate a keystone tile
+		if (isKeystone()) {
+			return;
+		}
 
-			HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
+		// if the input is -1 we want the user to select an orientation,
+		// otherwise, we just rotate the tile by the amount given
+		if (input == -1) {
+			input = Input.boundedInt(1, NUMBER_OF_EDGES, "Which position would you like to rotate " +
+					"to? (Type a number between 1-6): ");
+		}
 
-			for (int i = 0; i < NUMBER_OF_EDGES; i++) {
-				temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
-			}
+		HabitatTile.Habitat[] temp = new Habitat[NUMBER_OF_EDGES];
 
-			for (int j = 0; j < NUMBER_OF_EDGES; j++) {
-				edges.get(j).setHabitatType(temp[j]);
-			}
+		for (int i = 0; i < NUMBER_OF_EDGES; i++) {
+			temp[(i + input) % NUMBER_OF_EDGES] = edges.get(i).getHabitatType();
+		}
+
+		for (int j = 0; j < NUMBER_OF_EDGES; j++) {
+			edges.get(j).setHabitatType(temp[j]);
 		}
 	}
 

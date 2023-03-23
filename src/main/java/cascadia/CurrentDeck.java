@@ -47,7 +47,7 @@ public class CurrentDeck {
 		}
 		int[] rowAndColumn;
 		rowAndColumn = Input.chooseTilePlacement(player);
-		Display.rotateTile(deckTiles.get(tileChoice));
+		Display.selectTileRotation(deckTiles.get(tileChoice));
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 
