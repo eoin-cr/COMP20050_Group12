@@ -1,10 +1,8 @@
 package cascadia.scoring;
 
 import cascadia.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Scoring {
 //	indexing of cards:
@@ -91,7 +89,10 @@ public class Scoring {
 			}
 		}
 	}
-	//START OF HELPER FUNCTIONS
+
+	/////////////////////////////
+	//START OF HELPER FUNCTIONS//
+	/////////////////////////////
 
 	/**
 	 * Helper function for Scorecard scoring, retrieves a chunk of connected tiles on the map with the same Wildlife token type.
@@ -152,14 +153,14 @@ public class Scoring {
 		for (int i = 0; i < 6; i++) {
 			adjacentHabitats[i] = null;
 		}
+		int[] edgeIndexes = new int[]{3,4,5,0,1,2};
 		//Center tile has 6 edges - each edge connects to adjacent tile's specific edge according to position on map
 		//in relation to center tile. E.g. Center tile edge 0 connects to above tile's edge 3.
-		if (adjacentTiles[0] != null) adjacentHabitats[0] = adjacentTiles[0].getEdge(3).getHabitatType();
-		if (adjacentTiles[1] != null) adjacentHabitats[1] = adjacentTiles[1].getEdge(4).getHabitatType();
-		if (adjacentTiles[2] != null) adjacentHabitats[2] = adjacentTiles[2].getEdge(5).getHabitatType();
-		if (adjacentTiles[3] != null) adjacentHabitats[3] = adjacentTiles[3].getEdge(0).getHabitatType();
-		if (adjacentTiles[4] != null) adjacentHabitats[4] = adjacentTiles[4].getEdge(1).getHabitatType();
-		if (adjacentTiles[5] != null) adjacentHabitats[5] = adjacentTiles[5].getEdge(2).getHabitatType();
+		for (int i = 0; i < 6; i++) {
+			if (adjacentTiles[i] != null) {
+				adjacentHabitats[i] = adjacentTiles[i].getEdge(edgeIndexes[i]).getHabitatType();
+			}
+		}
 		return adjacentHabitats;
 	}
 
@@ -178,7 +179,19 @@ public class Scoring {
 //	 	4|     |1
 //	 	  -- --
 //	 	  3	  2
-	
+
+	private static HabitatTile tileHelper(HabitatTile tile, PlayerMap map, int index, boolean isEven) {
+		int row = tile.getMapPosition()[0];
+		int col = tile.getMapPosition()[1];
+		int[] rowShift = new int[]{-1,0,+1,+1,0,-1};
+		int[] colShiftEven = new int[]{1,1,1,0,-1,0};
+		int[] colShiftOdd = new int[]{0,1,0,-1,-1,-1};
+
+		int colShift = isEven ? colShiftEven[index] : colShiftOdd[index];
+
+		return map.returnTileAtPositionInMap(row+rowShift[index], col+colShift);
+	}
+
 	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = new HabitatTile[6];
 		for (int i = 0; i < 6; i++) {
@@ -186,24 +199,16 @@ public class Scoring {
 		}
 
 		int row = tile.getMapPosition()[0];
-		int col = tile.getMapPosition()[1];
-		
+
 		if (row % 2 == 0) {
-			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col+1);
-			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col+1);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
-			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
-					
+			for (int i = 0; i < 6; i++) {
+				adjacentTiles[i] = tileHelper(tile, map, i, true);
+			}
 		}
 		else {
-			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
-			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col-1);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
-			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col-1);
+			for (int i = 0; i < 6; i++) {
+				adjacentTiles[i] = tileHelper(tile, map, i, false);
+			}
 		}
 		
 		return adjacentTiles;
@@ -212,39 +217,20 @@ public class Scoring {
 	/**
 	 * Walks one tile over on player's map, following a specified edge (ie walks either left/right or diagonally)
 	 */
-	public static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map ,int edgeNum) {
+	public static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map, int edgeNum) {
 		if (edgeNum < 0 || edgeNum > 5) {
 			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
 		}
-		
+
 		HabitatTile adjacentTile;
 		int row = tile.getMapPosition()[0];
-		int col = tile.getMapPosition()[1];
-		
+
 		if (row % 2 == 0) { //non-edge case, no missing sides, in the middle of the map
-			switch (edgeNum) {
-			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col+1);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
-			default -> adjacentTile = null;
-			}
+			adjacentTile = tileHelper(tile, map, edgeNum, true);
 		}
 		else {
-			switch (edgeNum) {
-			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col-1);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col-1);
-			default -> adjacentTile = null;
-			}
-			
+			adjacentTile = tileHelper(tile, map, edgeNum, false);
 		}
-		//if (adjacentTile != null) Display.outln("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
 		return adjacentTile;
 	}
 

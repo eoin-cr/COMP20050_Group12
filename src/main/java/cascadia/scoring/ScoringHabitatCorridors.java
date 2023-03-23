@@ -9,62 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoringHabitatCorridors {
-//	public static void scorePlayerHabitatCorridors(Player player, HabitatTile tile) {
-//		//for keystone tile, just check corridors twice
-//		HabitatTile.Habitat[] habitats = {tile.getHabitat1(), tile.getHabitat2()};
-//
-//		for (HabitatTile.Habitat habitatType : habitats) {
-//			switch (habitatType) {
-//			case Forest:
-//				int forestCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Forest).size();
-//				player.setLongestCorridorSize(0, forestCorridor);
-//				break;
-//			case Wetland:
-//				int wetlandCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Wetland).size();
-//				player.setLongestCorridorSize(1, wetlandCorridor);
-//				break;
-//			case River:
-//				int riverCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.River).size();
-//				player.setLongestCorridorSize(2, riverCorridor);
-//				break;
-//			case Mountain:
-//				int mountainCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Mountain).size();
-//				player.setLongestCorridorSize(3, mountainCorridor);
-//				break;
-//			case Prairie:
-//				int prairieCorridor = findLongestHabitatCorridor(player.getMap(), HabitatTile.Habitat.Prairie).size();
-//				player.setLongestCorridorSize(4, prairieCorridor);
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//
-//		player.calculateCorridorsPlayerScore(); //change total score for habitat corridors for player
-//	}
-	
+	/////////////////////////
 	//FUNCTIONS FOR SCORING ALL PLAYERS' HABITAT CORRIDORS AT VERY END
+	/////////////////////////
 	/**
 	 * Sets each player's score for their personal longest habitat corridors of all 5 types.
 	 * Also saves the size of each longest habitat corridor in player's info
 	 */
 	public static void habitatCorridorScoring(List<Player> players) {
 		for (Player p : players){
-			int forestCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Forest).size();
-			int wetlandCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Wetland).size();
-			int riverCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.River).size();
-			int mountainCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Mountain).size();
-			int prairieCorridor = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.Prairie).size();
-
-			p.setLongestCorridorSize(0, forestCorridor);
-			p.setLongestCorridorSize(1, wetlandCorridor);
-			p.setLongestCorridorSize(2, riverCorridor);
-			p.setLongestCorridorSize(3, mountainCorridor);
-			p.setLongestCorridorSize(4, prairieCorridor);
-
-			int score = forestCorridor + wetlandCorridor + riverCorridor + mountainCorridor + prairieCorridor;
+			int score = 0;
+			for (int i = 0; i < HabitatTile.Habitat.values().length; i++) {
+				int corridorSize = findLongestHabitatCorridor(p.getMap(), HabitatTile.Habitat.values()[i]).size();
+				p.setLongestCorridorSize(i, corridorSize);
+				score += corridorSize;
+			}
 			p.addToTotalPlayerScore(score);
-
 			Display.outln(p.getPlayerName() + " scored " +score+ " points for Habitat Corridors.");
 		}
 		Display.outln("");
@@ -221,11 +181,13 @@ public class ScoringHabitatCorridors {
 	 * Helper function for Habitat corridor scoring, retrieves a chunk of connected tiles on the map with matching habitat types.
 	 * Habitat types match based on the edges of two adjacent tiles.
 	 */
-	public static void findHabitatCorridorRecursive(ArrayList<HabitatTile> habitatCorridor, HabitatTile centerTile, HabitatTile.Habitat habitatType, PlayerMap map) {
+	public static void findHabitatCorridorRecursive(ArrayList<HabitatTile> habitatCorridor, HabitatTile centerTile,
+													HabitatTile.Habitat habitatType, PlayerMap map) {
 		HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(centerTile, map);
 		HabitatTile.Habitat[] adjacentHabitats = Scoring.getAdjacentHabitats(centerTile, map);
 
-		if (!habitatCorridor.contains(centerTile) && (centerTile.getHabitat1() == habitatType || centerTile.getHabitat2() == habitatType)) {
+		if (!habitatCorridor.contains(centerTile) && (centerTile.getHabitat1() == habitatType
+				|| centerTile.getHabitat2() == habitatType)) {
 			habitatCorridor.add(centerTile);
 			for (int i = 0; i < centerTile.getEdges().size(); i++) {
 				if (centerTile.getEdge(i).getHabitatType() == habitatType && adjacentHabitats[i] == habitatType) {

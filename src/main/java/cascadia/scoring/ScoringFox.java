@@ -25,7 +25,7 @@ public class ScoringFox extends ScoreToken {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
 				for (WildlifeToken animal: WildlifeToken.values()) {
 					if	(!Scoring.getAdjacentTilesWithTokenMatch(animal,tile,map).isEmpty()){
-						score ++;
+						score++;
 					}
 				}
 			}

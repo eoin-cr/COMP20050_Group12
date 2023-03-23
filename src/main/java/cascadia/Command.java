@@ -48,11 +48,6 @@ enum Command {
 				NatureTokens.tokenMenu(player);
 			}},
 
-//		/** Moves to next players turn */
-//		NEXT {public void enumSetCommand(cascadia.Player player){
-//			return;
-//		}},
-
 	/** Quits the game */
 	QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
 		Scoring.startScoring(); //find winner of game

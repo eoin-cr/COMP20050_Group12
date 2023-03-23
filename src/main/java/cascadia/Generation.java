@@ -44,7 +44,7 @@ public class Generation {
         // and enough tokens to pair with four tiles
         if (tokenTypesLeft < 3 || tokensLeft < 4) {
             addTokens();
-            tokensLeft = 50; // ok it's not exactly 50 but this exact number doesn't matter
+            tokensLeft = 50;
         }
         return tokensLeft;
     }
@@ -103,7 +103,6 @@ public class Generation {
 				}
 			} while (Arrays.asList(animalTypes).contains(tmp));
 			animalTypes[i] = tmp;
-			//animalTypes[i] = cascadia.Generation.generateWildlifeToken(false);
 		}
 		return animalTypes;
 	}

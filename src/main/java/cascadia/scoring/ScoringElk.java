@@ -131,13 +131,17 @@ public class ScoringElk extends ScoreToken {
 		for (int i = 1; i < adjacentTiles.length; i++) {
 			if (adjacentTiles[i-1] != null && adjacentTiles[i] != null) {
 				//if two adjacent tokens next to each other and central token are elk, it's a triangle
-				if (!visitedTiles.contains(adjacentTiles[i-1]) && adjacentTiles[i-1].getIsTokenPlaced() && adjacentTiles[i-1].getPlacedToken() == WildlifeToken.Elk &&
-						!visitedTiles.contains(adjacentTiles[i]) && adjacentTiles[i].getIsTokenPlaced() && adjacentTiles[i].getPlacedToken() == WildlifeToken.Elk) {
+				if (!visitedTiles.contains(adjacentTiles[i-1]) && adjacentTiles[i-1].getIsTokenPlaced() &&
+						adjacentTiles[i-1].getPlacedToken() == WildlifeToken.Elk &&
+						!visitedTiles.contains(adjacentTiles[i])
+						&& adjacentTiles[i].getIsTokenPlaced()
+						&& adjacentTiles[i].getPlacedToken() == WildlifeToken.Elk) {
 					diamondShape.add(adjacentTiles[i-1]); //right of diamond
 					diamondShape.add(adjacentTiles[i]); //left of diamond
 					//now check if the triangle is a diamond by taking a step from the left tile of diamond
 					HabitatTile bottomTile = Scoring.walkToTileAtSide(adjacentTiles[i], map, 2);
-					if (bottomTile != null && !visitedTiles.contains(bottomTile) && bottomTile.getIsTokenPlaced() && bottomTile.getPlacedToken() == WildlifeToken.Elk) {
+					if (bottomTile != null && !visitedTiles.contains(bottomTile) && bottomTile.getIsTokenPlaced()
+							&& bottomTile.getPlacedToken() == WildlifeToken.Elk) {
 						diamondShape.add(bottomTile);
 						visitedTiles.addAll(diamondShape);
 						return true;
@@ -157,8 +161,10 @@ public class ScoringElk extends ScoreToken {
 		for (int i = 1; i < adjacentTiles.length; i++) {
 			if (adjacentTiles[i-1] != null && adjacentTiles[i] != null) {
 				//if two adjacent tokens next to each other and central token are elk, it's a triangle
-				if (!visitedTiles.contains(adjacentTiles[i-1]) && adjacentTiles[i-1].getIsTokenPlaced() && adjacentTiles[i-1].getPlacedToken() == WildlifeToken.Elk &&
-						!visitedTiles.contains(adjacentTiles[i]) && adjacentTiles[i].getIsTokenPlaced() && adjacentTiles[i].getPlacedToken() == WildlifeToken.Elk) {
+				if (!visitedTiles.contains(adjacentTiles[i-1]) && adjacentTiles[i-1].getIsTokenPlaced()
+						&& adjacentTiles[i-1].getPlacedToken() == WildlifeToken.Elk &&
+						!visitedTiles.contains(adjacentTiles[i]) && adjacentTiles[i].getIsTokenPlaced()
+						&& adjacentTiles[i].getPlacedToken() == WildlifeToken.Elk) {
 					triangleShape.add(adjacentTiles[i-1]); //left of triangle
 					triangleShape.add(adjacentTiles[i]); //right of triangle
 					visitedTiles.addAll(triangleShape);
@@ -172,7 +178,8 @@ public class ScoringElk extends ScoreToken {
 	private static boolean checkTwos(HabitatTile elkTile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = Scoring.getAdjacentTiles(elkTile, map);
 		for (HabitatTile t : adjacentTiles) {
-			if (t != null && !visitedTiles.contains(t) && t.getIsTokenPlaced() && t.getPlacedToken() == WildlifeToken.Elk) {
+			if (t != null && !visitedTiles.contains(t) && t.getIsTokenPlaced()
+					&& t.getPlacedToken() == WildlifeToken.Elk) {
 				visitedTiles.add(elkTile);
 				visitedTiles.add(t);
 				return true;

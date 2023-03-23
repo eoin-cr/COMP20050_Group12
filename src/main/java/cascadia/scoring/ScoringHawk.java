@@ -87,7 +87,6 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 				}
 			}
 		}
-
 		score = 3*linesOfSight;
 		
 		return score;
@@ -116,7 +115,8 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 			if (currTile != null && !currTile.getIsTokenPlaced()) {//walk another step while not end of map or not interrupted by wildlife
 				currTile = Scoring.walkToTileAtSide(currTile, map, i);
 			}
-			if (currTile != null && currTile.getIsTokenPlaced() && currTile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(currTile) && checkValidHawk(map, currTile)) {
+			if (currTile != null && currTile.getIsTokenPlaced() && currTile.getPlacedToken() == WildlifeToken.Hawk
+					&& !visitedTiles.contains(currTile) && checkValidHawk(map, currTile)) {
 					linesOfSight++;
 			}
 		}
@@ -128,18 +128,19 @@ private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
 	private static int getLinesOfSight(PlayerMap map, HabitatTile hawkTile) {
 		int linesOfSight = 0;
 		HabitatTile currTile;
-		for (int i = 0; i < 6; i++) { //walk from all sides of the tile, check for diagonal and horizontal lines of sight
+		//walk from all sides of the tile, check for diagonal and horizontal lines of sight
+		for (int i = 0; i < 6; i++) {
 			currTile = hawkTile;
 			currTile = Scoring.walkToTileAtSide(currTile, map, i);
-			while (currTile != null && !currTile.getIsTokenPlaced()) {//keep walking in one direction while not end of map or not interrupted by wildlife (esp hawks)
+			//keep walking in one direction while not end of map or not interrupted by wildlife (esp hawks)
+			while (currTile != null && !currTile.getIsTokenPlaced()) {
 				currTile = Scoring.walkToTileAtSide(currTile, map, i);
 			}
-			if (currTile != null && currTile.getIsTokenPlaced() && currTile.getPlacedToken() == WildlifeToken.Hawk && !visitedTiles.contains(currTile) && checkValidHawk(map, currTile)) {
+			if (currTile != null && currTile.getIsTokenPlaced() && currTile.getPlacedToken() == WildlifeToken.Hawk
+					&& !visitedTiles.contains(currTile) && checkValidHawk(map, currTile)) {
 					linesOfSight++;
 			}
 		}
-		
 		return linesOfSight;
 	}
-	
 }

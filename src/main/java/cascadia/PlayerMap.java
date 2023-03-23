@@ -169,7 +169,8 @@ public class PlayerMap {
 				} else {
 					indent = -1;
 				}
-				if (tmpBoard[i][j] == null & (
+//				if (tmpBoard[i][j] == null & surroundingTokensNonNull(i, j, tmpBoard)) {
+				if (tmpBoard[i][j] == null && (
 						tmpBoard[i][j-1] != null
 						|| tmpBoard[i][j+1] != null
 						|| tmpBoard[i-1][j] != null
@@ -185,6 +186,23 @@ public class PlayerMap {
 		}
 	}
 
+	// TODO: see if you can get this working
+//	private static boolean surroundingTokensNonNull(int i, int j, HabitatTile[][] board) {
+//		int indent;
+//		if (i % 2 == 0) {
+//			indent = 1;
+//		} else {
+//			indent = -1;
+//		}
+//		int[] rowShift = new int[]{0,0,-1,-1,1,1};
+//		int[] colShift = new int[]{-1,+1,0,indent,0,indent};
+//		for (int k = 0; k < 6; k++) {
+//			if (board[i + rowShift[k]] [j + colShift[k]] == null) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 	public int[] returnPositionOfID(int ID) {
 		for (int i = 0; i < tileBoardPosition.length; i++) {
