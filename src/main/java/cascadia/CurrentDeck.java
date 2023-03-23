@@ -66,7 +66,6 @@ public class CurrentDeck {
 		}
 
 		if (testing) {
-//			Display.outln("1");
 			return;
 		}
 		Game.switchTurn(); //move to next player
@@ -166,17 +165,15 @@ public class CurrentDeck {
 	}
 
 	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-		WildlifeToken type;
-		if (list.get(0) == list.get(1) || list.get(0) == list.get(2) || list.get(0) == list.get(3)) {
-			type = list.get(0);
+		/*
+		  if we have 3 of one token and 1 of another, if the first 2 are
+		  the same, they must both be the tripled one.  Otherwise, if they're
+		  different, the 3rd and 4th tokens must both be the tripled one
+		 */
+		if (list.get(0) == list.get(1)) {
+			return list.get(0);
 		}
-		else if (list.get(1) == list.get(2) || list.get(1) == list.get(3) ) {
-			type = list.get(1);
-		}
-		else { // 2 == 3 and one other
-			type = list.get(2);
-		}
-		return type;
+		return list.get(2);
 	}
 
 	public static List<HabitatTile> getDeckTiles() {
