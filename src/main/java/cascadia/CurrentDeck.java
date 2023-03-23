@@ -5,13 +5,13 @@ import java.util.List;
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
 	private static List<WildlifeToken> deckTokens = new ArrayList<>();
-	private static boolean testing = false;
+//	private static boolean testing = false;
 	
 	public CurrentDeck() {}
 
-	public static void startTesting() {
-		testing = true;
-	}
+//	public static void startTesting() {
+//		testing = true;
+//	}
 	
 	public static HabitatTile getTile (int index) {
 		return deckTiles.get(index);
@@ -50,12 +50,12 @@ public class CurrentDeck {
 					"%d and the amount of deck tokens is %d", tokenChoice, deckTokens.size()));
 		}
 		int[] rowAndColumn;
-		if (!testing) {
+//		if (!testing) {
 			rowAndColumn = Input.chooseTilePlacement(player);
 			Display.rotateTile(deckTiles.get(tileChoice));
-		} else {
-			rowAndColumn = new int[]{1,1};
-		}
+//		} else {
+//			rowAndColumn = new int[]{1,1};
+//		}
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 
@@ -65,9 +65,9 @@ public class CurrentDeck {
 			Generation.generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 		}
 
-		if (testing) {
-			return;
-		}
+//		if (testing) {
+//			return;
+//		}
 		Game.switchTurn(); //move to next player
     }
 
@@ -89,12 +89,11 @@ public class CurrentDeck {
 				Display.outln("You cannot add this token to your current map of tiles, as none of the options match.");
 				break;
 			}
-			int[] result;
-			if (testing) {
-				result = new int[]{2,0};
-			} else {
-				result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
-			}
+			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
+//			if (testing) {
+//				result = new int[]{2,0};
+//			} else {
+//			}
 			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
 				Display.outln("You have put the token back in the bag");
@@ -121,29 +120,31 @@ public class CurrentDeck {
     	}
     }
 
-    protected static void cullCheckThreeTokens() {
+    public static void cullCheckThreeTokens() {
     	boolean threeMatch = hasThreeDuplicates((ArrayList<WildlifeToken>) deckTokens);
 
     	if (threeMatch) {
 			WildlifeToken type = tripledToken(deckTokens);
 			int choice;
-			if (!testing) {
+//			if (!testing) {
 				choice = Input.chooseCullThreeOptions();
-			} else {
-				choice = 1;
-			}
+//			} else {
+//				choice = 1;
+//			}
     		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
     					deckTokens.remove(i);
-    					deckTokens.add(i, Generation.generateWildlifeToken(true));
+						// to make testing easier
+						WildlifeToken token = Generation.generateWildlifeToken(true);
+    					deckTokens.add(i, token);
 
     				}	
     			}
-				if (!testing) {
+//				if (!testing) {
 					Display.cullOccurrence();
-				}
+//				}
     			cullCheckFourTokens();
     		}
     		//if choice is 2, deck remains unchanged - message display handled in display
