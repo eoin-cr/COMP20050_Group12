@@ -137,20 +137,6 @@ public class ScoringElkTest {
         map.addTileToMap(newElkTile(), 8,7);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 30);
 
-//        Display.displayTileMap(map);
-//        map.clearTileBoard();
-//        Display.displayTileMap(map);
-//
-//        // It seems strange that this doesn't work, but I can't imagine it
-//        // causing a problem in the real game
-//        map.addTileToMap(newElkTile(), 8,8);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 2);
-//        map.addTileToMap(newElkTile(), 8,10);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 4);
-//        map.addTileToMap(newElkTile(), 9,9);
-//        Display.displayTileMap(map);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 6);
-
         PlayerMap secondMap = new PlayerMap();
         secondMap.clearTileBoard();
         secondMap.addTileToMap(newElkTile(), 8,8);

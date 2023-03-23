@@ -41,9 +41,7 @@ public class ScoringSalmonTest {
         assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(3));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 9, 12);
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 12);
         assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(4));
-//        cascadia.Display.displayTileMap(map);
     }
 
     // These runs should get invalidated as we can't have more than 2 salmon tiles touching

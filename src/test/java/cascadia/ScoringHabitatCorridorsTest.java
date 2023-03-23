@@ -20,8 +20,7 @@ public class ScoringHabitatCorridorsTest {
     }
     
     protected static HabitatTile newTile(Habitat hab1, Habitat hab2) {
-        HabitatTile tile = new HabitatTile(hab2, hab1, 1);
-        return tile;
+		return new HabitatTile(hab2, hab1, 1);
     }
     
     @Test
@@ -30,8 +29,7 @@ public class ScoringHabitatCorridorsTest {
     	map.addTileToMap(newTile(Habitat.Prairie, Habitat.Forest), 7, 8);
     	map.addTileToMap(newTile(Habitat.River, Habitat.River), 7, 9);
     	map.addTileToMap(newTile(Habitat.River, Habitat.Mountain), 6, 9);
-    	//Display.displayTileMap(map);
-    	
+
     	ArrayList<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.River);
     	assertEquals(3, longestRiver.size());
     	ArrayList<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Forest);
@@ -43,7 +41,7 @@ public class ScoringHabitatCorridorsTest {
     }
     
     @Test
-    public void testCorridorSidesUnmatching() {
+    public void testCorridorSidesNotMatching() {
     	map.addTileToMap(newTile(Habitat.Forest, Habitat.River), 8, 8);
     	map.addTileToMap(newTile(Habitat.Forest, Habitat.Prairie), 7, 8);
     	map.addTileToMap(newTile(Habitat.Mountain, Habitat.River), 7, 9);

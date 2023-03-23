@@ -34,7 +34,6 @@ public class ScoringHawkTest {
     	 assertEquals(2, ScoringHawk.calculateScore(map, ScoringHawk.Option.H1));
     	 map.addTileToMap(newTile(WildlifeToken.Hawk), 6, 8);
     	 assertEquals(5, ScoringHawk.calculateScore(map, ScoringHawk.Option.H1));
-    	 //Display.displayTileMap(map);
     }
     
     @Test
@@ -53,8 +52,7 @@ public class ScoringHawkTest {
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H2));
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 6, 9);
    	 	assertEquals(2, ScoringHawk.calculateScore(map, ScoringHawk.Option.H2));
-   	 	//Display.displayTileMap(map);
-   	 	
+
     }
     
     @Test
@@ -63,8 +61,7 @@ public class ScoringHawkTest {
    	 	map.addTileToMap(newTileNoToken(), 7, 9);
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 6, 8);
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H2));
-   	 	//Display.displayTileMap(map);
-   	 	
+
     }
     
     @Test
@@ -74,7 +71,6 @@ public class ScoringHawkTest {
    	 	map.addTileToMap(newTileNoToken(), 6, 9);
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 5, 10);
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H2));
-   	 	//Display.displayTileMap(map);
     }
     
     @Test
@@ -87,7 +83,6 @@ public class ScoringHawkTest {
    	 	map.addTileToMap(newTileNoToken(), 9, 9);
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 10, 9);
    	 	assertEquals(6, ScoringHawk.calculateScore(map, ScoringHawk.Option.H3));
-   	 	//Display.displayTileMap(map);
     }
     
     @Test
@@ -99,7 +94,6 @@ public class ScoringHawkTest {
    	 	assertEquals(3, ScoringHawk.calculateScore(map, ScoringHawk.Option.H3));
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 4, 10);
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H3));
-   	 	//Display.displayTileMap(map);
     }
     
     @Test
@@ -110,7 +104,6 @@ public class ScoringHawkTest {
    	 	map.addTileToMap(newTileNoToken(), 5, 10);
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 4, 10);
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H3));
-   	 	//Display.displayTileMap(map);
     }
     
     @Test
@@ -121,7 +114,5 @@ public class ScoringHawkTest {
    	 	map.addTileToMap(newTileNoToken(), 5, 9);
    	 	map.addTileToMap(newTile(WildlifeToken.Hawk), 4, 8);
    	 	assertEquals(0, ScoringHawk.calculateScore(map, ScoringHawk.Option.H3));
-   	 	//Display.displayTileMap(map);
     }
-
 }

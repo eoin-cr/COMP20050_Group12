@@ -33,25 +33,21 @@ public class CurrentDeck {
 		choosePairHelper(player, choice, choice);
 	}
 
-	public static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
+	protected static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
 		if (player == null) {
 			throw new IllegalArgumentException("Player cannot be null");
 		} else if (tileChoice >= deckTiles.size() || tileChoice < 0) {
-			throw new IllegalArgumentException(String.format("Tile choice must be greater " +
-					"than 0 and not more than the amount of deck tiles.  Tile choice was " +
-					"%d and the amount of deck tiles is %d", tileChoice, deckTiles.size()));
+			throw new IllegalArgumentException(String.format("Tile choice must be at least " +
+					"0 and less than the amount of deck tiles.  Tile choice was " +
+					"%d and the amount of deck tiles is %d", tileChoice, deckTiles.size()-1));
 		} else if (tokenChoice >= deckTokens.size() || tokenChoice < 0) {
-			throw new IllegalArgumentException(String.format("Token choice must be greater " +
-					"than 0 and not more than the amount of deck tokens.  Token choice was " +
-					"%d and the amount of deck tokens is %d", tokenChoice, deckTokens.size()));
+			throw new IllegalArgumentException(String.format("Token choice must be at least 0" +
+					"and less than the number of deck tokens.  Token choice was " +
+					"%d and the amount of deck tokens is %d", tokenChoice, deckTokens.size()-1));
 		}
 		int[] rowAndColumn;
-//		if (!testing) {
-			rowAndColumn = Input.chooseTilePlacement(player);
-			Display.rotateTile(deckTiles.get(tileChoice));
-//		} else {
-//			rowAndColumn = new int[]{1,1};
-//		}
+		rowAndColumn = Input.chooseTilePlacement(player);
+		Display.rotateTile(deckTiles.get(tileChoice));
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
 
@@ -61,9 +57,6 @@ public class CurrentDeck {
 			Generation.generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 		}
 
-//		if (testing) {
-//			return;
-//		}
 		Game.switchTurn(); //move to next player
     }
 
@@ -86,10 +79,6 @@ public class CurrentDeck {
 				break;
 			}
 			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
-//			if (testing) {
-//				result = new int[]{2,0};
-//			} else {
-//			}
 			if (result[0] == 2) { //put token back in bag choice
 				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
 				Display.outln("You have put the token back in the bag");
@@ -122,29 +111,19 @@ public class CurrentDeck {
     	if (threeMatch) {
 			WildlifeToken type = tripledToken(deckTokens);
 			int choice;
-//			if (!testing) {
-				choice = Input.chooseCullThreeOptions();
-//			} else {
-//				choice = 1;
-//			}
+			choice = Input.chooseCullThreeOptions();
     		if (choice == 1) { //cull choice
     			for (int i = deckTokens.size()-1; i >= 0; i--) {
     				if (getToken(i) == type) {
     					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
     					deckTokens.remove(i);
-						// to make testing easier
-						WildlifeToken token = Generation.generateWildlifeToken(true);
-    					deckTokens.add(i, token);
-
-    				}	
+    					deckTokens.add(i, Generation.generateWildlifeToken(true));
+    				}
     			}
-//				if (!testing) {
-					Display.cullOccurrence();
-//				}
+				Display.cullOccurrence();
     			cullCheckFourTokens();
     		}
-    		//if choice is 2, deck remains unchanged - message display handled in display
-    	}	
+    	}
     }
     
     private static boolean hasThreeDuplicates(ArrayList<WildlifeToken> list) {
@@ -182,7 +161,7 @@ public class CurrentDeck {
 	}
 
 	public static void addDeckToken(WildlifeToken token) {
-		if (deckTokens.size() > 4) {
+		if (deckTokens.size() >= 4) {
 			throw new IllegalArgumentException("Cannot add a token when there's already" +
 					" 4 tokens in the current deck.");
 		}
@@ -190,7 +169,7 @@ public class CurrentDeck {
 	}
 
 	public static void addDeckTile(HabitatTile tile) {
-		if (deckTiles.size() > 4) {
+		if (deckTiles.size() >= 4) {
 			throw new IllegalArgumentException("Cannot add a tile when there's already" +
 					" 4 tiles in the current deck.");
 		}
