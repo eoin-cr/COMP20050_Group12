@@ -45,27 +45,6 @@ public class Scoring {
 	}
 
 	// Will just be using end scoring for now to simplify things
-//	/**
-//	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
-//	 * That particular Wildlife token type is re-scored for that player's whole map.
-//	 * Keeps player's wildlife scores updated per turn.
-//	 * @see CurrentDeck
-//	 * @param player the player whose score is to be updated
-//	 * @param token the token to be scored
-//	 */
-//	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
-//		switch (token) {
-//		case Bear -> player.setPlayerWildlifeScore(WildlifeToken.Bear, ScoringBear.calculateScore(player, cards[0]));
-//		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.calculateScore(player.getMap(), cards[1]));
-//		case Salmon -> player.setPlayerWildlifeScore(WildlifeToken.Salmon, ScoringSalmon.calculateScore(player.getMap(), cards[2]));
-//		case Hawk -> player.setPlayerWildlifeScore(WildlifeToken.Hawk, ScoringHawk.calculateScore(player, cards[3]));
-//		case Fox -> player.setPlayerWildlifeScore(WildlifeToken.Fox, ScoringFox.calculateScore(player, cards[4]));
-//		default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
-//		}
-//		Display.outln("The token you placed was of type: " +token.name()+ ". Your current Wildlife score for that type is: " +player.getPlayerWildlifeScore(token));
-//	}
-
-
 	private static void natureTokenScoring() {
 		for (Player p : players) {
 			if (p.getPlayerNatureTokens() > 0) {
@@ -268,20 +247,5 @@ public class Scoring {
 		//if (adjacentTile != null) Display.outln("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
 		return adjacentTile;
 	}
-//
-//	/**
-//	 * Helper function that walks in a direction along the map, as specified by an edge number.
-//	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
-//	 * until the end of the map is reached.
-//	 * @return next tile walked to
-//	 */
-//	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {
-//		HabitatTile nextTile = null;
-//		if (tile != null) {
-//			nextTile = walkToTileAtSide(tile, map, edgeNum);
-//			walkInDirectionRecursive(nextTile, map, edgeNum);
-//		}
-//		return nextTile;
-//	}
 
 }

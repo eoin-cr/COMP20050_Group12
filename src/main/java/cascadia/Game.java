@@ -71,7 +71,6 @@ public class Game {
 
                 do {
                     player.setCommand();
-//                } while (command.getCommand() != cascadia.Command.CommandType.PAIR);
                 } while (!switchTurn);
         		// automatically moves to next player if command type is next
         	}

@@ -102,9 +102,6 @@ public class CurrentDeck {
 				succeeded = true;
 			} else {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
-//				if (succeeded) { //get score change for player for that token type on their map
-//					Scoring.scorePlayerTokenPlacement(player, token);
-//				}
 			}
 		}
 		deckTokens.remove(tokenChoice);
