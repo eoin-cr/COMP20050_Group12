@@ -90,8 +90,11 @@ public class Generation {
 	 */
 	public static WildlifeToken[] generateTokenOptionsOnTiles(int numTokens) {
 		if (numTokens < 0 || numTokens > 3) {
-			throw new IllegalArgumentException("numTokens must be between 1-3. You entered " + numTokens);
+			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
 		}
+        if (numTokens == 0) {
+            numTokens = new Random().nextInt(2, 4);
+        }
 		WildlifeToken[] animalTypes = new WildlifeToken[3];
 		for (int i = 0; i < numTokens; i++) {
             WildlifeToken tmp;
