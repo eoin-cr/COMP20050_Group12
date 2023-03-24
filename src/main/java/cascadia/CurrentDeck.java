@@ -106,25 +106,30 @@ public class CurrentDeck {
     }
 
     public static void cullCheckThreeTokens() {
-    	boolean threeMatch = hasThreeDuplicates((ArrayList<WildlifeToken>) deckTokens);
-
-    	if (threeMatch) {
-			WildlifeToken type = tripledToken(deckTokens);
-			int choice;
-			choice = Input.chooseCullThreeOptions();
-    		if (choice == 1) { //cull choice
-    			for (int i = deckTokens.size()-1; i >= 0; i--) {
-    				if (getToken(i) == type) {
-    					Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
-    					deckTokens.remove(i);
-    					deckTokens.add(i, Generation.generateWildlifeToken(true));
-    				}
-    			}
-				Display.cullOccurrence();
-    			cullCheckFourTokens();
-    		}
+		// if we have 3 duplicates, and the user wants to remove them,
+		// we call the cull function
+    	if(hasThreeDuplicates((ArrayList<WildlifeToken>) deckTokens)
+					&& Input.chooseCullThreeOptions() == 1) {
+			cullThreeTokens();
     	}
     }
+
+	private static void cullThreeTokens() {
+		// we find which token was tripled, and remove it from the deck and replace
+		WildlifeToken type = tripledToken(deckTokens);
+		// we work from the back of the list to the front, so we don't have issues
+		// with tokens we're planning on removing moving to a different spot after we
+		// remove one
+		for (int i = deckTokens.size()-1; i >= 0; i--) {
+			if (getToken(i) == type) {
+				Bag.remainingTokens.merge(getToken(i), 1, Integer::sum);
+				deckTokens.remove(i);
+				deckTokens.add(i, Generation.generateWildlifeToken(true));
+			}
+		}
+		Display.cullOccurrence();
+		cullCheckFourTokens();
+	}
     
     private static boolean hasThreeDuplicates(ArrayList<WildlifeToken> list) {
 		int[] counts = new int[5];

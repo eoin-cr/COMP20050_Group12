@@ -160,11 +160,20 @@ public class Generation {
             tilesLeft += value;
         }
 
+        HabitatTile.Habitat[] habitats = generateHabitats(tilesLeft);
+        HabitatTile.Habitat first = habitats[0];
+        HabitatTile.Habitat second = habitats[1];
+        assert first != null;
+        assert second != null;
+
+        return new HabitatTile(first, second, 0);
+    }
+
+    private static HabitatTile.Habitat[] generateHabitats(int tilesLeft) {
         HabitatTile.Habitat first;
         HabitatTile.Habitat second;
         Map.Entry<HabitatTile.Habitat, Integer> entry1 = null;
         Map.Entry<HabitatTile.Habitat, Integer> entry2 = null;
-
         do {
             first = null;
             second = null;
@@ -190,17 +199,13 @@ public class Generation {
                 }
             }
         } while (first == second);
-
         assert entry1 != null;
         assert entry2 != null;
-        assert first != null;
-        assert second != null;
+
         Bag.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
         Bag.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);
-
-        return new HabitatTile(first, second, 0);
+        return new HabitatTile.Habitat[]{first, second};
     }
-
 
     /**
      * Generates a keystone habitat tile (i.e. a tile where both habitats are

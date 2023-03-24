@@ -35,37 +35,40 @@ public class ScoringFox extends ScoreToken {
 	
 	private static int foxScoringOption2(PlayerMap map) {
 		int score = 0;
-		int pairs;
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (tile.getPlacedToken() == WildlifeToken.Fox) {
-				pairs = 0;
-				WildlifeToken[] adjTokens = Scoring.getAdjacentTokens(tile,map);
-				int[] storeWildlifeCounts = new int[5];
-				
-				for (WildlifeToken token : adjTokens) {
-					if (token != null && token != WildlifeToken.Fox) {
-						storeWildlifeCounts[token.ordinal()]++;
-					}
-				}
-				
-				for (int count : storeWildlifeCounts) {
-					if (count >= 2) pairs++;
-				}
-				
-				switch (pairs){
-				case 0 -> score += 0;
-				case 1 -> score += 3;
-				case 2 -> score += 5;
-				case 3 -> score += 7;
-				default -> throw new IllegalArgumentException("Invalid no. of adjacent pairs near fox: " + pairs);
-				}
+				score = calculatePairs(tile, map, score);
 			}
 		}
-		
 		return score;
 	}
-	
+	private static int calculatePairs(HabitatTile tile, PlayerMap map, int score) {
+		int pairs = 0;
+		WildlifeToken[] adjTokens = Scoring.getAdjacentTokens(tile,map);
+		int[] storeWildlifeCounts = new int[5];
+
+		for (WildlifeToken token : adjTokens) {
+			if (token != null && token != WildlifeToken.Fox) {
+				storeWildlifeCounts[token.ordinal()]++;
+			}
+		}
+
+		for (int count : storeWildlifeCounts) {
+			if (count >= 2) pairs++;
+		}
+		return calculateScoreFromPairs(pairs, score);
+	}
+	private static int calculateScoreFromPairs(int pairs, int score) {
+		switch (pairs){
+			case 0 -> { }
+			case 1 -> score += 3;
+			case 2 -> score += 5;
+			case 3 -> score += 7;
+			default -> throw new IllegalArgumentException("Invalid no. of adjacent pairs near fox: " + pairs);
+		}
+		return score;
+	}
 	private static int foxScoringOption3(PlayerMap map) {
 		int score = 0;
 

@@ -234,27 +234,8 @@ public class HabitatTile {
 
 		char[] animal = new char[3];
 		String[] colour = new String[4];
-		String ID_COLOUR;  // the colour of the ID text, so it's always easily visible
 
-		if (!isTokenPlaced) {
-			ID_COLOUR = BLACK_TEXT;
-			for (int i = 0; i < tokenOptions.length; i++) {
-				if (tokenOptions[i] != null) {
-					animal[i] = tokenOptions[i].toChar();
-					colour[i] = tokenOptions[i].getColour() + WHITE_BG;
-				}
-				else {
-					animal[i] = ' ';
-					colour[i] = "" + WHITE_BG;
-				}
-			}
-			colour[3] = WHITE_BG;
-
-		} else {
-			ID_COLOUR = WHITE;
-			animal = new char[]{placedToken.toChar(), ' ', ' ', ' '};
-			colour = new String[]{placedToken.getBackgroundColour() + WHITE, WHITE, WHITE, WHITE, WHITE};
-		}
+		String ID_COLOUR = setColours(animal, colour);
 
 		return 	edges.get(5).getHabitatType().backgroundColour + "    |    |" + ANSI_RESET +
 				edges.get(0).getHabitatType().backgroundColour +  "    |    " + ANSI_RESET +"\n"+
@@ -274,5 +255,35 @@ public class HabitatTile {
 	public boolean equalHabitats(HabitatTile tile) {
 		return (habitat1 == tile.habitat1 && habitat2 == tile.habitat2 ||
 				habitat1 == tile.habitat2 && habitat2 == tile.habitat1);
+	}
+
+	private String setColours(char[] animal, String[] colour) {
+		String ID_COLOUR;  // the colour of the ID text, so it's always easily visible
+		if (!isTokenPlaced) {
+			ID_COLOUR = BLACK_TEXT;
+			for (int i = 0; i < tokenOptions.length; i++) {
+				if (tokenOptions[i] != null) {
+					animal[i] = tokenOptions[i].toChar();
+					colour[i] = tokenOptions[i].getColour() + WHITE_BG;
+				}
+				else {
+					animal[i] = ' ';
+					colour[i] = "" + WHITE_BG;
+				}
+			}
+			colour[3] = WHITE_BG;
+
+		} else {
+			ID_COLOUR = WHITE;
+			animal[0] = placedToken.toChar();
+			colour[0] = placedToken.getBackgroundColour() + WHITE;
+			for (int i = 1; i < 4; i++) {
+				if (i < 3) {
+					animal[i] = ' ';
+				}
+				colour[i] = WHITE;
+			}
+		}
+		return ID_COLOUR;
 	}
 }

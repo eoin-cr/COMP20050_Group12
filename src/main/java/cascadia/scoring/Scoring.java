@@ -71,22 +71,26 @@ public class Scoring {
 		if (winners.size() == 1) {
 			Display.outln("Winner is " + winners.get(0).getPlayerName() + " with score " +winningScore+ ".\n");
 		} else {
-			Display.outln("A tie break has occurred. Now checking player Nature Tokens.");
-			int maxNatureTokens = 0;
-			ArrayList<Player> tieBreakWinners = new ArrayList<>();
-			for (Player p : winners) {
-				if (p.getPlayerNatureTokens() >= maxNatureTokens) {
-					tieBreakWinners.add(p);
-				}
+			calculateTieBreak(winningScore);
+		}
+	}
+
+	private static void calculateTieBreak(int winningScore) {
+		Display.outln("A tie break has occurred. Now checking player Nature Tokens.");
+		int maxNatureTokens = 0;
+		ArrayList<Player> tieBreakWinners = new ArrayList<>();
+		for (Player p : winners) {
+			if (p.getPlayerNatureTokens() >= maxNatureTokens) {
+				tieBreakWinners.add(p);
 			}
-			if (tieBreakWinners.size() == 1) {
-				Display.outln("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
-						+ winningScore+ "and Nature Tokens " +tieBreakWinners.get(0).getPlayerNatureTokens()+ ".\n");
-			}
-			else {
-				Display.outf("Players: %s have tied for the win, with a score of %d\n\n",
-						tieBreakWinners, winningScore);
-			}
+		}
+		if (tieBreakWinners.size() == 1) {
+			Display.outln("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
+					+ winningScore+ "and Nature Tokens " +tieBreakWinners.get(0).getPlayerNatureTokens()+ ".\n");
+		}
+		else {
+			Display.outf("Players: %s have tied for the win, with a score of %d\n\n",
+					tieBreakWinners, winningScore);
 		}
 	}
 

@@ -72,9 +72,8 @@ public class ScoringBear extends ScoreToken {
 	private static int bearScoringOption3(PlayerMap map) {
 		//score for each group of bears 1-3 in size
 		visitedTiles.clear();
-		int singles = 0;
-		int doubles = 0;
-		int triples = 0;
+		int singles = 0, doubles = 0, triples = 0;
+
 		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {

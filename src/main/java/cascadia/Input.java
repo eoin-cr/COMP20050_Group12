@@ -24,6 +24,7 @@ public class Input {
      *
      * @return a randomised String array of player names
      */
+    // TODO: Split this up
     public static String[] getPlayers () {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
