@@ -136,21 +136,11 @@ public class Input {
      * @return an int from 0-3 (inclusive)
      */
     public static int chooseFromDeck() {
-        int choice;
         Display.outln("");
-
-        do {
-            Display.outln("Please choose a Habitat Tile + Wildlife Token pair from "
-                    + "the selection above.");
-            Display.outln("Type 1 for the first pair, 2 for the second, 3 for the third, "
-                    + "4 for the fourth: ");
-            try {
-                choice = Integer.parseInt(getUserInput());
-            } catch (NumberFormatException e) {
-                Display.outln("You did not input a number. Please try again.");
-                choice = Integer.parseInt(getUserInput());
-            }
-        } while (choice < 1 || choice > Constants.MAX_DECK_SIZE);
+        int choice = Input.boundedInt(1, Constants.MAX_DECK_SIZE,
+                "Please choose a Habitat Tile + Wildlife Token pair from the selection "
+                        + "above.\nType 1 for the first pair, 2 for the second, 3 for the third, "
+                        + "4 for the fourth: ");
 
         choice--;
         Display.outln("You have chosen the pair: " + CurrentDeck.getTile(choice).getHabitat1()
@@ -161,38 +151,18 @@ public class Input {
     }
 
     public static int[] chooseTokenPlaceOrReturn(WildlifeToken token) {
-        int choice;
         int tileID = -1;
 
         Display.outln("");
         Display.outln("Choose what to do with the " + token.name() + " token you have drawn.");
 
-        do {
-            Display.outln("Type 1 to place the token on one of your tiles, or 2 to put "
-                    + "the token back in the bag: ");
-            try {
-                choice = Integer.parseInt(getUserInput());
-                //Display.outln(choice);
-            } catch (NumberFormatException e) {
-                Display.outln("You did not input a number. Please try again.");
-                choice = Integer.parseInt(getUserInput());
-            }
-        } while (choice < 1 || choice > 2);
-
+        int choice = Input.boundedInt(1, 2, "Type 1 to place the "
+                + "token on one of your tiles, or 2 to put the token back in the bag: ");
 
         if (choice == 1) {
-            do {
-                Display.outln("Choose the tile number where you want to place the "
-                        + token.name() + " token: ");
-                try {
-                    tileID = Integer.parseInt(getUserInput());
-                    //Display.outln(choice);
-                } catch (NumberFormatException e) {
-                    Display.outln("You did not input a number. Please try again.");
-                    tileID = Integer.parseInt(getUserInput());
-                }
-            } while (tileID < 0 || tileID > HabitatTile.getTileCounter());
-
+            tileID = Input.boundedInt(0, HabitatTile.getTileCounter(),
+                    "Choose the tile number where you want to place the "
+                            + token.name() + " token: ");
         }
 
         int[] result = new int[2];
@@ -225,16 +195,14 @@ public class Input {
      * @param firstMessage {@code the message to print}
      * @return an int such that {@code lowerbound <= input <= upperbound}
      */
-    public static int boundedInt(int lowerBound, int upperBound, String firstMessage)  {
-        int choice;
+    public static int boundedInt(int lowerBound, int upperBound, String firstMessage) {
+        int choice = lowerBound - 1;
         do {
             Display.outln(firstMessage);
             try {
                 choice = Integer.parseInt(getUserInput());
-                //Display.outln(choice);
             } catch (NumberFormatException e) {
                 Display.outln("You did not enter a number. Please try again.");
-                choice = Integer.parseInt(getUserInput());
             }
         } while (choice < lowerBound || choice > upperBound);
 
