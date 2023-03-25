@@ -3,21 +3,29 @@ package cascadia.scoring;
 import cascadia.HabitatTile;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScoringBear extends ScoreToken {
-	private static final ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+	private static final List<HabitatTile> visitedTiles = new ArrayList<>();
+
+	/**
+	 * Contains the scoring method for the 3 types of bear scoring, B1, B2,
+	 * and B3.
+	 */
 	public enum Option implements Scorable {
-		B1 {public int score(PlayerMap map){
-			return bearScoringOption1(map);
-		}},
-		B2 {public int score(PlayerMap map) {
-			return bearScoringOption2(map);
-		}},
-		B3 {public int score(PlayerMap map) {
-			return bearScoringOption3(map);
-		}};
+		B1 { public int score(PlayerMap map) {
+				return bearScoringOption1(map);
+			}
+		},
+		B2 { public int score(PlayerMap map) {
+				return bearScoringOption2(map);
+			}
+		},
+		B3 { public int score(PlayerMap map) {
+				return bearScoringOption3(map);
+			}
+		};
 		public abstract int score(PlayerMap map);
 	}
 
@@ -25,8 +33,9 @@ public class ScoringBear extends ScoreToken {
 		//score for pairs of bears
 		visitedTiles.clear();
 		int pairs = 0;
-		int[] bearScores = new int[]{0,4,11,19,27};
-		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+		int MAX_PAIRS_SCORED = 4;
+		int[] bearScores = new int[]{0, 4, 11, 19, 27};
+		List<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
@@ -35,15 +44,16 @@ public class ScoringBear extends ScoreToken {
 				if (bearGroup.size() == 2) {
 					pairs++;
 				}
-				//add this group of bears to tiles that have been checked for scoring, regardless of size
+				//add this group of bears to tiles that have been checked for scoring,
+				// regardless of size
 				visitedTiles.addAll(bearGroup);
 			}
 		} //all pairs now found
 		
 		if (pairs < 0) {
 			return 0;
-		} else if (pairs > 4) {
-			return bearScores[4];
+		} else if (pairs > MAX_PAIRS_SCORED) {
+			return bearScores[MAX_PAIRS_SCORED];
 		} else {
 			return bearScores[pairs];
 		}
@@ -53,7 +63,7 @@ public class ScoringBear extends ScoreToken {
 		//score for each group of 3 bears
 		visitedTiles.clear();
 		int triples = 0;
-		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+		List<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
@@ -62,19 +72,22 @@ public class ScoringBear extends ScoreToken {
 				if (bearGroup.size() == 3) {
 					triples++;
 				}
-				//add this group of bears to tiles that have been checked for scoring, regardless of size
+				//add this group of bears to tiles that have been checked for scoring,
+				// regardless of size
 				visitedTiles.addAll(bearGroup);
 			}
 		} //all triples now found
-		return triples*10;
+		return triples * 10;
 	}
-	
+
 	private static int bearScoringOption3(PlayerMap map) {
 		//score for each group of bears 1-3 in size
 		visitedTiles.clear();
-		int singles = 0, doubles = 0, triples = 0;
+		int singles = 0;
+		int doubles = 0;
+		int triples = 0;
 
-		ArrayList<HabitatTile> bearGroup = new ArrayList<>();
+		List<HabitatTile> bearGroup = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
@@ -87,12 +100,13 @@ public class ScoringBear extends ScoreToken {
 				} else if (bearGroup.size() == 3) {
 					triples++;
 				}
-				//add this group of bears to tiles that have been checked for scoring, regardless of size
+				//add this group of bears to tiles that have been checked for scoring,
+				// regardless of size
 				visitedTiles.addAll(bearGroup);
 			}
 		} //all groups found
 		
-		int score = (singles*2) + (doubles*5) + (triples*8);
+		int score = (singles * 2) + (doubles * 5) + (triples * 8);
 		//bonus of 3 points if minimum of one of each group
 		if (singles > 1 && doubles > 1 && triples > 1) {
 			score += 3;

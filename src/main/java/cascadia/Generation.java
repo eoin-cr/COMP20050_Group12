@@ -12,13 +12,14 @@ public class Generation {
      *
      * @return a starter habitat (habitat tile array).
      */
-    public static HabitatTile[] generateStarterHabitat () {
+    public static HabitatTile[] generateStarterHabitat() {
         // this should not be reached for regular players.  I only added this
         // because the tmp player being created for the tile placement map
         // was also calling this method, and eventually we were running outln
         // of starter habitats and the program would crash
         if (Bag.starterTiles.size() == 0) {
-            return new HabitatTile[]{new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
+            return new HabitatTile[]{new HabitatTile(HabitatTile.Habitat.Prairie,
+                    HabitatTile.Habitat.Prairie, 1),
                     new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1),
                     new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Prairie, 1)};
         }
@@ -63,7 +64,7 @@ public class Generation {
      * Uses a hashmap to decrease the probability of getting a certain animal
      * as more tokens with that animal are placed.
      */
-    public static WildlifeToken generateWildlifeToken (boolean removeFromRemaining) {
+    public static WildlifeToken generateWildlifeToken(boolean removeFromRemaining) {
         int tokensLeft = getNumTokensLeft();
 
         int index = new Random().nextInt(tokensLeft);
@@ -82,17 +83,20 @@ public class Generation {
     }
 
     /**
-	 * Generates the options for tokens that can be placed on a tile.
-	 *
-	 * @param numTokens Set to 0 for a random amount, or a number between 1-3
-	 *                  to set a specified amount
-	 * @return wildlife tokens
-	 */
+     * Generates the options for tokens that can be placed on a tile.
+     *
+     * @param numTokens Set to 0 for a random amount, or a number between 1-3
+     *                  to set a specified amount
+     * @return wildlife tokens
+     */
 	public static WildlifeToken[] generateTokenOptionsOnTiles(int numTokens) {
-		if (numTokens < 0 || numTokens > 3) {
-			throw new IllegalArgumentException("numTokens must be between 0-3. You entered " + numTokens);
+        int MAX_TOKENS_ON_TILE = 3;
+		if (numTokens < 0 || numTokens > MAX_TOKENS_ON_TILE) {
+			throw new IllegalArgumentException("numTokens must be between 0-3. You entered "
+                    + numTokens);
 		}
         if (numTokens == 0) {
+            // non keystone tiles can only have either 2 or 3 token options
             numTokens = new Random().nextInt(2, 4);
         }
 		WildlifeToken[] animalTypes = new WildlifeToken[3];
@@ -102,7 +106,7 @@ public class Generation {
                 getNumTokensLeft();
 				tmp = Generation.generateWildlifeToken(false);
 				if (Arrays.asList(animalTypes).contains(tmp)) {
-					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp)+1);
+					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp) + 1);
 				}
 			} while (Arrays.asList(animalTypes).contains(tmp));
 			animalTypes[i] = tmp;
@@ -181,9 +185,9 @@ public class Generation {
             int num2 = new Random().nextInt(1, tilesLeft);
 
             /*
-             * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest, River...]
-             * then this function gets the num1 th and num2 th value, and then 'removes' it from
-             * the list.
+             * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest,
+             *  River...] then this function gets the num1 th and num2 th value, and then
+             * 'removes' it from the list.
              */
             for (Map.Entry<HabitatTile.Habitat, Integer> entry : Bag.remainingHabitats.entrySet()) {
                 num1 -= entry.getValue();
@@ -224,8 +228,8 @@ public class Generation {
         HabitatTile.Habitat habitat = null;
 
         /*
-         * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest, River...]
-         * then this function gets the randomNum th value, and then 'removes' it from
+         * if we imagine the hashmap to contains values formatted like [Forest, Forest, Forest,
+         *  River...] then this function gets the randomNum th value, and then 'removes' it from
          * the list.
          */
         for (Map.Entry<HabitatTile.Habitat, Integer> entry : Bag.remainingHabitats.entrySet()) {
@@ -245,8 +249,10 @@ public class Generation {
      * @param num the number of tile token pairs to generate
      */
     public static void generateTileTokenPairs(int num) {
-        if (CurrentDeck.getDeckTiles().size() + num > 4) {
-            throw new IllegalArgumentException("You are trying to generate more than 4 pairs for the current deck.");
+        if (CurrentDeck.getDeckTiles().size() + num > Constants.MAX_DECK_SIZE) {
+            throw new IllegalArgumentException("You are trying to generate more than "
+                    + Constants.MAX_DECK_SIZE + " pairs for the current deck (num given: "
+                    + num + ") .");
         }
 
         for (int i = 0; i < num; i++) {

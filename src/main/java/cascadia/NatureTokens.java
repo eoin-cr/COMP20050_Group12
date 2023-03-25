@@ -12,16 +12,17 @@ public class NatureTokens {
 
         // only allows user to spend a token if they have more than 0, if they don't
         // they just get send back to the menu
-        if (tokens > 0 && Input.boundedInt(1,2, "Enter 1 to spend a token." +
-                "  Enter 2 to exit this menu") == 1) {
+        if (tokens > 0 && Input.boundedInt(1, 2,
+                "Enter 1 to spend a token." + "  Enter 2 to exit this menu") == 1) {
             spendToken(player);
         }
     }
 
     private static void spendToken(Player player) {
         int optionChoice = Input.boundedInt(1, 2,
-                "Enter 1 if you want to select any tile-token combination to place\n" +
-                "Enter 2 if you want to wipe any number of wildlife tokens and replace them");
+                "Enter 1 if you want to select any tile-token combination to place\n"
+                        + "Enter 2 if you want to wipe any number of wildlife tokens "
+                        + "and replace them");
         if (optionChoice == 1) {
             pickAnyTwo(player);
         } else {
@@ -30,21 +31,22 @@ public class NatureTokens {
     }
 
     private static void pickAnyTwo(Player player) {
-        int tileChoice = Input.boundedInt(1,4, "Choose which tile you want to" +
-                " place (1-4)");
-        int tokenChoice = Input.boundedInt(1,4, "Choose which token you want" +
-                " to place (1-4)");
+        int tileChoice = Input.boundedInt(1, 4,
+                "Choose which tile you want to place (1-4)");
+        int tokenChoice = Input.boundedInt(1, 4,
+                "Choose which token you want to place (1-4)");
         tileChoice--;
         tokenChoice--;
-        Display.outln("You have chosen the pair: " +CurrentDeck.getTile(tileChoice).getHabitat1()+ " + "
-                +CurrentDeck.getTile(tileChoice).getHabitat2()+ " tile, " +CurrentDeck.getToken(tokenChoice)+ " token.");
+        Display.outln("You have chosen the pair: "
+                + CurrentDeck.getTile(tileChoice).getHabitat1() + " + "
+                + CurrentDeck.getTile(tileChoice).getHabitat2() + " tile, "
+                + CurrentDeck.getToken(tokenChoice) + " token.");
 
         player.subPlayerNatureToken();
         int tokens = player.getPlayerNatureTokens();
         Display.outf("You have spent a nature token.  You now have %d token%s\n", tokens,
                 tokens == 1 ? "" : "s");
         CurrentDeck.choosePairHelper(player, tileChoice, tokenChoice);
-        // Game.switchTurn();
     }
 
     private static void wipeTokens(Player player) {
@@ -65,13 +67,13 @@ public class NatureTokens {
         int numEntered = 0;
         List<Integer> chosen = new ArrayList<>();
         while (choice != 0 && numEntered < 4) {
-            choice = Input.boundedInt(0, 4, "Enter the number of a token to" +
-                    " remove (1-4), or enter 0 to finish inputting");
-            if (choice != 0 && !chosen.contains(choice-1)) {
+            choice = Input.boundedInt(0, 4, "Enter the number of a "
+                    + "token to remove (1-4), or enter 0 to finish inputting");
+            if (choice != 0 && !chosen.contains(choice - 1)) {
                 numEntered++;
-                chosen.add(choice-1);
+                chosen.add(choice - 1);
                 Display.outln("Token replaced");
-            } else if (chosen.contains(choice-1)) {
+            } else if (chosen.contains(choice - 1)) {
                 Display.outln("You have already removed that token");
             }
         }

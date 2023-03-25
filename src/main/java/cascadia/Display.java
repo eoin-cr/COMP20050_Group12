@@ -47,7 +47,7 @@ public class Display {
         Display.outln("The player list is:");
     
         for (int i = 0; i < playerNames.length; i++) {
-     	   Display.outln((i+1)+ ": " + playerNames[i]);
+			Display.outln((i + 1) + ": " + playerNames[i]);
         }
         Display.outln("");
     }
@@ -62,7 +62,7 @@ public class Display {
     	Display.outln("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
 		String output = "";
 
-    	for (int i = 0; i < 4; i++) {
+    	for (int i = 0; i < Constants.MAX_DECK_SIZE; i++) {
 			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
 					+ CurrentDeck.getTile(i).toFormattedString();
 			output = removeNewlineAndJoin(output, toAdd, "        ");
@@ -72,8 +72,9 @@ public class Display {
 	}
 
 	// https://stackoverflow.com/questions/8154366/how-to-center-a-string-using-string-format
-	public static String centerString (int width, String s) {
-		return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
+	public static String centerString(int width, String s) {
+		return String.format("%-" + width  + "s",
+				String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
 	}
 
 	public static void cullOccurrence() {
@@ -128,11 +129,11 @@ public class Display {
 		 * If a value in board is null, print a full tile indent.  Every second line add
 		 * a half indent to the front.
 		 */
-		for (int i = boundaries[0]; i < boundaries[1]+1; i++) {
+		for (int i = boundaries[0]; i < boundaries[1] + 1; i++) {
 			String line = " \n \n \n \n";
 			// for some reason if there isn't some empty border (gotten by
 			// boundaries[2]-1) there is some weird output sometimes.
-			for (int j = boundaries[3]+1; j > boundaries[2]-1; j--) {
+			for (int j = boundaries[3] + 1; j > boundaries[2] - 1; j--) {
 				if (board[i][j] == null) {
 					line = indentFullTile(line);
 				} else {
@@ -213,12 +214,12 @@ public class Display {
 	 */
 	private static String indentFullTile(String tile) {
 		String output = indentHalfTile(indentHalfTile(" " + tile.replaceAll("\n", "\n ")));
-		return output.substring(0, output.length()-2); // removes the trailing \n
+		return output.substring(0, output.length() - 2); // removes the trailing \n
 	}
 
 	/**
 	 * Combines two tile strings into one string (with both tiles on the same
-	 * line)
+	 * line).
 	 *
 	 * @param first the tile that will be on the left in the combined string
 	 * @param second the tile that will be on the right in the combined string
@@ -257,7 +258,7 @@ public class Display {
 	}
 
 	/**
-	 * Displays the interactive commands the player can select from
+	 * Displays the interactive commands the player can select from.
 	 */
 	public static void displayCommands() {
 		for (Command command : Command.values()) {
@@ -270,10 +271,10 @@ public class Display {
 	 *
 	 * @param millis the amount of milliseconds to pause the program for
 	 */
-	public static void sleep (int millis) {
+	public static void sleep(int millis) {
 		try {
 			Thread.sleep(millis);
-		} catch (InterruptedException ignored) {}
+		} catch (InterruptedException ignored) { }
 	}
 
 	/**
@@ -291,7 +292,7 @@ public class Display {
 			return;
 		}
 
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < Constants.NUM_EDGES; i++) {
 			tile.rotateTile(1);
 			orientationOptions = removeNewlineAndJoin(
 					orientationOptions, tile.toFormattedString(), "\t\t\t"

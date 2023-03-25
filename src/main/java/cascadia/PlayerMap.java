@@ -8,7 +8,8 @@ public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
 	private final List<HabitatTile> tilesInMap;
-	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
+	//position of tiles on map
+	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH];
 	
 	public PlayerMap() { //constructor
 		tilesInMap = new ArrayList<>();
@@ -33,7 +34,7 @@ public class PlayerMap {
 		return tileBoardPosition;
 	}
 	
-	public List<HabitatTile> getTilesInMap(){
+	public List<HabitatTile> getTilesInMap() {
 		List<HabitatTile> tiles = new ArrayList<>();
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -126,7 +127,8 @@ public class PlayerMap {
 	}
 
 	/**
-	 * Check whether the chosen token can be placed on a certain tile
+	 * Check whether the chosen token can be placed on a certain tile.
+	 *
 	 * @param token the token to check
 	 * @param tile the tile to check whether the token can be placed on
 	 * @return whether a token can be placed
@@ -134,9 +136,7 @@ public class PlayerMap {
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
 			Display.outln("There is already a token on this tile.");
-		}
-		
-		else {
+		} else {
 			for (WildlifeToken w : tile.getTokenOptions()) {
 				if (token == w) {
 					return true;
@@ -149,22 +149,25 @@ public class PlayerMap {
 	
 	//check if player gets a nature token once token is placed
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
-		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
+		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE
+				&& tile.getTokenOptions()[0] == token) {
 			p.addPlayerNatureToken(); //increments player's nature tokens
-			Display.outln("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
+			Display.outln("Nature token added to " + p.getPlayerName()
+					+ ". You now have nature tokens: " + p.getPlayerNatureTokens());
 		}
 	}
 
 	/**
 	 * Adds all the possible tiles that can be placed according to the rules of
-	 * the game to the map
+	 * the game to the map.
 	 */
-	public void addPossibleTiles () {
+	public void addPossibleTiles() {
 		HabitatTile[][] tmpBoard = deepCopy(tileBoardPosition); //position of tiles on map
-		for (int i = 1; i < BOARD_HEIGHT-1; i++) {
-			for (int j = 1; j < BOARD_WIDTH-1; j++) {
+		for (int i = 1; i < BOARD_HEIGHT - 1; i++) {
+			for (int j = 1; j < BOARD_WIDTH - 1; j++) {
 				if (tmpBoard[i][j] == null & surroundingTokensNonNull(i, j, tmpBoard)) {
-					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
+					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie,
+							HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
 					addTileToMap(tile, i, j);
 				}
@@ -173,15 +176,10 @@ public class PlayerMap {
 	}
 
 	private static boolean surroundingTokensNonNull(int i, int j, HabitatTile[][] board) {
-		int indent;
-		if (i % 2 == 0) {
-			indent = 1;
-		} else {
-			indent = -1;
-		}
-		int[] rowShift = new int[]{0,0,-1,-1,1,1};
-		int[] colShift = new int[]{-1,+1,0,indent,0,indent};
-		for (int k = 0; k < 6; k++) {
+		int indent = i % 2 == 0 ? 1 : -1;
+		int[] rowShift = new int[]{0, 0, -1, -1, 1, 1};
+		int[] colShift = new int[]{-1, +1, 0, indent, 0, indent};
+		for (int k = 0; k < Constants.NUM_EDGES; k++) {
 			if (board[i + rowShift[k]] [j + colShift[k]] != null) {
 				return true;
 			}
@@ -201,18 +199,15 @@ public class PlayerMap {
 				}
 			}
 		}
-		return new int[]{-1,-1};
+		return new int[]{-1, -1};
 	}
 	
-	public HabitatTile returnTileAtPositionInMap (int row, int col) {
-		if (row < 0 || col > 19) {
+	public HabitatTile returnTileAtPositionInMap(int row, int col) {
+		if (row < 0 || col > BOARD_HEIGHT) {
 			return null;
-		}
-		
-		else if (tileBoardPosition[row][col] == null) {
+		} else if (tileBoardPosition[row][col] == null) {
 			return null;
-		}
-		else {
+		} else {
 			return tileBoardPosition[row][col];
 		}
 	}

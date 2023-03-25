@@ -3,46 +3,54 @@ package cascadia.scoring;
 import cascadia.HabitatTile;
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ScoringSalmon extends ScoreToken {
+	/**
+	 * Contains the scoring method for the 3 types of fox scoring, F1, F2,
+	 * and F3.
+	 */
 	public enum Option implements Scorable {
-		S1 {public int score(PlayerMap map){
+		S1 { public int score(PlayerMap map) {
 				return salmonScoringOption1(map);
-		}},
-		S2 {public int score(PlayerMap map) {
-			return salmonScoringOption2(map);
-		}},
-		S3 {public int score(PlayerMap map) {
-			return salmonScoringOption3(map);
-		}};
+			}
+		},
+		S2 { public int score(PlayerMap map) {
+				return salmonScoringOption2(map);
+			}
+		},
+		S3 { public int score(PlayerMap map) {
+				return salmonScoringOption3(map);
+			}
+		};
 		public abstract int score(PlayerMap map);
 	}
 
 	private static int salmonScorer(PlayerMap map, int maxRun, List<Integer> scores) {
 		int score = 0;
-		ArrayList<HabitatTile> visitedTiles = new ArrayList<>();
+		List<HabitatTile> visitedTiles = new ArrayList<>();
 
 		for (HabitatTile tile : map.getTilesInMap()) {
-			// if the tile has a salmon token on it, check adjacent tiles for salmon and find the size of the group of
-			// salmon
-			if (!visitedTiles.contains(tile) && tile.getIsTokenPlaced() && tile.getPlacedToken() == WildlifeToken.Salmon) {
-				ArrayList<HabitatTile> salmonGroup = new ArrayList<>();
+			// if the tile has a salmon token on it, check adjacent tiles for salmon and find the
+			// size of the group of salmon
+			if (!visitedTiles.contains(tile) && tile.getIsTokenPlaced()
+					&& tile.getPlacedToken() == WildlifeToken.Salmon) {
+				List<HabitatTile> salmonGroup = new ArrayList<>();
 				Scoring.findTokenGroupRecursive(salmonGroup, WildlifeToken.Salmon, tile, map);
 				score = calculateRunScore(salmonGroup, map, maxRun, score, scores);
 
-				// add this group of bears to tiles that have been checked for scoring, regardless of size
+				// add this group of bears to tiles that have been checked for scoring,
+				// regardless of size
 				visitedTiles.addAll(salmonGroup);
 			}
 		} // all runs found
 		return score;
 	}
 
-	private static int calculateRunScore(ArrayList<HabitatTile> salmonGroup, PlayerMap map, int maxRun, int score,
-										 List<Integer> scores) {
+	private static int calculateRunScore(List<HabitatTile> salmonGroup, PlayerMap map,
+										 int maxRun, int score, List<Integer> scores) {
 		int runSize = 0;
 		boolean invalid = false;
 		// calculate the size of the group, checking whether it's invalid as we go
@@ -59,7 +67,7 @@ public class ScoringSalmon extends ScoreToken {
 			if (runSize > maxRun) {
 				score += scores.get(scores.size() - 1);
 			} else if (runSize > 0) {
-				score += scores.get(runSize-1);
+				score += scores.get(runSize - 1);
 			}
 		}
 		return score;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Manages the total heap of tiles and tokens in a game
+ * Manages the total heap of tiles and tokens in a game.
  */
 public class Bag {
     public static final Map<HabitatTile.Habitat, Integer> remainingHabitats = new HashMap<>();
@@ -24,19 +24,19 @@ public class Bag {
         return tilesPlaced;
     }
 
-    Bag(){} //constructor
-    
+
     public static int getMaxTiles() {
 		return maxTiles;
 	}
+
 	public static void setMaxTiles(int maxTiles) {
 		Bag.maxTiles = maxTiles;
 	}
 
-	/**
+    /**
      * Sets up the tiles and tokens in the bag, so they can be generated.
      */
-    public static void makeBag (int numPlayers) {
+    public static void createBag(int numPlayers) {
         putTokens();
         putHabitats();
         putKeystone();
@@ -45,20 +45,27 @@ public class Bag {
     }
 
     private static void createPossibleStarterTiles() {
-        // Creates the possible starter tiles, and adds them to a list.  The
-        // starter tiles are very specific (one keystone tile, at least one of each
-        // habitat, one tile with 2 possible tokens, one with 3, etc.) so we manually
-        // set most of the conditions (except the possible tokens on the tiles)
+        /*
+         Creates the possible starter tiles, and adds them to a list.  The
+         starter tiles are very specific (one keystone tile, at least one of each
+         habitat, one tile with 2 possible tokens, one with 3, etc.) so we manually
+         set most of the conditions (except the possible tokens on the tiles)
+        */
         starterTileHelper(HabitatTile.Habitat.Wetland, HabitatTile.Habitat.River,
-                HabitatTile.Habitat.Forest, HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Mountain);
+                HabitatTile.Habitat.Forest, HabitatTile.Habitat.Prairie,
+                HabitatTile.Habitat.Mountain);
         starterTileHelper(HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Forest,
-                HabitatTile.Habitat.Wetland, HabitatTile.Habitat.River, HabitatTile.Habitat.Prairie);
+                HabitatTile.Habitat.Wetland, HabitatTile.Habitat.River,
+                HabitatTile.Habitat.Prairie);
         starterTileHelper(HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain,
-                HabitatTile.Habitat.River, HabitatTile.Habitat.Wetland, HabitatTile.Habitat.Prairie);
+                HabitatTile.Habitat.River, HabitatTile.Habitat.Wetland,
+                HabitatTile.Habitat.Prairie);
         starterTileHelper(HabitatTile.Habitat.River, HabitatTile.Habitat.Prairie,
-                HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain, HabitatTile.Habitat.Wetland);
+                HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain,
+                HabitatTile.Habitat.Wetland);
         starterTileHelper(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.Wetland,
-                HabitatTile.Habitat.River, HabitatTile.Habitat.Forest, HabitatTile.Habitat.Mountain);
+                HabitatTile.Habitat.River, HabitatTile.Habitat.Forest,
+                HabitatTile.Habitat.Mountain);
     }
 
     private static void starterTileHelper(HabitatTile.Habitat one, HabitatTile.Habitat two,
@@ -74,17 +81,12 @@ public class Bag {
 
     private static void generateMaxTiles(int numPlayers) {
         //make habitat tiles
-        if (numPlayers == 2) {
-        	setMaxTiles(43);
-        }
-        else if (numPlayers == 3) {
-        	setMaxTiles(63);
-        }
-        else if (numPlayers == 4) {
-        	setMaxTiles(83);
-        }
-        else {
-        	throw new IllegalArgumentException("The number of players is not within the range 2-4.");
+        switch (numPlayers) {
+            case 2 -> setMaxTiles(43);
+            case 3 -> setMaxTiles(63);
+            case 4 -> setMaxTiles(83);
+            default -> throw new IllegalArgumentException("The number of players (" + numPlayers
+                    + ") is not within the range 2-4.");
         }
     }
 

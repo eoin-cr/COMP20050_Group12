@@ -30,13 +30,13 @@ public class ScoringHabitatCorridorsTest {
     	map.addTileToMap(newTile(Habitat.River, Habitat.River), 7, 9);
     	map.addTileToMap(newTile(Habitat.River, Habitat.Mountain), 6, 9);
 
-    	ArrayList<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.River);
+    	List<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.River);
     	assertEquals(3, longestRiver.size());
-    	ArrayList<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Forest);
+    	List<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Forest);
     	assertEquals(2, longestForest.size());
-    	ArrayList<HabitatTile> longestPrairie = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Prairie);
+    	List<HabitatTile> longestPrairie = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Prairie);
     	assertEquals(1, longestPrairie.size());
-    	ArrayList<HabitatTile> longestMountain = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Mountain);
+    	List<HabitatTile> longestMountain = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Mountain);
     	assertEquals(1, longestMountain.size());
     }
     
@@ -47,9 +47,9 @@ public class ScoringHabitatCorridorsTest {
     	map.addTileToMap(newTile(Habitat.Mountain, Habitat.River), 7, 9);
     	//Display.displayTileMap(map);
     	
-    	ArrayList<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Forest);
+    	List<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.Forest);
     	assertEquals(1, longestForest.size());
-    	ArrayList<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.River);
+    	List<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(map, Habitat.River);
     	assertEquals(1, longestRiver.size());
     }
     
@@ -72,7 +72,7 @@ public class ScoringHabitatCorridorsTest {
     	m1.addTileToMap(newTile(Habitat.River, Habitat.Wetland), 7, 9);
     	m1.addTileToMap(newTile(Habitat.River, Habitat.River), 9, 9);
     	m1.addTileToMap(newTile(Habitat.River, Habitat.Mountain), 6, 8);
-    	ArrayList<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(m1, Habitat.River);
+    	List<HabitatTile> longestRiver = ScoringHabitatCorridors.findLongestHabitatCorridor(m1, Habitat.River);
     	assertEquals(3, longestRiver.size());
     	Display.displayTileMap(p1.getMap());
     	
@@ -82,9 +82,9 @@ public class ScoringHabitatCorridorsTest {
     	m2.addTileToMap(newTile(Habitat.Prairie, Habitat.Prairie), 9, 9);
     	m2.addTileToMap(newTile(Habitat.Forest, Habitat.River), 9, 8);
     	m2.addTileToMap(newTile(Habitat.Mountain, Habitat.Mountain), 9, 10);
-    	ArrayList<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Forest);
+    	List<HabitatTile> longestForest = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Forest);
     	assertEquals(3, longestForest.size());
-    	ArrayList<HabitatTile> longestPrairie = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Prairie);
+    	List<HabitatTile> longestPrairie = ScoringHabitatCorridors.findLongestHabitatCorridor(m2, Habitat.Prairie);
     	assertEquals(2, longestPrairie.size());
     	Display.displayTileMap(p2.getMap());
     	

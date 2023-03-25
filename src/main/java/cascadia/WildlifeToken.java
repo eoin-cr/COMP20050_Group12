@@ -16,6 +16,7 @@ public enum WildlifeToken {
 	private final char character;
 	private final String colour;
 	private final String backgroundColour;
+
 	WildlifeToken(char character, String colour, String backgroundColour) {
 		this.character = character;
 		this.colour = colour;
@@ -23,7 +24,7 @@ public enum WildlifeToken {
 	}
 
 	/**
-	 * @return the first character of the animal name
+	 * Returns the first character of the animal token name (e.g. B for Bear)
 	 */
 	public char toChar() {
 		return character;
@@ -32,6 +33,7 @@ public enum WildlifeToken {
 	public String getColour() {
 		return colour;
 	}
+
 	public String getBackgroundColour() {
 		return backgroundColour;
 	}

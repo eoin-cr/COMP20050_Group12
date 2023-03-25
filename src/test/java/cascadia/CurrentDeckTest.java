@@ -29,7 +29,7 @@ public class CurrentDeckTest {
         ArrayList<WildlifeToken> tokenList = new ArrayList<>(Collections.nCopies(3, WildlifeToken.Bear));
         tokenList.add(WildlifeToken.Hawk);
         CurrentDeck.setDeckTokens(clone(tokenList));
-        Bag.makeBag(2);
+        Bag.createBag(2);
     }
 
     private static <E> void removeDuplicates(List<E> list) {

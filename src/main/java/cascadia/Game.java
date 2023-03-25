@@ -4,7 +4,7 @@ import cascadia.scoring.ScoreCards;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Deals with the running of the game */
+/** Deals with the running of the game. */
 public class Game {
     private final String[] playerNames;
     private final static List<Player> playerList = new ArrayList<>();
@@ -34,14 +34,15 @@ public class Game {
      */
 
     public Game() { //constructor
-    	  playerNames = Input.getPlayers();  // from cascadia.Input class
-          Display.printPlayers(playerNames);  // from cascadia.Display class
-          Display.sleep(500);
+        playerNames = Input.getPlayers();  // from cascadia.Input class
+        Display.printPlayers(playerNames);  // from cascadia.Display class
+        Display.sleep(500);
 
-          ScoreCards.generateScorecards();
-          Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+        ScoreCards.generateScorecards();
+        //makes a bag of tiles based on how many players there are
+        Bag.createBag(playerNames.length);
 
-          populatePlayers();
+        populatePlayers();
 
     }
     
@@ -63,16 +64,18 @@ public class Game {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
                 switchTurn = false;
-        		Display.outln("Current player is: " +player.getPlayerName());
+        		Display.outln("Current player is: " + player.getPlayerName());
                 Display.displayPlayerTileMap(player);
-        		// choose from tile token pairs
-        		// place tile
-        		// now can choose to place token, move to next player, quit etc.
+                /*
+        		 choose from tile token pairs
+        		 place tile
+        		 now can choose to place token, move to next player, quit etc.
+                */
 
                 do {
                     player.setCommand();
                 } while (!switchTurn);
-        		// automatically moves to next player if command type is next
+                // automatically moves to next player if command type is next
         	}
     	}
     }
@@ -92,6 +95,7 @@ public class Game {
             Display.sleep(500);
         }
     }
+
     public static void switchTurn() {
         switchTurn = true;
     }
