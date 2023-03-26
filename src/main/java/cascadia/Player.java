@@ -90,12 +90,11 @@ public class Player {
         String input = Input.getUserInput();  // this is automatically uppercase
 
         // automatically converts input to enum
-//        try {
+		try {
 			Command command = Command.valueOf(input);
 			command.execute(this);  // calls the function represented in the enum
-//        } catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
-//            Display.outln("Invalid input for options of commands. Please try again. \n");
-//        }
-//		}
+		} catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
+			Display.outln("Invalid input for options of commands. Please try again. \n");
+		}
     }
 }

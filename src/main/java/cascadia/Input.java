@@ -31,32 +31,13 @@ public class Input {
         // we return a *String array*, which we get from the randomise method
         List<String> players = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        int num = 0;
-        boolean firstRun = true;
-        boolean intInputted = true;
         final int MIN_PLAYERS = 2;
         final int MAX_PLAYERS = 4;
 
-        Display.outln("Enter number of players (must be " + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
-
-        while (num > MAX_PLAYERS || num < MIN_PLAYERS) {
-            if (!firstRun && intInputted) {
-                Display.outln("Invalid number.  Please enter the number of players "
-                        + "(must be between 2-4)");
-            }
-            try {
-                num = in.nextInt();
-                intInputted = true;
-            } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                Display.outln("You must enter an integer!  Please try again");
-                in.nextLine(); // clears buffer
-                intInputted = false;
-            }
-            firstRun = false;
-        }
+        int num = boundedInt(MIN_PLAYERS, MAX_PLAYERS, "Enter number of players (must be "
+                + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
 
         Display.outf("Enter the names of the %d players.  Hit enter after each name.\n", num);
-        in.nextLine();  // clears buffer
         for (int i = 0; i < num; i++) {
             players.add(in.nextLine().toUpperCase());
         }
@@ -217,30 +198,20 @@ public class Input {
     public static int[] chooseTilePlacement(Player player) {
         // display tile placement map
         Player tmpMap = Display.displayPlacementMap(player);
-        Display.outln("Enter the tile ID where you want the tile to be placed");
-        Scanner in = new Scanner(System.in);
-        int input = -1;
-
-        boolean firstRun = true;
-        boolean intInputted = true;
+        int input;
 
         int[] coords = new int[]{-1, -1};
         while (coords[0] == -1 && coords[1] == -1) {
-            if (!firstRun && intInputted) {
-                Display.outln("Invalid number.  Please enter the tileID");
-            }
-            try {
-                input = in.nextInt();
-                intInputted = true;
-            } catch (InputMismatchException ex) { // catches if user doesn't enter an int
-                Display.outln("You must enter an integer!  Please try again");
-                in.nextLine(); // clears buffer
-                intInputted = false;
-            }
-            firstRun = false;
+            /*
+             we won't do any of the checking whether a tile exists in the
+             bounded int method, we'll just make sure it's a valid int.
+             We can just set the upper bound to some ridiculous number.
+            */
+            input = boundedInt(-1, 9999999,
+                    "Enter the tile ID (number at bottom right of tile) where you "
+                            + "want the tile to be placed");
             coords = tmpMap.getMap().returnPositionOfID(input);
         }
         return coords;
     }
-
 }
