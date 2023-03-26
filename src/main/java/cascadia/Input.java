@@ -25,23 +25,30 @@ public class Input {
      *
      * @return a randomised String array of player names
      */
-    // TODO: Split this up
     public static String[] getPlayers() {
         // Note that in this method we use an arraylist as it's simpler, but
         // we return a *String array*, which we get from the randomise method
-        List<String> players = new ArrayList<>();
-        Scanner in = new Scanner(System.in);
         final int MIN_PLAYERS = 2;
         final int MAX_PLAYERS = 4;
 
         int num = boundedInt(MIN_PLAYERS, MAX_PLAYERS, "Enter number of players (must be "
                 + MIN_PLAYERS + "-" + MAX_PLAYERS + ")");
 
+        List<String> players = getPlayerNames(num);
+        // Returns randomised String array version of the player names
+        return randomisePlayers(players);
+    }
+
+    private static List<String> getPlayerNames(int num) {
+        Scanner in = new Scanner(System.in);
+        List<String> players = new ArrayList<>();
         Display.outf("Enter the names of the %d players.  Hit enter after each name.\n", num);
+        // get n strings
         for (int i = 0; i < num; i++) {
             players.add(in.nextLine().toUpperCase());
         }
 
+        // asks for input again every time the input was invalid
         while (playerListIsInvalid(players)) {
             Display.outln("Invalid input!  You cannot have duplicate names, nor "
                     + "empty strings. All names have been wiped, please try again.");
@@ -50,8 +57,7 @@ public class Input {
                 players.add(in.nextLine().toUpperCase());
             }
         }
-        // Returns randomised String array version of the player names
-        return randomisePlayers(players);
+        return players;
     }
 
     /**
