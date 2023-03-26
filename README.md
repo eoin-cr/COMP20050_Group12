@@ -1,14 +1,18 @@
-# COMP20050_Group12
-## Some ideas:
-- We use ansi codes to colour terminal blocks.
-- Note that we can represent hexagons as rectangles
-without losing data about which sides are touching
-- Use a 2d array of tiles to store their locations?
-- When the user plays we can draw the possible tiles
-they can place at around the actually placed tiles,
-and number them so the user can choose where to put
-the tile by entering the number
-- Try to modularise a lot by using a lot of helper
-methods.  Will make it easier to change the way things
-work in the future.
+# COMP20050 Group12
+Eoin Creavin, Mynah Bhattacharyya, Ben McDowell
 
+Use of certain newer Java features means a requirement of at least Java 17 has been
+imposed in the gradle build file.
+
+Gradle should not be required to run the game, however, the tests use the Mockito
+library which requires gradle to include.
+
+A screenshot of the test coverage of the project has been included 
+(see TestCoverage.png).
+
+A modified version of the Google stylesheet has been used for the code 
+styling (see stylesheet.xml)
+
+We have used the default gradle package layout (`src/main/java/...` and `src/test/java/...`).
+Make sure to change the package source file from `src` to `src/main/java` and set the
+main run configuration to `cascadia.Main`.

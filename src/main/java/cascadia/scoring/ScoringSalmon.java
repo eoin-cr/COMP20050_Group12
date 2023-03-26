@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
 import cascadia.HabitatTile;
@@ -38,7 +53,7 @@ public class ScoringSalmon extends ScoreToken {
 			if (!visitedTiles.contains(tile) && tile.getIsTokenPlaced()
 					&& tile.getPlacedToken() == WildlifeToken.Salmon) {
 				List<HabitatTile> salmonGroup = new ArrayList<>();
-				Scoring.findTokenGroupRecursive(salmonGroup, WildlifeToken.Salmon, tile, map);
+				Scoring.findTokenGroup(salmonGroup, WildlifeToken.Salmon, tile, map);
 				score = calculateRunScore(salmonGroup, map, maxRun, score, scores);
 
 				// add this group of bears to tiles that have been checked for scoring,

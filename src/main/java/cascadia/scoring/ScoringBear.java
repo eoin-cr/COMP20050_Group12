@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
 import cascadia.HabitatTile;
@@ -40,7 +55,7 @@ public class ScoringBear extends ScoreToken {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				bearGroup.clear();
-				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
+				Scoring.findTokenGroup(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 2) {
 					pairs++;
 				}
@@ -68,7 +83,7 @@ public class ScoringBear extends ScoreToken {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				bearGroup.clear();
-				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
+				Scoring.findTokenGroup(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 3) {
 					triples++;
 				}
@@ -92,7 +107,7 @@ public class ScoringBear extends ScoreToken {
 		for (HabitatTile tile : map.getTilesInMap()) {
 			if (!visitedTiles.contains(tile) && tile.getPlacedToken() == WildlifeToken.Bear) {
 				bearGroup.clear();
-				Scoring.findTokenGroupRecursive(bearGroup, WildlifeToken.Bear, tile, map);
+				Scoring.findTokenGroup(bearGroup, WildlifeToken.Bear, tile, map);
 				if (bearGroup.size() == 1) {
 					singles++;
 				} else if (bearGroup.size() == 2) {

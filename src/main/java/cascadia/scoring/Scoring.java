@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
 import cascadia.*;
@@ -113,16 +128,16 @@ public class Scoring {
 	 * Helper function for Scorecard scoring, retrieves a chunk of connected
 	 * tiles on the map with the same Wildlife token type.
 	 */
-	public static void findTokenGroupRecursive(List<HabitatTile> groupOfTokens,
-											   WildlifeToken tokenType, HabitatTile centerTile,
-											   PlayerMap map) {
+	public static void findTokenGroup(List<HabitatTile> groupOfTokens,
+									  WildlifeToken tokenType, HabitatTile centerTile,
+									  PlayerMap map) {
 		if (!groupOfTokens.contains(centerTile) && centerTile.getPlacedToken() == tokenType) {
 			groupOfTokens.add(centerTile);
 			List<HabitatTile> adjacentTokens = Scoring.getAdjacentTilesWithTokenMatch(
 					tokenType, centerTile, map);
 			if (adjacentTokens.size() > 0) {
 				for (HabitatTile t : adjacentTokens) {
-					findTokenGroupRecursive(groupOfTokens, tokenType, t, map);
+					findTokenGroup(groupOfTokens, tokenType, t, map);
 				}
 			}
 		}
