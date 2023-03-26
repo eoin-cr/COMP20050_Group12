@@ -310,7 +310,7 @@ public class Display {
 		for (int i = 0; i < Constants.NUM_EDGES; i++) {
 			tile.rotateTile(1);
 			orientationOptions = removeNewlineAndJoin(
-					orientationOptions, tile.toFormattedString(), "\t\t\t"
+					orientationOptions, tile.toFormattedString(), "        "
 			);
 		}
 		Display.outln(orientationOptions);
