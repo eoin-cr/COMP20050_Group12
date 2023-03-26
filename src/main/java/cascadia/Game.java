@@ -8,9 +8,11 @@ import java.util.List;
 public class Game {
     private final String[] playerNames;
     private final static List<Player> playerList = new ArrayList<>();
-    // we set this to static, so we can access it from static methods.  This does mean
-    // that multiple game classes cannot be run simultaneously, but this should not be
-    // an issue
+    /*
+     we set this to static, so we can access it from static methods.  This does mean
+     that multiple game classes cannot be run simultaneously, but this should not be
+     an issue
+    */
     private static boolean switchTurn = false;
 
     /*

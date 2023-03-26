@@ -1,4 +1,5 @@
 package cascadia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,8 @@ public class CurrentDeck {
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
 			if (!player.getMap().checkAllTilesForValidToken(token)) {
-				Display.outln("You cannot add this token to your current map of tiles, as none of the options match.");
+				Display.outln("You cannot add this token to your current map of tiles,"
+						+ " as none of the options match.");
 				break;
 			}
 			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));

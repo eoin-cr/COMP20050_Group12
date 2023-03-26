@@ -7,16 +7,18 @@ import java.util.ArrayList;
  * Also assists with scoring habitat corridors. */
 public class Edge {
 	private HabitatTile.Habitat habitatType;
-	//private boolean isConnected; //for later use for habitat corridors
 
-	// Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge)
-	// Total 6 sides, like in the diagram below
-	//	  5   0
-	//	  -- --
-	//	4|     |1
-	//	  -- --
-	//	  3	  2
-	
+	/*
+	 Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going
+	 clockwise) to 5 (left top edge)
+	 Total 6 sides, like in the diagram below
+		  5   0
+		  -- --
+		4|     |1
+		  -- --
+		  3	  2
+	*/
+
 	public Edge(int tileID, HabitatTile.Habitat habitatType) {
 		if (tileID < 0 || tileID > HabitatTile.getTileCounter()) {
 			throw new IllegalArgumentException("You are trying to make "

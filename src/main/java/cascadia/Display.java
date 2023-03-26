@@ -155,7 +155,7 @@ public class Display {
 	 *
 	 * @param map the map whose boundary to be found
 	 * @return an int array containing the index of the [top, bottom, left, right]
-	 * co-ords of the boundary
+	 * 				co-ords of the boundary
 	 */
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(PlayerMap map) {
