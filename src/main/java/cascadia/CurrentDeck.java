@@ -83,6 +83,7 @@ public class CurrentDeck {
 	public static void placeTileChoiceOnMap(Player player, int tileChoice, int[] rowCol) {
 		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowCol[0], rowCol[1]);
 		ScoringHabitatCorridors.scorePlayerHabitatCorridors(player, deckTiles.get(tileChoice)); //mynah - change made
+		player.calculateCorridorsPlayerScore();
 		Display.displayPlayerTileMap(player);
 		deckTiles.remove(tileChoice);
 	}
@@ -113,6 +114,7 @@ public class CurrentDeck {
 				//mynah - change made
 				if (succeeded) { //get score change for player for that token type on their map
 					Scoring.scorePlayerTokenPlacement(player, token);
+					player.calculateWildlifePlayerScore();
 				}
 			}
 		}

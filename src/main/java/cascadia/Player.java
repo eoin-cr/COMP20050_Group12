@@ -88,14 +88,14 @@ public class Player {
 		this.totalPlayerScore += score;
 	}
 	
-	private int calculateWildlifePlayerScore() {
+	public int calculateWildlifePlayerScore() {
 		wildlifeTotalScore = Arrays.stream(wildlifeScores).sum();
 		return wildlifeTotalScore;
 	}
 	public int getWildLifeScore() {
 		return wildlifeTotalScore;
 	}
-	private int calculateCorridorsPlayerScore() {
+	public int calculateCorridorsPlayerScore() {
 		corridorTotalScore = Arrays.stream(longestCorridorSizes).sum();
 		return corridorTotalScore;
 	}
