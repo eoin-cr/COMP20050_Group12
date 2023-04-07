@@ -5,73 +5,55 @@ import cascadia.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Scoring {
-//	indexing of cards:
-//	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
-//	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
-//	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
-//	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
-//	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
-	private static final String[] cards = ScoreCards.getScorecards();
 	private static final List<Player> players = Game.getPlayers();
 	private static final ArrayList<Player> winners = new ArrayList<>();
 	
 	public Scoring() {}
 	
 	public static void startScoring() {
+		//mynah - change made
 		Display.scoringScreen();
-		ScoringHabitatCorridors.habitatCorridorScoring(players);
+		//scoreCardScoring();
+		//natureTokenScoring();
+		//ScoringHabitatCorridors.habitatCorridorScoring(players);
 		ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
-		scoreCardScoring();
-		natureTokenScoring();
 		findWinnerAfterScoring();
 	}
 	
+	//mynah - change made
+	/**
+	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
+	 * That particular Wildlife token type is re-scored for that player's whole map.
+	 * Keeps player's wildlife scores updated per turn.
+	 * @see CurrentDeck
+	 * @param player the player whose score is to be updated
+	 * @param token the token to be scored
+	 */
+	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
+		player.setPlayerWildlifeScore(token, ScoreToken.calculateScore(player.getMap(), token));
+	}
+	
+//	mynah - change made
+	//end based scoring
 	public static void scoreCardScoring() {
+		int score;
 		for (Player p : players) {
-			scoreTokenAndAdd(ScoringBear.calculateScore(p.getMap(), ScoringBear.Option.valueOf(cards[0])), p, "Bear");
-			scoreTokenAndAdd(ScoringElk.calculateScore(p.getMap(), ScoringElk.Option.valueOf(cards[1])), p, "Elk");
-			scoreTokenAndAdd(ScoringSalmon.calculateScore(p.getMap(), ScoringSalmon.Option.valueOf(cards[2])), p, "Salmon");
-			scoreTokenAndAdd(ScoringHawk.calculateScore(p.getMap(), ScoringHawk.Option.valueOf(cards[3])), p, "Hawk");
-			scoreTokenAndAdd(ScoringFox.calculateScore(p.getMap(), ScoringFox.Option.valueOf(cards[4])), p, "Fox");
+			for (WildlifeToken tokenType : WildlifeToken.values()) {
+				score = ScoreToken.calculateScore(p.getMap(), tokenType);
+				p.setPlayerWildlifeScore(tokenType, score);
+				Display.outln(p.getPlayerName() + " " + tokenType.name() + " Score: " + score);
+			}
 			Display.outln("");
 		}
 	}
 
-	private static void scoreTokenAndAdd(int score, Player p, String name) {
-		p.addToTotalPlayerScore(score);
-		Display.outln(p.getPlayerName() + " " + name + " Score: " + score);
-	}
-
-	// Will just be using end scoring for now to simplify things
-//	/**
-//	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
-//	 * That particular Wildlife token type is re-scored for that player's whole map.
-//	 * Keeps player's wildlife scores updated per turn.
-//	 * @see CurrentDeck
-//	 * @param player the player whose score is to be updated
-//	 * @param token the token to be scored
-//	 */
-//	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
-//		switch (token) {
-//		case Bear -> player.setPlayerWildlifeScore(WildlifeToken.Bear, ScoringBear.calculateScore(player, cards[0]));
-//		case Elk -> player.setPlayerWildlifeScore(WildlifeToken.Elk, ScoringElk.calculateScore(player.getMap(), cards[1]));
-//		case Salmon -> player.setPlayerWildlifeScore(WildlifeToken.Salmon, ScoringSalmon.calculateScore(player.getMap(), cards[2]));
-//		case Hawk -> player.setPlayerWildlifeScore(WildlifeToken.Hawk, ScoringHawk.calculateScore(player, cards[3]));
-//		case Fox -> player.setPlayerWildlifeScore(WildlifeToken.Fox, ScoringFox.calculateScore(player, cards[4]));
-//		default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
-//		}
-//		Display.outln("The token you placed was of type: " +token.name()+ ". Your current Wildlife score for that type is: " +player.getPlayerWildlifeScore(token));
-//	}
-
-
+	//end based scoring
 	private static void natureTokenScoring() {
 		for (Player p : players) {
 			if (p.getPlayerNatureTokens() > 0) {
 				Display.outln(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Token(s). "
 						+ p.getPlayerNatureTokens() + " bonus point(s).");
-				p.addToTotalPlayerScore(p.getPlayerNatureTokens());
 			}
 		}
 		Display.outln("");
@@ -80,6 +62,7 @@ public class Scoring {
 	private static void findWinnerAfterScoring() {
 		int winningScore = 0;
 		for (Player p : players) {
+			p.calculateTotalEndPlayerScore();
 			if (p.getTotalPlayerScore() > winningScore) {
 				winningScore = p.getTotalPlayerScore();
 			}

@@ -1,5 +1,12 @@
 package cascadia;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import cascadia.HabitatTile.Habitat;
+import cascadia.scoring.ScoringHabitatCorridors;
+
+//mynah - change made : changes made to whole class, maybe just copy and paste in
 /**
  * Stores information about the player, including
  * an individual player's map of tiles.
@@ -7,24 +14,36 @@ package cascadia;
  */
 public class Player {
 	private final String playerName;
-	private int playerNatureTokens;
-	private final int[] longestCorridorSizes = new int[5];
-//	private final int[] wildlifeScores = new int[5];
-	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score 
-//	private int corridorsPlayerScore;
-//	private int wildlifePlayerScore;
-	private int totalPlayerScore;
 	private final PlayerMap map;
+	private int playerNatureTokens;
+	//indexing -> 0: Forest corridor, 1: Wetland corridor, 2: River corridor, 3: Mountain corridor, 4: Prairie corridor
+	private final ArrayList<ArrayList<HabitatTile>> longestCorridors = new ArrayList<>(5); //mynah - change made
+	private final int[] longestCorridorSizes = new int[5]; 
+	private final int[] wildlifeScores = new int[5];
+	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score 
+	private int wildlifeTotalScore;
+	private int corridorTotalScore;
+	private int corridorBonuses;
+	private int totalPlayerScore;
 
 	public Player(String playerName) {
 		this.playerName = playerName;
-		this.playerNatureTokens = 0;
-		this.totalPlayerScore = 0;
+		for (int i = 0; i < 5; i++) {
+			ArrayList<HabitatTile> newCorridor = new ArrayList<>();
+			longestCorridors.add(newCorridor);
+		}
 		map = new PlayerMap();
+		for (HabitatTile t : map.getTilesInMap()) { //score initial corridors when starter tiles added
+			ScoringHabitatCorridors.scorePlayerHabitatCorridors(this, t);
+		}
 	}
 	
 	public String getPlayerName() {
 		return playerName;
+	}
+	public PlayerMap getMap() {
+		return map; 
+		//note: to modify the map, you have to use player.getMap().addTileToMap()
 	}
 	public int getPlayerNatureTokens() {
 		return playerNatureTokens;
@@ -41,72 +60,56 @@ public class Player {
 			throw new IllegalArgumentException("Out of nature tokens, cannot subtract further");
 		}
 	}
-//	public int getPlayerWildlifeScore(WildlifeToken token) {
-//		int score;
-//		switch (token) {
-//		case Bear -> score = wildlifeScores[0];
-//		case Elk -> score = wildlifeScores[1];
-//		case Salmon -> score = wildlifeScores[2];
-//		case Hawk -> score = wildlifeScores[3];
-//		case Fox -> score = wildlifeScores[4];
-//		default ->
-//		throw new IllegalArgumentException("Unexpected nature token passed to retrieve player's score: " + token);
-//		}
-//		return score;
-//	}
-//	public void setPlayerWildlifeScore(WildlifeToken token, int score) {
-//		switch (token) {
-//		case Bear -> wildlifeScores[0] = score;
-//		case Elk -> wildlifeScores[1] = score;
-//		case Salmon -> wildlifeScores[2] = score;
-//		case Hawk -> wildlifeScores[3] = score;
-//		case Fox -> wildlifeScores[4] = score;
-//		default ->
-//		throw new IllegalArgumentException("Unexpected nature token passed to set player's score: " + token);
-//		}
-//	}
-//	public int calculateCorridorsPlayerScore() {
-//		int sum = 0;
-//		for (int i : longestCorridorSizes) {
-//			sum += i;
-//		}
-//		corridorsPlayerScore = sum;
-//		return sum;
-//	}
-//	public int calculateWildlifePlayerScore() {
-//		int sum = 0;
-//		for (int i : wildlifeScores) {
-//			sum += i;
-//		}
-//		wildlifePlayerScore = sum;
-//		return sum;
-//	}
-	public int getTotalPlayerScore() {
-		return totalPlayerScore;
+	
+	public int getPlayerWildlifeScore(WildlifeToken token) {
+		return wildlifeScores[token.ordinal()];	
 	}
-	public void addToTotalPlayerScore(int score) {
-		this.totalPlayerScore += score;
-	}
-	public PlayerMap getMap() {
-		return map; 
-		//note: to modify the map, you have to use player.getMap().addTileToMap()
+	public void setPlayerWildlifeScore(WildlifeToken token, int score) {
+		wildlifeScores[token.ordinal()] = score;
 	}
 	public int[] getLongestCorridorSizes() {
 		return longestCorridorSizes;
 	}
-	/**
-	 * Lets you save size of the longest habitat corridor a player has on
-	 * their map in an int array, for each habitat.
-	 * 	0 stores Forest corridor size.
-	 *	1 stores Wetland corridor size.
-	 *	2 stores River corridor size.
-	 *	3 stores Mountain corridor size.
-	 *	4 stores Prairie corridor size.
-	 * @param index the index of the habitat corridor to save
-	 * @param size the size to save
-	 */
-	public void setLongestCorridorSize(int index, int size) {
-		longestCorridorSizes[index] = size;
+	public void setLongestCorridor(int index, ArrayList<HabitatTile> corridor) {
+		longestCorridors.set(index, corridor);
+		longestCorridorSizes[index] = corridor.size();
+	}
+	public ArrayList<HabitatTile> getLongestCorridor(Habitat habitatType) {
+		return longestCorridors.get(habitatType.ordinal());
+	}
+	public int getLongestCorridorSize(Habitat habitatType) {
+		return longestCorridorSizes[habitatType.ordinal()];
+	}
+	
+	public void addCorridorBonus(int bonus) {
+		this.corridorBonuses += bonus;
+	}
+	public void addToTotalPlayerScore(int score) {
+		this.totalPlayerScore += score;
+	}
+	
+	private int calculateWildlifePlayerScore() {
+		wildlifeTotalScore = Arrays.stream(wildlifeScores).sum();
+		return wildlifeTotalScore;
+	}
+	public int getWildLifeScore() {
+		return wildlifeTotalScore;
+	}
+	private int calculateCorridorsPlayerScore() {
+		corridorTotalScore = Arrays.stream(longestCorridorSizes).sum();
+		return corridorTotalScore;
+	}
+	public int getCorridorScore() {
+		return corridorTotalScore;
+	}
+	public void calculateTurnPlayerScore() {
+		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens;
+	}
+	public void calculateTotalEndPlayerScore(){
+		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens + corridorBonuses;
+	}
+	public int getTotalPlayerScore() {
+		return totalPlayerScore;
 	}
 
 	@Override

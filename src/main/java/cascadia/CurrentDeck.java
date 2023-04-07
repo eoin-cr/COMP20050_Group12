@@ -2,6 +2,9 @@ package cascadia;
 import java.util.ArrayList;
 import java.util.List;
 
+import cascadia.scoring.Scoring;
+import cascadia.scoring.ScoringHabitatCorridors;
+
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
 	private static List<WildlifeToken> deckTokens = new ArrayList<>();
@@ -37,6 +40,7 @@ public class CurrentDeck {
 		choosePairHelper(player, choice, choice);
 	}
 
+	//mynah - change made
 	public static void choosePairHelper(Player player, int tileChoice, int tokenChoice) {
 		if (player == null) {
 			throw new IllegalArgumentException("Player cannot be null");
@@ -60,7 +64,10 @@ public class CurrentDeck {
 		placeTokenChoiceOnMap(player, tokenChoice);
 
 		Display.outln("Your turn is now complete.");
+		player.calculateTurnPlayerScore();
+		Display.playerTurnStats(player);
 		Display.sleep(300);
+		
 		if (Bag.tilesInUse() < Bag.getMaxTiles()) {
 			Generation.generateTileTokenPairs(1); //replace the tile+token pair freshly removed to keep deck at size 4
 		}
@@ -72,9 +79,10 @@ public class CurrentDeck {
 		Game.switchTurn(); //move to next player
     }
 
-	//places tile choice on map
+	//places tile choice on map and adjusts corridor score changes
 	public static void placeTileChoiceOnMap(Player player, int tileChoice, int[] rowCol) {
 		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowCol[0], rowCol[1]);
+		ScoringHabitatCorridors.scorePlayerHabitatCorridors(player, deckTiles.get(tileChoice)); //mynah - change made
 		Display.displayPlayerTileMap(player);
 		deckTiles.remove(tileChoice);
 	}
@@ -102,9 +110,10 @@ public class CurrentDeck {
 				succeeded = true;
 			} else {//add to map choice
 				succeeded = player.getMap().addTokenToTile(token, result[1], player);
-//				if (succeeded) { //get score change for player for that token type on their map
-//					Scoring.scorePlayerTokenPlacement(player, token);
-//				}
+				//mynah - change made
+				if (succeeded) { //get score change for player for that token type on their map
+					Scoring.scorePlayerTokenPlacement(player, token);
+				}
 			}
 		}
 		deckTokens.remove(tokenChoice);

@@ -2,6 +2,8 @@ package cascadia;
 
 import java.util.Objects;
 
+import cascadia.HabitatTile.Habitat;
+
 /**
  * Deals with outputting to the console.
  */
@@ -315,6 +317,29 @@ public class Display {
             // allows the user to select what rotation they want
             tile.rotateTile(-1);
         }
+    }
+    
+    public static void playerTurnStats(Player p) {
+    	Display.outln("\nPlayer " +p.getPlayerName()+ "'s turn stats are: ");
+    	Display.outln("Total Turn Score = " + p.getTotalPlayerScore());
+    	Display.outln("Wildlife Scores: Total = " + p.getWildLifeScore());
+    	Display.outln("Bear \t\tElk \t\tSalmon \t\tHawk \t\tFox");
+    	Display.outln(p.getPlayerWildlifeScore(WildlifeToken.Bear)+ " \t\t"
+    			+ p.getPlayerWildlifeScore(WildlifeToken.Elk)+ " \t\t"
+    			+ p.getPlayerWildlifeScore(WildlifeToken.Salmon)+ " \t\t"
+    			+ p.getPlayerWildlifeScore(WildlifeToken.Hawk)+ " \t\t"
+    			+ p.getPlayerWildlifeScore(WildlifeToken.Fox)+ " \t\t"
+    			);
+    	Display.outln("Habitat Corridor Scores: Total = " + p.getCorridorScore());
+    	Display.outln("Forest \t\tWetland \tRiver \t\tMountain \tPrairie");
+    	Display.outln(p.getLongestCorridorSize(Habitat.Forest)+ " \t\t"
+    			+ p.getLongestCorridorSize(Habitat.Wetland)+ " \t\t"
+    			+ p.getLongestCorridorSize(Habitat.River)+ " \t\t"
+    			+ p.getLongestCorridorSize(Habitat.Mountain)+ " \t\t"
+    			+ p.getLongestCorridorSize(Habitat.Prairie)+ " \t\t"
+    			);
+    	Display.outln("Nature Token Scores: Total = " + p.getPlayerNatureTokens());
+    	
     }
 
 	public static void outln(String s) {
