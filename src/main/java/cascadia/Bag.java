@@ -19,6 +19,10 @@ public class Bag {
     public static void incrementTilesInUse(int num) {
         tilesPlaced += num;
     }
+    
+    public static void decrementTilesInUse(int num) {
+        tilesPlaced -= num;
+    }
 
     public static int tilesInUse() {
         return tilesPlaced;

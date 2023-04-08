@@ -80,6 +80,26 @@ public class PlayerMap {
 			tilesInMap.add(tile);
 		}
 	}
+	
+//	/**
+//	 * Used only in Bot testing to add and then remove a tile from map to get difference in scores.
+//	 * @param tile
+//	 * @param row
+//	 * @param col
+//	 */
+//	public void removeTileFromMap(HabitatTile tile, int row, int col) {
+//		if (tileBoardPosition[row][col] != null) {
+//			tileBoardPosition[row][col] = null;
+//			Bag.decrementTilesInUse(1);
+//			Bag.remainingHabitats.merge(tile.getHabitat1(), 1, Integer::sum);
+//			Bag.remainingHabitats.merge(tile.getHabitat2(), 1, Integer::sum);
+//			for (int i = 0; i < tilesInMap.size(); i++) {
+//				if (tilesInMap.get(i) == tile) {
+//					tilesInMap.remove(i);
+//				}
+//			}
+//		}
+//	}
 
 	//used to check if there's no tiles in the players map that have a valid option for token drawn
 	//used in current deck class for check

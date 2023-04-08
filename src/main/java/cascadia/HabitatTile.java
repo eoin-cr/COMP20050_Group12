@@ -43,6 +43,18 @@ public class HabitatTile {
 			}
 			return null;
 		}
+		
+		public static Habitat getHabitat(int ord) {
+			Habitat habitat;
+			switch(ord) {
+			case 0 -> habitat = Forest;
+			case 1 -> habitat = Wetland;
+			case 3 -> habitat = River;
+			case 4 -> habitat = Mountain;
+			case 5 -> habitat = Prairie;
+			default -> throw new IllegalArgumentException("Invalid Habitat requested."); }
+			return habitat;
+		}
 	}
 
 	enum TileType {KEYSTONE, NON_KEYSTONE, FAKE}

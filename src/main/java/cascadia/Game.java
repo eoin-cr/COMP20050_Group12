@@ -6,7 +6,9 @@ import java.util.List;
 
 /** Deals with the running of the game */
 public class Game {
+	public static boolean botMode;
     private final String[] playerNames;
+    private static BotMain bot;
     private final static List<Player> playerList = new ArrayList<>();
     // we set this to static, so we can access it from static methods.  This does mean
     // that multiple game classes cannot be run simultaneously, but this should not be
@@ -34,7 +36,16 @@ public class Game {
      */
 
     public Game() { //constructor
-    	  playerNames = Input.getPlayers();  // from cascadia.Input class
+    		//mynah - change made
+    	  botMode = Input.getBotModeOnOrOff();
+    	  if (botMode) {
+    		  bot = new BotMain();
+    		  playerNames = bot.makeBotPlayerNames();
+    	  }
+    	  else {
+    		  playerNames = Input.getPlayers();  // from cascadia.Input class
+    	  }
+    	  
           Display.printPlayers(playerNames);  // from cascadia.Display class
           Display.sleep(500);
 
@@ -42,13 +53,20 @@ public class Game {
           Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
 
           populatePlayers();
+          if (botMode) {
+        	  bot.getBotPlayers(playerList);
+          }
 
+    }
+    
+    public static BotMain getBot() {
+    	return bot;
     }
     
     public static List<Player> getPlayers() { //used in final scoring
     	return playerList;
     }
-
+    
     public void startGame() {
     	CurrentDeck.setStartTileTokenSelection();
     	playerTurnCycle();

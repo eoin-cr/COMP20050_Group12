@@ -2,8 +2,7 @@ package cascadia;
 import java.util.ArrayList;
 import java.util.List;
 
-import cascadia.scoring.Scoring;
-import cascadia.scoring.ScoringHabitatCorridors;
+import cascadia.scoring.*;
 
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
@@ -35,9 +34,16 @@ public class CurrentDeck {
 	 * @param player The player who will be selecting the pair
 	 */
 	public static void choosePair(Player player) {
+		//mynah - change made
 		//choose a tile/token pair from options on deck displayed
-		int choice = Input.chooseFromDeck();
-		choosePairHelper(player, choice, choice);
+		if (!Game.botMode) {
+			int choice = Input.chooseFromDeck();
+			choosePairHelper(player, choice, choice);
+		}
+		else if (Game.botMode) {
+			int[] choices = Game.getBot().makeBestChoiceFromDeck(player, deckTiles, deckTokens);
+			choosePairHelper(player, choices[0], choices[1]);
+		}
 	}
 
 	//mynah - change made

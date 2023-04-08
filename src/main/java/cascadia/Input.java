@@ -18,6 +18,32 @@ public class Input {
 		string = in.nextLine().toUpperCase();
 		return string.trim();
 	}
+	
+	public static boolean getBotModeOnOrOff() {
+		String choice;
+		boolean output = false;
+		Display.outln("\nYou can either play as users and make your own choices in game, or enter Bot Mode.");
+		Display.outln("In Bot Mode, the game is automated - two bots play a game against each other.");
+		Display.outln("Would you like Bot Mode ON or OFF?");
+		
+		do {
+			choice = getUserInput();
+			//Display.outln(choice);
+			if (choice.equals("ON")){
+				output = true;
+				break;
+			}
+			else if (choice.equals("OFF")){
+				output = false;
+				break;
+			}
+			else if (!choice.equals("ON") || !choice.equals("OFF")) {
+				Display.outln("Invalid input! Please type ON or OFF");
+			}
+        } while(!choice.equals("ON") || !choice.equals("OFF"));
+		
+		return output;
+	}
 
     /**
      * Scans in players' names, randomises them, and puts them in a String array.
