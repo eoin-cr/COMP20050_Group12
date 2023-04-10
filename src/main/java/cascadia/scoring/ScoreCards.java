@@ -1,20 +1,35 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
-import java.util.Random;
 import cascadia.Display;
+import java.util.Random;
 
 public class ScoreCards {
+	/*
+	stores the 5 scorecard options selected,
+	each randomly generated from a choice of 4 possible options of cards
+	indexing:
+	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
+	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
+	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
+	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
+	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
+	*/
 	private final static String[] scorecards = new String[5];
-//	stores the 5 scorecard options selected,
-//	each randomly generated from a choice of 4 possible options of cards
-//	indexing:
-//	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
-//	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
-//	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
-//	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
-//	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
-	
-	public ScoreCards() {}
 
 	public static String[] getScorecards() {
 		return scorecards;
@@ -22,10 +37,11 @@ public class ScoreCards {
 
 	public static void generateScorecards() {
 		Random rand = new Random();
-		int[] randNums = new int[5];
+		int NUM_SCORECARDS = 5;
+		int[] randNums = new int[NUM_SCORECARDS];
 		
 		for (int i = 0; i < 5; i++) {
-			randNums[i] = 1+rand.nextInt(3); //generate a number between 1-4
+			randNums[i] = 1 + rand.nextInt(3); //generate a number between 1-4
 		}
 		bearCards(randNums[0]);
 		elkCards(randNums[1]);
@@ -37,52 +53,58 @@ public class ScoreCards {
 	}
 	
 	private static void bearCards(int randNum) {
-		switch(randNum) {
-		case 1 -> scorecards[0] = "B1";
-		case 2 -> scorecards[0] = "B2";
-		case 3 -> scorecards[0] = "B3";
-		default -> throw new IllegalArgumentException("Invalid randNum choice for Bear scorecard");
+		switch (randNum) {
+			case 1 -> scorecards[0] = "B1";
+			case 2 -> scorecards[0] = "B2";
+			case 3 -> scorecards[0] = "B3";
+			default -> throw new IllegalArgumentException("Invalid randNum choice (" + randNum + ") for Bear "
+					+ "scorecard");
 		}	
 	}
 	
 	private static void elkCards(int randNum) {
-		switch(randNum) {
-		case 1 -> scorecards[1] = "E1";
-		case 2 -> scorecards[1] = "E2";
-		case 3 -> scorecards[1] = "E3";
-		default -> throw new IllegalArgumentException("Invalid randNum choice for Elk scorecard");
+		switch (randNum) {
+			case 1 -> scorecards[1] = "E1";
+			case 2 -> scorecards[1] = "E2";
+			case 3 -> scorecards[1] = "E3";
+			default -> throw new IllegalArgumentException("Invalid randNum choice (" + randNum + ") for "
+					+ "Elk scorecard");
 		}	
 	}
 	
 	private static void salmonCards(int randNum) {
-		switch(randNum) {
-		case 1 -> scorecards[2] = "S1";
-		case 2 -> scorecards[2] = "S2";
-		case 3 -> scorecards[2] = "S3";
-		default -> throw new IllegalArgumentException("Invalid randNum choice for Salmon scorecard");
+		switch (randNum) {
+			case 1 -> scorecards[2] = "S1";
+			case 2 -> scorecards[2] = "S2";
+			case 3 -> scorecards[2] = "S3";
+			default -> throw new IllegalArgumentException("Invalid randNum choice (" + randNum + ") for "
+					+ "Salmon scorecard");
 		}	
 	}
 	
 	private static void hawkCards(int randNum) {
-		switch(randNum) {
-		case 1 -> scorecards[3] = "H1";
-		case 2 -> scorecards[3] = "H2";
-		case 3 -> scorecards[3] = "H3";
-		default -> throw new IllegalArgumentException("Invalid randNum choice for Hawk scorecard");
+		switch (randNum) {
+			case 1 -> scorecards[3] = "H1";
+			case 2 -> scorecards[3] = "H2";
+			case 3 -> scorecards[3] = "H3";
+			default -> throw new IllegalArgumentException("Invalid randNum choice (" + randNum + ") for "
+					+ "Hawk scorecard");
 		}	
 	}
 	
 	private static void foxCards(int randNum) {
-		switch(randNum) {
-		case 1 -> scorecards[4] = "F1";
-		case 2 -> scorecards[4] = "F2";
-		case 3 -> scorecards[4] = "F3";
-		default -> throw new IllegalArgumentException("Invalid randNum choice for Fox scorecard");
+		switch (randNum) {
+			case 1 -> scorecards[4] = "F1";
+			case 2 -> scorecards[4] = "F2";
+			case 3 -> scorecards[4] = "F3";
+			default -> throw new IllegalArgumentException("Invalid randNum choice (" + randNum + ") for "
+					+ "Fox scorecard");
 		}	
 	}
 	
 	public static void printScoreCardRules() {
-		Display.outln("Below are the scorecards drawn for possible Wildlife Token placements on your board:\n");
+		Display.outln("Below are the scorecards drawn for possible Wildlife Token placements "
+				+ "on your board:\n");
 		for (String s : scorecards) {
 			switch (s) {
 				case "B1" -> {
@@ -313,10 +335,9 @@ public class ScoreCards {
 					Display.outln("  6     ||      6  ");
 					Display.outln("");
 				}
-				default -> throw new IllegalArgumentException("Invalid choice of scorecard to be printed");
+				default -> throw new IllegalArgumentException("Invalid choice of scorecard "
+						+ "to be printed (" + s + ")");
 			}
 		}
 	}
-	
-
 }

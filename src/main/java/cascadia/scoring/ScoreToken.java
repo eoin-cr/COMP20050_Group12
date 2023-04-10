@@ -1,23 +1,42 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
 import cascadia.PlayerMap;
 import cascadia.WildlifeToken;
 
-public abstract class ScoreToken {
-//	indexing of cards:
-//	index 0 stores Bear score card option as a string		(B1,B2,B3,B4)
-//	index 1 stores Elk score card option as a string			(E1,E2,E3,E4)
-//	index 2 stores Salmon score card option as a string		(S1,S2,S3,S4)
-//	index 3 stores Hawk score card option as a string		(H1,H2,H3,H4)
-//	index 4 stores Fox score card option as a string			(F1,F2,F3,F4)
+/**
+ * Implements calculate score method.
+ */
+public abstract class ScoreToken extends Scoring {
+//public abstract class ScoreToken {
+////	indexing of cards:
+////	index 0 stores Bear score card option as a string		(B1,B2,B3,B4)
+////	index 1 stores Elk score card option as a string			(E1,E2,E3,E4)
+////	index 2 stores Salmon score card option as a string		(S1,S2,S3,S4)
+////	index 3 stores Hawk score card option as a string		(H1,H2,H3,H4)
+////	index 4 stores Fox score card option as a string			(F1,F2,F3,F4)
 	private static final String[] cards = ScoreCards.getScorecards();
-	
-	
+
+
 	//overloaded method name: this one used with specified option in testing
     public static int calculateScore(PlayerMap map, Scorable option) {
         return option.score(map);
     }
-    
+
     //mynah - change made
     //overloaded method name: this one used with game option in scoring
     public static int calculateScore(PlayerMap map, WildlifeToken token) {

@@ -1,18 +1,35 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import cascadia.scoring.ScoreCards;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Deals with the running of the game */
+/** Deals with the running of the game. */
 public class Game {
 	public static boolean botMode;
     private final String[] playerNames;
     private static BotMain bot;
     private final static List<Player> playerList = new ArrayList<>();
-    // we set this to static, so we can access it from static methods.  This does mean
-    // that multiple game classes cannot be run simultaneously, but this should not be
-    // an issue
+    /*
+     we set this to static, so we can access it from static methods.  This does mean
+     that multiple game classes cannot be run simultaneously, but this should not be
+     an issue
+    */
     private static boolean switchTurn = false;
 
     /*
@@ -45,12 +62,13 @@ public class Game {
     	  else {
     		  playerNames = Input.getPlayers();  // from cascadia.Input class
     	  }
-    	  
+
           Display.printPlayers(playerNames);  // from cascadia.Display class
           Display.sleep(500);
 
-          ScoreCards.generateScorecards();
-          Bag.makeBag(playerNames.length); //makes a bag of tiles based on how many players there are
+        ScoreCards.generateScorecards();
+        //makes a bag of tiles based on how many players there are
+        Bag.createBag(playerNames.length);
 
           populatePlayers();
           if (botMode) {
@@ -58,7 +76,7 @@ public class Game {
           }
 
     }
-    
+
     public static BotMain getBot() {
     	return bot;
     }
@@ -66,7 +84,7 @@ public class Game {
     public static List<Player> getPlayers() { //used in final scoring
     	return playerList;
     }
-    
+
     public void startGame() {
     	CurrentDeck.setStartTileTokenSelection();
     	playerTurnCycle();
@@ -81,17 +99,18 @@ public class Game {
     	while (Bag.tilesInUse() < Bag.getMaxTiles()) {
     		for (Player player : playerList) {
                 switchTurn = false;
-        		Display.outln("Current player is: " +player.getPlayerName());
+        		Display.outln("Current player is: " + player.getPlayerName());
                 Display.displayPlayerTileMap(player);
-        		// choose from tile token pairs
-        		// place tile
-        		// now can choose to place token, move to next player, quit etc.
+                /*
+        		 choose from tile token pairs
+        		 place tile
+        		 now can choose to place token, move to next player, quit etc.
+                */
 
                 do {
                     player.setCommand();
-//                } while (command.getCommand() != cascadia.Command.CommandType.PAIR);
                 } while (!switchTurn);
-        		// automatically moves to next player if command type is next
+                // automatically moves to next player if command type is next
         	}
     	}
     }
@@ -111,6 +130,7 @@ public class Game {
             Display.sleep(500);
         }
     }
+
     public static void switchTurn() {
         switchTurn = true;
     }

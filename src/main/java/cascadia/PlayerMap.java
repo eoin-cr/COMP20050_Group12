@@ -1,4 +1,20 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +24,8 @@ public class PlayerMap {
 	private static final int BOARD_HEIGHT = 20;
 	private static final int BOARD_WIDTH = 20;
 	private final List<HabitatTile> tilesInMap;
-	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH]; //position of tiles on map
+	//position of tiles on map
+	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH];
 	
 	public PlayerMap() { //constructor
 		tilesInMap = new ArrayList<>();
@@ -33,7 +50,7 @@ public class PlayerMap {
 		return tileBoardPosition;
 	}
 	
-	public List<HabitatTile> getTilesInMap(){
+	public List<HabitatTile> getTilesInMap() {
 		List<HabitatTile> tiles = new ArrayList<>();
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -146,7 +163,8 @@ public class PlayerMap {
 	}
 
 	/**
-	 * Check whether the chosen token can be placed on a certain tile
+	 * Check whether the chosen token can be placed on a certain tile.
+	 *
 	 * @param token the token to check
 	 * @param tile the tile to check whether the token can be placed on
 	 * @return whether a token can be placed
@@ -154,9 +172,7 @@ public class PlayerMap {
 	private boolean checkTokenOptionsMatch(WildlifeToken token, HabitatTile tile) {
 		if (tile.getIsTokenPlaced()) {
 			Display.outln("There is already a token on this tile.");
-		}
-		
-		else {
+		} else {
 			for (WildlifeToken w : tile.getTokenOptions()) {
 				if (token == w) {
 					return true;
@@ -169,35 +185,25 @@ public class PlayerMap {
 	
 	//check if player gets a nature token once token is placed
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
-		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE && tile.getTokenOptions()[0] == token) {
+		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE
+				&& tile.getTokenOptions()[0] == token) {
 			p.addPlayerNatureToken(); //increments player's nature tokens
-			Display.outln("Nature token added to "+p.getPlayerName()+". You now have nature tokens: "+p.getPlayerNatureTokens());
+			Display.outln("Nature token added to " + p.getPlayerName()
+					+ ". You now have nature tokens: " + p.getPlayerNatureTokens());
 		}
 	}
 
 	/**
 	 * Adds all the possible tiles that can be placed according to the rules of
-	 * the game to the map
+	 * the game to the map.
 	 */
-	public void addPossibleTiles () {
+	public void addPossibleTiles() {
 		HabitatTile[][] tmpBoard = deepCopy(tileBoardPosition); //position of tiles on map
-		for (int i = 1; i < BOARD_HEIGHT-1; i++) {
-			for (int j = 1; j < BOARD_WIDTH-1; j++) {
-				int indent;
-				if (i % 2 == 0) {
-					indent = 1;
-				} else {
-					indent = -1;
-				}
-				if (tmpBoard[i][j] == null & (
-						tmpBoard[i][j-1] != null
-						|| tmpBoard[i][j+1] != null
-						|| tmpBoard[i-1][j] != null
-						|| tmpBoard[i-1][j+indent] != null
-						|| tmpBoard[i+1][j] != null
-						|| tmpBoard[i+1][j+indent] != null)) {
-
-					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie, HabitatTile.Habitat.River, 3);
+		for (int i = 1; i < BOARD_HEIGHT - 1; i++) {
+			for (int j = 1; j < BOARD_WIDTH - 1; j++) {
+				if (tmpBoard[i][j] == null & surroundingTokensNonNull(i, j, tmpBoard)) {
+					HabitatTile tile = new HabitatTile(HabitatTile.Habitat.Prairie,
+							HabitatTile.Habitat.River, 3);
 					tile.setFakeTile(true);
 					addTileToMap(tile, i, j);
 				}
@@ -205,6 +211,17 @@ public class PlayerMap {
 		}
 	}
 
+	private static boolean surroundingTokensNonNull(int i, int j, HabitatTile[][] board) {
+		int indent = i % 2 == 0 ? 1 : -1;
+		int[] rowShift = new int[]{0, 0, -1, -1, 1, 1};
+		int[] colShift = new int[]{-1, +1, 0, indent, 0, indent};
+		for (int k = 0; k < Constants.NUM_EDGES; k++) {
+			if (board[i + rowShift[k]] [j + colShift[k]] != null) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public int[] returnPositionOfID(int ID) {
 		for (int i = 0; i < tileBoardPosition.length; i++) {
@@ -218,18 +235,15 @@ public class PlayerMap {
 				}
 			}
 		}
-		return new int[]{-1,-1};
+		return new int[]{-1, -1};
 	}
 	
-	public HabitatTile returnTileAtPositionInMap (int row, int col) {
-		if (row < 0 || col > 19) {
+	public HabitatTile returnTileAtPositionInMap(int row, int col) {
+		if (row < 0 || col > BOARD_HEIGHT) {
 			return null;
-		}
-		
-		else if (tileBoardPosition[row][col] == null) {
+		} else if (tileBoardPosition[row][col] == null) {
 			return null;
-		}
-		else {
+		} else {
 			return tileBoardPosition[row][col];
 		}
 	}

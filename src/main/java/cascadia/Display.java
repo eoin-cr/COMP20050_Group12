@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import java.util.Objects;
@@ -49,7 +64,7 @@ public class Display {
         Display.outln("The player list is:");
     
         for (int i = 0; i < playerNames.length; i++) {
-     	   Display.outln((i+1)+ ": " + playerNames[i]);
+			Display.outln((i + 1) + ": " + playerNames[i]);
         }
         Display.outln("");
     }
@@ -64,7 +79,7 @@ public class Display {
     	Display.outln("The current Habitat Tile + Wildlife Token pairs up for selection are: ");
 		String output = "";
 
-    	for (int i = 0; i < 4; i++) {
+    	for (int i = 0; i < Constants.MAX_DECK_SIZE; i++) {
 			String toAdd = " " + centerString(18, CurrentDeck.getToken(i).toString()) + "\n"
 					+ CurrentDeck.getTile(i).toFormattedString();
 			output = removeNewlineAndJoin(output, toAdd, "        ");
@@ -74,8 +89,9 @@ public class Display {
 	}
 
 	// https://stackoverflow.com/questions/8154366/how-to-center-a-string-using-string-format
-	public static String centerString (int width, String s) {
-		return String.format("%-" + width  + "s", String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
+	public static String centerString(int width, String s) {
+		return String.format("%-" + width  + "s",
+				String.format("%" + (s.length() + (width - s.length()) / 2) + "s", s));
 	}
 
 	public static void cullOccurrence() {
@@ -130,11 +146,11 @@ public class Display {
 		 * If a value in board is null, print a full tile indent.  Every second line add
 		 * a half indent to the front.
 		 */
-		for (int i = boundaries[0]; i < boundaries[1]+1; i++) {
+		for (int i = boundaries[0]; i < boundaries[1] + 1; i++) {
 			String line = " \n \n \n \n";
 			// for some reason if there isn't some empty border (gotten by
 			// boundaries[2]-1) there is some weird output sometimes.
-			for (int j = boundaries[3]+1; j > boundaries[2]-1; j--) {
+			for (int j = boundaries[3] + 1; j > boundaries[2] - 1; j--) {
 				if (board[i][j] == null) {
 					line = indentFullTile(line);
 				} else {
@@ -156,53 +172,35 @@ public class Display {
 	 *
 	 * @param map the map whose boundary to be found
 	 * @return an int array containing the index of the [top, bottom, left, right]
-	 * co-ords of the boundary
+	 * 				co-ords of the boundary
 	 */
 	// int[] boundaries are [top, bottom, left, right]
 	private static int[] tileBoundaries(PlayerMap map) {
 		HabitatTile[][] board = map.getTileBoardPosition();
-		int[] boundaries = new int[4];
+		int uppermost = board.length;
+		int lowermost = 0;
+		int leftmost = board[0].length;
+		int rightmost = 0;
 
-		// get uppermost tile
 		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[0].length; j++) {
+			for (int j = 0; j < board[i].length; j++) {
 				if (board[i][j] != null) {
-					boundaries[1] = i;
-					break;
+					if (i < uppermost) {
+						uppermost = i;
+					}
+					if (i > lowermost) {
+						lowermost = i;
+					}
+					if (j < leftmost) {
+						leftmost = j;
+					}
+					if (j > rightmost) {
+						rightmost = j;
+					}
 				}
 			}
 		}
-
-		// get lowermost tile
-		for (int i = board.length - 1; i >= 0; i--) {
-			for (int j = 0; j < board[0].length; j++) {
-				if (board[i][j] != null) {
-					boundaries[0] = i;
-					break;
-				}
-			}
-		}
-
-		// get leftmost tile
-		for (int i = 0; i < board[0].length; i++) {
-			for (HabitatTile[] habitatTiles : board) {
-				if (habitatTiles[i] != null) {
-					boundaries[3] = i;
-					break;
-				}
-			}
-		}
-
-		// get rightmost tile
-		for (int i = board[0].length - 1; i >= 0; i--) {
-			for (HabitatTile[] habitatTiles : board) {
-				if (habitatTiles[i] != null) {
-					boundaries[2] = i;
-					break;
-				}
-			}
-		}
-		return boundaries;
+		return new int[]{uppermost, lowermost, leftmost, rightmost};
 	}
 
 	/**
@@ -233,12 +231,12 @@ public class Display {
 	 */
 	private static String indentFullTile(String tile) {
 		String output = indentHalfTile(indentHalfTile(" " + tile.replaceAll("\n", "\n ")));
-		return output.substring(0, output.length()-2); // removes the trailing \n
+		return output.substring(0, output.length() - 2); // removes the trailing \n
 	}
 
 	/**
 	 * Combines two tile strings into one string (with both tiles on the same
-	 * line)
+	 * line).
 	 *
 	 * @param first the tile that will be on the left in the combined string
 	 * @param second the tile that will be on the right in the combined string
@@ -277,7 +275,7 @@ public class Display {
 	}
 
 	/**
-	 * Displays the interactive commands the player can select from
+	 * Displays the interactive commands the player can select from.
 	 */
 	public static void displayCommands() {
 		for (Command command : Command.values()) {
@@ -290,10 +288,10 @@ public class Display {
 	 *
 	 * @param millis the amount of milliseconds to pause the program for
 	 */
-	public static void sleep (int millis) {
+	public static void sleep(int millis) {
 		try {
 			Thread.sleep(millis);
-		} catch (InterruptedException ignored) {}
+		} catch (InterruptedException ignored) { }
 	}
 
 	/**
@@ -304,19 +302,22 @@ public class Display {
 	}
 
     // displays the different rotation options in order, rotates tile choice to that rotation
-    public static void rotateTile(HabitatTile tile) {
+    public static void selectTileRotation(HabitatTile tile) {
         String orientationOptions = "";
-        if (!tile.isKeystone()) {
-            for (int i = 0; i < 6; i++) {
-                tile.rotateTile(1);
-                    orientationOptions = removeNewlineAndJoin(
-                        orientationOptions, tile.toFormattedString(), "\t\t\t"
-                    );
-            }
-            Display.outln(orientationOptions);
-            // allows the user to select what rotation they want
-            tile.rotateTile(-1);
-        }
+		// we don't want to bother with rotating a keystone tile as they only have one orientation
+		if (tile.isKeystone()) {
+			return;
+		}
+
+		for (int i = 0; i < Constants.NUM_EDGES; i++) {
+			tile.rotateTile(1);
+			orientationOptions = removeNewlineAndJoin(
+					orientationOptions, tile.toFormattedString(), "        "
+			);
+		}
+		Display.outln(orientationOptions);
+		// allows the user to select what rotation they want
+		tile.rotateTile(-1);
     }
     
     public static void playerTurnStats(Player p) {
@@ -342,6 +343,9 @@ public class Display {
     	
     }
 
+	// Allows us to easily change the output method (e.g. If we needed to change
+	// it to output to a file, we can just change these 3 methods, rather than
+	// every single System.out call)
 	public static void outln(String s) {
 		System.out.println(s);
 	}

@@ -1,16 +1,41 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia.scoring;
 
 import cascadia.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scoring {
+    /*
+    	indexing of cards:
+    	index 0 stores Bear scorecard option as a string		(B1,B2,B3,B4)
+    	index 1 stores Elk scorecard option as a string		(E1,E2,E3,E4)
+    	index 2 stores Salmon scorecard option as a string		(S1,S2,S3,S4)
+    	index 3 stores Hawk scorecard option as a string		(H1,H2,H3,H4)
+    	index 4 stores Fox scorecard option as a string		(F1,F2,F3,F4)
+    */
+
+    private static final String[] cards = ScoreCards.getScorecards();
 	private static final List<Player> players = Game.getPlayers();
-	private static final ArrayList<Player> winners = new ArrayList<>();
-	
-	public Scoring() {}
-	
+	private static final List<Player> winners = new ArrayList<>();
+
+	/**
+	 * Starts the scoring for the game.
+	 */
 	public static void startScoring() {
 		//mynah - change made
 		Display.scoringScreen();
@@ -18,9 +43,11 @@ public class Scoring {
 		//natureTokenScoring();
 		//ScoringHabitatCorridors.habitatCorridorScoring(players);
 		ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
-		findWinnerAfterScoring();
+//		scoreCardScoring();
+//		natureTokenScoring();
+		findWinner();
 	}
-	
+
 	//mynah - change made
 	/**
 	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
@@ -33,7 +60,7 @@ public class Scoring {
 	public static void scorePlayerTokenPlacement(Player player, WildlifeToken token) {
 		player.setPlayerWildlifeScore(token, ScoreToken.calculateScore(player.getMap(), token));
 	}
-	
+
 //	mynah - change made
 	//end based scoring
 	public static void scoreCardScoring() {
@@ -52,14 +79,15 @@ public class Scoring {
 	private static void natureTokenScoring() {
 		for (Player p : players) {
 			if (p.getPlayerNatureTokens() > 0) {
-				Display.outln(p.getPlayerName() + " has " + p.getPlayerNatureTokens() + " remaining Nature Token(s). "
+				Display.outln(p.getPlayerName() + " has " + p.getPlayerNatureTokens()
+						+ " remaining Nature Token(s). "
 						+ p.getPlayerNatureTokens() + " bonus point(s).");
 			}
 		}
 		Display.outln("");
 	}
 
-	private static void findWinnerAfterScoring() {
+	private static void findWinner() {
 		int winningScore = 0;
 		for (Player p : players) {
 			p.calculateTotalEndPlayerScore();
@@ -75,49 +103,65 @@ public class Scoring {
 		}
 
 		if (winners.size() == 1) {
-			Display.outln("Winner is " + winners.get(0).getPlayerName() + " with score " +winningScore+ ".\n");
+			Display.outln("Winner is " + winners.get(0).getPlayerName() + " with score "
+					+ winningScore + ".\n");
 		} else {
-			Display.outln("A tie break has occurred. Now checking player Nature Tokens.");
-			int maxNatureTokens = 0;
-			ArrayList<Player> tieBreakWinners = new ArrayList<>();
-			for (Player p : winners) {
-				if (p.getPlayerNatureTokens() >= maxNatureTokens) {
-					tieBreakWinners.add(p);
-				}
-			}
-			if (tieBreakWinners.size() == 1) {
-				Display.outln("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
-						+ winningScore+ "and Nature Tokens " +tieBreakWinners.get(0).getPlayerNatureTokens()+ ".\n");
-			}
-			else {
-				Display.outf("Players: %s have tied for the win, with a score of %d\n\n",
-						tieBreakWinners, winningScore);
-			}
+			calculateTieBreak(winningScore);
 		}
 	}
-	//START OF HELPER FUNCTIONS
+
+	private static void calculateTieBreak(int winningScore) {
+		Display.outln("A tie break has occurred. Now checking player Nature Tokens.");
+		int maxNatureTokens = 0;
+		List<Player> tieBreakWinners = new ArrayList<>();
+		for (Player p : winners) {
+			if (p.getPlayerNatureTokens() >= maxNatureTokens) {
+				tieBreakWinners.add(p);
+			}
+		}
+		if (tieBreakWinners.size() == 1) {
+			Display.outln("Winner is " + tieBreakWinners.get(0).getPlayerName() + " with score "
+					+ winningScore + "and Nature Tokens "
+					+ tieBreakWinners.get(0).getPlayerNatureTokens() + ".\n");
+		} else {
+			Display.outf("Players: %s have tied for the win, with a score of %d\n\n",
+					tieBreakWinners, winningScore);
+		}
+	}
+
+	/////////////////////////////
+	//START OF HELPER FUNCTIONS//
+	/////////////////////////////
 
 	/**
-	 * Helper function for Scorecard scoring, retrieves a chunk of connected tiles on the map with the same Wildlife token type.
+	 * Helper function for Scorecard scoring, retrieves a chunk of connected
+	 * tiles on the map with the same Wildlife token type.
 	 */
-	public static void findTokenGroupRecursive(ArrayList<HabitatTile> groupOfTokens, WildlifeToken tokenType, HabitatTile centerTile, PlayerMap map) {
+	public static void findTokenGroup(List<HabitatTile> groupOfTokens,
+									  WildlifeToken tokenType, HabitatTile centerTile,
+									  PlayerMap map) {
 		if (!groupOfTokens.contains(centerTile) && centerTile.getPlacedToken() == tokenType) {
 			groupOfTokens.add(centerTile);
-			ArrayList<HabitatTile> adjacentTokens = Scoring.getAdjacentTilesWithTokenMatch(tokenType, centerTile, map);
+			List<HabitatTile> adjacentTokens = Scoring.getAdjacentTilesWithTokenMatch(
+					tokenType, centerTile, map);
 			if (adjacentTokens.size() > 0) {
 				for (HabitatTile t : adjacentTokens) {
-					findTokenGroupRecursive(groupOfTokens, tokenType, t, map);
+					findTokenGroup(groupOfTokens, tokenType, t, map);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Helper function for Scorecard scoring, retrieves a single tile's adjacent tiles with a Wildlife token match.
+	 * Helper function for Scorecard scoring, retrieves a single tile's
+	 * adjacent tiles with a Wildlife token match.
+	 *
 	 * @return Arraylist of Habitat Tiles with same token type.
 	 */
-	public static ArrayList<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType, HabitatTile centerTile, PlayerMap map){
-		ArrayList<HabitatTile> tileMatches = new ArrayList<>();
+	public static List<HabitatTile> getAdjacentTilesWithTokenMatch(WildlifeToken animalType,
+																		HabitatTile centerTile,
+																		PlayerMap map) {
+		List<HabitatTile> tileMatches = new ArrayList<>();
 		HabitatTile[] adjacentTiles = getAdjacentTiles(centerTile, map);
 
 		for (HabitatTile checkTile : adjacentTiles) {
@@ -129,17 +173,18 @@ public class Scoring {
 	}
 
 	/**
-	 * Helper function for Scorecard scoring, retrieves the tokens of a single tile's adjacent tiles
+	 * Helper function for Scorecard scoring, retrieves the tokens of a single
+	 * tile's adjacent tiles.
+	 *
 	 * @return Array of WildlifeTokens
 	 */
 	public static WildlifeToken[] getAdjacentTokens(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
-		WildlifeToken[] adjacentTokens = new WildlifeToken[6];
-		for (int i = 0; i < 6; i++) {
+		WildlifeToken[] adjacentTokens = new WildlifeToken[Constants.NUM_EDGES];
+		for (int i = 0; i < Constants.NUM_EDGES; i++) {
 			if (adjacentTiles[i] != null) {
 				adjacentTokens[i] = adjacentTiles[i].getPlacedToken();
-			}
-			else {
+			} else {
 				adjacentTokens[i] = null;
 			}
 		}
@@ -147,124 +192,93 @@ public class Scoring {
 	}
 
 	/**
-	 * Helper function for Habitat corridor scoring, retrieves the habitats adjacent to a single tile's edges.
+	 * Helper function for Habitat corridor scoring, retrieves the habitats
+	 * adjacent to a single tile's edges.
+	 *
 	 * @return Array of Habitats
 	 */
 	public static HabitatTile.Habitat[] getAdjacentHabitats(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = getAdjacentTiles(tile, map);
-		HabitatTile.Habitat[] adjacentHabitats = new HabitatTile.Habitat[6];
-		for (int i = 0; i < 6; i++) {
-			adjacentHabitats[i] = null;
+		HabitatTile.Habitat[] adjacentHabitats = new HabitatTile.Habitat[Constants.NUM_EDGES];
+		int[] edgeIndexes = new int[]{3, 4, 5, 0, 1, 2};
+		/*
+		Center tile has 6 edges - each edge connects to adjacent tile's specific edge according
+		to position on map in relation to center tile. E.g. Center tile edge 0 connects to above
+		tile's edge 3.
+		*/
+		for (int i = 0; i < Constants.NUM_EDGES; i++) {
+			if (adjacentTiles[i] != null) {
+				adjacentHabitats[i] = adjacentTiles[i].getEdge(edgeIndexes[i]).getHabitatType();
+			}
 		}
-		//Center tile has 6 edges - each edge connects to adjacent tile's specific edge according to position on map
-		//in relation to center tile. E.g. Center tile edge 0 connects to above tile's edge 3.
-		if (adjacentTiles[0] != null) adjacentHabitats[0] = adjacentTiles[0].getEdge(3).getHabitatType();
-		if (adjacentTiles[1] != null) adjacentHabitats[1] = adjacentTiles[1].getEdge(4).getHabitatType();
-		if (adjacentTiles[2] != null) adjacentHabitats[2] = adjacentTiles[2].getEdge(5).getHabitatType();
-		if (adjacentTiles[3] != null) adjacentHabitats[3] = adjacentTiles[3].getEdge(0).getHabitatType();
-		if (adjacentTiles[4] != null) adjacentHabitats[4] = adjacentTiles[4].getEdge(1).getHabitatType();
-		if (adjacentTiles[5] != null) adjacentHabitats[5] = adjacentTiles[5].getEdge(2).getHabitatType();
 		return adjacentHabitats;
 	}
 
 
 	/**
 	 * Helper function for general Scoring, gets a single tile's adjacent tiles.
-	 * Has cases based on the tile's position in the 2d array/map (since a tile might be missing sides based on position).
+	 * Has cases based on the tile's position in the 2d array/map (since a tile
+	 * might be missing sides based on position).
 	 * Missing sides are null.
-	 * Note: Edges of the hexagonal are numbered 0 (starting from the top right edge, going clockwise) to 5 (left top edge).
-	 * @return Array of tiles
+	 * Note: Edges of the hexagonal are numbered 0 (starting from the top
+	 * right edge, going clockwise) to 5 (left top edge).
+	 *
+	 * @return array of tiles
 	 */
 
-//	  Total 6 sides, like in the diagram below
-//	      5   0
-//	 	  -- --
-//	 	4|     |1
-//	 	  -- --
-//	 	  3	  2
-	
-	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
-		HabitatTile[] adjacentTiles = new HabitatTile[6];
-		for (int i = 0; i < 6; i++) {
-			adjacentTiles[i] = null;
-		}
+	/*
+	  Total 6 sides, like in the diagram below
+	      5   0
+	 	  -- --
+	 	4|     |1
+	 	  -- --
+	 	  3	  2
+	*/
 
+	private static HabitatTile tileHelper(HabitatTile tile, PlayerMap map, int index,
+										  boolean isEven) {
 		int row = tile.getMapPosition()[0];
 		int col = tile.getMapPosition()[1];
-		
+		int[] rowShift = new int[]{-1, 0, +1, +1, 0, -1};
+		int[] colShiftEven = new int[]{1, 1, 1, 0, -1, 0};
+		int[] colShiftOdd = new int[]{0, 1, 0, -1, -1, -1};
+
+		int colShift = isEven ? colShiftEven[index] : colShiftOdd[index];
+		return map.returnTileAtPositionInMap(row + rowShift[index], col + colShift);
+	}
+
+	protected static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
+		HabitatTile[] adjacentTiles = new HabitatTile[Constants.NUM_EDGES];
+
+		int row = tile.getMapPosition()[0];
+
 		if (row % 2 == 0) {
-			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col+1);
-			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col+1);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
-			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col);
-					
+			for (int i = 0; i < Constants.NUM_EDGES; i++) {
+				adjacentTiles[i] = tileHelper(tile, map, i, true);
+			}
+		} else {
+			for (int i = 0; i < Constants.NUM_EDGES; i++) {
+				adjacentTiles[i] = tileHelper(tile, map, i, false);
+			}
 		}
-		else {
-			adjacentTiles[0] = map.returnTileAtPositionInMap(row-1, col);
-			adjacentTiles[1] = map.returnTileAtPositionInMap(row, col+1);
-			adjacentTiles[2] = map.returnTileAtPositionInMap(row+1, col);
-			adjacentTiles[3] = map.returnTileAtPositionInMap(row+1, col-1);
-			adjacentTiles[4] = map.returnTileAtPositionInMap(row, col-1);
-			adjacentTiles[5] = map.returnTileAtPositionInMap(row-1, col-1);
-		}
-		
+
 		return adjacentTiles;
 	}
-	
+
 	/**
-	 * Walks one tile over on player's map, following a specified edge (ie walks either left/right or diagonally)
+	 * Walks one tile over on player's map, following a specified edge (ie
+	 * walks either left/right or diagonally).
 	 */
-	public static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map ,int edgeNum) {
+	protected static HabitatTile walkToTileAtSide(HabitatTile tile, PlayerMap map, int edgeNum) {
 		if (edgeNum < 0 || edgeNum > 5) {
-			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge " +edgeNum+ ". Edges must be between 0-5.");
+			throw new IllegalArgumentException("Invalid edge number given to get a tile at edge "
+					+ edgeNum + ". Edges must be between 0-5.");
 		}
-		
-		HabitatTile adjacentTile;
+
 		int row = tile.getMapPosition()[0];
-		int col = tile.getMapPosition()[1];
-		
-		if (row % 2 == 0) { //non-edge case, no missing sides, in the middle of the map
-			switch (edgeNum) {
-			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col+1);
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col+1);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
-			default -> adjacentTile = null;
-			}
-		}
-		else {
-			switch (edgeNum) {
-			case 0 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col);
-			case 1 -> adjacentTile = map.returnTileAtPositionInMap(row, col+1);
-			case 2 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col);
-			case 3 -> adjacentTile = map.returnTileAtPositionInMap(row+1, col-1);
-			case 4 -> adjacentTile = map.returnTileAtPositionInMap(row, col-1);
-			case 5 -> adjacentTile = map.returnTileAtPositionInMap(row-1, col-1);
-			default -> adjacentTile = null;
-			}
-			
-		}
-		//if (adjacentTile != null) Display.outln("adjacent tile at edge: " +edgeNum+ ": " +adjacentTile.getTileID());
-		return adjacentTile;
+
+		//non-edge case, no missing sides, in the middle of the map
+		return tileHelper(tile, map, edgeNum, row % 2 == 0);
 	}
-//
-//	/**
-//	 * Helper function that walks in a direction along the map, as specified by an edge number.
-//	 * Walks to the next tile at that edge number, and recursively walks to the next at that edge number, and so on
-//	 * until the end of the map is reached.
-//	 * @return next tile walked to
-//	 */
-//	public static HabitatTile walkInDirectionRecursive(HabitatTile tile, PlayerMap map ,int edgeNum) {
-//		HabitatTile nextTile = null;
-//		if (tile != null) {
-//			nextTile = walkToTileAtSide(tile, map, edgeNum);
-//			walkInDirectionRecursive(nextTile, map, edgeNum);
-//		}
-//		return nextTile;
-//	}
 
 }

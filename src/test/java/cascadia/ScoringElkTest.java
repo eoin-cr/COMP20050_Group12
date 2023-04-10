@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import cascadia.scoring.ScoringElk;
@@ -136,20 +151,6 @@ public class ScoringElkTest {
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 25);
         map.addTileToMap(newElkTile(), 8,7);
         assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 30);
-
-//        Display.displayTileMap(map);
-//        map.clearTileBoard();
-//        Display.displayTileMap(map);
-//
-//        // It seems strange that this doesn't work, but I can't imagine it
-//        // causing a problem in the real game
-//        map.addTileToMap(newElkTile(), 8,8);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 2);
-//        map.addTileToMap(newElkTile(), 8,10);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 4);
-//        map.addTileToMap(newElkTile(), 9,9);
-//        Display.displayTileMap(map);
-//        assertEquals(ScoringElk.calculateScore(map, ScoringElk.Option.E2), 6);
 
         PlayerMap secondMap = new PlayerMap();
         secondMap.clearTileBoard();

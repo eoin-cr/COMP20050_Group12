@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import cascadia.scoring.ScoringSalmon;
@@ -41,9 +56,7 @@ public class ScoringSalmonTest {
         assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(3));
 
         map.addTileToMap(newTile(WildlifeToken.Salmon), 9, 12);
-//        map.addTileToMap(newTile(WildlifeToken.Salmon), 8, 12);
         assertEquals(ScoringSalmon.calculateScore(map, option), (int) expectedScores.get(4));
-//        cascadia.Display.displayTileMap(map);
     }
 
     // These runs should get invalidated as we can't have more than 2 salmon tiles touching

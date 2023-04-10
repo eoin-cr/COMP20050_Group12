@@ -1,12 +1,25 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
-// Wildlife token doesn't need to store any other information except the animal
-// type. So I've made it just an enum, and removed unnecessary class information
+/**
+ * The animals that a wildlife token can be.
+ * Also stores the colour associated with the animal.
+ */
 public enum WildlifeToken {
-	/**
-	 * The animals that a wildlife token can be.
-	 * Also stores the colour associated with the animal.
-	 */
 	Bear('B', "\033[38;2;153;102;51m", "\033[48;2;153;102;51m"),
 	Elk('E', "\033[30m", "\033[40m"),
 	Salmon('S', "\033[38;2;255;51;255m", "\033[48;2;255;51;255m"),
@@ -16,6 +29,7 @@ public enum WildlifeToken {
 	private final char character;
 	private final String colour;
 	private final String backgroundColour;
+
 	WildlifeToken(char character, String colour, String backgroundColour) {
 		this.character = character;
 		this.colour = colour;
@@ -23,7 +37,7 @@ public enum WildlifeToken {
 	}
 
 	/**
-	 * @return the first character of the animal name
+	 * Returns the first character of the animal token name (e.g. B for Bear)
 	 */
 	public char toChar() {
 		return character;
@@ -32,6 +46,7 @@ public enum WildlifeToken {
 	public String getColour() {
 		return colour;
 	}
+
 	public String getBackgroundColour() {
 		return backgroundColour;
 	}

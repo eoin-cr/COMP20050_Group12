@@ -1,3 +1,18 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import cascadia.scoring.ScoreCards;
@@ -20,47 +35,50 @@ import cascadia.scoring.Scoring;
  */
 enum Command {
 
-	/** Lets player choose tile+token pair and place tile down on map*/
-	PAIR ("Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,")
-			{public void enumSetCommand(Player player){
-				CurrentDeck.choosePair(player);
-			}},
+	/** Lets player choose tile+token pair and place tile down on map. */
+	PAIR("Enter PAIR to pick and place your Habitat Tile and Wildlife Token pair,") {
+		public void execute(Player player) {
+			CurrentDeck.choosePair(player);
+		}
+	},
 
 	/** cascadia.Display the player's map of tiles */
-	MAP ("Enter MAP for your current map of Tiles,")
-			{public void enumSetCommand(Player player){
-				Display.displayPlayerTileMap(player);
-			}},
+	MAP("Enter MAP for your current map of Tiles,") {
+		public void execute(Player player) {
+			Display.displayPlayerTileMap(player);
+		}
+	},
 
-	DECK ("Enter DECK to see current deck of Tile + Token pairs again,")
-			{public void enumSetCommand(Player player){
-				Display.displayDeck();
-			}},
+	DECK("Enter DECK to see current deck of Tile + Token pairs again,") {
+		public void execute(Player player) {
+			Display.displayDeck();
+		}
+	},
 
-	SC ("Enter SC to see the scorecard list again,")
-			{public void enumSetCommand(Player player){
-				ScoreCards.printScoreCardRules();
-			}},
+	SC("Enter SC to see the scorecard list again,") {
+		public void execute(Player player) {
+			ScoreCards.printScoreCardRules();
+		}
+	},
 
-	/** Displays the nature token shop */
-	NATURE ("Enter NATURE to see and spend your Nature Tokens,")
-			{public void enumSetCommand(Player player){
-				NatureTokens.tokenMenu(player);
-			}},
+	/** Displays the nature token shop. */
+	NATURE("Enter NATURE to see and spend your Nature Tokens,") {
+		public void execute(Player player) {
+			NatureTokens.tokenMenu(player);
+		}
+	},
 
-//		/** Moves to next players turn */
-//		NEXT {public void enumSetCommand(cascadia.Player player){
-//			return;
-//		}},
-
-	/** Quits the game */
-	QUIT ("Enter QUIT to quit the program."){public void enumSetCommand(Player player){
-		Scoring.startScoring(); //find winner of game
-		Display.endScreen();
-		System.exit(0);
-	}};
+	/** Quits the game. */
+	QUIT("Enter QUIT to quit the program.") {
+		public void execute(Player player) {
+			Scoring.startScoring(); //find winner of game
+			Display.endScreen();
+			System.exit(0);
+		}
+	};
 
 	private final String description;
+
 	Command(String description) {
 		this.description = description;
 	}
@@ -69,5 +87,5 @@ enum Command {
 		return description;
 	}
 
-	public abstract void enumSetCommand(Player player);  // ignore this
+	public abstract void execute(Player player);  // ignore this
 }
