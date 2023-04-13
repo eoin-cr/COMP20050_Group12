@@ -10,20 +10,22 @@ public class TokenBot {
 	public static final int NUM_TOKEN_STRATS = 2;
 
 	public int[] chooseStrategy(Player player, Player nextPlayer) {
-//		int[] preferences = new int[4];
+		int[] preferences = new int[4];
 		List<WildlifeToken> deckTokens = CurrentDeck.getDeckTokens();
 
-//		Random rand = new Random();
-//		int strategyChoice = rand.nextInt(NUM_TOKEN_STRATS);
+		Random rand = new Random();
+		int strategyChoice = rand.nextInt(NUM_TOKEN_STRATS);
 
-//		switch (strategyChoice) {
-//			case 0 -> preferences = constructiveTokenStrat(deckTokens, player);
-//			case 1 -> preferences = destructiveTokenStrat(deckTokens, nextPlayer);
-//			default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
-//		}
+		switch (strategyChoice) {
+			case 0 -> {
+				System.out.println("Using constructive token strat!");
+				preferences = constructiveTokenStrat(deckTokens, player);
+			}
+			case 1 -> preferences = destructiveTokenStrat(deckTokens, nextPlayer);
+			default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
+		}
 
-//		return preferences;
-		return constructiveTokenStrat(deckTokens, player);
+		return preferences;
 	}
 
 	private int[] constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player) {
@@ -34,15 +36,15 @@ public class TokenBot {
 		}
 
 		int[] rankedTokens = rankWildlifeTokens(player);
-//		setBestPlacement(deckTokens.get(num), player);
 		System.out.println("ranked tokens: " + Arrays.toString(rankedTokens));
 		return rankDeck(rankedTokens, deckTokens);
 	}
 
 	private int[] destructiveTokenStrat(List<WildlifeToken> deckTokens, Player nextPlayer) {
-		int[] preferences = new int[4];
-
-		return preferences;
+		System.out.println("Using destructive token strat!");
+		// well the destructive strat just needs to find the best token for the player
+		// which we can do by calling the constructive token strat but for them lol
+		return constructiveTokenStrat(deckTokens, nextPlayer);
 	}
 
 	private int[] firstScoring(List<WildlifeToken> deckTokens, Player player) {
@@ -108,8 +110,6 @@ public class TokenBot {
 		return output;
 	}
 
-	//	private void setBestPlacement(WildlifeToken token, Player player) {
-
 	/**
 	 * Returns the best calculated tile ID to place the token on.
 	 * Returns -1 if there are no possible spots to place the token on.
@@ -120,24 +120,24 @@ public class TokenBot {
 	 * 				options
 	 */
 	public int getBestPlacement(WildlifeToken token, Player player) {
-		// for now we're just going to place the token on the first keystone
+		// for now, we're just going to place the token on the first keystone
 		// tile with the token option, and if there are none, just place it on
 		// the first tile with the token option.  This will need to be changed
 		// later on.
 		List<HabitatTile> possibleTiles = player.getMap().getPossibleTokenPlacements(token);
 		List<HabitatTile> possibleKeystones = possibleTiles.stream().filter(HabitatTile::isKeystone)
 				.toList();
-		System.out.printf("Possible %s keystone placement ids: ", token.toString());
-		for (HabitatTile tile : possibleKeystones) {
-			System.out.printf("%d ", tile.getTileID());
-		}
-		System.out.println(" ");
-
-		System.out.printf("Possible %s placement ids: ", token.toString());
-		for (HabitatTile tile : possibleTiles) {
-			System.out.printf("%d ", tile.getTileID());
-		}
-		System.out.println(" ");
+//		System.out.printf("Possible %s keystone placement ids: ", token.toString());
+//		for (HabitatTile tile : possibleKeystones) {
+//			System.out.printf("%d ", tile.getTileID());
+//		}
+//		System.out.println(" ");
+//
+//		System.out.printf("Possible %s placement ids: ", token.toString());
+//		for (HabitatTile tile : possibleTiles) {
+//			System.out.printf("%d ", tile.getTileID());
+//		}
+//		System.out.println(" ");
 		if (possibleKeystones.size() > 0) {
 			return possibleKeystones.get(0).getTileID();
 		}
