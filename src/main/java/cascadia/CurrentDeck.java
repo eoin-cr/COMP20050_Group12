@@ -17,6 +17,7 @@ package cascadia;
 
 import cascadia.scoring.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CurrentDeck {
@@ -47,9 +48,9 @@ public class CurrentDeck {
 		if (!Game.botMode) {
 			int choice = Input.chooseFromDeck();
 			choosePairHelper(player, choice, choice);
-		}
-		else {
+		} else {
 			int[] choices = Game.getBot().makeBestChoiceFromDeck(player, deckTiles, deckTokens);
+			System.out.println(Arrays.toString(choices));
 			choosePairHelper(player, choices[0], choices[1]);
 		}
 	}
@@ -63,8 +64,8 @@ public class CurrentDeck {
 					+ "%d and the amount of deck tiles is %d", tileChoice, deckTiles.size() - 1));
 		} else if (tokenChoice >= deckTokens.size() || tokenChoice < 0) {
 			throw new IllegalArgumentException(String.format("Token choice must be at least 0"
-					+ "and less than the number of deck tokens.  Token choice was "
-					+ "%d and the amount of deck tokens is %d", tokenChoice,
+							+ "and less than the number of deck tokens.  Token choice was "
+							+ "%d and the amount of deck tokens is %d", tokenChoice,
 					deckTokens.size() - 1));
 		}
 		int[] rowAndColumn;
@@ -107,8 +108,22 @@ public class CurrentDeck {
 						+ " as none of the options match.");
 				break;
 			}
-			int[] result = Input.chooseTokenPlaceOrReturn(deckTokens.get(tokenChoice));
-			if (result[0] == 2) { //put token back in bag choice
+			int[] result;
+			if (Game.botMode) {
+				int botChoice = Game.getBot().bestTokenPlacement(player,
+						deckTokens.get(tokenChoice));
+				System.out.printf("Tile selected (-1 means put back in bag): %d\n", botChoice);
+				if (botChoice == -1) {
+					result = new int[]{2, 0};
+				} else {
+					result = new int[]{1, botChoice};
+				}
+			} else {
+				result = Input.chooseTokenPlaceOrReturn(token);
+			}
+
+			//put token back in bag choice
+			if (result[0] == 2) {
 				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
 				Display.outln("You have put the token back in the bag");
 				succeeded = true;
@@ -184,7 +199,7 @@ public class CurrentDeck {
 	}
 
 	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-		/*
+        /*
 		  if we have 3 of one token and 1 of another, if the first 2 are
 		  the same, they must both be the tripled one.  Otherwise, if they're
 		  different, the 3rd and 4th tokens must both be the tripled one

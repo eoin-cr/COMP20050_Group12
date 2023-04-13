@@ -1,5 +1,6 @@
 package cascadia;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -7,37 +8,38 @@ import cascadia.HabitatTile.Habitat;
 
 public class TileBot {
 	public static final int NUM_TILE_STRATS = 2;
-	
+
 	public int[] chooseStrategy(Player player, Player nextPlayer) {
 		int[] preferences = new int[4];
 		List<HabitatTile> deckTiles = CurrentDeck.getDeckTiles();
-		
+
 		Random rand = new Random();
 		int strategyChoice = rand.nextInt(NUM_TILE_STRATS);
-		
-		switch (strategyChoice){
-		case 0 -> preferences = constructiveGrowMinCorridorStrat(deckTiles, player);
-		case 1 -> preferences = destructiveTileStrategy(deckTiles, nextPlayer);
-		default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
+
+		switch (strategyChoice) {
+			case 0 -> preferences = constructiveGrowMinCorridorStrat(deckTiles, player);
+			case 1 -> preferences = destructiveTileStrategy(deckTiles, nextPlayer);
+			default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
 		}
-		
+//		System.out.printf("TB pref: %s\n", Arrays.toString(preferences));
+
 		return preferences;
 	}
-	
+
 	//grows current player's smallest corridor, maintains corridor diversity
 	private int[] constructiveGrowMinCorridorStrat(List<HabitatTile> deckTiles, Player player) {
 		ArrayList<Habitat> minToMaxCorridors = findMinToMaxHabitatCorridors(player.getLongestCorridorSizes());
 		int[] preferences = matchPreferences(deckTiles, minToMaxCorridors);
 		return preferences;
 	}
-	
+
 	//stops min corridor of next player from growing
 	private int[] destructiveTileStrategy(List<HabitatTile> deckTiles, Player nextPlayer) {
 		ArrayList<Habitat> nextPlayerMinToMaxCorridors = findMinToMaxHabitatCorridors(nextPlayer.getLongestCorridorSizes());
 		int[] preferences = matchPreferences(deckTiles, nextPlayerMinToMaxCorridors);
 		return preferences;
 	}
-	
+
 	//helper function, finds a player's smallest to largest habitat corridors, returns a list of habitats in order
 	private ArrayList<Habitat> findMinToMaxHabitatCorridors(int[] corridorSizes){
 		ArrayList<Habitat> minToMaxCorridors = new ArrayList<>();
@@ -53,7 +55,7 @@ public class TileBot {
 		}
 		return minToMaxCorridors;
 	}
-	
+
 	//helper function, finds a player's smallest to largest habitat corridors, returns a list of habitats in order
 	private ArrayList<Habitat> findMaxToMinHabitatCorridors(int[] corridorSizes){
 		ArrayList<Habitat> maxToMinCorridors = new ArrayList<>();
@@ -69,12 +71,12 @@ public class TileBot {
 		}
 		return maxToMinCorridors;
 	}
-	
+
 	//helper function, matches deckTile preferences from 4 (highest) to 1 (lowest) to the ordered list of habitats given
 	private int[] matchPreferences(List<HabitatTile> deckTiles, ArrayList<Habitat> matchHabitatCorridors) {
 		int[] preferences = new int[4]; //each decktile index has a preference rating attached to it, 4 being highest preference and 1 being lowest
 		int pref = 4;
-		
+
 		for (Habitat hab : matchHabitatCorridors) {
 			for (int i = 0; i < deckTiles.size(); i++) {
 				if (deckTiles.get(i).getHabitat1() == hab || deckTiles.get(i).getHabitat2() == hab) {
@@ -86,7 +88,7 @@ public class TileBot {
 		}
 		return preferences;
 	}
-	
+
 //	private int placeTileInCorridor(HabitatTile tile, Player player) {
 //		int initialScore = player.getTotalPlayerScore();
 //		int finalScore;
@@ -107,6 +109,5 @@ public class TileBot {
 //		return changedScore;	
 //	}
 
-	
 
 }

@@ -1,11 +1,12 @@
 package cascadia;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BotMain {
 	private List<Player> players;
-	private TileBot tileBot = new TileBot();
-	private TokenBot tokenBot = new TokenBot();
+	private final TileBot tileBot = new TileBot();
+	private final TokenBot tokenBot = new TokenBot();
 
 	public String[] makeBotPlayerNames() {
 		String[] playerNames = new String[2];
@@ -13,25 +14,48 @@ public class BotMain {
 		playerNames[1] = "BOT B";
 		return playerNames;
 	}
-	
+
 	public void getBotPlayers(List<Player> playerList) {
 		players = playerList;
 	}
-	
+
 	public int[] makeBestChoiceFromDeck(Player currPlayer, List<HabitatTile> deckTiles, List<WildlifeToken> deckTokens) {
-		int[] tileTokenChoice = new int[2];
+//		int[] tileTokenChoice = new int[2];
 		Player nextPlayer = null;
-		
+
 		for (Player p : players) {
 			if (!p.equals(currPlayer)) {
 				nextPlayer = p;
 			}
 		}
-		
+
 		int[] tilePreferences = tileBot.chooseStrategy(currPlayer, nextPlayer);
 		int[] tokenPreferences = tokenBot.chooseStrategy(currPlayer, nextPlayer);
-		
-		return tileTokenChoice;
+		System.out.printf("tile: %s\n", Arrays.toString(tilePreferences));
+		System.out.printf("token: %s\n", Arrays.toString(tokenPreferences));
+
+		int maxScore = 0;
+		int maxScoreIdx = 0;
+		for (int i = 0; i < tilePreferences.length; i++) {
+			int score = tilePreferences[i] + tokenPreferences[i];
+			if (score > maxScore) {
+				maxScore = score;
+				maxScoreIdx = i;
+			}
+		}
+
+//		System.out.println(bestTokenPlacement(currPlayer, deckTokens.get(maxScoreIdx)));
+//		bestTokenPlacement(currPlayer, deckTokens.get(maxScoreIdx));
+
+		return new int[]{maxScoreIdx, maxScoreIdx};
+	}
+
+//	public int bestTilePlacement(Player player, List<HabitatTile> deckTiles) {
+//
+//	}
+
+	public int bestTokenPlacement(Player player, WildlifeToken selectedToken) {
+		return tokenBot.getBestPlacement(selectedToken, player);
 	}
 
 }

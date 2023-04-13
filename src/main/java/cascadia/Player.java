@@ -151,7 +151,12 @@ public class Player {
 	 */
     public void setCommand() {
         Display.displayCommands();
-        String input = Input.getUserInput();  // this is automatically uppercase
+		String input;
+		if (Game.botMode) {
+			input = "PAIR";
+		} else {
+			input = Input.getUserInput();  // this is automatically uppercase
+		}
 
         // automatically converts input to enum
 		try {

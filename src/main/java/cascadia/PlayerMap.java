@@ -18,6 +18,7 @@ package cascadia;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PlayerMap {
@@ -26,7 +27,7 @@ public class PlayerMap {
 	private final List<HabitatTile> tilesInMap;
 	//position of tiles on map
 	private HabitatTile[][] tileBoardPosition = new HabitatTile[BOARD_HEIGHT][BOARD_WIDTH];
-	
+
 	public PlayerMap() { //constructor
 		tilesInMap = new ArrayList<>();
 		makeStarterTiles();
@@ -49,7 +50,7 @@ public class PlayerMap {
 	public HabitatTile[][] getTileBoardPosition() {
 		return tileBoardPosition;
 	}
-	
+
 	public List<HabitatTile> getTilesInMap() {
 		List<HabitatTile> tiles = new ArrayList<>();
 		for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -61,7 +62,7 @@ public class PlayerMap {
 		}
 		return tiles;
 	}
-	
+
 	/**
 	 * Used to set a full tile board.
 	 * Do not use this method unless you are copying a full tile board into
@@ -97,7 +98,7 @@ public class PlayerMap {
 			tilesInMap.add(tile);
 		}
 	}
-	
+
 //	/**
 //	 * Used only in Bot testing to add and then remove a tile from map to get difference in scores.
 //	 * @param tile
@@ -135,7 +136,7 @@ public class PlayerMap {
 	public boolean addTokenToTile(WildlifeToken token, int tileID, Player p) {
 		//place it on the correct tile
 		boolean placed = false;
-		
+
 		for (HabitatTile tile : tilesInMap) {
 			if (tile.getTileID() == tileID)	{
 				//check if the token type matches options
@@ -182,7 +183,7 @@ public class PlayerMap {
 		}
 		return false;
 	}
-	
+
 	//check if player gets a nature token once token is placed
 	private void checkIfKeystoneTokenMatch(WildlifeToken token, HabitatTile tile, Player p) {
 		if (tile.getTileType() == HabitatTile.TileType.KEYSTONE
@@ -237,7 +238,7 @@ public class PlayerMap {
 		}
 		return new int[]{-1, -1};
 	}
-	
+
 	public HabitatTile returnTileAtPositionInMap(int row, int col) {
 		if (row < 0 || col > BOARD_HEIGHT) {
 			return null;
@@ -254,5 +255,52 @@ public class PlayerMap {
 			result[i] = Arrays.copyOf(original[i], original[i].length);
 		}
 		return result;
+	}
+
+	public List<HabitatTile> getKeystoneTiles() {
+		List<HabitatTile> output = new ArrayList<>();
+		for (HabitatTile tile : tilesInMap) {
+			if (tile.isKeystone()) {
+				output.add(tile);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Goes through the players map, and returns a list of the IDs
+	 * of every tile which has the option to place the given token on it
+	 * (and doesn't already have a token on it).
+	 *
+	 * @param token the token whose options will be returned.
+	 * @return a list of tile IDs where the token can be placed
+	 */
+//	public List<Integer> getMatchingTokenOptionInts(WildlifeToken token) {
+	public List<HabitatTile> getPossibleTokenPlacements(WildlifeToken token) {
+//		List<HabitatTile> output = new ArrayList<>();
+//		output.addAll(Arrays.stream())
+//		for (HabitatTile tile : tilesInMap) {
+//			boolean contains = Arrays.stream(values).anyMatch("s"::equals);
+//			if (tile.getTokenOptions())
+//
+//		}
+//		return tilesInMap.stream()
+//				.filter(tile -> !tile.getIsTokenPlaced()
+//						&& Arrays.asList(tile.getTokenOptions()).contains(token))
+//				.map(HabitatTile::getTileID)
+//				.collect(Collectors.toList());
+
+		return tilesInMap.stream()
+				.filter(tile -> !tile.getIsTokenPlaced()
+						&& Arrays.asList(tile.getTokenOptions()).contains(token))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Returns the number of tiles on a players map where a given token can
+	 * be placed.
+	 */
+	public int numPossibleTokenPlacements(WildlifeToken token) {
+		return getPossibleTokenPlacements(token).size();
 	}
 }
