@@ -100,7 +100,17 @@ public class CurrentDeck {
 	public static void placeTokenChoiceOnMap(Player player, int tokenChoice) {
 		WildlifeToken token = deckTokens.get(tokenChoice);
 		boolean succeeded = false;
+		int tries = 0;
+		int maxTries = 5;
+
 		while (!succeeded) {
+			// protects against infinite loops (and really dumb players i guess)
+			if (tries >= maxTries) {
+				placeTokenInBag(tokenChoice);
+				Display.outf("You have made %d incorrect placement attempts.  The token has been "
+						+ "placed back in the bag.", maxTries);
+				break;
+			}
 			//deal with token here, either place on a map tile or chuck it back in bag
 			//places on correct tile based on tileID
 			if (!player.getMap().checkAllTilesForValidToken(token)) {
@@ -124,19 +134,29 @@ public class CurrentDeck {
 
 			//put token back in bag choice
 			if (result[0] == 2) {
-				Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
-				Display.outln("You have put the token back in the bag");
+				placeTokenInBag(tokenChoice);
 				succeeded = true;
 			} else { //add to map choice
-				succeeded = player.getMap().addTokenToTile(token, result[1], player);
-				//mynah - change made
-				if (succeeded) { //get score change for player for that token type on their map
-					Scoring.scorePlayerTokenPlacement(player, token);
-					player.calculateWildlifePlayerScore();
-				}
+				succeeded = placeTokenHelper(player, token, result[1]);
 			}
+			tries++;
 		}
 		deckTokens.remove(tokenChoice);
+	}
+
+	private static void placeTokenInBag(int tokenChoice) {
+		Bag.remainingTokens.merge(deckTokens.get(tokenChoice), 1, Integer::sum);
+		Display.outln("You have put the token back in the bag");
+	}
+
+	private static boolean placeTokenHelper(Player player, WildlifeToken token, int placement) {
+		boolean succeeded = player.getMap().addTokenToTile(token, placement, player);
+		//mynah - change made
+		if (succeeded) { //get score change for player for that token type on their map
+			Scoring.scorePlayerTokenPlacement(player, token);
+			player.calculateWildlifePlayerScore();
+		}
+		return succeeded;
 	}
 
 	// we set this to protected so we can test it
