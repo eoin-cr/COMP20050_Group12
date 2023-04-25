@@ -57,7 +57,7 @@ public class TileBot {
 	}
 
 	//helper function, finds a player's smallest to largest habitat corridors, returns a list of habitats in order
-	private ArrayList<Habitat> findMaxToMinHabitatCorridors(int[] corridorSizes){
+	private ArrayList<Habitat> findMaxToMinHabitatCorridors(int[] corridorSizes) {
 		ArrayList<Habitat> maxToMinCorridors = new ArrayList<>();
 		int maxIndex = 0;
 		for (int i = 0; i < 5; i++) {

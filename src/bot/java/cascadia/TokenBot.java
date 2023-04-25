@@ -1,16 +1,28 @@
 package cascadia;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import cascadia.scoring.ScoreToken;
+import java.util.*;
 
 public class TokenBot {
 	// TODO: for sprint 5 make a method which calculates the best token
 	// 		placement on the map given a certain token.
 	public static final int NUM_TOKEN_STRATS = 2;
+	// we don't need the token score map atm, but I'm keeping it in case we need it in the
+	// future
+	private final List<ValueSortedMap<Integer, Integer>> tokenScoreMap = new ArrayList<>();
+	private final int[] bestPlacementIds = new int[Constants.NUM_TOKEN_TYPES];
+
+	public TokenBot() {
+		for (int j = 0; j < Constants.NUM_TOKEN_TYPES; j++) {
+			tokenScoreMap.add(new ValueSortedMap<>());
+		}
+
+		// initialise it to -1, so we know when we aren't able to place a token
+		Arrays.fill(bestPlacementIds, -1);
+	}
 
 	public int[] chooseStrategy(Player player, Player nextPlayer) {
-		int[] preferences = new int[4];
+		int[] preferences;
 		List<WildlifeToken> deckTokens = CurrentDeck.getDeckTokens();
 
 		Random rand = new Random();
@@ -29,12 +41,6 @@ public class TokenBot {
 	}
 
 	private int[] constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player) {
-		// if it's the first move, all the scores will be 0, so we need to do
-		// something different
-		if (player.getTotalPlayerScore() == 0) {
-			return firstScoring(deckTokens, player);
-		}
-
 		int[] rankedTokens = rankWildlifeTokens(player);
 		System.out.println("ranked tokens: " + Arrays.toString(rankedTokens));
 		return rankDeck(rankedTokens, deckTokens);
@@ -45,31 +51,6 @@ public class TokenBot {
 		// well the destructive strat just needs to find the best token for the player
 		// which we can do by calling the constructive token strat but for them lol
 		return constructiveTokenStrat(deckTokens, nextPlayer);
-	}
-
-	private int[] firstScoring(List<WildlifeToken> deckTokens, Player player) {
-		List<HabitatTile> keystones = player.getMap().getKeystoneTiles();
-		int[] output = new int[Constants.MAX_DECK_SIZE];
-		// just put the first keystone token option in the variable (there
-		// should only be one at the start of the game anyway)
-		WildlifeToken keystoneToken = keystones.get(0).getTokenOptions()[0];
-
-		// check whether we have the matching token for the keystone tile
-		if (deckTokens.contains(keystoneToken)) {
-			// can just set the one which has the matching option for the
-			// keystone tile as 2, and all the rest to 0
-			output[deckTokens.indexOf(keystoneToken)] = 2;
-		} else {
-			// otherwise we really can just pick any random wildlife token,
-			// as long as it appears in the map, it doesn't make too much
-			// of a difference
-			for (int i = 0; i < output.length; i++) {
-				if (player.getMap().numPossibleTokenPlacements(deckTokens.get(i)) > 0) {
-					output[i] = 1;
-				}
-			}
-		}
-		return output;
 	}
 
 	private int[] rankDeck(int[] rankedTokens, List<WildlifeToken> deckTokens) {
@@ -83,15 +64,62 @@ public class TokenBot {
 	private int[] rankWildlifeTokens(Player player) {
 		int[] scores = new int[Constants.NUM_TOKEN_TYPES];
 		for (int i = 0; i < Constants.NUM_TOKEN_TYPES; i++) {
+			tokenScoreMap.get(i).clear(); // clear the scores in the map before calculating
 			// checks whether it is possible to place a certain token on the map.  If it
 			// is not, the score for that token is largely decreased
 			if (player.getMap().numPossibleTokenPlacements(WildlifeToken.values()[i]) == 0) {
 				scores[i] = -3;
 			} else {
-				scores[i] = player.getPlayerWildlifeScore(WildlifeToken.values()[i]);
+				scores[i] = calculatePlacementScoresAndReturnMax(i, player);
 			}
 		}
 		return convertToRank(scores);
+	}
+
+	/*
+//         For scorecard A bear, elk, and salmon are based on increasing
+//         tokens of the same type that are touching under certain
+//         circumstances, so we can simply try place those tokens next to all the
+//         tokens of the same type (and store these scores to be used later) and get
+//         the max score for that type
+        Tries place the token in all possible positions and returns the greatest increase
+        in score
+
+//         Foxes and hawks work slightly differently
+         // TODO do foxes and hawk logic
+         // TODO make the function account for tokens that can be placed
+    */
+	private int calculatePlacementScoresAndReturnMax(int tokenType, Player player) {
+		int max = 0;
+		WildlifeToken token = WildlifeToken.values()[tokenType];
+		List<HabitatTile> possibleTiles = player.getMap().getPossibleTokenPlacements(token);
+
+		// as a placement that may have been valid last move may not be valid this move,
+		// we need to reset the best placement id value to ensure when a tile cannot be placed,
+		// the bot knows this
+		bestPlacementIds[tokenType] = -1;
+
+		int prevScore = ScoreToken.calculateScore(player.getMap(), token);
+
+		// oh boy the time complexity of this is. not good.
+		for (HabitatTile tile : possibleTiles) {
+			Player tmp = new Player("tmp");
+			tmp.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
+
+			tmp.getMap().addTokenToTile(token, tile.getTileID(), tmp);
+			int scoreDiff = ScoreToken.calculateScore(tmp.getMap(), token) - prevScore;
+			if (tile.isKeystone()) {
+				// we get an extra point for getting a nature token from placing on a keystone tile
+				scoreDiff++;
+			}
+			tokenScoreMap.get(tokenType).put(tile.getTileID(), scoreDiff);
+			if (scoreDiff > max) {
+				max = scoreDiff;
+				bestPlacementIds[tokenType] = tile.getTileID();
+			}
+		}
+
+		return max;
 	}
 
 	// converts an arraylist of scores (e.g. [1,10,5,6]) to their relative
@@ -120,30 +148,8 @@ public class TokenBot {
 	 * 				options
 	 */
 	public int getBestPlacement(WildlifeToken token, Player player) {
-		// for now, we're just going to place the token on the first keystone
-		// tile with the token option, and if there are none, just place it on
-		// the first tile with the token option.  This will need to be changed
-		// later on.
-		List<HabitatTile> possibleTiles = player.getMap().getPossibleTokenPlacements(token);
-		List<HabitatTile> possibleKeystones = possibleTiles.stream().filter(HabitatTile::isKeystone)
-				.toList();
-//		System.out.printf("Possible %s keystone placement ids: ", token.toString());
-//		for (HabitatTile tile : possibleKeystones) {
-//			System.out.printf("%d ", tile.getTileID());
-//		}
-//		System.out.println(" ");
-//
-//		System.out.printf("Possible %s placement ids: ", token.toString());
-//		for (HabitatTile tile : possibleTiles) {
-//			System.out.printf("%d ", tile.getTileID());
-//		}
-//		System.out.println(" ");
-		if (possibleKeystones.size() > 0) {
-			return possibleKeystones.get(0).getTileID();
-		}
-		if (possibleTiles.size() == 0) {
-			return -1;
-		}
-		return possibleTiles.get(0).getTileID();
+		int id = bestPlacementIds[token.ordinal()];
+		System.out.println(Arrays.toString(bestPlacementIds));
+		return id == 0 ? -1 : id;
 	}
 }
