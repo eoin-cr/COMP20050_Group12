@@ -19,7 +19,8 @@ public class BotMain {
 		players = playerList;
 	}
 
-	public int[] makeBestChoiceFromDeck(Player currPlayer, List<HabitatTile> deckTiles, List<WildlifeToken> deckTokens) {
+	public int[] makeBestChoiceFromDeck(Player currPlayer, List<HabitatTile> deckTiles,
+										List<WildlifeToken> deckTokens) {
 //		int[] tileTokenChoice = new int[2];
 		Player nextPlayer = null;
 
@@ -43,9 +44,6 @@ public class BotMain {
 				maxScoreIdx = i;
 			}
 		}
-
-//		System.out.println(bestTokenPlacement(currPlayer, deckTokens.get(maxScoreIdx)));
-//		bestTokenPlacement(currPlayer, deckTokens.get(maxScoreIdx));
 
 		return new int[]{maxScoreIdx, maxScoreIdx};
 	}

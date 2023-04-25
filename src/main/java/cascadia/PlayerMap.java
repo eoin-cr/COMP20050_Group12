@@ -163,6 +163,7 @@ public class PlayerMap {
 		return placed;
 	}
 
+
 	/**
 	 * Check whether the chosen token can be placed on a certain tile.
 	 *
@@ -275,21 +276,7 @@ public class PlayerMap {
 	 * @param token the token whose options will be returned.
 	 * @return a list of tile IDs where the token can be placed
 	 */
-//	public List<Integer> getMatchingTokenOptionInts(WildlifeToken token) {
 	public List<HabitatTile> getPossibleTokenPlacements(WildlifeToken token) {
-//		List<HabitatTile> output = new ArrayList<>();
-//		output.addAll(Arrays.stream())
-//		for (HabitatTile tile : tilesInMap) {
-//			boolean contains = Arrays.stream(values).anyMatch("s"::equals);
-//			if (tile.getTokenOptions())
-//
-//		}
-//		return tilesInMap.stream()
-//				.filter(tile -> !tile.getIsTokenPlaced()
-//						&& Arrays.asList(tile.getTokenOptions()).contains(token))
-//				.map(HabitatTile::getTileID)
-//				.collect(Collectors.toList());
-
 		return tilesInMap.stream()
 				.filter(tile -> !tile.getIsTokenPlaced()
 						&& Arrays.asList(tile.getTokenOptions()).contains(token))
