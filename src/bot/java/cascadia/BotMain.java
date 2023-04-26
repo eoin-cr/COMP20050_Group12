@@ -3,16 +3,20 @@ package cascadia;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A bot which plays the game cascadia.
+ */
 public class BotMain {
 	private List<Player> players;
 	private static final int NUM_BOTS = 2;
-//	private final TileBot tileBot = new TileBot();
-//	private final TokenBot tokenBot = new TokenBot();
 	int turn = 0;
 	String[] playerNames = new String[NUM_BOTS];
 	TileBot[] tileBots = new TileBot[NUM_BOTS];
 	TokenBot[] tokenBots = new TokenBot[NUM_BOTS];
 
+	/**
+	 * Generates two tile and token bots.
+	 */
 	public BotMain() {
 		playerNames[0] = "BOT A";
 		playerNames[1] = "BOT B";
@@ -30,9 +34,12 @@ public class BotMain {
 		players = playerList;
 	}
 
-	public int[] makeBestChoiceFromDeck(Player currPlayer, List<HabitatTile> deckTiles,
-										List<WildlifeToken> deckTokens) {
-//		int[] tileTokenChoice = new int[2];
+	/**
+	 * Given a players map, and the deck tiles and tokens, the bot will
+	 * select the tile token pair it finds to be best based on certain
+	 * strategies.
+	 */
+	public int[] makeBestChoiceFromDeck(Player currPlayer) {
 		Player nextPlayer = null;
 
 		for (Player p : players) {
@@ -58,10 +65,6 @@ public class BotMain {
 
 		return new int[]{maxScoreIdx, maxScoreIdx};
 	}
-
-//	public int bestTilePlacement(Player player, List<HabitatTile> deckTiles) {
-//
-//	}
 
 	public int bestTokenPlacement(Player player, WildlifeToken selectedToken) {
 		return tokenBots[turn % 2].getBestPlacement(selectedToken, player);

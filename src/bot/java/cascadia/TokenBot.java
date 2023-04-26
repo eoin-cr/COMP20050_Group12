@@ -1,11 +1,16 @@
 package cascadia;
 
 import cascadia.scoring.ScoreToken;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
+/**
+ * Bot which calculates the optimal token to play, and where to place it,
+ * based on certain strategies.
+ */
 public class TokenBot {
-	// TODO: for sprint 5 make a method which calculates the best token
-	// 		placement on the map given a certain token.
 	public static final int NUM_TOKEN_STRATS = 2;
 	// we don't need the token score map atm, but I'm keeping it in case we need it in the
 	// future
@@ -21,6 +26,16 @@ public class TokenBot {
 		Arrays.fill(bestPlacementIds, -1);
 	}
 
+	/**
+	 * Randomly selects a strategy to use.
+	 * There are currently two strategies it randomly selects from.
+	 * There is a constructive strategy, where the bot finds which token
+	 * results in the best score for the current player and selects that,
+	 * and there is the destructive strategy, which chooses the best token
+	 * for the opponent and selects it so the opponent cannot use it.
+	 * Regardless of strategy chosen, the bot will place the tile on the tile
+	 * that results in the best score for itself.
+	 */
 	public int[] chooseStrategy(Player player, Player nextPlayer) {
 		int[] preferences;
 		List<WildlifeToken> deckTokens = CurrentDeck.getDeckTokens();
@@ -70,9 +85,9 @@ public class TokenBot {
 			// is not, the score for that token is largely decreased
 			if (player.getMap().numPossibleTokenPlacements(WildlifeToken.values()[i]) == 0) {
 				scores[i] = -3;
-				 if (!isConst) {
-					 bestPlacementIds[i] = -2;
-				 }
+				if (!isConst) {
+					bestPlacementIds[i] = -2;
+				}
 			} else {
 				scores[i] = calculatePlacementScoresAndReturnMax(i, player, isConst);
 			}

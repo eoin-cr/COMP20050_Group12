@@ -1,6 +1,11 @@
 package cascadia;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A type of map which is sorted based on the values.
@@ -40,14 +45,6 @@ public class ValueSortedMap<K, V extends Integer> implements Map<K, V> {
     // by a key, so we can just get it by index
     @Override
     public V get(Object o) {
-//        if (containsKey(o)) {
-//            return values.get(keys.indexOf(o));
-////            return new AbstractMap.SimpleEntry<K, V>(keys.get(idx), values.get(idx));
-////            return new Entry<K, V>(keys.get(idx), values.get(idx));
-//        } else if (o instanceof Integer) {
-//            return values.get((Integer) o);
-//        }
-
         return values.get((Integer) o);
     }
 
@@ -104,7 +101,7 @@ public class ValueSortedMap<K, V extends Integer> implements Map<K, V> {
     public Set<Entry<K, V>> entrySet() {
         Set<Entry<K, V>> set = new HashSet<>();
         for (int i = 0; i < size(); i++) {
-            set.add(new AbstractMap.SimpleEntry<K, V>(keys.get(i), values.get(i)));
+            set.add(new AbstractMap.SimpleEntry<>(keys.get(i), values.get(i)));
         }
         return set;
     }
@@ -121,13 +118,6 @@ public class ValueSortedMap<K, V extends Integer> implements Map<K, V> {
         string.append("}");
         return string.toString();
     }
-
-//    public Entry<K, V> ithEntry(int i) {
-//        if (i >= size()) {
-//            return null;
-//        }
-//        return new AbstractMap.SimpleEntry<K, V>(keys.get(i), values.get(i));
-//    }
 
     private int findIndexToInsert(int target) {
         int low = 0;

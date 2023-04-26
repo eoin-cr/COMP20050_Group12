@@ -15,11 +15,15 @@
 
 package cascadia;
 
-import cascadia.scoring.*;
+import cascadia.scoring.Scoring;
+import cascadia.scoring.ScoringHabitatCorridors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Stores information related to the tiles and tokens in the communal deck.
+ */
 public class CurrentDeck {
 	private static List<HabitatTile> deckTiles = new ArrayList<>();
 	private static List<WildlifeToken> deckTokens = new ArrayList<>();
@@ -49,7 +53,7 @@ public class CurrentDeck {
 			int choice = Input.chooseFromDeck();
 			choosePairHelper(player, choice, choice);
 		} else {
-			int[] choices = Game.getBot().makeBestChoiceFromDeck(player, deckTiles, deckTokens);
+			int[] choices = Game.getBot().makeBestChoiceFromDeck(player);
 			System.out.println(Arrays.toString(choices));
 			choosePairHelper(player, choices[0], choices[1]);
 		}
@@ -87,16 +91,20 @@ public class CurrentDeck {
 		Game.switchTurn(); //move to next player
 	}
 
-	//places tile choice on map and adjusts corridor score changes
+	/**
+	 * Places the tile choice on the map and adjusts the corridor score changes.
+	 */
 	public static void placeTileChoiceOnMap(Player player, int tileChoice, int[] rowCol) {
 		player.getMap().addTileToMap(deckTiles.get(tileChoice), rowCol[0], rowCol[1]);
-		ScoringHabitatCorridors.scorePlayerHabitatCorridors(player, deckTiles.get(tileChoice)); //mynah - change made
+		ScoringHabitatCorridors.scorePlayerHabitatCorridors(player, deckTiles.get(tileChoice));
 		player.calculateCorridorsPlayerScore();
 		Display.displayPlayerTileMap(player);
 		deckTiles.remove(tileChoice);
 	}
 
-	//places token choice on map
+	/**
+	 * Places token choice on map.
+ 	 */
 	public static void placeTokenChoiceOnMap(Player player, int tokenChoice) {
 		WildlifeToken token = deckTokens.get(tokenChoice);
 		boolean succeeded = false;
@@ -175,6 +183,11 @@ public class CurrentDeck {
 		}
 	}
 
+	/**
+	 * Checks whether we are in the situation where there are 3 tokens of the
+	 * same type in the deck.
+	 * If so, asks whether the user wants to cull them.
+	 */
 	public static void cullCheckThreeTokens() {
 		// trying to run the cull functions with less than 4 tokens will throw an
 		// error, but we don't want that as there are situations where there may
@@ -220,10 +233,10 @@ public class CurrentDeck {
 	}
 
 	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-        /*
-		  if we have 3 of one token and 1 of another, if the first 2 are
-		  the same, they must both be the tripled one.  Otherwise, if they're
-		  different, the 3rd and 4th tokens must both be the tripled one
+		/*
+			if we have 3 of one token and 1 of another, if the first 2 are
+			the same, they must both be the tripled one.  Otherwise, if they're
+			different, the 3rd and 4th tokens must both be the tripled one
 		 */
 		if (list.get(0) == list.get(1)) {
 			return list.get(0);
@@ -239,6 +252,12 @@ public class CurrentDeck {
 		return deckTokens;
 	}
 
+	/**
+	 * Adds a token to the current deck.
+	 *
+	 * @throws IllegalArgumentException if the deck size is already at its set
+	 * 				maximum
+	 */
 	public static void addDeckToken(WildlifeToken token) {
 		if (deckTokens.size() >= Constants.MAX_DECK_SIZE) {
 			throw new IllegalArgumentException("Cannot add a token when there's already"
@@ -247,6 +266,12 @@ public class CurrentDeck {
 		deckTokens.add(token);
 	}
 
+	/**
+	 * Adds a tile to the current deck.
+	 *
+	 * @throws IllegalArgumentException if the deck size is already at its set
+	 * 				maximum
+	 */
 	public static void addDeckTile(HabitatTile tile) {
 		if (deckTiles.size() >= Constants.MAX_DECK_SIZE) {
 			throw new IllegalArgumentException("Cannot add a tile when there's already"
