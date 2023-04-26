@@ -70,6 +70,7 @@ public class TokenBot {
 			// is not, the score for that token is largely decreased
 			if (player.getMap().numPossibleTokenPlacements(WildlifeToken.values()[i]) == 0) {
 				scores[i] = -3;
+				// if (!isConst) { ...[i] = -2; }
 			} else {
 				scores[i] = calculatePlacementScoresAndReturnMax(i, player, isConst);
 			}
@@ -92,7 +93,7 @@ public class TokenBot {
 //		System.out.println(possibleTiles);
 
 		// as a placement that may have been valid last move may not be valid this move,
-		// we need to reset the best placement id value to ensure when a tile cannot be placed,
+		// we need to reset the best placement id value to ensure when a tile cannot be placed
 		// the bot knows this
 		bestPlacementIds[tokenType] = -1;
 
@@ -104,9 +105,12 @@ public class TokenBot {
 //			System.out.println(tile.getTileID());
 			Player tmp = new Player("tmp");
 			tmp.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
-//			Display.displayPlayerTileMap(tmp);
 
 			tmp.getMap().addTokenToTileForTesting(token, tile.getTileID(), tmp);
+//			tmp.getMap().addTokenToTile(token, tile.getTileID(), tmp);
+//			Display.displayPlayerTileMap(tmp);
+//			Display.displayPlayerTileMap(player);
+//			Display.displayTileMap(tmp.getMap());
 			int scoreDiff = ScoreToken.calculateScore(tmp.getMap(), token) - prevScore;
 			if (tile.isKeystone()) {
 				// we get an extra point for getting a nature token from placing on a keystone tile
@@ -164,6 +168,7 @@ public class TokenBot {
 		if (id == -2) {
 			calculatePlacementScoresAndReturnMax(token.ordinal(), player, true);
 			id = bestPlacementIds[token.ordinal()];
+			System.out.println(Arrays.toString(bestPlacementIds));
 		}
 		return id;
 	}

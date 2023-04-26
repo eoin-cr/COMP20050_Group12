@@ -80,6 +80,7 @@ public class PlayerMap {
 	}
 
 	private void fillTileMap(HabitatTile[][] board) {
+		tilesInMap.clear();
 		List<HabitatTile> tiles = new ArrayList<>();
 		for (HabitatTile[] row : board) {
 			for (HabitatTile tile : row) {
@@ -151,7 +152,7 @@ public class PlayerMap {
 		//place it on the correct tile
 		boolean placed = false;
 
-		for (HabitatTile tile : tilesInMap) {
+		for (HabitatTile tile : p.getMap().getTilesInMap()) {
 			if (tile.getTileID() == tileID) {
 				//check if the token type matches options
 				if (!tile.isFakeTile()) {
@@ -182,8 +183,10 @@ public class PlayerMap {
 		//place it on the correct tile
 		boolean placed = false;
 
-		for (HabitatTile tile : tilesInMap) {
-			if (tile.getTileID() == tileID) {
+		for (HabitatTile tile : p.getMap().getTilesInMap()) {
+//		for (HabitatTile[] row : p.getMap().tileBoardPosition) {
+//			for (HabitatTile tile : row) {
+			if (tile != null && tile.getTileID() == tileID) {
 				//check if the token type matches options
 				if (!tile.isFakeTile()) {
 					placed = checkTokenOptionsMatch(token, tile);
@@ -194,6 +197,8 @@ public class PlayerMap {
 					break;
 				}
 			}
+//			}
+//		}
 		}
 
 		// returns whether the tile was successfully placed
@@ -278,7 +283,7 @@ public class PlayerMap {
 	}
 
 	public HabitatTile returnTileAtPositionInMap(int row, int col) {
-		if (row < 0 || col > BOARD_HEIGHT) {
+		if (row < 0 || row > BOARD_WIDTH || col < 0 || col > BOARD_HEIGHT) {
 			return null;
 		} else if (tileBoardPosition[row][col] == null) {
 			return null;
@@ -288,10 +293,17 @@ public class PlayerMap {
 	}
 
 	public static HabitatTile[][] deepCopy(HabitatTile[][] original) {
-		final HabitatTile[][] result = new HabitatTile[original.length][];
+		final HabitatTile[][] result = new HabitatTile[original.length][original[0].length];
 		for (int i = 0; i < original.length; i++) {
-			result[i] = Arrays.copyOf(original[i], original[i].length);
+			for (int j = 0; j < original[0].length; j++) {
+				if (original[i][j] != null) {
+					result[i][j] = original[i][j].duplicate();
+				}
+			}
 		}
+//		for (int i = 0; i < original.length; i++) {
+//			result[i] = Arrays.copyOf(original[i], original[i].length);
+//		}
 		return result;
 	}
 

@@ -88,7 +88,8 @@ public class HabitatTile {
     private final Habitat habitat1;
     private final Habitat habitat2;
     private final int[] mapPosition = new int[2]; //set to -1 initially to show it's not been placed
-	private final List<Edge> edges;
+	private List<Edge> edges;
+
 
 	/**
 	 * Generates a habitat tile.
@@ -245,7 +246,7 @@ public class HabitatTile {
 		tile.tokenOptions = tokenOptions;
 		tile.isTokenPlaced = isTokenPlaced;
 		tile.tileType = tileType;
-//		tile.edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
+		tile.edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 		return tile;
 	}
 
