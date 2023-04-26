@@ -17,6 +17,7 @@ package cascadia;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,12 +69,25 @@ public class PlayerMap {
 	 * Do not use this method unless you are copying a full tile board into
 	 * a new player.
 	 * Just use the add tile to map method for adding tiles.
+	 * Also adds the tiles to the tilesInMap array.
 	 *
 	 * @param board the board to set the map as
 	 * @see PlayerMap#addTileToMap(HabitatTile, int, int)
 	 */
 	public void setTileBoard(HabitatTile[][] board) {
 		tileBoardPosition = board;
+		fillTileMap(board);
+	}
+
+	private void fillTileMap(HabitatTile[][] board) {
+		List<HabitatTile> tiles = new ArrayList<>();
+		for (HabitatTile[] row : board) {
+			for (HabitatTile tile : row) {
+				if (tile != null) {
+					tilesInMap.add(tile.duplicate());
+				}
+			}
+		}
 	}
 
 	public void clearTileBoard() {
@@ -138,7 +152,7 @@ public class PlayerMap {
 		boolean placed = false;
 
 		for (HabitatTile tile : tilesInMap) {
-			if (tile.getTileID() == tileID)	{
+			if (tile.getTileID() == tileID) {
 				//check if the token type matches options
 				if (!tile.isFakeTile()) {
 					placed = checkTokenOptionsMatch(token, tile);
@@ -157,6 +171,29 @@ public class PlayerMap {
 		if (!placed) {
 			Display.outln("You are trying to add a token to an invalid tile.");
 			Display.outln("Please try again.");
+		}
+
+		// returns whether the tile was successfully placed
+		return placed;
+	}
+
+	//replaces token options with placed token, inverts colours, turns boolean to true
+	protected boolean addTokenToTileForTesting(WildlifeToken token, int tileID, Player p) {
+		//place it on the correct tile
+		boolean placed = false;
+
+		for (HabitatTile tile : tilesInMap) {
+			if (tile.getTileID() == tileID) {
+				//check if the token type matches options
+				if (!tile.isFakeTile()) {
+					placed = checkTokenOptionsMatch(token, tile);
+				}
+				if (placed) {
+					tile.setPlacedToken(token);
+					tile.setTokenPlaced();
+					break;
+				}
+			}
 		}
 
 		// returns whether the tile was successfully placed

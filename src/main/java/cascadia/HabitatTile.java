@@ -223,6 +223,32 @@ public class HabitatTile {
 		return edges.get(index);
 	}
 
+	protected void forceId(int id) {
+		this.tileID = id;
+	}
+
+	protected void forceTokens(WildlifeToken[] tokens) {
+		this.tokenOptions = tokens;
+	}
+
+	/** Creates a tile with identical features to the current one, and then
+	 * returns it.
+	 * This is a deep copy, rather than a shallow copy, so modifications to the
+	 * returned tile will not affect this one.
+	 */
+	public HabitatTile duplicate() {
+		HabitatTile tile = new HabitatTile(habitat1, habitat2, 0);
+//		tile.forceId(tileID);
+//		tile.forceTokens(tokenOptions);
+
+		tile.tileID = tileID;
+		tile.tokenOptions = tokenOptions;
+		tile.isTokenPlaced = isTokenPlaced;
+		tile.tileType = tileType;
+//		tile.edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
+		return tile;
+	}
+
 	@Override
 	public String toString() {
 		if (tileType == TileType.KEYSTONE) {

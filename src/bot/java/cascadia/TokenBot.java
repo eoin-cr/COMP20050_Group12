@@ -31,7 +31,7 @@ public class TokenBot {
 		switch (strategyChoice) {
 			case 0 -> {
 				System.out.println("Using constructive token strat!");
-				preferences = constructiveTokenStrat(deckTokens, player);
+				preferences = constructiveTokenStrat(deckTokens, player, true);
 			}
 			case 1 -> preferences = destructiveTokenStrat(deckTokens, nextPlayer);
 			default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
@@ -40,8 +40,9 @@ public class TokenBot {
 		return preferences;
 	}
 
-	private int[] constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player) {
-		int[] rankedTokens = rankWildlifeTokens(player);
+	private int[] constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player,
+										 boolean isConst) {
+		int[] rankedTokens = rankWildlifeTokens(player, isConst);
 		System.out.println("ranked tokens: " + Arrays.toString(rankedTokens));
 		return rankDeck(rankedTokens, deckTokens);
 	}
@@ -50,7 +51,7 @@ public class TokenBot {
 		System.out.println("Using destructive token strat!");
 		// well the destructive strat just needs to find the best token for the player
 		// which we can do by calling the constructive token strat but for them lol
-		return constructiveTokenStrat(deckTokens, nextPlayer);
+		return constructiveTokenStrat(deckTokens, nextPlayer, false);
 	}
 
 	private int[] rankDeck(int[] rankedTokens, List<WildlifeToken> deckTokens) {
@@ -61,7 +62,7 @@ public class TokenBot {
 		return output;
 	}
 
-	private int[] rankWildlifeTokens(Player player) {
+	private int[] rankWildlifeTokens(Player player, boolean isConst) {
 		int[] scores = new int[Constants.NUM_TOKEN_TYPES];
 		for (int i = 0; i < Constants.NUM_TOKEN_TYPES; i++) {
 			tokenScoreMap.get(i).clear(); // clear the scores in the map before calculating
@@ -70,29 +71,25 @@ public class TokenBot {
 			if (player.getMap().numPossibleTokenPlacements(WildlifeToken.values()[i]) == 0) {
 				scores[i] = -3;
 			} else {
-				scores[i] = calculatePlacementScoresAndReturnMax(i, player);
+				scores[i] = calculatePlacementScoresAndReturnMax(i, player, isConst);
 			}
 		}
 		return convertToRank(scores);
 	}
 
 	/*
-//         For scorecard A bear, elk, and salmon are based on increasing
-//         tokens of the same type that are touching under certain
-//         circumstances, so we can simply try place those tokens next to all the
-//         tokens of the same type (and store these scores to be used later) and get
-//         the max score for that type
         Tries place the token in all possible positions and returns the greatest increase
         in score
 
-//         Foxes and hawks work slightly differently
-         // TODO do foxes and hawk logic
          // TODO make the function account for tokens that can be placed
     */
-	private int calculatePlacementScoresAndReturnMax(int tokenType, Player player) {
+	private int calculatePlacementScoresAndReturnMax(int tokenType, Player player,
+													 boolean isConst) {
 		int max = 0;
 		WildlifeToken token = WildlifeToken.values()[tokenType];
 		List<HabitatTile> possibleTiles = player.getMap().getPossibleTokenPlacements(token);
+//		System.out.println(token);
+//		System.out.println(possibleTiles);
 
 		// as a placement that may have been valid last move may not be valid this move,
 		// we need to reset the best placement id value to ensure when a tile cannot be placed,
@@ -101,12 +98,15 @@ public class TokenBot {
 
 		int prevScore = ScoreToken.calculateScore(player.getMap(), token);
 
+//		System.out.println(token);
 		// oh boy the time complexity of this is. not good.
 		for (HabitatTile tile : possibleTiles) {
+//			System.out.println(tile.getTileID());
 			Player tmp = new Player("tmp");
 			tmp.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
+//			Display.displayPlayerTileMap(tmp);
 
-			tmp.getMap().addTokenToTile(token, tile.getTileID(), tmp);
+			tmp.getMap().addTokenToTileForTesting(token, tile.getTileID(), tmp);
 			int scoreDiff = ScoreToken.calculateScore(tmp.getMap(), token) - prevScore;
 			if (tile.isKeystone()) {
 				// we get an extra point for getting a nature token from placing on a keystone tile
@@ -117,6 +117,14 @@ public class TokenBot {
 				max = scoreDiff;
 				bestPlacementIds[tokenType] = tile.getTileID();
 			}
+		}
+
+		System.out.println("Is const: " + isConst);
+		// we don't want to set our placement as the other players best placement, so we
+		// denote the fact that it's the other players
+		if (!isConst) {
+			bestPlacementIds[tokenType] = -2;
+			System.out.println(bestPlacementIds[tokenType]);
 		}
 
 		return max;
@@ -150,6 +158,13 @@ public class TokenBot {
 	public int getBestPlacement(WildlifeToken token, Player player) {
 		int id = bestPlacementIds[token.ordinal()];
 		System.out.println(Arrays.toString(bestPlacementIds));
-		return id == 0 ? -1 : id;
+
+		// if we were doing the destructive method (finding the best token for the opponent
+		// and taking it) we want to find where we can place that token on our map
+		if (id == -2) {
+			calculatePlacementScoresAndReturnMax(token.ordinal(), player, true);
+			id = bestPlacementIds[token.ordinal()];
+		}
+		return id;
 	}
 }
