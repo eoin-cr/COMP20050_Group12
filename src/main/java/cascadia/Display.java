@@ -108,6 +108,7 @@ public class Display {
 	public static Player displayPlacementMap(Player player) {
 		Player tmpPlayer = new Player("tmp");
 		tmpPlayer.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
+		displayPlayerTileMap(tmpPlayer);
 		tmpPlayer.getMap().addPossibleTiles();
 		displayPlayerTileMap(tmpPlayer);
 		return tmpPlayer;

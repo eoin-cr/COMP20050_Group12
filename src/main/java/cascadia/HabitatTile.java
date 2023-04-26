@@ -178,12 +178,17 @@ public class HabitatTile {
 		return isTokenPlaced;
 	}
 
-	public void setTokenPlaced() {
-		isTokenPlaced = true;
-	}
+//	public void setTokenPlaced() {
+//		isTokenPlaced = true;
+//	}
+//
+//	public void setPlacedToken(WildlifeToken placedAnimal) {
+//		placedToken = placedAnimal;
+//	}
 
-	public void setPlacedToken(WildlifeToken placedAnimal) {
-		placedToken = placedAnimal;
+	public void placeToken(WildlifeToken token) {
+		isTokenPlaced = true;
+		placedToken = token;
 	}
 
 	public WildlifeToken getPlacedToken() {
@@ -224,14 +229,6 @@ public class HabitatTile {
 		return edges.get(index);
 	}
 
-	protected void forceId(int id) {
-		this.tileID = id;
-	}
-
-	protected void forceTokens(WildlifeToken[] tokens) {
-		this.tokenOptions = tokens;
-	}
-
 	/** Creates a tile with identical features to the current one, and then
 	 * returns it.
 	 * This is a deep copy, rather than a shallow copy, so modifications to the
@@ -239,12 +236,13 @@ public class HabitatTile {
 	 */
 	public HabitatTile duplicate() {
 		HabitatTile tile = new HabitatTile(habitat1, habitat2, 0);
-//		tile.forceId(tileID);
-//		tile.forceTokens(tokenOptions);
 
 		tile.tileID = tileID;
-		tile.tokenOptions = tokenOptions;
-		tile.isTokenPlaced = isTokenPlaced;
+//		if (!tile.isFakeTile()) {
+			tile.tokenOptions = tokenOptions;
+			tile.isTokenPlaced = isTokenPlaced;
+			tile.placedToken = placedToken;
+//		}
 		tile.tileType = tileType;
 		tile.edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 		return tile;
@@ -367,8 +365,13 @@ public class HabitatTile {
 
 		} else {
 			ID_COLOUR = WHITE;
-			animal[0] = placedToken.toChar();
-			colour[0] = placedToken.getBackgroundColour() + WHITE;
+//			if (placedToken != null) {
+				animal[0] = placedToken.toChar();
+				colour[0] = placedToken.getBackgroundColour() + WHITE;
+//			} else {
+//				animal[0] = '?';
+//				colour[0] = BLACK_TEXT + WHITE;
+//			}
 			for (int i = 1; i < 4; i++) {
 				if (i < 3) {
 					animal[i] = ' ';

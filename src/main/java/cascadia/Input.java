@@ -243,6 +243,7 @@ public class Input {
      * rules of the game
      */
     public static int[] chooseTilePlacement(Player player) {
+        Display.displayPlayerTileMap(player);
         // display tile placement map
         Player tmpMap = Display.displayPlacementMap(player);
         int input;

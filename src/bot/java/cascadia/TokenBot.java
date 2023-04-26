@@ -70,7 +70,9 @@ public class TokenBot {
 			// is not, the score for that token is largely decreased
 			if (player.getMap().numPossibleTokenPlacements(WildlifeToken.values()[i]) == 0) {
 				scores[i] = -3;
-				// if (!isConst) { ...[i] = -2; }
+				 if (!isConst) {
+					 bestPlacementIds[i] = -2;
+				 }
 			} else {
 				scores[i] = calculatePlacementScoresAndReturnMax(i, player, isConst);
 			}
@@ -89,8 +91,6 @@ public class TokenBot {
 		int max = 0;
 		WildlifeToken token = WildlifeToken.values()[tokenType];
 		List<HabitatTile> possibleTiles = player.getMap().getPossibleTokenPlacements(token);
-//		System.out.println(token);
-//		System.out.println(possibleTiles);
 
 		// as a placement that may have been valid last move may not be valid this move,
 		// we need to reset the best placement id value to ensure when a tile cannot be placed
@@ -99,18 +99,12 @@ public class TokenBot {
 
 		int prevScore = ScoreToken.calculateScore(player.getMap(), token);
 
-//		System.out.println(token);
 		// oh boy the time complexity of this is. not good.
 		for (HabitatTile tile : possibleTiles) {
-//			System.out.println(tile.getTileID());
-			Player tmp = new Player("tmp");
+			Player tmp = new Player("temp");
 			tmp.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
 
 			tmp.getMap().addTokenToTileForTesting(token, tile.getTileID(), tmp);
-//			tmp.getMap().addTokenToTile(token, tile.getTileID(), tmp);
-//			Display.displayPlayerTileMap(tmp);
-//			Display.displayPlayerTileMap(player);
-//			Display.displayTileMap(tmp.getMap());
 			int scoreDiff = ScoreToken.calculateScore(tmp.getMap(), token) - prevScore;
 			if (tile.isKeystone()) {
 				// we get an extra point for getting a nature token from placing on a keystone tile
@@ -123,12 +117,10 @@ public class TokenBot {
 			}
 		}
 
-		System.out.println("Is const: " + isConst);
 		// we don't want to set our placement as the other players best placement, so we
-		// denote the fact that it's the other players
+		// denote the fact that it's the other players'
 		if (!isConst) {
 			bestPlacementIds[tokenType] = -2;
-			System.out.println(bestPlacementIds[tokenType]);
 		}
 
 		return max;

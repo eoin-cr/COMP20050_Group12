@@ -56,7 +56,6 @@ public class BotMain {
 			}
 		}
 
-		turn++;
 		return new int[]{maxScoreIdx, maxScoreIdx};
 	}
 
@@ -66,6 +65,10 @@ public class BotMain {
 
 	public int bestTokenPlacement(Player player, WildlifeToken selectedToken) {
 		return tokenBots[turn % 2].getBestPlacement(selectedToken, player);
+	}
+
+	public void incrementTurn() {
+		turn++;
 	}
 
 }

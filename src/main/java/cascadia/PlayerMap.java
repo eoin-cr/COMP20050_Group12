@@ -81,7 +81,6 @@ public class PlayerMap {
 
 	private void fillTileMap(HabitatTile[][] board) {
 		tilesInMap.clear();
-		List<HabitatTile> tiles = new ArrayList<>();
 		for (HabitatTile[] row : board) {
 			for (HabitatTile tile : row) {
 				if (tile != null) {
@@ -159,8 +158,9 @@ public class PlayerMap {
 					placed = checkTokenOptionsMatch(token, tile);
 				}
 				if (placed) {
-					tile.setPlacedToken(token);
-					tile.setTokenPlaced();
+//					tile.setPlacedToken(token);
+//					tile.setTokenPlaced();
+					tile.placeToken(token);
 					Display.outln("You have successfully placed your token.");
 					Display.displayPlayerTileMap(p);
 					checkIfKeystoneTokenMatch(token, tile, p); //check if player gets a nature token
@@ -192,8 +192,9 @@ public class PlayerMap {
 					placed = checkTokenOptionsMatch(token, tile);
 				}
 				if (placed) {
-					tile.setPlacedToken(token);
-					tile.setTokenPlaced();
+//					tile.setPlacedToken(token);
+//					tile.setTokenPlaced();
+					tile.placeToken(token);
 					break;
 				}
 			}
