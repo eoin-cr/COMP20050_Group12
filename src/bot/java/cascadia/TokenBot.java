@@ -43,6 +43,11 @@ public class TokenBot {
 		Random rand = new Random();
 		int strategyChoice = rand.nextInt(NUM_TOKEN_STRATS);
 
+			if(!BotTimer.checkTimeLeft()){
+				preferences= new int[]{0,0,0,0};
+				return preferences;
+			}
+
 		switch (strategyChoice) {
 			case 0 -> {
 				System.out.println("Using constructive token strat!");
@@ -130,6 +135,8 @@ public class TokenBot {
 				max = scoreDiff;
 				bestPlacementIds[tokenType] = tile.getTileID();
 			}
+
+			if(!BotTimer.checkTimeLeft()) break;
 		}
 
 		// we don't want to set our placement as the other players best placement, so we

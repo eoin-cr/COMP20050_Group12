@@ -48,6 +48,8 @@ public class BotMain {
 			}
 		}
 
+		BotTimer.startTimer();
+
 		int[] tilePreferences = tileBots[turn % 2].chooseStrategy(currPlayer, nextPlayer);
 		int[] tokenPreferences = tokenBots[turn % 2].chooseStrategy(currPlayer, nextPlayer);
 		System.out.printf("tile: %s\n", Arrays.toString(tilePreferences));
