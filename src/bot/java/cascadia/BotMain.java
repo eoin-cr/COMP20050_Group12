@@ -53,6 +53,10 @@ public class BotMain {
 		System.out.printf("tile: %s\n", Arrays.toString(tilePreferences));
 		System.out.printf("token: %s\n", Arrays.toString(tokenPreferences));
 
+		//TODO: handle nature token spend here
+		//TODO: also have a case if multiple maxScores exist, give pref to one with higher token score
+		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
+		
 		int maxScore = 0;
 		int maxScoreIdx = 0;
 		for (int i = 0; i < tilePreferences.length; i++) {
@@ -72,6 +76,14 @@ public class BotMain {
 
 	public void incrementTurn() {
 		turn++;
+	}
+	
+	public int[] bestTilePlacement(int index) {
+		return tileBots[turn % 2].getDeckTilePlacementChoice(index);
+	}
+	
+	public int getNumRotations(int index) {
+		return tileBots[turn % 2].getDeckTileNumRotations(index);
 	}
 
 }

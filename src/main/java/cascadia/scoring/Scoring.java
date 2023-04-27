@@ -247,7 +247,7 @@ public class Scoring {
 		return map.returnTileAtPositionInMap(row + rowShift[index], col + colShift);
 	}
 
-	protected static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
+	public static HabitatTile[] getAdjacentTiles(HabitatTile tile, PlayerMap map) {
 		HabitatTile[] adjacentTiles = new HabitatTile[Constants.NUM_EDGES];
 
 		int row = tile.getMapPosition()[0];

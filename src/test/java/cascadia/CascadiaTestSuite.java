@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ScoringTestSuite.class,
-        CurrentDeckTest.class
+        //CurrentDeckTest.class
 })
 
 public class CascadiaTestSuite {

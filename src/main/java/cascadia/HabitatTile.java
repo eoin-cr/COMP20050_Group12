@@ -68,9 +68,9 @@ public class HabitatTile {
 			switch(ord) {
 			case 0 -> habitat = Forest;
 			case 1 -> habitat = Wetland;
-			case 3 -> habitat = River;
-			case 4 -> habitat = Mountain;
-			case 5 -> habitat = Prairie;
+			case 2 -> habitat = River;
+			case 3 -> habitat = Mountain;
+			case 4 -> habitat = Prairie;
 			default -> throw new IllegalArgumentException("Invalid Habitat requested."); }
 			return habitat;
 		}
