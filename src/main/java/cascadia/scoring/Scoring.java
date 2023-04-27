@@ -264,6 +264,23 @@ public class Scoring {
 
 		return adjacentTiles;
 	}
+	
+	public static List<int[]> getAdjacentTileMapPositions(HabitatTile tile, PlayerMap map){
+		List<int[]> rowCols = new ArrayList<>(Constants.NUM_EDGES);
+		int row = tile.getMapPosition()[0];
+		int col = tile.getMapPosition()[1];
+		int[] rowShift = new int[]{-1, 0, +1, +1, 0, -1};
+		int[] colShiftEven = new int[]{1, 1, 1, 0, -1, 0};
+		int[] colShiftOdd = new int[]{0, 1, 0, -1, -1, -1};
+		
+		for (int i = 0; i < Constants.NUM_EDGES; i++) {
+			int colShift = (row%2==0) ? colShiftEven[i] : colShiftOdd[i];
+			int[] rowCol = {row + rowShift[i], col + colShift};
+			rowCols.add(rowCol);
+		}
+		
+		return rowCols;
+	}
 
 	/**
 	 * Walks one tile over on player's map, following a specified edge (ie

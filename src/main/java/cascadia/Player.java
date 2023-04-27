@@ -40,7 +40,7 @@ public class Player {
 	private int wildlifeTotalScore;
 	private int corridorTotalScore;
 	private int corridorBonuses;
-	private final int[] longestCorridorSizes = new int[Constants.NUM_HABITAT_TYPES];
+	private int[] longestCorridorSizes = new int[Constants.NUM_HABITAT_TYPES];
 	//indexing -> 0: Bear score, 1: Elk score, 2: Salmon score, 3: Hawk score, 4: Fox score
 	private int totalPlayerScore;
 
@@ -92,6 +92,10 @@ public class Player {
 
 	public int[] getLongestCorridorSizes() {
 		return longestCorridorSizes;
+	}
+	
+	public void setLongestCorridorSizes(int[] corrSizes) { //for testing only
+		longestCorridorSizes = corrSizes;
 	}
 
 	public void setLongestCorridor(int index, List<HabitatTile> corridor) {

@@ -80,6 +80,8 @@ public class CurrentDeck {
 			rowAndColumn = Game.getBot().bestTilePlacement(tileChoice);
 			int rotations = Game.getBot().getNumRotations(tileChoice);
 			deckTiles.get(tileChoice).rotateTile(rotations);
+			System.out.println("rotated decktile " +rotations+ " times. now looks like");
+			deckTiles.get(tileChoice).toFormattedString();
 		}
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
@@ -203,8 +205,11 @@ public class CurrentDeck {
 		}
 		// if we have 3 duplicates, and the user wants to remove them,
 		// we call the cull function
-		if (hasThreeDuplicates(deckTokens)
+		if (!Game.botMode && hasThreeDuplicates(deckTokens)
 				&& Input.chooseCullThreeOptions() == 1) {
+			cullThreeTokens();
+		}
+		else if (Game.botMode && hasThreeDuplicates(deckTokens)) {
 			cullThreeTokens();
 		}
 	}
