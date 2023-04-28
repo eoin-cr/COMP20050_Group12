@@ -16,6 +16,8 @@
 package cascadia.scoring;
 
 import cascadia.Display;
+import cascadia.Game;
+
 import java.util.Random;
 
 public class ScoreCards {
@@ -43,12 +45,20 @@ public class ScoreCards {
 		for (int i = 0; i < 5; i++) {
 			randNums[i] = 1 + rand.nextInt(3); //generate a number between 1-4
 		}
-		bearCards(randNums[0]);
-		elkCards(randNums[1]);
-		salmonCards(randNums[2]);
-		hawkCards(randNums[3]);
-		foxCards(randNums[4]);
-		
+		if (Game.botMode) {
+			bearCards(1);
+			elkCards(1);
+			salmonCards(1);
+			hawkCards(1);
+			foxCards(1);
+		} else {
+			bearCards(randNums[0]);
+			elkCards(randNums[1]);
+			salmonCards(randNums[2]);
+			hawkCards(randNums[3]);
+			foxCards(randNums[4]);
+		}
+
 		printScoreCardRules();
 	}
 	

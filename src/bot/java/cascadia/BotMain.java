@@ -1,6 +1,5 @@
 package cascadia;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,34 +58,21 @@ public class BotMain {
 
 		//TODO: handle nature token spend here
 		
-		//case handled here if multiple maxScores exist, give pref to one with higher token score
-		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
-		int maxScore = 0;
-//		int maxScoreIdx = 0;
+		int maxScore = tilePreferences[0] + tokenPreferences[0];
+		int maxScoreIdx = 0;
 		for (int i = 0; i < tilePreferences.length; i++) {
 			int score = tilePreferences[i] + tokenPreferences[i];
 			if (score >= maxScore) {
 				maxScore = score;
-//				maxScoreIdx = i;
+				maxScoreIdx = i;
 			}
 		}
 		
-		int maxTokenScore = 0;
-		int maxTokenScoreIdx = 0;
-		for (int i = 0; i < tokenPreferences.length; i++) {
-			int score = tilePreferences[i] + tokenPreferences[i];
-			if (score == maxScore && tokenPreferences[i] >= maxTokenScore) {
-				maxTokenScore = tokenPreferences[i];
-				maxTokenScoreIdx = i;
-			}
-		}
-		int maxScoreIdx = maxTokenScoreIdx;
-
 		return new int[]{maxScoreIdx, maxScoreIdx};
 	}
 
-	public int bestTokenPlacement(Player player, WildlifeToken selectedToken) {
-		return tokenBots[turn % 2].getBestPlacement(selectedToken, player);
+	public int bestTokenPlacement(Player player, WildlifeToken selectedToken, int deckIdx) {
+		return tokenBots[turn % 2].getBestPlacement(selectedToken, deckIdx, player);
 	}
 
 	public void incrementTurn() {

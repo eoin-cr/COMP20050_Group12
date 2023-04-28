@@ -136,7 +136,7 @@ public class CurrentDeck {
 			int[] result;
 			if (Game.botMode) {
 				int botChoice = Game.getBot().bestTokenPlacement(player,
-						deckTokens.get(tokenChoice));
+						deckTokens.get(tokenChoice), tokenChoice);
 				Game.getBot().incrementTurn();
 				System.out.printf("Tile selected (-1 means put back in bag): %d\n", botChoice);
 				if (botChoice == -1) {

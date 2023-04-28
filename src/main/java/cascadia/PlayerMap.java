@@ -76,7 +76,7 @@ public class PlayerMap {
 	 */
 	public void setTileBoard(HabitatTile[][] board) {
 		tileBoardPosition = board;
-		fillTileMap(board);
+//		fillTileMap(board);
 	}
 
 	private void fillTileMap(HabitatTile[][] board) {
@@ -192,23 +192,19 @@ public class PlayerMap {
 		//place it on the correct tile
 		boolean placed = false;
 
-		for (HabitatTile tile : p.getMap().getTilesInMap()) {
-//		for (HabitatTile[] row : p.getMap().tileBoardPosition) {
-//			for (HabitatTile tile : row) {
-			if (tile != null && tile.getTileID() == tileID) {
-				//check if the token type matches options
-				if (!tile.isFakeTile()) {
-					placed = checkTokenOptionsMatch(token, tile);
-				}
-				if (placed) {
-//					tile.setPlacedToken(token);
-//					tile.setTokenPlaced();
-					tile.placeToken(token);
-					break;
+		for (HabitatTile[] row : p.getMap().tileBoardPosition) {
+			for (HabitatTile tile : row) {
+				if (tile != null && tile.getTileID() == tileID) {
+					//check if the token type matches options
+					if (!tile.isFakeTile()) {
+						placed = checkTokenOptionsMatch(token, tile);
+					}
+					if (placed) {
+						tile.placeToken(token);
+						break;
+					}
 				}
 			}
-//			}
-//		}
 		}
 
 		// returns whether the tile was successfully placed

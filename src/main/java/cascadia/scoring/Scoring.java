@@ -41,14 +41,13 @@ public class Scoring {
 		Display.scoringScreen();
 		//scoreCardScoring();
 		//natureTokenScoring();
-		//ScoringHabitatCorridors.habitatCorridorScoring(players);
+		ScoringHabitatCorridors.habitatCorridorScoring(players);
 		ScoringHabitatCorridors.longestOverallCorridorsBonusScoring(players);
-//		scoreCardScoring();
-//		natureTokenScoring();
+		scoreCardScoring();
+		natureTokenScoring();
 		findWinner();
 	}
 
-	//mynah - change made
 	/**
 	 * Used in cascadia.CurrentDeck class, each time a player places a token on their map.
 	 * That particular Wildlife token type is re-scored for that player's whole map.

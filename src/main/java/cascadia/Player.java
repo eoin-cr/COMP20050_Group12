@@ -160,12 +160,11 @@ public class Player {
 	 * taken and acted upon.
 	 */
     public void setCommand() {
-        Display.displayCommands();
 		String input;
 		if (Game.botMode) {
-			System.out.println("Chosen: PAIR");
 			input = "PAIR";
 		} else {
+			Display.displayCommands();
 			input = Input.getUserInput();  // this is automatically uppercase
 		}
 
