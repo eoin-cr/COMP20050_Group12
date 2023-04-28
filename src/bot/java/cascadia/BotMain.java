@@ -1,5 +1,6 @@
 package cascadia;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,18 +57,27 @@ public class BotMain {
 		System.out.printf("token: %s\n", Arrays.toString(tokenPreferences));
 
 		//TODO: handle nature token spend here
-		//TODO: also have a case if multiple maxScores exist, give pref to one with higher token score
-		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
 		
+		//case handled here if multiple maxScores exist, give pref to one with higher token score
+		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
 		int maxScore = 0;
-		int maxScoreIdx = 0;
 		for (int i = 0; i < tilePreferences.length; i++) {
 			int score = tilePreferences[i] + tokenPreferences[i];
 			if (score > maxScore) {
 				maxScore = score;
-				maxScoreIdx = i;
 			}
 		}
+		
+		int maxTokenScore = 0;
+		int maxTokenScoreIdx = 0;
+		for (int i = 0; i < tokenPreferences.length; i++) {
+			int score = tilePreferences[i] + tokenPreferences[i];
+			if (score == maxScore && tokenPreferences[i] > maxTokenScore) {
+				maxTokenScore = tokenPreferences[i];
+				maxTokenScoreIdx = i;
+			}
+		}
+		int maxScoreIdx = maxTokenScoreIdx;
 
 		return new int[]{maxScoreIdx, maxScoreIdx};
 	}

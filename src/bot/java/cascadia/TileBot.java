@@ -35,6 +35,11 @@ public class TileBot {
 		//first give preference to corridor gaps between players of size 1,0,-1 to catch up
 		System.out.println("\nUsing gap ranking strat!");
 		rankGaps(deckTiles, player, nextPlayer);
+		
+		if (!BotTimer.checkTimeLeft()) { //check if time left
+			checkTilePlacementsPossible(deckTiles, player);
+			return preferences;
+		}
 
 		boolean allRanked = true;
 		for (int i = 0; i < ranked.length; i++) {
@@ -95,6 +100,9 @@ public class TileBot {
 			if (gapFound) {
 				rankDeckTiles(deckTiles, gapMatches);
 				gapMatches.clear();
+			}
+			if (!BotTimer.checkTimeLeft()) {
+				break;
 			}
 		}
 
@@ -171,7 +179,7 @@ public class TileBot {
 		ArrayList<Habitat> matchingValues = new ArrayList<>();
 		
 		//case: if 2 habitat corridors are the same size, preferences for both must be equal
-		while (!matchHabitatCorridors.isEmpty()) {
+		while (!matchHabitatCorridors.isEmpty() && BotTimer.checkTimeLeft()) {
 			
 			Entry<Habitat, Integer> firstEntry = matchHabitatCorridors.entrySet().iterator().next();
 			matchingValues.add(firstEntry.getKey());
@@ -185,7 +193,7 @@ public class TileBot {
 						rankValue--;
 				}
 			}
-			System.out.println("matching values in size: " + matchingValues.toString());
+			
 			//remove all matching corridors from the linked hashmap
 			for (Habitat hab : matchingValues) {
 				matchHabitatCorridors.remove(hab);
@@ -232,7 +240,6 @@ public class TileBot {
 				
 				for (int j = 0; j <= habitatCorridor.size()/2; j++) {
 					HabitatTile startTile = habitatCorridor.get(j);
-					System.out.println("start tileid: " +startTile.getTileID());
 					locationFound = areAdjacentTilesFree(startTile, prefHabitats[i], player);
 					if (locationFound) {
 						System.out.println("location found: tileid " +startTile.getTileID()+ ", row/col: " +Arrays.toString(startTile.getMapPosition()));
@@ -241,7 +248,6 @@ public class TileBot {
 					}
 					else if (!locationFound) {
 						HabitatTile endTile = habitatCorridor.get(habitatCorridor.size()-1-j);
-						System.out.println("end tileid: " +endTile.getTileID());
 						locationFound = areAdjacentTilesFree(endTile, prefHabitats[i], player);
 						if (locationFound) {
 							System.out.println("location found: tileid " +endTile.getTileID()+ ", row/col: " +Arrays.toString(endTile.getMapPosition()));
@@ -253,7 +259,8 @@ public class TileBot {
 			}
 			if (!locationFound) {
 				System.out.println("location not found");
-				preferences[i] = -1;
+				preferences[i] = -10; //absolutely don't pick this option from the deck
+				//otherwise i'd need logic to put down a random tile anywhere without matching to a corridor
 				prefNumRotations[i] = -1;
 				prefTileRowsAndColumns[0][i] = -1;
 				prefTileRowsAndColumns[1][i] = -1;
@@ -313,7 +320,6 @@ public class TileBot {
 		HabitatTile tileToPlace = deckTiles.get(index);
 		int secondTileMatchingEdge = (matchingEdge+3) % Constants.NUM_EDGES;
 		while (locationTile.getEdge(matchingEdge).getHabitatType() != tileToPlace.getEdge(secondTileMatchingEdge).getHabitatType()) {
-			System.out.println("trying to rotate tile");
 			tileToPlace.rotateTile(1);
 			rotations++;
 			if (rotations > Constants.NUM_EDGES) {
@@ -321,6 +327,7 @@ public class TileBot {
 			}
 		}
 		System.out.println("numrotations: " +rotations);
+		System.out.println();
 		prefNumRotations[index] = rotations;
 	}
 	

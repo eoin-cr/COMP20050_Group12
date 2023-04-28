@@ -78,10 +78,8 @@ public class CurrentDeck {
 			Display.selectTileRotation(deckTiles.get(tileChoice));
 		} else {
 			rowAndColumn = Game.getBot().bestTilePlacement(tileChoice);
-			int rotations = Game.getBot().getNumRotations(tileChoice);
-			deckTiles.get(tileChoice).rotateTile(rotations);
-			System.out.println("rotated decktile " +rotations+ " times. now looks like");
-			deckTiles.get(tileChoice).toFormattedString();
+//			int rotations = Game.getBot().getNumRotations(tileChoice);
+//			deckTiles.get(tileChoice).rotateTile(rotations);
 		}
 		placeTileChoiceOnMap(player, tileChoice, rowAndColumn);
 		placeTokenChoiceOnMap(player, tokenChoice);
