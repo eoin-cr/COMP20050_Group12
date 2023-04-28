@@ -101,9 +101,11 @@ public class Bag {
     private static void generateMaxTiles(int numPlayers) {
         //make habitat tiles
         switch (numPlayers) {
-            case 2 -> setMaxTiles(43);
-            case 3 -> setMaxTiles(63);
-            case 4 -> setMaxTiles(83);
+//            case 2 -> setMaxTiles(39);
+//            case 2 -> setMaxTiles(39);
+            case 2 -> setMaxTiles(40);
+            case 3 -> setMaxTiles(60);
+            case 4 -> setMaxTiles(80);
             default -> throw new IllegalArgumentException("The number of players (" + numPlayers
                     + ") is not within the range 2-4.");
         }
@@ -116,20 +118,20 @@ public class Bag {
 
     private static void putHabitats() {
         //make all possible tiles to draw from
-        remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
-        remainingHabitats.put(HabitatTile.Habitat.River, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Wetland, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Prairie, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Mountain, 20);
+        remainingHabitats.put(HabitatTile.Habitat.Forest, 60);
+        remainingHabitats.put(HabitatTile.Habitat.River, 60);
+        remainingHabitats.put(HabitatTile.Habitat.Wetland, 60);
+        remainingHabitats.put(HabitatTile.Habitat.Prairie, 60);
+        remainingHabitats.put(HabitatTile.Habitat.Mountain, 60);
     }
 
     private static void putTokens() {
         //make tokens
-        remainingTokens.put(WildlifeToken.Bear, 30);
-        remainingTokens.put(WildlifeToken.Elk, 30);
-        remainingTokens.put(WildlifeToken.Salmon, 30);
-        remainingTokens.put(WildlifeToken.Hawk, 30);
-        remainingTokens.put(WildlifeToken.Fox, 30);
+        remainingTokens.put(WildlifeToken.Bear, 60);
+        remainingTokens.put(WildlifeToken.Elk, 60);
+        remainingTokens.put(WildlifeToken.Salmon, 60);
+        remainingTokens.put(WildlifeToken.Hawk, 60);
+        remainingTokens.put(WildlifeToken.Fox, 60);
     }
 
 }

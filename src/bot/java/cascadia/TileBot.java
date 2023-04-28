@@ -253,10 +253,14 @@ public class TileBot {
 			}
 			if (!locationFound) {
 				System.out.println("location not found");
-				preferences[i] = -1;
-				prefNumRotations[i] = -1;
-				prefTileRowsAndColumns[0][i] = -1;
-				prefTileRowsAndColumns[1][i] = -1;
+				preferences[i] = 0;
+				prefNumRotations[i] = 0;
+				prefTileRowsAndColumns[0][i] = 0;
+				prefTileRowsAndColumns[1][i] = 0;
+//				preferences[i] = -1;
+//				prefNumRotations[i] = -1;
+//				prefTileRowsAndColumns[0][i] = -1;
+//				prefTileRowsAndColumns[1][i] = -1;
 			}
 		}
 	}
@@ -298,9 +302,7 @@ public class TileBot {
 			prefTileRowsAndColumns[0][index] = rowcol[0]; //save row
 			prefTileRowsAndColumns[1][index] = rowcol[1]; //save column
 			System.out.println("decktile placed at position: " +Arrays.toString(rowcol)+ "with matched edge: " +matchingEdge);
-		}
-		
-		else {
+		} else {
 			throw new IllegalArgumentException("matching edge not found for positioning decktile into map.");
 		}
 		

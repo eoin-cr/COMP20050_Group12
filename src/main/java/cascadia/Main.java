@@ -15,6 +15,8 @@
 
 package cascadia;
 
+import cascadia.scoring.Scoring;
+
 public class Main {
     public static void main(String[] args) {
         Display.welcome();  // prints cascadia welcome message
@@ -28,6 +30,8 @@ public class Main {
         // game starts here
         Game g = new Game();
         g.startGame();
+
+        Scoring.startScoring(); //find winner of game
         Display.endScreen();
     }
 }

@@ -184,6 +184,10 @@ public class Generation {
         HabitatTile.Habitat second = habitats[1];
         assert first != null;
         assert second != null;
+        if (first == null || second == null) {
+            throw new IllegalStateException("The habitats should not be null after "
+                    + "being generated");
+        }
 
         return new HabitatTile(first, second, 0);
     }

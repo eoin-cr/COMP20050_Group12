@@ -337,7 +337,7 @@ public class HabitatTile {
 				+ edges.get(4).getHabitatType().backgroundColour + "    |" + ANSI_RESET
 				+ colour[2] + "  " + animal[2] + ANSI_RESET
 				// inserts tile number and adds padding
-				+ colour[3] + "   " + ID_COLOUR + String.format("%-3s", tileID) + ANSI_RESET
+				+ colour[3] + "  " + ID_COLOUR + String.format("%-4s", tileID) + ANSI_RESET
 				+ edges.get(1).getHabitatType().backgroundColour + "|    " + ANSI_RESET + "\n"
 				+ edges.get(3).getHabitatType().backgroundColour + "    |    " + ANSI_RESET
 				+ edges.get(2).getHabitatType().backgroundColour + "|    |    " + ANSI_RESET + "\n";

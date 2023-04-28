@@ -37,7 +37,6 @@ public class Scoring {
 	 * Starts the scoring for the game.
 	 */
 	public static void startScoring() {
-		//mynah - change made
 		Display.scoringScreen();
 		//scoreCardScoring();
 		//natureTokenScoring();

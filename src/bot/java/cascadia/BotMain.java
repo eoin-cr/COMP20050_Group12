@@ -56,13 +56,18 @@ public class BotMain {
 		System.out.printf("token: %s\n", Arrays.toString(tokenPreferences));
 
 		//TODO: handle nature token spend here
-		//TODO: also have a case if multiple maxScores exist, give pref to one with higher token score
+		//TODO: also have a case if multiple maxScores exist, give pref to one with higher token
+		// 	score
 		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
 		
 		int maxScore = 0;
 		int maxScoreIdx = 0;
 		for (int i = 0; i < tilePreferences.length; i++) {
-			int score = tilePreferences[i] + tokenPreferences[i];
+			int token = 0;
+			try {
+				token = tokenPreferences[i];
+			} catch	(ArrayIndexOutOfBoundsException ignored) {};
+			int score = tilePreferences[i] + token;
 			if (score > maxScore) {
 				maxScore = score;
 				maxScoreIdx = i;
