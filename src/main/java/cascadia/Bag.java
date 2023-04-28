@@ -116,11 +116,22 @@ public class Bag {
 
     private static void putHabitats() {
         //make all possible tiles to draw from
-        remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
-        remainingHabitats.put(HabitatTile.Habitat.River, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Wetland, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Prairie, 20);
-        remainingHabitats.put(HabitatTile.Habitat.Mountain, 20);
+        if (!Game.botMode) {
+            remainingHabitats.put(HabitatTile.Habitat.Forest, 20);
+            remainingHabitats.put(HabitatTile.Habitat.River, 20);
+            remainingHabitats.put(HabitatTile.Habitat.Wetland, 20);
+            remainingHabitats.put(HabitatTile.Habitat.Prairie, 20);
+            remainingHabitats.put(HabitatTile.Habitat.Mountain, 20);
+        } else {
+            // due to the rapid generation of tiles by the bot, sometimes
+            // it causes issues, so we just generate a large amount of
+            // tiles to circumvent this
+            remainingHabitats.put(HabitatTile.Habitat.Forest, 1000);
+            remainingHabitats.put(HabitatTile.Habitat.River, 1000);
+            remainingHabitats.put(HabitatTile.Habitat.Wetland, 1000);
+            remainingHabitats.put(HabitatTile.Habitat.Prairie, 1000);
+            remainingHabitats.put(HabitatTile.Habitat.Mountain, 1000);
+        }
     }
 
     private static void putTokens() {

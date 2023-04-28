@@ -104,30 +104,30 @@ public class Generation {
      *                  to set a specified amount
      * @return wildlife tokens
      */
-	public static WildlifeToken[] generateTokenOptionsOnTiles(int numTokens) {
+    public static WildlifeToken[] generateTokenOptionsOnTiles(int numTokens) {
         int MAX_TOKENS_ON_TILE = 3;
-		if (numTokens < 0 || numTokens > MAX_TOKENS_ON_TILE) {
-			throw new IllegalArgumentException("numTokens must be between 0-3. You entered "
+        if (numTokens < 0 || numTokens > MAX_TOKENS_ON_TILE) {
+            throw new IllegalArgumentException("numTokens must be between 0-3. You entered "
                     + numTokens);
-		}
+        }
         if (numTokens == 0) {
             // non keystone tiles can only have either 2 or 3 token options
             numTokens = new Random().nextInt(2, 4);
         }
-		WildlifeToken[] animalTypes = new WildlifeToken[3];
-		for (int i = 0; i < numTokens; i++) {
+        WildlifeToken[] animalTypes = new WildlifeToken[3];
+        for (int i = 0; i < numTokens; i++) {
             WildlifeToken tmp;
-			do {
+            do {
                 getNumTokensLeft();
-				tmp = Generation.generateWildlifeToken(false);
-				if (Arrays.asList(animalTypes).contains(tmp)) {
-					Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp) + 1);
-				}
-			} while (Arrays.asList(animalTypes).contains(tmp));
-			animalTypes[i] = tmp;
-		}
-		return animalTypes;
-	}
+                tmp = Generation.generateWildlifeToken(false);
+                if (Arrays.asList(animalTypes).contains(tmp)) {
+                    Bag.remainingTokens.put(tmp, Bag.remainingTokens.get(tmp) + 1);
+                }
+            } while (Arrays.asList(animalTypes).contains(tmp));
+            animalTypes[i] = tmp;
+        }
+        return animalTypes;
+    }
 
     /**
      * Generates a new habitat tile.
@@ -239,6 +239,10 @@ public class Generation {
             tilesLeft += value;
         }
 
+//        if (tilesLeft <= 1) {
+//            Bag.
+//        }
+
         int randomNum = new Random().nextInt(1, tilesLeft);
         HabitatTile.Habitat habitat = null;
 
@@ -271,7 +275,11 @@ public class Generation {
         }
 
         for (int i = 0; i < num; i++) {
-            CurrentDeck.addDeckTile(generateHabitatTile());
+            HabitatTile tile = generateHabitatTile();
+            System.out.println("Tile habitats: ");
+            System.out.println(tile.getHabitat1());
+            System.out.println(tile.getHabitat2());
+            CurrentDeck.addDeckTile(tile);
             CurrentDeck.addDeckToken(generateWildlifeToken(true));
         }
 

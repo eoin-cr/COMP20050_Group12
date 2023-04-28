@@ -16,6 +16,7 @@ public class TokenBot {
 	// future
 	private final List<ValueSortedMap<Integer, Integer>> tokenScoreMap = new ArrayList<>();
 	private final int[] bestPlacementIds = new int[Constants.NUM_TOKEN_TYPES];
+	private final int[] rankedPlacements = new int[Constants.MAX_DECK_SIZE];
 
 	public TokenBot() {
 		for (int j = 0; j < Constants.NUM_TOKEN_TYPES; j++) {
@@ -42,41 +43,40 @@ public class TokenBot {
 
 		Random rand = new Random();
 		int strategyChoice = rand.nextInt(NUM_TOKEN_STRATS);
-		
-		if(!BotTimer.checkTimeLeft()){
-			preferences= new int[]{0,0,0,0};
-			return preferences;
-		}
 
-			if(!BotTimer.checkTimeLeft()){
-				preferences= new int[]{0,0,0,0};
-				return preferences;
-			}
+		if (!BotTimer.checkTimeLeft()) {
+			System.out.println("No time left!");
+			System.out.println(Arrays.toString(rankedPlacements));
+			return rankedPlacements;
+		}
 
 		switch (strategyChoice) {
 			case 0 -> {
 				System.out.println("Using constructive token strat!");
-				preferences = constructiveTokenStrat(deckTokens, player, true);
+				constructiveTokenStrat(deckTokens, player, true);
 			}
-			case 1 -> preferences = destructiveTokenStrat(deckTokens, nextPlayer);
+			case 1 -> destructiveTokenStrat(deckTokens, nextPlayer);
 			default -> throw new IllegalArgumentException("Unexpected value: " + strategyChoice);
 		}
 
-		return preferences;
+//		return preferences;
+		System.out.println("----------------------");
+		System.out.println(Arrays.toString(rankedPlacements));
+		return rankedPlacements;
 	}
 
-	private int[] constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player,
+	private void constructiveTokenStrat(List<WildlifeToken> deckTokens, Player player,
 										 boolean isConst) {
-		int[] rankedTokens = rankWildlifeTokens(player, isConst);
-		System.out.println("ranked tokens: " + Arrays.toString(rankedTokens));
-		return rankDeck(rankedTokens, deckTokens);
+		rankWildlifeTokens(player, isConst);
+		System.out.println("ranked tokens: " + Arrays.toString(rankedPlacements));
+//		return rankDeck(rankedPlacements, deckTokens);
 	}
 
-	private int[] destructiveTokenStrat(List<WildlifeToken> deckTokens, Player nextPlayer) {
+	private void destructiveTokenStrat(List<WildlifeToken> deckTokens, Player nextPlayer) {
 		System.out.println("Using destructive token strat!");
 		// well the destructive strat just needs to find the best token for the player
 		// which we can do by calling the constructive token strat but for them lol
-		return constructiveTokenStrat(deckTokens, nextPlayer, false);
+		constructiveTokenStrat(deckTokens, nextPlayer, false);
 	}
 
 	private int[] rankDeck(int[] rankedTokens, List<WildlifeToken> deckTokens) {
@@ -87,7 +87,7 @@ public class TokenBot {
 		return output;
 	}
 
-	private int[] rankWildlifeTokens(Player player, boolean isConst) {
+	private void rankWildlifeTokens(Player player, boolean isConst) {
 		int[] scores = new int[Constants.NUM_TOKEN_TYPES];
 		for (int i = 0; i < Constants.NUM_TOKEN_TYPES; i++) {
 			tokenScoreMap.get(i).clear(); // clear the scores in the map before calculating
@@ -102,7 +102,7 @@ public class TokenBot {
 				scores[i] = calculatePlacementScoresAndReturnMax(i, player, isConst);
 			}
 		}
-		return convertToRank(scores);
+//		return convertToRank(scores);
 	}
 
 	/*
@@ -140,7 +140,7 @@ public class TokenBot {
 				max = scoreDiff;
 				bestPlacementIds[tokenType] = tile.getTileID();
 			}
-			
+
 
 			if(!BotTimer.checkTimeLeft()) break;
 		}
@@ -156,18 +156,16 @@ public class TokenBot {
 
 	// converts an arraylist of scores (e.g. [1,10,5,6]) to their relative
 	// ranking (e.g. [4,1,3,2])
-	private int[] convertToRank(int[] scores) {
-		int[] output = new int[scores.length];
-		for (int i = 0; i < scores.length; i++) {
-			int numGreater = 0;
-			for (int j = 0; j < scores.length; j++) {
-				if (scores[i] > scores[j] && i != j) {
-					numGreater++;
-				}
-			}
-			output[i] = numGreater + 1;
+	private void convertToRank(int[] scores, List<WildlifeToken> deckTokens) {
+		int[] sorted = Arrays.stream(scores).sorted().toArray();
+		System.out.println("Sorted: " + Arrays.toString(sorted));
+		for (int i = 0; i < sorted.length; i++) {
+			scores[i] = Arrays.asList(sorted).indexOf(scores[i]);
 		}
-		return output;
+
+		for (int i = 0; i < rankedPlacements.length; i++) {
+			rankedPlacements[i] = scores[deckTokens.get(i).ordinal()];
+		}
 	}
 
 	/**

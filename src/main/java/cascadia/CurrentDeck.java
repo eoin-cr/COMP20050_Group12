@@ -78,6 +78,7 @@ public class CurrentDeck {
 			Display.selectTileRotation(deckTiles.get(tileChoice));
 		} else {
 			rowAndColumn = Game.getBot().bestTilePlacement(tileChoice);
+			System.out.println("Chosen row and column: " + Arrays.toString(rowAndColumn));
 //			int rotations = Game.getBot().getNumRotations(tileChoice);
 //			deckTiles.get(tileChoice).rotateTile(rotations);
 		}
@@ -110,7 +111,7 @@ public class CurrentDeck {
 
 	/**
 	 * Places token choice on map.
- 	 */
+	 */
 	public static void placeTokenChoiceOnMap(Player player, int tokenChoice) {
 		WildlifeToken token = deckTokens.get(tokenChoice);
 		boolean succeeded = false;
@@ -206,8 +207,7 @@ public class CurrentDeck {
 		if (!Game.botMode && hasThreeDuplicates(deckTokens)
 				&& Input.chooseCullThreeOptions() == 1) {
 			cullThreeTokens();
-		}
-		else if (Game.botMode && hasThreeDuplicates(deckTokens)) {
+		} else if (Game.botMode && hasThreeDuplicates(deckTokens)) {
 			cullThreeTokens();
 		}
 	}
@@ -242,7 +242,7 @@ public class CurrentDeck {
 	}
 
 	private static WildlifeToken tripledToken(List<WildlifeToken> list) {
-		/*
+        /*
 			if we have 3 of one token and 1 of another, if the first 2 are
 			the same, they must both be the tripled one.  Otherwise, if they're
 			different, the 3rd and 4th tokens must both be the tripled one

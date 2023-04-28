@@ -55,7 +55,7 @@ public class Player {
 			ScoringHabitatCorridors.scorePlayerHabitatCorridors(this, t);
 		}
 	}
-	
+
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -93,7 +93,7 @@ public class Player {
 	public int[] getLongestCorridorSizes() {
 		return longestCorridorSizes;
 	}
-	
+
 	public void setLongestCorridorSizes(int[] corrSizes) { //for testing only
 		longestCorridorSizes = corrSizes;
 	}
@@ -123,22 +123,28 @@ public class Player {
 		wildlifeTotalScore = Arrays.stream(wildlifeScores).sum();
 		return wildlifeTotalScore;
 	}
+
 	public int getWildLifeScore() {
 		return wildlifeTotalScore;
 	}
+
 	public int calculateCorridorsPlayerScore() {
 		corridorTotalScore = Arrays.stream(longestCorridorSizes).sum();
 		return corridorTotalScore;
 	}
+
 	public int getCorridorScore() {
 		return corridorTotalScore;
 	}
+
 	public void calculateTurnPlayerScore() {
 		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens;
 	}
+
 	public void calculateTotalEndPlayerScore(){
 		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens + corridorBonuses;
 	}
+
 	public int getTotalPlayerScore() {
 		return totalPlayerScore;
 	}
@@ -157,17 +163,18 @@ public class Player {
         Display.displayCommands();
 		String input;
 		if (Game.botMode) {
+			System.out.println("Chosen: PAIR");
 			input = "PAIR";
 		} else {
 			input = Input.getUserInput();  // this is automatically uppercase
 		}
 
         // automatically converts input to enum
-		try {
-			Command command = Command.valueOf(input);
-			command.execute(this);  // calls the function represented in the enum
-		} catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
-			Display.outln("Invalid input for options of commands. Please try again. \n");
-		}
+//		try {
+		Command command = Command.valueOf(input);
+		command.execute(this);  // calls the function represented in the enum
+//		} catch (IllegalArgumentException ex) {  // catches if the input is not an enum element
+//			Display.outln("Invalid input for options of commands. Please try again. \n");
+//		}
     }
 }

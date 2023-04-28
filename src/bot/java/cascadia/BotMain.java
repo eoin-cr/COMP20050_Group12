@@ -62,10 +62,12 @@ public class BotMain {
 		//case handled here if multiple maxScores exist, give pref to one with higher token score
 		//eg tile: 4,0,0,1 + token: 1,0,0,4 <- give pref to index 3 not index 0
 		int maxScore = 0;
+//		int maxScoreIdx = 0;
 		for (int i = 0; i < tilePreferences.length; i++) {
 			int score = tilePreferences[i] + tokenPreferences[i];
-			if (score > maxScore) {
+			if (score >= maxScore) {
 				maxScore = score;
+//				maxScoreIdx = i;
 			}
 		}
 		
@@ -73,7 +75,7 @@ public class BotMain {
 		int maxTokenScoreIdx = 0;
 		for (int i = 0; i < tokenPreferences.length; i++) {
 			int score = tilePreferences[i] + tokenPreferences[i];
-			if (score == maxScore && tokenPreferences[i] > maxTokenScore) {
+			if (score == maxScore && tokenPreferences[i] >= maxTokenScore) {
 				maxTokenScore = tokenPreferences[i];
 				maxTokenScoreIdx = i;
 			}

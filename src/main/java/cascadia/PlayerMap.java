@@ -103,6 +103,15 @@ public class PlayerMap {
 	 *          to
 	 */
 	public void addTileToMap(HabitatTile tile, int row, int col) {
+		if (tile == null) {
+			throw new IllegalArgumentException("Tile cannot be null");
+		} else if (row < 0 || row > BOARD_HEIGHT) {
+			throw new IllegalArgumentException("Row must be > 0 and < " + BOARD_HEIGHT + ". The "
+					+ "row is currently " + row);
+		} else if (col < 0 || col > BOARD_WIDTH) {
+			throw new IllegalArgumentException("Col must be > 0 and < " + BOARD_WIDTH + ". The "
+					+ "col is currently " + col);
+		}
 		if (tileBoardPosition[row][col] != null) {
 			throw new IllegalArgumentException("There is already a tile at that position!");
 		}
