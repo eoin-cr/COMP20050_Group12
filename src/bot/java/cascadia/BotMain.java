@@ -66,7 +66,7 @@ public class BotMain {
 			int token = 0;
 			try {
 				token = tokenPreferences[i];
-			} catch	(ArrayIndexOutOfBoundsException ignored) {};
+			} catch	(ArrayIndexOutOfBoundsException ignored) { };
 			int score = tilePreferences[i] + token;
 			if (score > maxScore) {
 				maxScore = score;
@@ -76,9 +76,14 @@ public class BotMain {
 		int maxTokenScore = 0;
 		int maxTokenScoreIdx = 0;
 		for (int i = 0; i < tokenPreferences.length; i++) {
-			int score = tilePreferences[i] + tokenPreferences[i];
-			if (score == maxScore && tokenPreferences[i] > maxTokenScore) {
-				maxTokenScore = tokenPreferences[i];
+			int token = 0;
+			int tile = 0;
+			try {
+				token = tokenPreferences[i];
+			} catch	(ArrayIndexOutOfBoundsException ignored) { };
+			int score = tile + token;
+			if (score == maxScore && token > maxTokenScore) {
+				maxTokenScore = token;
 				maxTokenScoreIdx = i;
 			}
 		}
