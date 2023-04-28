@@ -48,6 +48,11 @@ public class TokenBot {
 			return preferences;
 		}
 
+			if(!BotTimer.checkTimeLeft()){
+				preferences= new int[]{0,0,0,0};
+				return preferences;
+			}
+
 		switch (strategyChoice) {
 			case 0 -> {
 				System.out.println("Using constructive token strat!");
@@ -136,6 +141,7 @@ public class TokenBot {
 				bestPlacementIds[tokenType] = tile.getTileID();
 			}
 			
+
 			if(!BotTimer.checkTimeLeft()) break;
 		}
 

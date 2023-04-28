@@ -19,3 +19,4 @@ public class BotTimer {
         return !(milliSeconds > TIME_ALLOWED);
     }
 }
+
