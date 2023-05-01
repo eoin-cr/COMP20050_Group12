@@ -37,7 +37,7 @@ public class HabitatTile {
 	 * The habitats that a tile can have.
 	 * Stores also the ANSI codes for text and background colours.
 	 */
-    public enum Habitat {
+	public enum Habitat {
 		Forest("\033[48;2;84;130;53m"),
 		Wetland("\033[48;2;198;224;180m"),
 		River("\033[44m"),
@@ -62,16 +62,16 @@ public class HabitatTile {
 			}
 			return null;
 		}
-		
+
 		public static Habitat getHabitat(int ord) {
 			Habitat habitat;
 			switch(ord) {
-			case 0 -> habitat = Forest;
-			case 1 -> habitat = Wetland;
-			case 2 -> habitat = River;
-			case 3 -> habitat = Mountain;
-			case 4 -> habitat = Prairie;
-			default -> throw new IllegalArgumentException("Invalid Habitat requested."); }
+				case 0 -> habitat = Forest;
+				case 1 -> habitat = Wetland;
+				case 2 -> habitat = River;
+				case 3 -> habitat = Mountain;
+				case 4 -> habitat = Prairie;
+				default -> throw new IllegalArgumentException("Invalid Habitat requested."); }
 			return habitat;
 		}
 	}
@@ -367,13 +367,8 @@ public class HabitatTile {
 
 		} else {
 			ID_COLOUR = WHITE;
-//			if (placedToken != null) {
-				animal[0] = placedToken.toChar();
-				colour[0] = placedToken.getBackgroundColour() + WHITE;
-//			} else {
-//				animal[0] = '?';
-//				colour[0] = BLACK_TEXT + WHITE;
-//			}
+			animal[0] = placedToken.toChar();
+			colour[0] = placedToken.getBackgroundColour() + WHITE;
 			for (int i = 1; i < 4; i++) {
 				if (i < 3) {
 					animal[i] = ' ';

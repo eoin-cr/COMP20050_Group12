@@ -1,7 +1,21 @@
+/*
+	COMP20050 Group 12
+	Eoin Creavin – Student ID: 21390601
+	eoin.creavin@ucdconnect.ie
+	GitHub ID: eoin-cr
+
+	Mynah Bhattacharyya – Student ID: 21201085
+	malhar.bhattacharyya@ucdconnect.ie
+	GitHub ID: mynah-bird
+
+	Ben McDowell – Student ID: 21495144
+	ben.mcdowell@ucdconnect.ie
+	GitHub ID: Benmc1
+ */
+
 package cascadia;
 
 import cascadia.scoring.ScoreToken;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -14,15 +28,10 @@ public class TokenBot {
 	public static final int NUM_TOKEN_STRATS = 2;
 	// we don't need the token score map atm, but I'm keeping it in case we need it in the
 	// future
-	private final List<ValueSortedMap<Integer, Integer>> deckScoreMap = new ArrayList<>();
 	private final int[] bestPlacementIds = new int[Constants.MAX_DECK_SIZE];
 	private final int[] rankedTokens = new int[Constants.MAX_DECK_SIZE];
 
 	public TokenBot() {
-		for (int j = 0; j < Constants.NUM_TOKEN_TYPES; j++) {
-			deckScoreMap.add(new ValueSortedMap<>());
-		}
-
 		// initialise it to -1, so we know when we aren't able to place a token
 		Arrays.fill(bestPlacementIds, -1);
 	}
@@ -45,7 +54,6 @@ public class TokenBot {
 
 		if (!BotTimer.isTimeLeft()) {
 			System.out.println("No time left!");
-			System.out.println(Arrays.toString(rankedTokens));
 			return rankedTokens;
 		}
 
@@ -77,7 +85,6 @@ public class TokenBot {
 	private void rankDeckTokens(Player player, boolean isConst, List<WildlifeToken> deckTokens) {
 		int[] scores = new int[Constants.MAX_DECK_SIZE];
 		for (int i = 0; i < Constants.MAX_DECK_SIZE; i++) {
-			deckScoreMap.get(i).clear(); // clear the scores in the map before calculating
 			// checks whether it is possible to place a certain token on the map.  If it
 			// is not, the score for that token is largely decreased
 			if (player.getMap().numPossibleTokenPlacements(deckTokens.get(i)) == 0) {
@@ -94,7 +101,7 @@ public class TokenBot {
 	}
 
 	/*
-        Tries place the token in all possible positions and returns the greatest increase
+        Tries to place the token in all possible positions and returns the greatest increase
         in score
     */
 	private int calculatePlacementScoresAndReturnMax(WildlifeToken token, Player player,
@@ -109,7 +116,6 @@ public class TokenBot {
 
 		int prevScore = ScoreToken.calculateScore(player.getMap(), token);
 
-		// oh boy the time complexity of this is. not good.
 		for (HabitatTile tile : possibleTiles) {
 			Player tmp = new Player("temp");
 			tmp.getMap().setTileBoard(PlayerMap.deepCopy(player.getMap().getTileBoardPosition()));
@@ -120,7 +126,6 @@ public class TokenBot {
 				// we get an extra point for getting a nature token from placing on a keystone tile
 				scoreDiff++;
 			}
-			deckScoreMap.get(idx).put(tile.getTileID(), scoreDiff);
 
 			// set it to scores that are equal to as well, as for example if the
 			// diff is 0 when we place a token, it's still better to place a token
@@ -148,24 +153,17 @@ public class TokenBot {
 	// converts an arraylist of scores (e.g. [1,10,5,6]) to their relative
 	// ranking (e.g. [0,3,1,2])
 	private void convertToRank(int[] scores, List<WildlifeToken> deckTokens) {
-		System.out.println("-----");
-		System.out.println(Arrays.toString(scores));
 
 		List<Integer> sorted = Arrays.stream(scores).sorted().boxed().toList();
-		System.out.println("Sorted: " + sorted);
 
 		for (int i = 0; i < sorted.size(); i++) {
 			scores[i] = sorted.indexOf(scores[i]);
 		}
-		System.out.println(Arrays.toString(scores));
 
 //		for (int i = 0; i < scores.length; i++) {
 //			rankedTokens[i] = 4 - scores[i];
 //		}
 		System.arraycopy(scores, 0, rankedTokens, 0, rankedTokens.length);
-
-		System.out.println(Arrays.toString(rankedTokens));
-		System.out.println("-----");
 	}
 
 	/**
@@ -179,14 +177,14 @@ public class TokenBot {
 	 */
 	public int getBestPlacement(WildlifeToken token, int deckIdx, Player player) {
 		int id = bestPlacementIds[deckIdx];
-		System.out.println(Arrays.toString(bestPlacementIds));
+//		System.out.println(Arrays.toString(bestPlacementIds));
 
 		// if we were doing the destructive method (finding the best token for the opponent
 		// and taking it) we want to find where we can place that token on our map
 		if (id == -2) {
 			calculatePlacementScoresAndReturnMax(token, player, true, deckIdx);
 			id = bestPlacementIds[deckIdx];
-			System.out.println(Arrays.toString(bestPlacementIds));
+//			System.out.println(Arrays.toString(bestPlacementIds));
 		}
 		return id;
 	}
