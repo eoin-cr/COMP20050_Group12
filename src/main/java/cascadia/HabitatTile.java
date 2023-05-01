@@ -244,6 +244,8 @@ public class HabitatTile {
 			tile.placedToken = placedToken;
 //		}
 		tile.tileType = tileType;
+		tile.mapPosition[0] = this.mapPosition[0];
+		tile.mapPosition[1] = this.mapPosition[1];
 //		tile.edges = Edge.makeEdges(tileID, habitat1, habitat2); //used for tile rotation
 		return tile;
 	}

@@ -42,13 +42,13 @@ public abstract class ScoreToken extends Scoring {
     public static int calculateScore(PlayerMap map, WildlifeToken token) {
     	Scorable option;
     	switch (token) {
-    	case Bear -> option = ScoringBear.Option.valueOf(cards[0]);
-    	case Elk -> option = ScoringElk.Option.valueOf(cards[1]);
-    	case Salmon -> option = ScoringSalmon.Option.valueOf(cards[2]);
-    	case Hawk -> option = ScoringHawk.Option.valueOf(cards[3]);
-    	case Fox -> option = ScoringFox.Option.valueOf(cards[4]);
-    	default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
-    	}
+			case Bear -> option = ScoringBear.Option.valueOf(cards[0]);
+			case Elk -> option = ScoringElk.Option.valueOf(cards[1]);
+			case Salmon -> option = ScoringSalmon.Option.valueOf(cards[2]);
+			case Hawk -> option = ScoringHawk.Option.valueOf(cards[3]);
+			case Fox -> option = ScoringFox.Option.valueOf(cards[4]);
+			default -> throw new IllegalArgumentException("Unexpected token value to be scored for player: " + token);
+		}
     	return option.score(map);
     }
 }
