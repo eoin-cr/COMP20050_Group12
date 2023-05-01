@@ -53,7 +53,8 @@ public class CurrentDeck {
 			int choice = Input.chooseFromDeck();
 			choosePairHelper(player, choice, choice);
 		} else {
-			int[] choices = Game.getBot().makeBestChoiceFromDeck(player);
+//			int[] choices = Game.getBot().makeBestChoiceFromDeck(player);
+			int[] choices = Game.getBot().getBestChoice();
 			System.out.println(Arrays.toString(choices));
 			choosePairHelper(player, choices[0], choices[1]);
 		}

@@ -4,9 +4,8 @@ public class BotTimer {
     private final static double TIME_ALLOWED = 4.5;
     private static long startTime;
 
-    public static void startTimer(){
+    public static void startTimer() {
         startTime = System.nanoTime();
-
     }
 
     /**
@@ -14,7 +13,7 @@ public class BotTimer {
      * Otherwise, its False
      * @return Boolean
      */
-    public static boolean checkTimeLeft(){
+    public static boolean isTimeLeft() {
         double milliSeconds = (System.nanoTime() - startTime)*.000001;
         return !(milliSeconds > TIME_ALLOWED);
     }

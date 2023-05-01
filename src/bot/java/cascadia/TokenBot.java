@@ -43,7 +43,7 @@ public class TokenBot {
 		Random rand = new Random();
 		int strategyChoice = rand.nextInt(NUM_TOKEN_STRATS);
 
-		if (!BotTimer.checkTimeLeft()) {
+		if (!BotTimer.isTimeLeft()) {
 			System.out.println("No time left!");
 			System.out.println(Arrays.toString(rankedTokens));
 			return rankedTokens;
@@ -121,13 +121,17 @@ public class TokenBot {
 				scoreDiff++;
 			}
 			deckScoreMap.get(idx).put(tile.getTileID(), scoreDiff);
-			if (scoreDiff > max) {
+
+			// set it to scores that are equal to as well, as for example if the
+			// diff is 0 when we place a token, it's still better to place a token
+			// rather than not placing it
+			if (scoreDiff >= max) {
 				max = scoreDiff;
 				bestPlacementIds[idx] = tile.getTileID();
 			}
 
 
-			if (!BotTimer.checkTimeLeft()) {
+			if (!BotTimer.isTimeLeft()) {
 				break;
 			}
 		}
@@ -142,10 +146,10 @@ public class TokenBot {
 	}
 
 	// converts an arraylist of scores (e.g. [1,10,5,6]) to their relative
-	// ranking (e.g. [4,1,3,2])
+	// ranking (e.g. [0,3,1,2])
 	private void convertToRank(int[] scores, List<WildlifeToken> deckTokens) {
 		System.out.println("-----");
-		System.out.println(scores);
+		System.out.println(Arrays.toString(scores));
 
 		List<Integer> sorted = Arrays.stream(scores).sorted().boxed().toList();
 		System.out.println("Sorted: " + sorted);

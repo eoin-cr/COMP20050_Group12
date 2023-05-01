@@ -141,7 +141,7 @@ public class Player {
 		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens;
 	}
 
-	public void calculateTotalEndPlayerScore(){
+	public void calculateTotalEndPlayerScore() {
 		totalPlayerScore = calculateWildlifePlayerScore() + calculateCorridorsPlayerScore() + playerNatureTokens + corridorBonuses;
 	}
 
@@ -162,7 +162,14 @@ public class Player {
     public void setCommand() {
 		String input;
 		if (Game.botMode) {
-			input = "PAIR";
+			// we need to find the best tile token pair choice here as we
+			// need to know now whether to use the nature token or not
+			Game.getBot().makeBestChoiceFromDeck(this);
+			if (Game.getBot().shouldUseNatureToken()) {
+				input = "NATURE";
+			} else {
+				input = "PAIR";
+			}
 		} else {
 			Display.displayCommands();
 			input = Input.getUserInput();  // this is automatically uppercase

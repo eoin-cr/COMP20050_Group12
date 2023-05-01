@@ -36,7 +36,7 @@ public class TileBot {
 		System.out.println("\nUsing gap ranking strat!");
 		rankGaps(deckTiles, player, nextPlayer);
 		
-		if (!BotTimer.checkTimeLeft()) { //check if time left
+		if (!BotTimer.isTimeLeft()) { //check if time left
 			checkTilePlacementsPossible(deckTiles, player);
 			return preferences;
 		}
@@ -97,7 +97,7 @@ public class TileBot {
 				rankDeckTiles(deckTiles, gapMatches);
 				gapMatches.clear();
 			}
-			if (!BotTimer.checkTimeLeft()) {
+			if (!BotTimer.isTimeLeft()) {
 				break;
 			}
 		}
@@ -173,7 +173,7 @@ public class TileBot {
 		ArrayList<Habitat> matchingValues = new ArrayList<>();
 		
 		//case: if 2 habitat corridors are the same size, preferences for both must be equal
-		while (!matchHabitatCorridors.isEmpty() && BotTimer.checkTimeLeft()) {
+		while (!matchHabitatCorridors.isEmpty() && BotTimer.isTimeLeft()) {
 			
 			Entry<Habitat, Integer> firstEntry = matchHabitatCorridors.entrySet().iterator().next();
 			matchingValues.add(firstEntry.getKey());

@@ -218,8 +218,13 @@ public class Generation {
                 }
             }
         } while (first == second);
+
+        // if this happens, something's gone wrong.
         assert entry1 != null;
         assert entry2 != null;
+
+        assert first != null;
+        assert second != null;
 
         Bag.remainingHabitats.put(entry1.getKey(), entry1.getValue() - 1);
         Bag.remainingHabitats.put(entry2.getKey(), entry2.getValue() - 1);

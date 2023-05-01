@@ -25,6 +25,10 @@ public class NatureTokens {
         Display.outf("You have %d token%s\n",
                 tokens, tokens == 1 ? "" : "s");
 
+        if (Game.botMode && tokens > 0) {
+            spendToken(player);
+            return;
+        }
         // only allows user to spend a token if they have more than 0, if they don't
         // they just get send back to the menu
         if (tokens > 0 && Input.boundedInt(1, 2,
@@ -34,6 +38,12 @@ public class NatureTokens {
     }
 
     private static void spendToken(Player player) {
+        // in the bot mode we know the player will only want to select
+        // any tile token combination
+        if (Game.botMode) {
+            pickAnyTwo(player);
+            return;
+        }
         int optionChoice = Input.boundedInt(1, 2,
                 "Enter 1 if you want to select any tile-token combination to place\n"
                         + "Enter 2 if you want to wipe any number of wildlife tokens "
@@ -46,17 +56,24 @@ public class NatureTokens {
     }
 
     private static void pickAnyTwo(Player player) {
-        int tileChoice = Input.boundedInt(1, 4,
-                "Choose which tile you want to place (1-4)");
-        int tokenChoice = Input.boundedInt(1, 4,
-                "Choose which token you want to place (1-4)");
-        tileChoice--;
-        tokenChoice--;
-        Display.outln("You have chosen the pair: "
-                + CurrentDeck.getTile(tileChoice).getHabitat1() + " + "
-                + CurrentDeck.getTile(tileChoice).getHabitat2() + " tile, "
-                + CurrentDeck.getToken(tokenChoice) + " token.");
-
+        int tileChoice;
+        int tokenChoice;
+        if (Game.botMode) {
+            int[] choice = Game.getBot().getBestChoice();
+            tileChoice = choice[0];
+            tokenChoice = choice[1];
+        } else {
+            tileChoice = Input.boundedInt(1, 4,
+                    "Choose which tile you want to place (1-4)");
+            tokenChoice = Input.boundedInt(1, 4,
+                    "Choose which token you want to place (1-4)");
+            tileChoice--;
+            tokenChoice--;
+            Display.outln("You have chosen the pair: "
+                    + CurrentDeck.getTile(tileChoice).getHabitat1() + " + "
+                    + CurrentDeck.getTile(tileChoice).getHabitat2() + " tile, "
+                    + CurrentDeck.getToken(tokenChoice) + " token.");
+        }
         player.subPlayerNatureToken();
         int tokens = player.getPlayerNatureTokens();
         Display.outf("You have spent a nature token.  You now have %d token%s\n", tokens,
